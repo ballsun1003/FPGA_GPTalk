@@ -1,7 +1,7 @@
 {
   "design": {
     "design_info": {
-      "boundary_crc": "0xCC6CFA53F622E079",
+      "boundary_crc": "0xCC6CFA53B4580162",
       "device": "xc7z020clg400-1",
       "gen_directory": "../../../../GPTalk.gen/sources_1/bd/design_1",
       "name": "design_1",
@@ -216,7 +216,7 @@
             "value": "10.000000"
           },
           "PCW_ACT_FPGA0_PERIPHERAL_FREQMHZ": {
-            "value": "50.000000"
+            "value": "76.923080"
           },
           "PCW_ACT_FPGA1_PERIPHERAL_FREQMHZ": {
             "value": "10.000000"
@@ -276,7 +276,7 @@
             "value": "666.666666"
           },
           "PCW_CLK0_FREQ": {
-            "value": "50000000"
+            "value": "76923080"
           },
           "PCW_CLK1_FREQ": {
             "value": "10000000"
@@ -372,7 +372,7 @@
             "value": "TRUE"
           },
           "PCW_FPGA0_PERIPHERAL_FREQMHZ": {
-            "value": "50.000000"
+            "value": "75.000000"
           },
           "PCW_FPGA_FCLK0_ENABLE": {
             "value": "1"
@@ -1787,7 +1787,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "76923080",
                 "value_src": "constant"
               },
               "ADDR_WIDTH": {
@@ -2011,7 +2011,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "76923080",
                 "value_src": "constant"
               },
               "TDEST_WIDTH": {
@@ -2084,7 +2084,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "76923080",
                 "value_src": "constant"
               },
               "TDEST_WIDTH": {
@@ -2211,7 +2211,7 @@
                 "value_src": "constant"
               },
               "FREQ_HZ": {
-                "value": "50000000",
+                "value": "76923080",
                 "value_src": "constant"
               },
               "CLK_DOMAIN": {
