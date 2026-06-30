@@ -1,8 +1,48 @@
-# SmolLM2 Zybo 5일 DMA/Agent 선형 실행 가이드 v4
+# SmolLM2 Zybo 5일 DMA/Agent 선형 실행 가이드 v5
 
-**목적:** 현 프로젝트 상태에서 낡은 AXI-Lite 데이터 경로를 active build에서 제거하고, **AXI DMA + AXI-Stream GEMV + Linux C runtime + HDMI console demo**까지 선형으로 진행하기 위한 작업 문서다.  
+**목적:** v4 전체 흐름을 유지하면서, 실제 진행 중 추가된 S01.5 프로젝트 통합, S03 부트 복구 baseline, S04 통과 결과, S04.5 DMA buffer provider 단계를 반영한 **전체 선형 실행 가이드**다.  
 **대상:** 사용자, 팀원 A(runtime/Linux), 팀원 B(Vivado/PetaLinux), Codex/AI agent.  
-**최종 목표:** Zybo Z7-20 Linux console에서 `smollm2_chat --backend fpga --require-fpga`가 실행되고, Transformer 내부 Q8_0 GEMV가 전부 FPGA backend를 탄다.
+**최종 목표:** Zybo Z7-20 Linux console에서 `smollm2_chat --backend fpga --require-fpga`가 실행되고, Transformer 내부 Q8_0 GEMV가 전부 FPGA backend를 탄다.  
+**v5 핵심:** 이 문서는 v4의 대체 축약본이 아니라, v4 전체 가이드에 실제 진행 결과와 x.5 보강 단계를 병합한 전체판이다.
+
+
+---
+
+## 0A. 문서 원칙, 사람용/Agent용 분리
+
+문서 난립을 막기 위해 역할을 고정한다.
+
+```text
+사람용 문서:
+    README.md
+        프로젝트 입구. 목표, active Vivado project, 최종 데모 명령만 짧게.
+    docs/00_ACTIVE_KR.md
+        현재 상태판. 지금 active project, 현재 단계, 다음 명령 1~3개만.
+    docs/VIVADO_GUI_KR.md
+        사람이 Vivado GUI에서 무엇을 눌러야 하는지 설명.
+
+Codex/agent용 문서:
+    prompts/*.md
+    docs/internal/*.md
+    이 v5 가이드의 Codex 프롬프트 블록
+
+로그/리포트:
+    logs/*.log
+    reports/*.rpt
+```
+
+금지:
+
+```text
+- README에 긴 Tcl 본문을 넣지 않는다.
+- README에 Codex 프롬프트 전문을 넣지 않는다.
+- README에 빌드 로그를 넣지 않는다.
+- docs/00_ACTIVE_KR.md를 장문 설계 문서로 만들지 않는다.
+- 사람에게 보여줄 Vivado 작업은 Tcl-first가 아니라 GUI-first로 설명한다.
+- 새 문서를 만들기 전에 README / ACTIVE / GUI / prompts / logs 중 어느 성격인지 판단한다.
+```
+
+이 문서는 **전체 실행 흐름과 Codex 프롬프트를 보존하는 작업 가이드**다. 사람이 매번 처음부터 읽는 README가 아니다.
 
 ---
 
@@ -33,6 +73,57 @@
 현재 최종 구조 적합성:
     부적합. DMA 기반으로 갈아엎어야 한다.
 ```
+
+
+
+### 0.1 v5 현재 확정 상태
+
+현재 진행 결과는 다음처럼 반영한다.
+
+```text
+S03 boot recovery baseline:
+    PASS
+    기준 BOOT:
+        artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+    구성:
+        known-good S03 FSBL
+        active GPTalk_dma.bit
+        S03 U-Boot
+    결과:
+        DONE LED on
+        Linux root prompt 도달
+        /sys/class/uio 노드 노출
+        /opt/smollm2_zybo 존재
+    폐기:
+        custom/recovery FSBL
+    결론:
+        PetaLinux full rebuild는 S03 boot recovery에는 불필요
+
+S04 UIO/register/BRAM/DMA-register smoke:
+    PASS
+    axi_dma:     uio0 0x40400000 size 0x10000
+    input_bram:  uio1 0x42000000 size 0x10000
+    gemv_ctrl:   uio5 0x43ca0000 size 0x1000
+    gemv_ctrl VERSION=0x000a0001 STATUS=0 ERROR=0
+    input_bram write/readback PASS
+    AXI DMA reset/status register PASS
+    bus error/kernel oops 없음
+
+현재 BLOCKED:
+    S05 fake_gemv DMA transfer
+
+차단 이유:
+    /dev/udmabuf* 없음
+    /dev/dma_proxy* 없음
+    /proc/device-tree/reserved-memory 없음
+    /sys/class/dma_heap 없음
+    CMA는 있지만 user-space DMA physical buffer provider로 노출되지 않음
+
+다음 단계:
+    S04.5 DMA buffer provider 확보
+```
+
+현재부터는 부팅/PetaLinux가 아니라 **DMA buffer provider → fake_gemv → SmolLM2 runtime** 순서다.
 
 프로젝트 목표는 낮추지 않는다.
 
@@ -138,13 +229,29 @@ Codex는 1-2분마다 tail을 보며 컨텍스트를 태우지 않는다.
 |---:|---|---|---|---|---|
 | S00 | 낡은 파일 격리/삭제 | 사용자+Codex | 현재 repo | deprecated 폴더, active path 정리 | AXI-Lite data path가 active build에서 빠짐 |
 | S01 | DMA 하드웨어 재설계 | 팀원 B+Codex | stream core, fake_gemv | DMA top RTL, BD Tcl | AXI DMA MM2S/S2MM 경로 존재 |
-| S02 | 라우팅/timing 복구 | 팀원 B+Codex | DMA design | bitstream, XSA | full GEMV datapath 포함 bitstream 생성 |
-| S03 | PetaLinux/SD/boot 구성 | 팀원 B+Codex | XSA/bit | SD boot files | 보드 Linux가 새 HW로 부팅 |
-| S04 | 보드 serial/register/DMA smoke | 사용자+Codex | booted board | register/DMA log | version/status, DMA 접근 확인 |
+| S01.5 | GPTalk.xpr 단일 active project 통합 | 사용자+Codex | 기존 GPTalk.xpr, S01 DMA 산출물 | GPTalk 전용 Tcl, docs/00_ACTIVE_KR.md | 새 xpr 생성 금지, GPTalk.xpr 안에 DMA BD 통합 |
+| S02 | 라우팅/timing 복구 | 팀원 B+Codex | GPTalk.xpr DMA design | bitstream, XSA | full GEMV datapath 포함 bitstream 생성 |
+| S03 | 부트 복구/PetaLinux/SD 구성 | 팀원 B+Codex | XSA/bit/known-good FSBL | 기준 BOOT, SD boot files | DONE on, Linux root prompt |
+| S04 | 보드 UIO/register/DMA-register smoke | 사용자+Codex | booted board | register/DMA log | UIO map, gemv_ctrl, input_bram, DMA register PASS |
+| S04.5 | DMA buffer provider 확보 | 사용자+Codex | S04 PASS 보드 | carveout 또는 provider | DMA physical buffer 방식 확정 |
 | S05 | C gemv_hw_test | 팀원 A+Codex | DMA HW info, golden | gemv_hw_test | fake_gemv FPGA PASS |
 | S06 | runtime 모든 GEMV backend화 | 팀원 A+Codex | GGUF/layout/HW driver | smollm2_chat | total_gemv == fpga_gemv |
 | S07 | HDMI console 최종 demo | 사용자+Codex | SD/board/app | demo log/video | 대화 출력 + fallback 0 |
 | S08 | freeze | 전원 | final artifacts | release folder | 재부팅 2회 재현 |
+
+작업 위치 구분:
+
+```text
+보드-only:
+    S04, S04.5A, S04.5C, S05, S06/S07 실행
+
+SD-only:
+    S03 boot 파일 배치
+    S04.5B 영구 bootargs 반영
+
+PC/Vivado:
+    S01, S01.5, S02
+```
 
 팀원에게 넘기는 것은 긴 설명이 아니라 **해당 단계 파일 묶음 + 해당 단계 Codex 프롬프트**다.
 
@@ -475,6 +582,92 @@ S01 검증만 수행하라.
 
 ---
 
+
+# S01.5. GPTalk.xpr 단일 active project 통합
+
+## 육하원칙
+
+```text
+왜:
+    hw/vivado_project/GPTalk.xpr가 기존 GUI 기준 프로젝트인데, S01 과정에서 새 xpr가 생기면 프로젝트가 갈라진다.
+    사용자는 Vivado GUI에서 하나의 프로젝트만 열어야 한다.
+누가:
+    사용자 + Codex.
+언제:
+    S01 DMA 구조 생성 후, S02 bitstream 생성 전.
+어디서:
+    PC/Vivado 프로젝트 root.
+무엇을:
+    S01 DMA BD/RTL/scripts를 GPTalk.xpr 중심으로 통합한다.
+어떻게:
+    새 xpr 생성 금지. GPTalk.xpr를 open_project해서 DMA BD를 생성/갱신한다.
+확인:
+    hw 아래 active xpr는 GPTalk.xpr 하나로 고정되고, docs/00_ACTIVE_KR.md만 보면 다음 작업을 알 수 있어야 한다.
+```
+
+## Codex 프롬프트 - GPTalk.xpr 통합
+
+```text
+현재 프로젝트 정리 단계 S01.5를 수행하라.
+
+상황:
+- 기존 Vivado 프로젝트가 이미 존재한다.
+  - hw/vivado_project/GPTalk.xpr
+- S01 수행 중 새 Vivado 프로젝트가 생성되었을 수 있다.
+- 앞으로 active Vivado project는 반드시 hw/vivado_project/GPTalk.xpr 하나만 사용한다.
+- 새 .xpr 프로젝트를 추가로 만드는 것은 금지한다.
+
+목표:
+S01에서 만든 DMA 기반 GEMV block design, RTL, scripts를 기존 GPTalk.xpr 중심으로 통합한다.
+사용자가 Vivado에서 열 프로젝트가 하나만 남도록 정리한다.
+
+절대 금지:
+- 또 다른 새 Vivado 프로젝트 생성 금지.
+- hw/zybo_gemv_dma를 active project로 유지 금지.
+- smoke register-only bitstream을 full GEMV 산출물로 취급 금지.
+- AXI-Lite INPUT_DATA / STREAM_DATA / RESULT_DATA 기반 bulk data path 복구 금지.
+- gemv_q8_0_stream_core.v 삭제 금지.
+- mode=0 scaled output 제거 금지.
+- mode=1 block_acc debug 제거 금지.
+- lane 수 축소 금지.
+- fake_gemv 전용 하드코딩 IP 생성 금지.
+
+해야 할 일:
+1. find hw -name "*.xpr" -print 결과를 확인한다.
+2. active project를 hw/vivado_project/GPTalk.xpr로 고정한다.
+3. S01 DMA 관련 RTL은 보존한다.
+   - vivado_ip/rtl/gemv_q8_0_dma_top.v
+   - vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v
+   - vivado_ip/rtl/gemv_q8_0_stream_core.v
+4. GPTalk.xpr용 wrapper script를 만든다.
+   - scripts/create_or_update_gptalk_dma_bd.tcl
+   이 script는 hw/vivado_project/GPTalk.xpr를 open_project 해야 하며 새 project를 만들면 안 된다.
+5. build script도 GPTalk.xpr 전용으로 만든다.
+   - scripts/build_gptalk_dma_bitstream.tcl
+6. 사용자용 현재 상태판 docs/00_ACTIVE_KR.md를 한국어로 갱신한다.
+7. Vivado GUI용 docs/VIVADO_GUI_KR.md에는 사람이 GUI로 볼 절차만 적는다. Tcl 전문을 넣지 않는다.
+8. S02 synthesis/implementation/bitstream은 아직 실행하지 않는다.
+
+성공 기준:
+- active Vivado project가 hw/vivado_project/GPTalk.xpr 하나로 고정된다.
+- S01 DMA 구조가 GPTalk.xpr 안으로 들어간다.
+- 새 xpr를 더 만들지 않는다.
+- docs/00_ACTIVE_KR.md만 보면 다음에 뭘 실행할지 알 수 있다.
+```
+
+## 검증 프롬프트
+
+```text
+S01.5 검증만 수행하라.
+1. hw 아래 active .xpr가 GPTalk.xpr 하나인지 확인한다.
+2. deprecated project는 deprecated/vivado_projects 아래에만 있는지 확인한다.
+3. scripts/create_or_update_gptalk_dma_bd.tcl이 새 xpr를 만들지 않고 GPTalk.xpr를 open_project 하는지 확인한다.
+4. scripts/build_gptalk_dma_bitstream.tcl이 GPTalk.xpr에서 build하도록 되어 있는지 확인한다.
+5. docs/00_ACTIVE_KR.md가 한국어 상태판이고 장문 로그/프롬프트를 담고 있지 않은지 확인한다.
+6. docs/VIVADO_GUI_KR.md가 GUI 중심인지 확인한다.
+결과를 logs/s01_5_gptalk_unification_verify.txt에 작성하라.
+```
+
 # S02. bitstream/XSA 생성과 routing/timing
 
 ## 육하원칙
@@ -645,58 +838,364 @@ S03 검증만 수행하라.
 
 ---
 
-# S04. 보드 register/DMA smoke
+
+# S03.5. 부트 복구 baseline 판정과 FSBL 계보 고정
+
+## 목적
+
+S03에서 boot가 꼬였을 때 PetaLinux full rebuild로 바로 가지 않고, FSBL/U-Boot/bitstream/SD/serial 계층을 분리한다. v5 기준으로 이미 다음 baseline이 성공했다.
+
+```text
+test_c_s03_fsbl_active_bit_s03_uboot:
+    FSBL: artifacts/s03_bootgen/zynq_fsbl.elf
+    bitstream: hw/vivado_project/export/GPTalk_dma.bit
+    U-Boot: artifacts/s03_bootgen/u-boot.elf
+    결과: DONE LED on, Linux root prompt, UIO 노드 노출
+```
+
+## Codex 프롬프트 - boot baseline 고정
+
+```text
+S03.5 boot baseline을 고정하라.
+
+현재 기준 BOOT:
+- artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+
+기준 구성:
+- FSBL: artifacts/s03_bootgen/zynq_fsbl.elf
+- bitstream: hw/vivado_project/export/GPTalk_dma.bit
+- U-Boot: artifacts/s03_bootgen/u-boot.elf
+
+판정:
+- DONE LED on
+- Linux root prompt 도달
+- /sys/class/uio에 axi_dma, input_bram, gemv_ctrl, hdmi_vdma, hdmi_vtc, hdmi_dynclk 존재
+- custom/recovery FSBL은 폐기 대상
+- PetaLinux full rebuild는 S03 boot recovery에는 필요 없음
+
+해야 할 일:
+1. artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/MANIFEST.txt를 보존한다.
+2. 기준 BOOT.BIN의 sha256을 docs/00_ACTIVE_KR.md에 기록한다.
+3. custom/recovery FSBL과 관련 BOOT은 deprecated로 표시한다.
+4. 이후 S04/S04.5/S05는 이 기준 BOOT로 부팅한 보드에서 진행한다.
+
+금지:
+- custom/recovery FSBL 재사용 금지.
+- PetaLinux full rebuild로 되돌아가기 금지.
+- Digilent demo boot/image와 custom 산출물 섞기 금지.
+```
+
+# S04. 보드 UIO/register/BRAM/DMA-register smoke
+
+## 목적
+
+S03 기준 BOOT로 부팅한 보드에서 user-space가 실제로 GEMV 관련 MMIO, input BRAM, AXI DMA register에 접근할 수 있는지 확인한다. 이 단계는 **실제 DMA transfer가 아니라 control plane 검증**이다.
 
 ## Codex 프롬프트
 
 ```text
-S04 보드 register/DMA smoke test를 수행하라.
+S04 보드 UIO/register/DMA-register smoke를 수행하라.
 
 전제:
-- 보드는 새 SD로 부팅되어 serial shell 접근 가능하다.
-- S02/S03 문서에 GEMV control base address와 AXI DMA base address가 기록되어 있다.
+- S03 boot recovery baseline은 PASS다.
+- 기준 BOOT는 artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN 이다.
+- DONE LED on, Linux root prompt, /sys/class/uio 노드 확인 완료.
+- custom/recovery FSBL은 폐기 대상이다.
+- PetaLinux full rebuild는 하지 않는다.
 
-작업:
-1. 보드에서 root 권한 또는 devmem 접근 권한을 확인한다.
-2. GEMV VERSION/STATUS register를 읽는다.
-3. AXI DMA register base를 읽고 reset/status를 확인한다.
-4. DMA loopback이 가능하면 loopback test를 먼저 한다.
-5. DMA MM2S/S2MM가 dmesg 오류 없이 동작하는지 확인한다.
-6. 결과를 logs/s04_board_register_dma_smoke.txt에 저장한다.
+목표:
+S05 gemv_hw_test로 넘어가기 전에 user-space에서 GEMV 관련 MMIO/BRAM/DMA register 접근이 실제로 가능한지 검증한다.
+
+해야 할 일:
+1. /sys/class/uio/uio*/name, map0/addr, map0/size를 수집한다.
+2. axi_dma, input_bram, gemv_ctrl를 uio 번호가 아니라 name으로 찾는다.
+3. Vivado address map과 UIO addr/size를 비교한다.
+4. gemv_ctrl UIO를 mmap해서 VERSION/STATUS/ERROR register를 읽는다.
+5. input_bram UIO에 known pattern을 write/readback한다.
+6. axi_dma UIO에서 MM2S/S2MM control/status register를 읽고 reset 후 idle/error 상태를 확인한다.
+7. DMA buffer provider 존재 여부를 확인한다.
+   - /dev/udmabuf*
+   - /dev/dma_proxy*
+   - /proc/device-tree/reserved-memory
+   - /sys/class/dma_heap
+8. 결과를 logs/s04_board_uio_register_dma_smoke.txt와 docs/s04_smoke_verify.md에 기록한다.
 
 성공 기준:
-- GEMV VERSION이 읽힌다.
-- DMA register가 읽힌다.
-- DMA reset/status 확인이 된다.
-- bus error 또는 kernel oops가 없다.
+- gemv_ctrl register read PASS
+- input_bram write/readback PASS
+- axi_dma register reset/status PASS
+- bus error/kernel oops 없음
+
+S05 진입 조건:
+- 위 smoke PASS에 더해 DMA buffer provider 또는 carveout이 확정되어야 한다.
 
 금지:
-- register 읽기만 하고 full GEMV 성공이라고 쓰지 마라.
+- UIO 번호 하드코딩 금지.
+- register read만 하고 GEMV 성공이라고 쓰기 금지.
+- DMA buffer/cache 미확정 상태에서 fake_gemv 실행 금지.
+- SmolLM2 runtime 실행 금지.
+- PetaLinux full rebuild 금지.
+```
+
+## v5 현재 S04 결과
+
+```text
+PASS:
+    axi_dma:     uio0 0x40400000 size 0x10000
+    input_bram:  uio1 0x42000000 size 0x10000
+    gemv_ctrl:   uio5 0x43ca0000 size 0x1000
+    Vivado address map 비교 PASS
+    UIO lookup name 기반 PASS
+    GEMV VERSION=0x000a0001 STATUS=0 ERROR=0
+    input_bram write/readback PASS
+    AXI DMA reset/status register PASS
+    bus error/kernel oops 없음
+
+BLOCKED:
+    usable user-space DMA buffer provider 없음
 ```
 
 ## 검증 프롬프트
 
 ```text
 S04 검증만 수행하라.
-새 앱을 작성하지 마라.
-logs/s04_board_register_dma_smoke.txt를 확인하고 다음을 판정하라.
+logs/s04_board_uio_register_dma_smoke.txt와 docs/s04_smoke_verify.md를 확인하고 다음을 판정하라.
 
-- GEMV register read: PASS/FAIL
-- DMA register read: PASS/FAIL
-- bus error/kernel oops: 있음/없음
-- 다음 단계 S05로 갈 수 있는가?
+- UIO map/address: PASS/FAIL
+- gemv_ctrl register: PASS/FAIL
+- input_bram read/write: PASS/FAIL
+- axi_dma register reset/status: PASS/FAIL
+- DMA buffer provider: 있음/없음
+- S05로 바로 갈 수 있는가?
 
+DMA buffer provider가 없으면 S04는 PASS지만 S05는 BLOCKED로 판정한다.
 결과를 docs/s04_smoke_verify.md에 작성하라.
 ```
 
----
+# S04.5. DMA buffer provider 확보
+
+## 목적
+
+AXI DMA는 physical address를 요구한다. 현재 Linux에는 `/dev/udmabuf`, `dma_proxy`, `reserved-memory`, `dma_heap` 같은 user-space DMA buffer provider가 없다. 따라서 S05 `fake_gemv` 전에 DMA-safe physical buffer 경로를 만들어야 한다.
+
+## 작업 분리 원칙
+
+```text
+S04.5A:
+    보드-only
+    SD를 PC에 뽑지 않는다.
+    U-Boot에서 임시 bootargs mem=... 를 넣고 1회성 부팅 테스트.
+
+S04.5C:
+    보드-only
+    mem= 부팅 후 /proc/iomem 확인, /dev/mem O_SYNC mmap, carveout write/readback.
+
+S04.5B:
+    SD-only
+    S04.5A/C가 성공한 뒤에만 수행.
+    검증된 mem= bootargs를 SD에 영구 반영한다.
+    BOOT.BIN은 바꾸지 않는다.
+
+S04.5D:
+    fallback
+    carveout 방식이 실패하면 udmabuf/dma-proxy/reserved-memory 정식 provider를 검토한다.
+```
+
+추천 순서:
+
+```text
+1. S04.5A 보드-only 임시 mem= 테스트
+2. S04.5C 보드-only carveout /dev/mem smoke
+3. 성공하면 S04.5B SD-only 영구 bootargs 반영
+4. 그 다음 S05 fake_gemv
+```
+
+## S04.5A Codex 프롬프트 - 보드-only 임시 mem= 테스트
+
+```text
+S04.5A board-only 임시 mem= carveout 부팅 테스트를 수행하라.
+
+현재 상태:
+- S03 boot recovery baseline PASS
+- S04 UIO/register/BRAM/DMA-register smoke PASS
+- S05 fake_gemv는 DMA buffer provider 부재로 BLOCKED
+
+목표:
+SD 파일을 수정하지 않고, U-Boot에서 1회성 bootargs mem=... 를 넣어 Linux 메모리 제한 부팅이 가능한지 확인한다.
+이 테스트는 DMA carveout 후보를 검증하기 위한 사전 단계다.
+
+전제:
+- 사용자는 보드에 현재 S03 baseline SD를 꽂고 전원을 넣는다.
+- Codex는 serial terminal로 U-Boot autoboot를 중단할 수 있다고 가정한다.
+- HDMI는 성공 기준이 아니다. serial console root prompt가 기준이다.
+
+작업 순서:
+1. serial terminal을 연다.
+2. U-Boot autoboot를 중단한다.
+3. 기존 bootargs와 bootcmd를 저장한다.
+   - printenv bootargs
+   - printenv bootcmd
+4. DDR 크기와 기존 kernel load 관련 정보를 수집한다.
+   - bdinfo
+   - printenv
+5. mem= 후보를 계산한다.
+   - DDR이 1GB로 확인되면 우선 mem=960M 후보를 사용한다.
+   - 이 경우 carveout 후보는 대략 0x3C000000~0x3FFFFFFF, 64MB이다.
+   - 실제 DDR size와 load address를 보고 겹치지 않는지 확인한다.
+6. 기존 bootargs를 보존하면서 mem=... 만 추가한다.
+7. saveenv는 하지 않는다.
+8. boot를 실행한다.
+9. Linux root prompt가 뜨면 다음을 수집한다.
+   - cat /proc/cmdline
+   - cat /proc/meminfo
+   - cat /proc/iomem
+   - dmesg | grep -Ei "Memory|memblock|Reserved|CMA|DMA|uio"
+10. 결과를 logs/s04_5a_temp_mem_boot.txt에 저장한다.
+
+성공 기준:
+- serial console에서 Linux root prompt 도달
+- /proc/cmdline에 mem=... 반영
+- /proc/iomem에서 Linux System RAM이 mem 제한값까지만 잡힘
+- carveout 후보 영역이 System RAM에 포함되지 않음
+- UIO 노드가 여전히 존재함
+
+실패 시:
+- root prompt 미도달이면 원래 bootargs로 재부팅 가능한지 확인한다.
+- 이 단계에서 SD를 수정하지 마라.
+- PetaLinux rebuild 하지 마라.
+```
+
+## S04.5C Codex 프롬프트 - 보드-only /dev/mem carveout smoke
+
+```text
+S04.5C board-only /dev/mem carveout smoke를 수행하라.
+
+전제:
+- S04.5A에서 임시 mem= 부팅이 PASS했다.
+- carveout 후보 물리 주소가 Linux System RAM 밖임을 확인했다.
+
+목표:
+carveout physical address를 /dev/mem O_RDWR | O_SYNC로 mmap해서 write/readback이 가능한지 확인한다.
+
+작업:
+1. artifacts/boot_tests/s04_5_dma_carveout_smoke.c를 작성한다.
+2. 인자:
+   - --phys-base
+   - --size
+   - --pattern-count
+3. /dev/mem을 O_RDWR | O_SYNC로 연다.
+4. carveout 영역을 mmap한다.
+5. 여러 offset에 32-bit pattern을 write/readback한다.
+6. 실패 시 physical address, offset, expected, actual, errno를 출력한다.
+7. bus error/kernel oops 여부를 확인한다.
+8. 결과를 logs/s04_5c_dma_carveout_smoke.txt에 저장한다.
+
+성공 기준:
+- /dev/mem mmap 성공
+- pattern write/readback PASS
+- bus error/kernel oops 없음
+- S05에서 쓸 physical buffer layout을 계산할 수 있음
+
+주의:
+- 이 방식은 빠른 MVP용이다.
+- cache coherency 문제가 생기면 udmabuf/dma-proxy로 전환한다.
+- malloc virtual address를 DMA physical address처럼 쓰지 마라.
+```
+
+## S04.5B Codex 프롬프트 - SD-only 영구 bootargs 반영
+
+```text
+S04.5B SD-only 영구 bootargs 반영을 수행하라.
+
+전제:
+- S04.5A 임시 mem= 부팅 PASS
+- S04.5C /dev/mem carveout smoke PASS
+- 선택한 mem= 값과 carveout physical base/size가 확정됨
+
+목표:
+검증된 mem= bootargs를 SD bootfs에 영구 반영한다.
+
+필요:
+- SD 카드를 PC에 꽂는다.
+- 보드는 필요 없다.
+
+작업:
+1. lsblk -f로 SD 카드 장치를 확인한다.
+2. SD bootfs/rootfs를 RW로 마운트한다.
+3. 기존 boot config 파일을 backup/bootargs_YYYYMMDD_HHMMSS/ 아래에 백업한다.
+   후보:
+   - boot.scr
+   - uEnv.txt
+   - extlinux/extlinux.conf
+   - 기타 U-Boot env 파일
+4. 현재 실제 부팅 방식이 무엇인지 확인한다.
+5. 검증된 mem=... 을 기존 bootargs에 추가한다.
+6. BOOT.BIN은 바꾸지 않는다.
+7. image.ub/rootfs도 바꾸지 않는다.
+8. SD를 sync 후 안전하게 unmount한다.
+
+성공 기준:
+- 다음 부팅에서 /proc/cmdline에 mem=... 이 자동 반영된다.
+- Linux root prompt 도달.
+- UIO 노드 유지.
+- carveout 영역이 System RAM 밖이다.
+
+금지:
+- 검증 안 된 mem= 값을 SD에 박지 마라.
+- BOOT.BIN 교체 금지.
+- SD 전체 포맷, dd, 파티션 삭제 금지.
+```
+
+## S04.5D fallback
+
+```text
+carveout + /dev/mem O_SYNC 방식이 실패하면 다음 중 하나를 선택한다.
+
+1. udmabuf 추가
+2. dma-proxy 추가
+3. device tree reserved-memory + kernel driver 경로
+
+이 단계는 PetaLinux 또는 DT 수정이 필요할 수 있으므로, S04.5A/C보다 나중에 한다.
+```
+
+## S04.5 검증 프롬프트
+
+```text
+S04.5 검증을 수행하라.
+1. S04.5A 임시 mem= 부팅이 root prompt까지 갔는가?
+2. /proc/cmdline에 mem= 값이 있는가?
+3. /proc/iomem에서 carveout 영역이 System RAM 밖인가?
+4. S04.5C /dev/mem mmap write/readback이 PASS했는가?
+5. bus error/kernel oops가 없는가?
+6. S04.5B를 수행했다면 SD 영구 bootargs 반영 후 재부팅에서도 동일한 상태인가?
+7. S05에서 사용할 physical buffer layout이 확정됐는가?
+
+결과를 docs/s04_5_dma_buffer_provider.md에 작성하라.
+```
 
 # S05. C gemv_hw_test로 fake_gemv FPGA PASS
+
+## 진입 조건
+
+```text
+필수:
+    S03 boot baseline PASS
+    S04 UIO/register/BRAM/DMA-register smoke PASS
+    S04.5 DMA buffer provider PASS
+    S05에서 사용할 physical buffer layout 확정
+
+금지:
+    DMA buffer/cache 미확정 상태에서 fake_gemv 실행 금지
+```
 
 ## Codex 프롬프트
 
 ```text
 S05 gemv_hw_test를 작성/수정하고 보드에서 실행하라.
+
+전제:
+- S04.5 DMA buffer provider가 PASS해야 한다.
+- reserved carveout 또는 동등한 DMA-safe physical buffer layout이 확정되어 있어야 한다.
 
 목표:
 보드 Linux C 프로그램이 AXI DMA를 통해 fake_gemv weight/scale/input을 FPGA GEMV IP에 보내고 output을 DDR로 받아 golden과 비교한다.
@@ -967,3 +1466,30 @@ Codex가 아래처럼 말하면 다시 시킨다.
 ```
 
 이번 프로젝트는 **모든 Q8_0 GEMV를 FPGA backend로 보내는 DMA 기반 가속 데모**다.
+
+
+---
+
+## 7. v5 반영 이력
+
+v5는 v4를 축약한 찌꺼기 문서가 아니라, v4 전체 흐름에 다음 실전 변경을 병합한 전체판이다.
+
+```text
+추가:
+    S01.5 GPTalk.xpr 단일 active project 통합
+    S03.5 boot baseline 고정
+    S04 현재 PASS 결과 반영
+    S04.5 DMA buffer provider 분리
+    보드-only / SD-only 작업 분리
+    문서 원칙, 사람용/agent용 분리
+
+유지:
+    S00 낡은 AXI-Lite 경로 격리
+    S01 DMA 구조
+    S02 bitstream/XSA
+    S03 boot 구성
+    S05 fake_gemv
+    S06 runtime GEMV backend
+    S07 HDMI demo
+    S08 freeze
+```

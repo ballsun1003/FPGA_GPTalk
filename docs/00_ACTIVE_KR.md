@@ -2,7 +2,7 @@
 
 ## 현재 단계
 
-- 현재 단계: S03 부트 복구 PASS. PetaLinux full rebuild 금지 유지. canonical `test_c_s03_fsbl_active_bit_s03_uboot`에서 DONE LED on, UART root prompt, UIO 노드 확인 완료. 이 BOOT.BIN을 S03 boot recovery baseline으로 채택
+- 현재 단계: S04.5B permanent `mem=960M` bootargs power-cycle 재검증 PASS. PetaLinux full rebuild 금지 유지. SD bootfs `uEnv.txt`로 `mem=960M` 자동 반영 확인 완료. S04.5A/C/B 모두 PASS이며 다음은 S05 fake_gemv DMA smoke
 - Active Vivado project: `hw/vivado_project/GPTalk.xpr`
 - Vivado GUI에서 열 파일: `hw/vivado_project/GPTalk.xpr`
 
@@ -25,7 +25,7 @@ cat logs/bootgen_bif_s03.txt
 cat logs/bootgen_bif_s04.txt   # legacy filename; recovery BOOT BIF 기록
 ```
 
-다음 단계는 GEMV DMA runtime 접근 확인이다. 이미 boot recovery baseline으로 Linux root prompt와 UIO 노드는 확인했다.
+다음 단계는 S05 fake_gemv DMA smoke이다. SD bootfs `uEnv.txt`로 `mem=960M`이 영구 반영되어 리셋 후에도 carveout이 유지된다.
 
 최근 관측 SD 상태:
 
@@ -48,6 +48,15 @@ ls -R /opt/smollm2_zybo | head
 ls /sys/class/uio
 dmesg | grep -Ei 'uio|dma|gemv|panic|ov5640|mipi|xilinx_drm'
 ```
+
+S04.5C에서 검증한 carveout:
+
+- DDR: `0x00000000-0x3fffffff` (1 GiB)
+- temporary bootargs: `mem=960M`
+- permanent bootargs source: SD bootfs `/uEnv.txt`
+- Linux System RAM after S04.5A: `0x00000000-0x3bffffff`
+- carveout: `0x3c000000-0x3fffffff` (64 MiB)
+- S04.5A/B/C logs/docs: `logs/s04_5a_temp_mem_boot.txt`, `logs/s04_5b_sd_bootargs_update.txt`, `logs/s04_5b_boot_verify.txt`, `logs/s04_5c_dma_carveout_smoke.txt`, `docs/s04_5_dma_buffer_provider.md`
 
 S02를 재현 빌드할 때만 다음 명령을 사용한다.
 
@@ -129,6 +138,11 @@ ls -lh hw/vivado_project/export/GPTalk_dma.bit hw/vivado_project/export/GPTalk_d
 - Board shutdown after test_b: PASS, `logs/serial_poweroff_after_test_b_20260630_113956.log`, `reboot: System halted`
 - canonical S03 boot recovery with bitstream result: PASS. Test `test_c_s03_fsbl_active_bit_s03_uboot`, BOOT hash `03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030`, DONE LED on, `/dev/ttyUSB1` prompt observed, Linux root prompt reached. Result log: `logs/test_c_s03_fsbl_active_bit_s03_uboot_result.txt`
 - Runtime/DT probe after boot: PASS for basic access. UIO nodes present: `axi_dma`, `input_bram`, `hdmi_vdma`, `hdmi_vtc`, `hdmi_dynclk`, `gemv_ctrl`; `/opt/smollm2_zybo` present. Probe log: `logs/serial_test_c_canonical_runtime_probe_20260630_115317.log`
+- HDMI no-output diagnostic: EXPECTED with current Linux image. `/dev/fb0` and `/dev/dri/card0` absent; active console is `ttyPS0`; HDMI VDMA/VTC/dynclk are UIO-only. S04/S05/S06 continue over serial. S07 must add HDMI userspace init/draw or framebuffer/DRM path. Log: `logs/hdmi_no_output_diag.txt`
+- S04 UIO/register/DMA register smoke: PASS for name-based UIO lookup, address map compare, GEMV register read, input BRAM write/readback, AXI DMA reset/status. No bus error/kernel oops observed. At that time DMA data transfer was blocked by missing buffer provider; S04.5C now provides the MVP `/dev/mem` carveout path. Logs: `logs/s04_board_uio_register_dma_smoke.txt`, `docs/s04_smoke_verify.md`
+- S04.5A temporary `mem=960M` carveout boot: PASS. SD 수정 없음, `saveenv` 없음, root prompt reached, `/proc/cmdline` contains `mem=960M`, `/proc/iomem` System RAM is `00000000-3bffffff`, UIO nodes remain present. Candidate carveout for S04.5C: `0x3c000000-0x3fffffff` (64 MiB). Logs/docs: `logs/s04_5a_temp_mem_boot.txt`, `docs/s04_5_dma_buffer_provider.md`
+- S04.5C `/dev/mem` carveout smoke: PASS. Board native compile PASS, `/dev/mem O_RDWR|O_SYNC` open PASS, 64 MiB mmap PASS, 64 pattern write/readback PASS from `0x3c000000` through `0x3ffffffc`, run RC `0`, no bus error/kernel oops observed. Logs/source: `logs/s04_5c_dma_carveout_smoke.txt`, `artifacts/boot_tests/s04_5_dma_carveout_smoke.c`, `scripts/s04_5c_carveout_smoke.py`
+- S04.5B permanent bootargs: PASS, power-cycle reverify PASS at 2026-06-30 14:50:53 KST. SD bootfs `/uEnv.txt` added with verified `mem=960M` bootargs, backup at bootfs `/backup/bootargs_20260630_144412/`, `BOOT.BIN` and `image.ub` unchanged, reboot verification PASS: `/proc/cmdline` has `mem=960M`, `/proc/iomem` System RAM is `00000000-3bffffff`, UIO nodes present, bootfs `uEnv.txt` sha256 `369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76`. Logs: `logs/s04_5b_sd_bootargs_update.txt`, `logs/s04_5b_boot_verify.txt`
 - boot test folders: `artifacts/boot_tests/test_a_recovery_fsbl_no_bit`, `artifacts/boot_tests/test_b_s03_fsbl_no_bit`, `artifacts/boot_tests/test_c_s03_fsbl_with_bit`, `artifacts/boot_tests/test_d_recovery_fsbl_with_bit`
 - Deprecated/hold boot test: `artifacts/boot_tests/test_c_s03_fsbl_with_bit` is DO_NOT_USE because it copied bitstream/U-Boot from recovery artifact paths.
 - Active S03 boot recovery baseline: `artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN`
