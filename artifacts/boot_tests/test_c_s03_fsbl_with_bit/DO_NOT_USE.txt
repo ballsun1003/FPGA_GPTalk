@@ -1,0 +1,9 @@
+DO NOT USE THIS TEST ON BOARD.
+
+Reason:
+- This folder uses bitstream/U-Boot copied from artifacts/s04_linux_dt.
+- Hashes may match, but the canonical source path is not clear enough for the
+  S03 boot recovery decision.
+
+Replacement:
+- artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot

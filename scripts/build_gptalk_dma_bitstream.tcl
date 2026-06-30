@@ -52,6 +52,20 @@ if {$pl_clk_mhz <= 0.0} {
 }
 set clk_label [clock_label $pl_clk_mhz]
 
+set ctrl_clk_mhz_raw [env_default GPTALK_CTRL_CLK_MHZ 100]
+if {![string is double -strict $ctrl_clk_mhz_raw]} {
+    error "GPTALK_CTRL_CLK_MHZ must be numeric, got: $ctrl_clk_mhz_raw"
+}
+set ctrl_clk_mhz [expr {double($ctrl_clk_mhz_raw)}]
+if {$ctrl_clk_mhz <= 0.0} {
+    error "GPTALK_CTRL_CLK_MHZ must be positive, got: $ctrl_clk_mhz_raw"
+}
+set ctrl_actual_freq_hz_raw [env_default GPTALK_CTRL_ACTUAL_FREQ_HZ [expr {int(round($ctrl_clk_mhz * 1000000.0))}]]
+if {![string is integer -strict $ctrl_actual_freq_hz_raw] || $ctrl_actual_freq_hz_raw <= 0} {
+    error "GPTALK_CTRL_ACTUAL_FREQ_HZ must be a positive integer, got: $ctrl_actual_freq_hz_raw"
+}
+set ctrl_actual_freq_hz $ctrl_actual_freq_hz_raw
+
 set actual_freq_hz_raw [env_default GPTALK_PL_ACTUAL_FREQ_HZ [expr {int(round($pl_clk_mhz * 1000000.0))}]]
 if {![string is integer -strict $actual_freq_hz_raw] || $actual_freq_hz_raw <= 0} {
     error "GPTALK_PL_ACTUAL_FREQ_HZ must be a positive integer, got: $actual_freq_hz_raw"
@@ -102,6 +116,20 @@ proc report_or_warn {label command} {
     return 1
 }
 
+proc read_base_from_report {path label default_value} {
+    if {![file exists $path]} {
+        return $default_value
+    }
+    set fd [open $path r]
+    set text [read $fd]
+    close $fd
+    set pattern [format {%s:[ \t]+0x([0-9A-Fa-f]+)} $label]
+    if {[regexp $pattern $text -> hex_value]} {
+        return [expr "0x$hex_value"]
+    }
+    return $default_value
+}
+
 proc assert_run_complete {run_name} {
     set progress [get_property PROGRESS [get_runs $run_name]]
     set status [get_property STATUS [get_runs $run_name]]
@@ -110,6 +138,36 @@ proc assert_run_complete {run_name} {
     }
     if {![string match "*Complete*" $status]} {
         error "$run_name failed: $status"
+    }
+}
+
+proc clear_stale_run_markers {run_name} {
+    set run_obj [get_runs -quiet $run_name]
+    if {[llength $run_obj] == 0} {
+        return
+    }
+    set run_dir [get_property DIRECTORY $run_obj]
+    foreach marker [list \
+        ".stop.rst" \
+        ".vivado.begin.rst" \
+        ".vivado.end.rst" \
+        ".vivado.error.rst" \
+        ".Vivado_Synthesis.queue.rst" \
+    ] {
+        set marker_path [file join $run_dir $marker]
+        if {[file exists $marker_path]} {
+            file delete -force $marker_path
+        }
+    }
+}
+
+proc reset_run_clean {run_name} {
+    clear_stale_run_markers $run_name
+    if {[catch {reset_runs $run_name} msg]} {
+        clear_stale_run_markers $run_name
+        if {[catch {reset_runs $run_name} retry_msg]} {
+            error "reset_run $run_name failed: $msg; retry failed: $retry_msg"
+        }
     }
 }
 
@@ -137,6 +195,14 @@ set bd_file [file join $project_dir GPTalk.srcs sources_1 bd $bd_name ${bd_name}
 if {![file exists $bd_file]} {
     error "Block design is missing: $bd_file"
 }
+set hdmi_tx_xdc [file join $project_dir GPTalk.srcs constrs_1 new GPTalk_hdmi_tx.xdc]
+set address_report [file join $log_dir hw_dma_hdmi_address_map.txt]
+if {![file exists $address_report]} {
+    set address_report [file join $log_dir hw_dma_address_map.txt]
+}
+set gemv_base [read_base_from_report $address_report "GEMV control base" 0x43C00000]
+set dma_base  [read_base_from_report $address_report "AXI DMA base" 0x40400000]
+set bram_base [read_base_from_report $address_report "Input BRAM base" 0x42000000]
 set module_xci [file join $project_dir GPTalk.srcs sources_1 bd $bd_name ip design_1_gemv_q8_0_dma_top_0_0 design_1_gemv_q8_0_dma_top_0_0.xci]
 
 proc patch_freq_hz_file {path freq_hz} {
@@ -177,11 +243,13 @@ proc patch_freq_hz_file {path freq_hz} {
     return $changed
 }
 
-patch_freq_hz_file $bd_file $actual_freq_hz
 patch_freq_hz_file $module_xci $actual_freq_hz
 
 open_project $project_xpr
 set_property target_language Verilog [current_project]
+if {[file exists $hdmi_tx_xdc] && [llength [get_files -quiet $hdmi_tx_xdc]] == 0} {
+    add_files -fileset constrs_1 -norecurse $hdmi_tx_xdc
+}
 
 open_bd_design $bd_file
 set ps7 [get_bd_cells -quiet processing_system7_0]
@@ -191,12 +259,19 @@ if {[llength $ps7] == 0} {
 if {[llength [get_bd_cells -quiet gemv_q8_0_dma_top_0]]} {
     catch {update_module_reference [get_bd_cells gemv_q8_0_dma_top_0]}
 }
-set_property CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ [format "%.6f" $pl_clk_mhz] $ps7
-set fclk0 [get_bd_pins -quiet processing_system7_0/FCLK_CLK0]
-if {[llength $fclk0]} {
-    set fclk_freq [get_property -quiet CONFIG.FREQ_HZ $fclk0]
-    if {$fclk_freq ne "" && $fclk_freq ne $actual_freq_hz} {
-        puts "WARN: requested actual FREQ_HZ $actual_freq_hz differs from PS FCLK_CLK0 $fclk_freq"
+set_property CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ [format "%.6f" $ctrl_clk_mhz] $ps7
+set_property CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ [format "%.6f" $pl_clk_mhz] $ps7
+foreach {fclk_pin_name expected_freq_hz} [list \
+    processing_system7_0/FCLK_CLK0 $ctrl_actual_freq_hz \
+    processing_system7_0/FCLK_CLK2 $actual_freq_hz \
+] {
+    set fclk_pin [get_bd_pins -quiet $fclk_pin_name]
+    if {![llength $fclk_pin]} {
+        continue
+    }
+    set fclk_freq [get_property -quiet CONFIG.FREQ_HZ $fclk_pin]
+    if {$fclk_freq ne "" && $fclk_freq ne $expected_freq_hz} {
+        puts "WARN: requested actual FREQ_HZ $expected_freq_hz differs from $fclk_pin_name $fclk_freq"
     }
 }
 foreach intf_name [list \
@@ -272,6 +347,8 @@ set strategy_log [file join $log_dir vivado_impl_strategy.txt]
 set strategy_fd [open $strategy_log w]
 puts $strategy_fd "GPTalk DMA Vivado build strategy"
 puts $strategy_fd "Project: $project_xpr"
+puts $strategy_fd [format "Control/dynclk clock target: %.3f MHz" $ctrl_clk_mhz]
+puts $strategy_fd "Control/dynclk actual FREQ_HZ: $ctrl_actual_freq_hz"
 puts $strategy_fd [format "PL clock target: %.3f MHz" $pl_clk_mhz]
 puts $strategy_fd "PL clock actual FREQ_HZ: $actual_freq_hz"
 puts $strategy_fd "Vivado jobs: $vivado_jobs"
@@ -293,12 +370,13 @@ if {[llength $fallback_log] == 0} {
 }
 close $strategy_fd
 
-reset_run synth_1
+reset_run_clean impl_1
+reset_run_clean synth_1
 launch_runs synth_1 -jobs $vivado_jobs
 wait_on_run synth_1
 assert_run_complete synth_1
 
-reset_run impl_1
+reset_run_clean impl_1
 launch_runs impl_1 -to_step write_bitstream -jobs $vivado_jobs
 wait_on_run impl_1
 assert_run_complete impl_1
@@ -345,9 +423,9 @@ puts $verify_fd "Active Vivado project: $project_xpr"
 puts $verify_fd [format "PL clock target: %.3f MHz" $pl_clk_mhz]
 puts $verify_fd "PL clock actual FREQ_HZ: $actual_freq_hz"
 puts $verify_fd "Full GEMV DMA datapath: expected in GPTalk BD, not smoke-only"
-puts $verify_fd "GEMV control base: 0x43C00000"
-puts $verify_fd "AXI DMA base:      0x40400000"
-puts $verify_fd "Input BRAM base:   0x42000000"
+puts $verify_fd [format "GEMV control base: 0x%08X" $gemv_base]
+puts $verify_fd [format "AXI DMA base:      0x%08X" $dma_base]
+puts $verify_fd [format "Input BRAM base:   0x%08X" $bram_base]
 puts $verify_fd "setup WNS(ns): $setup_wns"
 puts $verify_fd "setup TNS approx(ns): [format %.3f $setup_tns]"
 puts $verify_fd "setup failing paths sampled: $setup_fail_count"
@@ -403,9 +481,9 @@ puts $result_fd "- Bitstream: `$export_bit_file`"
 puts $result_fd "- Latest bitstream alias: `$latest_bit_file`"
 puts $result_fd "- XSA: `$xsa_file`"
 puts $result_fd "- Latest XSA alias: `$latest_xsa_file`"
-puts $result_fd "- GEMV control base: `0x43C00000`"
-puts $result_fd "- AXI DMA base: `0x40400000`"
-puts $result_fd "- Input BRAM base: `0x42000000`"
+puts $result_fd [format "- GEMV control base: `0x%08X`" $gemv_base]
+puts $result_fd [format "- AXI DMA base: `0x%08X`" $dma_base]
+puts $result_fd [format "- Input BRAM base: `0x%08X`" $bram_base]
 puts $result_fd "- Setup WNS(ns): `$setup_wns`"
 puts $result_fd "- Setup TNS approx(ns): `[format %.3f $setup_tns]`"
 puts $result_fd "- Hold WHS(ns): `$hold_whs`"

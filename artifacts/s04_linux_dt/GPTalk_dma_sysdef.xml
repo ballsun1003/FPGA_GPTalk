@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<Project Version="1" Minor="7" DIGEST="">
+	<TOOL_VERSION Version="2024.2.2"/>
+	<MODE Name="Post-Synthesis"/>
+	<SYSTEMINFO BOARD="digilentinc.com:zybo-z7-20:1.2" PART="xc7z020clg400-1" ARCH="zynq" PACKAGE="clg400" DEVICE="7z020" SPEED="-1" LUT="53200" FF="106400" BRAM="140" DSP="220"/>
+	<PART Name="xc7z020clg400-1">
+		<SSIT IS_SSIT="0"/>
+		<NUM_OF_SLRS Value="1"/>
+	</PART>
+	<HIERARCHY Name="design_1_wrapper"/>
+	<File Type="HW_HANDOFF" Name="design_1.hwh" src_db="design_1.hwdef" DESIGN_HIERARCHY="design_1_i" BD_TYPE="DEFAULT_BD">
+	</File>
+	<File Type="BDA" Name="design_1.bda" src_db="design_1.hwdef">
+	</File>
+	<File Type="PS_FSBL_INIT" Name="ps7_init.c" src_db="design_1_processing_system7_0_0.hwdef">
+	</File>
+	<File Type="PS_FSBL_INIT" Name="ps7_init.h" src_db="design_1_processing_system7_0_0.hwdef">
+	</File>
+	<File Type="PS_FSBL_INIT_GPL" Name="ps7_init_gpl.c" src_db="design_1_processing_system7_0_0.hwdef">
+	</File>
+	<File Type="PS_FSBL_INIT_GPL" Name="ps7_init_gpl.h" src_db="design_1_processing_system7_0_0.hwdef">
+	</File>
+	<File Type="PS_INIT_HELP" Name="ps7_init.html" src_db="design_1_processing_system7_0_0.hwdef">
+	</File>
+	<File Type="PS_XMD_INIT" Name="ps7_init.tcl" src_db="design_1_processing_system7_0_0.hwdef">
+	</File>
+	<File Type="HW_HANDOFF" Name="design_1_axi_video_hp0_smc_0.hwh" src_db="design_1_axi_video_hp0_smc_0.hwdef" DESIGN_HIERARCHY="design_1_i/axi_video_hp0_smc/inst" BD_TYPE="SCOPED_BD">
+	</File>
+	<File Type="HW_HANDOFF" Name="design_1_axi_gemv_hp1_smc_0.hwh" src_db="design_1_axi_gemv_hp1_smc_0.hwdef" DESIGN_HIERARCHY="design_1_i/axi_gemv_hp1_smc/inst" BD_TYPE="SCOPED_BD">
+	</File>
+	<File Type="HW_HANDOFF" Name="design_1_axi_ctrl_smc_0.hwh" src_db="design_1_axi_ctrl_smc_0.hwdef" DESIGN_HIERARCHY="design_1_i/axi_ctrl_smc/inst" BD_TYPE="SCOPED_BD">
+	</File>
+	<File Type="BIT" Name="GPTalk_dma_74MHz.bit" src_db="temp.hdf">
+	</File>
+	<File Type="MMI" Name="GPTalk_dma_74MHz.mmi" src_db="temp.hdf">
+	</File>
+	<DRIVERS>
+		<DRIVER IP_VLNV="digilentinc.com:ip:axi_dynclk:1.2">
+			<File PATH="drivers/dynclk/data/dynclk.mdd"/>
+			<File PATH="drivers/dynclk/data/dynclk.tcl"/>
+			<File PATH="drivers/dynclk/src/Makefile"/>
+			<File PATH="drivers/dynclk/src/ddynclk.h"/>
+			<File PATH="drivers/dynclk/src/ddynclk.c"/>
+			<File PATH="drivers/dynclk/src/ddynclk_selftest.c"/>
+			<File PATH="drivers/dynclk/src/ddynclk_g.c"/>
+			<File PATH="drivers/dynclk/src/ddynclk_sinit.c"/>
+		</DRIVER>
+	</DRIVERS>
+	<USEDRESOURCES LUT="27615" FF="24202" BRAM="28" DSP="68"/>
+	<DESIGN_DATA Type="rm">
+		<DESIGN_IDS DESIGN_ID="237392438" PARENT_ID="0" NODE_ID="0"/>
+	</DESIGN_DATA>
+</Project>
+

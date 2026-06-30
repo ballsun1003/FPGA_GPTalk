@@ -1,0 +1,5 @@
+the_ROM_image:
+{
+  [bootloader] ../s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+  ../s04_linux_dt/u-boot.elf
+}

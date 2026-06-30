@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<Project Version="1" Minor="3" DIGEST="">
+	<TOOL_VERSION Version="2017.4"/>
+	<MODE Name="Post-Synthesis"/>
+	<SYSTEMINFO BOARD="digilentinc.com:zybo-z7-20:1.0" PART="xc7z020clg400-1" ARCH="zynq" PACKAGE="clg400" DEVICE="7z020" SPEED="-1" LUT="53200" FF="106400" BRAM="140" DSP="220"/>
+	<HIERARCHY Name="system_wrapper"/>
+	<File Type="HW_HANDOFF" Name="system.hwh" DESIGN_HIERARCHY="system_i" BD_TYPE="DEFAULT_BD"/>
+	<File Type="BD_TCL" Name="system_bd.tcl"/>
+	<File Type="PS_FSBL_INIT" Name="ps7_init.c"/>
+	<File Type="PS_FSBL_INIT" Name="ps7_init.h"/>
+	<File Type="PS_FSBL_INIT_GPL" Name="ps7_init_gpl.c"/>
+	<File Type="PS_FSBL_INIT_GPL" Name="ps7_init_gpl.h"/>
+	<File Type="PS_INIT_HELP" Name="ps7_init.html"/>
+	<File Type="PS_XMD_INIT" Name="ps7_init.tcl"/>
+	<File Type="HW_HANDOFF" Name="system_mipi_csi2_rx_subsystem_0_1.hwh" DESIGN_HIERARCHY="system_i/mipi_csi2_rx_subsystem_0/U0" BD_TYPE="SCOPED_BD"/>
+	<File Type="BD_TCL" Name="system_mipi_csi2_rx_subsystem_0_1_bd.tcl"/>
+	<File Type="BIT" Name="system_wrapper.bit"/>
+	<DRIVERS>
+		<DRIVER IP_VLNV="digilentinc.com:IP:PWM:2.0">
+			<File PATH="drivers/PWM_v1_0/data/PWM.mdd"/>
+			<File PATH="drivers/PWM_v1_0/data/PWM.tcl"/>
+			<File PATH="drivers/PWM_v1_0/src/Makefile"/>
+			<File PATH="drivers/PWM_v1_0/src/PWM.h"/>
+			<File PATH="drivers/PWM_v1_0/src/PWM.c"/>
+			<File PATH="drivers/PWM_v1_0/src/PWM_selftest.c"/>
+		</DRIVER>
+	</DRIVERS>
+	<BOARD Type="NotIntegrated">
+		<BASEBOARD Name="digilentinc.com:zybo-z7-20:1.0">
+			<File PATH="board/zybo-z7-20/preset.xml"/>
+			<File PATH="board/zybo-z7-20/part0_pins.xml"/>
+			<File PATH="board/zybo-z7-20/board.xml"/>
+		</BASEBOARD>
+	</BOARD>
+	<USEDRESOURCES LUT="0" FF="27432" BRAM="30" DSP="1"/>
+</Project>
+

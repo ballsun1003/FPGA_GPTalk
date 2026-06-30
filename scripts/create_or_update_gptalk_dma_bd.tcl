@@ -1,9 +1,13 @@
-# Create or update the DMA GEMV block design inside the existing GPTalk.xpr.
+# BLOCKED: this legacy script recreates the DMA GEMV block design.
 #
 # S01.5 active project rule:
 #   - Open hw/vivado_project/GPTalk.xpr.
 #   - Do not create another Vivado project.
-#   - Recreate design_1 as the active DMA GEMV BD.
+#   - Do not delete/recreate design_1 or processing_system7_0.
+#
+# This script is intentionally disabled until it is rewritten to preserve the
+# existing GPTalk PS7 DDR/MIO/SD/UART settings and only add/update DMA/GEMV
+# peripherals.
 #
 # Run:
 #   vivado -mode batch -source scripts/create_or_update_gptalk_dma_bd.tcl
@@ -18,6 +22,8 @@ file mkdir $log_dir
 if {![file exists $project_xpr]} {
     error "Active Vivado project is missing: $project_xpr. S01.5 requires the existing GPTalk.xpr; no new .xpr will be created."
 }
+
+error "BLOCKED: scripts/create_or_update_gptalk_dma_bd.tcl deletes design_1 and recreates processing_system7_0. Rewrite it as a PS7-preserving updater before using it."
 
 set board_repo [file join $repo_root vivado_board_files digilent-vivado-boards new board_files]
 if {[file exists $board_repo]} {

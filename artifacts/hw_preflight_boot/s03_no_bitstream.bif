@@ -1,0 +1,5 @@
+the_ROM_image:
+{
+  [bootloader] ../s03_bootgen/zynq_fsbl.elf
+  ../s03_bootgen/u-boot.elf
+}

@@ -1,0 +1,25 @@
+test name: test_a_recovery_fsbl_no_bit
+
+FSBL path: artifacts/boot_tests/test_a_recovery_fsbl_no_bit/fsbl_recovery.elf
+FSBL source: artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+FSBL sha256: ab8076eec9c40b434d01a3486c8aa6f21b20b9e282d53898d54410f31b188b43
+
+bitstream path: NONE
+bitstream source: NONE
+bitstream sha256: NONE
+
+U-Boot path: artifacts/boot_tests/test_a_recovery_fsbl_no_bit/u-boot.elf
+U-Boot source: artifacts/s04_linux_dt/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_a_recovery_fsbl_no_bit/boot.bif
+BIF sha256: ef1dfd734aa18f09c2bb2a296c825faedbefb6407a331d97e49e7fa413d2dbb0
+
+BOOT.BIN path: artifacts/boot_tests/test_a_recovery_fsbl_no_bit/BOOT.BIN
+BOOT.BIN sha256: 78eafd2d734e4e0807922bea31c66d644233ccf5cfffb6720ca369177ff6ceda
+
+expected result: DONE LED may remain off because no bitstream is present; success is UART FSBL/U-Boot output.
+actual result: PENDING for this exact BOOT.BIN.
+serial log path: PENDING
+
+note: An earlier equivalent custom/recovery FSBL + same U-Boot + no-bitstream test produced 0 UART bytes.

@@ -1,0 +1,32 @@
+test name: test_c_s03_fsbl_with_bit
+
+STATUS: HOLD_DO_NOT_USE
+Reason: This test used canonical known-good S03 FSBL, but its bitstream and
+U-Boot source paths were copied from artifacts/s04_linux_dt. Even though the
+hashes match compared artifacts, this lowers provenance clarity. Do not stage
+this BOOT.BIN to SD. Use
+artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot instead.
+
+FSBL path: artifacts/boot_tests/test_c_s03_fsbl_with_bit/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_c_s03_fsbl_with_bit/GPTalk_dma.bit
+bitstream source: artifacts/s04_linux_dt/GPTalk_dma.bit
+bitstream sha256: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+
+U-Boot path: artifacts/boot_tests/test_c_s03_fsbl_with_bit/u-boot.elf
+U-Boot source: artifacts/s04_linux_dt/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_c_s03_fsbl_with_bit/boot.bif
+BIF sha256: f738aa7d6f4906f1e8ded04cb63bfa435d5835bb1a7907718180bb905433df08
+
+BOOT.BIN path: artifacts/boot_tests/test_c_s03_fsbl_with_bit/BOOT.BIN
+BOOT.BIN sha256: 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+
+expected result: DONE LED should turn on if FSBL can configure PL; UART FSBL/U-Boot output should appear before any Linux judgment.
+actual result: PENDING for this exact BOOT.BIN.
+serial log path: PENDING
+
+note: The original known-good S03 BOOT with the same FSBL, same bitstream hash, and same U-Boot hash turned DONE LED on.

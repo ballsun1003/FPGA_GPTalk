@@ -1,0 +1,25 @@
+test name: test_d_recovery_fsbl_with_bit
+
+FSBL path: artifacts/boot_tests/test_d_recovery_fsbl_with_bit/fsbl_recovery.elf
+FSBL source: artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+FSBL sha256: ab8076eec9c40b434d01a3486c8aa6f21b20b9e282d53898d54410f31b188b43
+
+bitstream path: artifacts/boot_tests/test_d_recovery_fsbl_with_bit/GPTalk_dma.bit
+bitstream source: artifacts/s04_linux_dt/GPTalk_dma.bit
+bitstream sha256: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+
+U-Boot path: artifacts/boot_tests/test_d_recovery_fsbl_with_bit/u-boot.elf
+U-Boot source: artifacts/s04_linux_dt/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_d_recovery_fsbl_with_bit/boot.bif
+BIF sha256: 16f24858af6e53d61b1f9363fac91e54fd4d1d0ec0194c77bdbd2db6b1d44b3e
+
+BOOT.BIN path: artifacts/boot_tests/test_d_recovery_fsbl_with_bit/BOOT.BIN
+BOOT.BIN sha256: ceaa21b8f0890a4c38cf65ac05786a7722b32ef1eaa5d702e9130de20e9c8b1e
+
+expected result: DONE LED should turn on if FSBL can configure PL; UART FSBL/U-Boot output should appear before any Linux judgment.
+actual result: PENDING for this exact BOOT.BIN.
+serial log path: PENDING
+
+note: An earlier recovery BOOT with the same custom/recovery FSBL, same bitstream hash, and same U-Boot hash produced DONE LED off.

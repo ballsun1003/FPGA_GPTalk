@@ -1,0 +1,17 @@
+#
+# The tools use hardlinks from /usr/bin to /usr/lib/arm-none-eabi
+#
+binutils-arm-none-eabi binary: package-contains-hardlink
+#
+# Warnings about lines that can't be wrapped aren't errors, but
+# lintian can't tell that
+#
+binutils-arm-none-eabi binary: groff-message
+#
+# ld.bfd has no manual
+#
+binutils-arm-none-eabi binary: no-manual-page
+#
+# executables all land in usr/lib as designed
+#
+binutils-arm-none-eabi binary: executable-in-usr-lib

@@ -4,16 +4,26 @@ Date: 2026-06-29 KST
 
 This is the active hardware/software contract for the DMA GEMV path.
 
+## Current DDR HP Port Policy
+
+Bulk GEMV movement must use a PS high-performance DDR port. It does not have to
+be HP0 specifically when another active path already uses HP0. In the current
+HDMI+DMA hardware, video VDMA uses PS `S_AXI_HP0` and GEMV AXI DMA uses PS
+`S_AXI_HP1`.
+
 ## Address Regions
 
-| Region | Requested base | Range | Access |
+| Region | Current HDMI+DMA base | Range | Access |
 | --- | ---: | ---: | --- |
-| GEMV control | `0x43C00000` | `4K` | 32-bit AXI-Lite |
+| GEMV control | `0x43CA0000` | `4K` | 32-bit AXI-Lite |
 | AXI DMA | `0x40400000` | `64K` | Xilinx AXI DMA register map |
 | Input BRAM | `0x42000000` | `64K` | 32-bit memory window |
+| HDMI VDMA | `0x43010000` | `64K` | Xilinx AXI VDMA register map |
+| HDMI VTC | `0x43C10000` | `64K` | Xilinx VTC register map |
+| HDMI dynclk | `0x43C20000` | `64K` | AXI dynclk register map |
 
 Vivado is the source of truth after address assignment. The generated address
-report is `logs/hw_dma_address_map.txt`.
+report for the current HDMI+DMA hardware is `logs/hw_dma_hdmi_address_map.txt`.
 
 ## GEMV Control Register Map
 

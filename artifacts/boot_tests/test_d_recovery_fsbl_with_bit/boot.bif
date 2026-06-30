@@ -1,0 +1,6 @@
+the_ROM_image:
+{
+  [bootloader] fsbl_recovery.elf
+  GPTalk_dma.bit
+  u-boot.elf
+}

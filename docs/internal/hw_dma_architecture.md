@@ -75,16 +75,21 @@ Result stream:
 
 ## Address Plan
 
-The S01 block-design Tcl requests:
+The original S01 DMA-only block-design requested `0x43C00000` for GEMV
+control. The current HDMI+DMA hardware moved GEMV control to `0x43CA0000`.
+Use the current Vivado address map below for S03/S04/S05 work.
 
 | Region | Base | Range | Purpose |
 | --- | ---: | ---: | --- |
-| GEMV control | `0x43C00000` | `4K` | Control/status registers |
+| GEMV control | `0x43CA0000` | `4K` | Control/status registers |
 | AXI DMA | `0x40400000` | `64K` | DMA control registers |
 | Input BRAM | `0x42000000` | `64K` | Input vector memory window |
+| HDMI VDMA | `0x43010000` | `64K` | Display DMA registers |
+| HDMI VTC | `0x43C10000` | `64K` | Timing controller registers |
+| HDMI dynclk | `0x43C20000` | `64K` | Dynamic clock registers |
 
-`scripts/create_zybo_gemv_dma_hw.tcl` writes the actual Vivado address map to
-`logs/hw_dma_address_map.txt` when run.
+`scripts/create_or_update_gptalk_dma_hdmi_bd.tcl` writes the current Vivado
+address map to `logs/hw_dma_hdmi_address_map.txt` when run.
 
 ## S01 Verification Intent
 

@@ -1,0 +1,9 @@
+[TRACE]  : Command Line parsing started
+[TRACE]  : Command: -arch zynq -image artifacts/s03_bootgen/gptalk_dma_boot.bif -o artifacts/s03_bootgen/BOOT.BIN -w -log trace
+[INFO]   : Command line parsing completed successfully
+[TRACE]  : BIF File: artifacts/s03_bootgen/gptalk_dma_boot.bif
+[TRACE]  : Parsing BIF file - gptalk_dma_boot.bif
+[INFO]   : BIF file parsed successfully - gptalk_dma_boot.bif 
+[INFO]   : Parsing Partition Data to Image
+[INFO]   : Building image - the_ROM_image
+[ERROR]  : Cannot read file - zynq_fsbl.elf 

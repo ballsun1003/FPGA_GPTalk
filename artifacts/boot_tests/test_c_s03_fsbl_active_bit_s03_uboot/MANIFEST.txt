@@ -1,0 +1,63 @@
+test name: test_c_s03_fsbl_active_bit_s03_uboot
+
+Purpose:
+- Verify whether the known-good S03 FSBL can configure the active GPTalk DMA
+  bitstream from BOOT.BIN, turn PL DONE on, and hand off to S03 U-Boot/Linux.
+
+FSBL path: artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/GPTalk_dma.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma.bit
+bitstream sha256: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+
+U-Boot path: artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/boot.bif
+BIF sha256: f738aa7d6f4906f1e8ded04cb63bfa435d5835bb1a7907718180bb905433df08
+
+BOOT.BIN path: artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+
+SD copied target: /dev/sdc1:/BOOT.BIN
+SD copied BOOT.BIN sha256: 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+SD previous BOOT backup: /dev/sdc1:/BOOT_BEFORE_TEST_C_CANONICAL_20260630.BIN
+SD fsck after staging: clean
+
+Expected result:
+- DONE LED: on
+- UART byte count: nonzero
+- U-Boot entry: yes
+- Linux root prompt: yes
+
+Actual result:
+- DONE LED: on, confirmed by user
+- UART byte count: /dev/ttyUSB0 = 0, /dev/ttyUSB1 = 21 for prompt probe
+- U-Boot entry: yes, inferred from Linux boot/root prompt and previous same flow
+- Linux root prompt: yes, observed root@Zybo-Z7-20:~#
+- serial log path: logs/serial_test_c_canonical_ttyUSB1_20260630_115226.log
+- runtime probe log path: logs/serial_test_c_canonical_runtime_probe_20260630_115317.log
+- runtime probe byte count: 2750
+- UIO nodes:
+  uio0 axi_dma at 40400000.axi_dma
+  uio1 input_bram at 42000000.input_bram
+  uio2 hdmi_vdma at 43010000.hdmi_vdma
+  uio3 hdmi_vtc at 43c10000.hdmi_vtc
+  uio4 hdmi_dynclk at 43c20000.hdmi_dynclk
+  uio5 gemv_ctrl at 43ca0000.gemv_ctrl
+- rootfs payload: /opt/smollm2_zybo present
+- judgment: PASS, adopted as S03 boot recovery baseline
+
+Pass judgment:
+- If DONE LED on, UART output present, U-Boot reached, and Linux root prompt
+  reached, adopt this BOOT.BIN as the S03 boot recovery baseline.
+
+Failure judgment:
+- DONE off: active bitstream FSBL configure / BIF / bitstream packaging issue,
+  not PetaLinux.
+- DONE on but UART 0: PL configured but U-Boot handoff/DDR/clock/FSBL
+  post-processing issue.
+- U-Boot reached but kernel panic: move to kernel/DT/rootfs/bootargs debug.

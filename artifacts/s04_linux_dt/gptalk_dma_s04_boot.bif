@@ -1,0 +1,6 @@
+the_ROM_image:
+{
+  [bootloader] zynq_fsbl_gptalk_2024.2.elf
+  GPTalk_dma.bit
+  u-boot.elf
+}

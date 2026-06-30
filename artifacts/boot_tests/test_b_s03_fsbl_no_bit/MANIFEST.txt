@@ -1,0 +1,44 @@
+test name: test_b_s03_fsbl_no_bit
+
+FSBL path: artifacts/boot_tests/test_b_s03_fsbl_no_bit/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: NONE
+bitstream source: NONE
+bitstream sha256: NONE
+
+U-Boot path: artifacts/boot_tests/test_b_s03_fsbl_no_bit/u-boot.elf
+U-Boot source: artifacts/s04_linux_dt/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_b_s03_fsbl_no_bit/boot.bif
+BIF sha256: 1ee9d9332addf37a12677edd98c387ed914f05cb178c26d34ead40ed4f9aaba1
+
+BOOT.BIN path: artifacts/boot_tests/test_b_s03_fsbl_no_bit/BOOT.BIN
+BOOT.BIN sha256: 4a08988b7f6a6ee36e6750373b3536421c4059477f2c889516c4706c6628ce9d
+
+expected result: DONE LED may remain off because no bitstream is present; success is UART FSBL/U-Boot output.
+actual result: PASS_UART_UBOOT_AND_LINUX_ROOT
+serial log path: logs/serial_test_b_s03_fsbl_no_bit_ttyUSB1_20260630_113716.log
+serial byte count: 25849
+serial inactive port log: logs/serial_test_b_s03_fsbl_no_bit_ttyUSB0_20260630_113716.log
+serial inactive port byte count: 0
+DONE LED: off, expected/acceptable for no-bitstream BOOT
+
+SD staging:
+- SD device at staging time: /dev/sdc
+- SD boot partition: /dev/sdc1
+- SD copied file: /tmp/sd_bootfs/BOOT.BIN
+- SD copied file sha256: 4a08988b7f6a6ee36e6750373b3536421c4059477f2c889516c4706c6628ce9d
+- SD previous BOOT backup: BOOT_BEFORE_TEST_B_S03_NOBIT_20260630.BIN
+- SD fsck after unmount: clean
+
+Board result summary:
+- UART port with output: /dev/ttyUSB1
+- U-Boot: reached
+- SD read: image.ub read successfully
+- Linux: booted and mounted /dev/mmcblk0p2
+- Final prompt observed: root@Zybo-Z7-20:~#
+- Judgment: known-good S03 FSBL can initialize PS DDR/MIO/UART/SD and hand off to U-Boot/Linux with this U-Boot.
+- Shutdown after test: PASS, logs/serial_poweroff_after_test_b_20260630_113956.log, final line "reboot: System halted"
