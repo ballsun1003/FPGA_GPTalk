@@ -1,0 +1,6 @@
+the_ROM_image:
+{
+  [bootloader] fsbl_known_good_s03.elf
+  GPTalk_dma_active.bit
+  u-boot.elf
+}

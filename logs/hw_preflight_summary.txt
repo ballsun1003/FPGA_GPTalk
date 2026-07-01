@@ -1,0 +1,40 @@
+GPTalk hardware preflight summary
+Active project: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.xpr
+Part: xc7z020clg400-1
+Board part: digilentinc.com:zybo-z7-20:part0:1.2
+Top: design_1_wrapper
+
+Required cells:
+- processing_system7_0: PRESENT
+- axi_dma_0: PRESENT
+- mm2s_axis_fifo: PRESENT
+- s2mm_axis_fifo: PRESENT
+- gemv_q8_0_dma_top_0: PRESENT
+- axi_input_bram_ctrl: PRESENT
+
+Required interface nets:
+- processing_system7_0_M_AXI_GP0: processing_system7_0_M_AXI_GP0
+- axi_dma_0_M_AXIS_MM2S: axi_dma_0_M_AXIS_MM2S
+- mm2s_axis_fifo_M_AXIS: mm2s_axis_fifo_M_AXIS
+- gemv_q8_0_dma_top_0_M_AXIS: gemv_q8_0_dma_top_0_M_AXIS
+- s2mm_axis_fifo_M_AXIS: s2mm_axis_fifo_M_AXIS
+- axi_dma_0_M_AXI_MM2S: axi_dma_0_M_AXI_MM2S
+- axi_dma_0_M_AXI_S2MM: axi_dma_0_M_AXI_S2MM
+- axi_gemv_hp1_smc_M00_AXI: axi_gemv_hp1_smc_M00_AXI
+- axi_vdma_1_M_AXI_MM2S: axi_vdma_1_M_AXI_MM2S
+
+PS7 selected properties:
+- CONFIG.PCW_UIPARAM_DDR_PARTNO = MT41K256M16 RE-125
+- CONFIG.PCW_UIPARAM_DDR_FREQ_MHZ = 533.333333
+- CONFIG.PCW_UIPARAM_DDR_BUS_WIDTH = 32 Bit
+- CONFIG.PCW_EN_SDIO0 = 1
+- CONFIG.PCW_SD0_SD0_IO = MIO 40 .. 45
+- CONFIG.PCW_EN_UART1 = 1
+- CONFIG.PCW_UART1_UART1_IO = MIO 48 .. 49
+- CONFIG.PCW_USE_M_AXI_GP0 = 1
+- CONFIG.PCW_USE_S_AXI_HP0 = 1
+- CONFIG.PCW_USE_S_AXI_HP1 = 1
+- CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ = 100.000000
+- CONFIG.PCW_FPGA1_PERIPHERAL_FREQMHZ = 133.333333
+- CONFIG.PCW_FPGA2_PERIPHERAL_FREQMHZ = 74.000000
+- CONFIG.PCW_CPU_CPU_6X4X_MAX_RANGE = 667

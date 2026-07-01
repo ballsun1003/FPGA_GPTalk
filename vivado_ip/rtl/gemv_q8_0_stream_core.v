@@ -5,8 +5,9 @@
 // Input packet order per row group and Q8_0 block:
 //   1. LANES signed int32 scale_q words, one per lane.
 //   2. Q8_BLOCK_SIZE * LANES signed int8 weights.
-//      Four consecutive weight bytes are packed little-endian into one
-//      32-bit stream word: byte0=tdata[7:0], byte1=tdata[15:8], ...
+//      Weight bytes are packed little-endian into each stream beat:
+//      byte0=tdata[7:0], byte1=tdata[15:8], ...
+//      TDATA_WIDTH=32 feeds 4 lanes/beat; TDATA_WIDTH=128 feeds 16 lanes/beat.
 //
 // Output mode:
 //   mode=0: emit one signed int32 row output per valid row.
@@ -43,6 +44,7 @@ module gemv_q8_0_stream_core #(
     input wire signed [15:0] input_rd_data,
 
     input wire [TDATA_WIDTH-1:0] s_axis_tdata,
+    input wire [(TDATA_WIDTH/8)-1:0] s_axis_tkeep,
     input wire s_axis_tvalid,
     output reg s_axis_tready,
     input wire s_axis_tlast,
@@ -62,13 +64,42 @@ module gemv_q8_0_stream_core #(
 
     output reg [FEATURE_WIDTH-1:0] debug_row,
     output reg [FEATURE_WIDTH-1:0] debug_block,
-    output reg [15:0] debug_lane
+    output reg [15:0] debug_lane,
+    output reg signed [31:0] debug_out0,
+    output reg signed [31:0] debug_out1,
+    output reg signed [31:0] debug_out2,
+    output reg [31:0] debug_in_count,
+    output reg [31:0] debug_tlast_count,
+    output reg [31:0] debug_tlast_tdata,
+    output reg [(TDATA_WIDTH/8)-1:0] debug_tlast_tkeep,
+    output reg signed [31:0] debug_scale0,
+    output reg signed [31:0] debug_scale1,
+    output reg signed [31:0] debug_scale2,
+    output reg signed [31:0] debug_block0,
+    output reg signed [31:0] debug_block1,
+    output reg signed [31:0] debug_block2,
+    output reg [31:0] debug_product0_lo,
+    output reg [31:0] debug_product0_hi,
+    output reg [31:0] debug_product1_lo,
+    output reg [31:0] debug_product1_hi,
+    output reg [31:0] debug_product2_lo,
+    output reg [31:0] debug_product2_hi,
+    output reg signed [31:0] debug_scaled0,
+    output reg signed [31:0] debug_scaled1,
+    output reg signed [31:0] debug_scaled2,
+    output reg signed [31:0] debug_row_acc0,
+    output reg signed [31:0] debug_row_acc1,
+    output reg signed [31:0] debug_row_acc2
 );
 
+    localparam integer TKEEP_WIDTH = TDATA_WIDTH / 8;
     localparam integer WEIGHTS_PER_WORD = TDATA_WIDTH / 8;
+    localparam integer SCALES_PER_WORD = TDATA_WIDTH / 32;
     localparam [FEATURE_WIDTH-1:0] FEATURE_ONE = {{(FEATURE_WIDTH-1){1'b0}}, 1'b1};
     localparam [FEATURE_WIDTH-1:0] LANES_FEATURE = LANES;
     localparam [15:0] WEIGHTS_PER_WORD_U16 = WEIGHTS_PER_WORD;
+    localparam [15:0] SCALES_PER_WORD_U16 = SCALES_PER_WORD;
+    localparam [15:0] LANES_U16 = LANES;
 
     localparam [3:0] ST_IDLE        = 4'd0;
     localparam [3:0] ST_SCALE       = 4'd1;
@@ -82,11 +113,15 @@ module gemv_q8_0_stream_core #(
     localparam [3:0] ST_SCALE_MUL   = 4'd9;
     localparam [3:0] ST_SCALE_SHIFT = 4'd10;
     localparam [3:0] ST_SCALE_ACCUM = 4'd11;
+    localparam [3:0] ST_INPUT_WAIT2 = 4'd12;
+    localparam [3:0] ST_INPUT_WAIT3 = 4'd13;
+    localparam [3:0] ST_INPUT_CAPTURE = 4'd14;
 
     localparam [7:0] ERR_NONE       = 8'd0;
     localparam [7:0] ERR_CONFIG     = 8'd1;
     localparam [7:0] ERR_TLAST      = 8'd2;
     localparam [7:0] ERR_BUSY_START = 8'd3;
+    localparam [7:0] ERR_TKEEP      = 8'd4;
 
     reg [3:0] state;
     reg mode_reg;
@@ -102,35 +137,92 @@ module gemv_q8_0_stream_core #(
     reg [15:0] weight_lane_base;
     reg [15:0] apply_lane_base;
     reg [15:0] emit_lane;
+    reg [15:0] valid_lanes_reg;
     reg [TDATA_WIDTH-1:0] weight_word_reg;
+    reg signed [15:0] input_sample_reg;
 
     reg signed [31:0] scale_q [0:LANES-1];
     reg signed [31:0] block_acc [0:LANES-1];
     reg signed [ROW_ACC_WIDTH-1:0] row_acc [0:LANES-1];
-    reg signed [31:0] scale_q_stage [0:LANES-1];
-    reg signed [31:0] block_acc_stage [0:LANES-1];
-    reg signed [63:0] scaled_product [0:LANES-1];
-    reg signed [63:0] scaled_shifted [0:LANES-1];
+    reg signed [31:0] row_out [0:LANES-1];
+    reg signed [63:0] scaled_product_scalar;
+    reg signed [63:0] scaled_shifted_scalar;
 
     integer i;
     integer b;
 
     wire last_group = (row_group_base + LANES_FEATURE >= out_features_reg);
     wire last_block = (block_index + FEATURE_ONE >= blocks_per_row_reg);
+    wire [FEATURE_WIDTH-1:0] emit_lane_feature =
+        {{(FEATURE_WIDTH-16){1'b0}}, emit_lane};
+    wire [15:0] emit_lane_next = emit_lane + 16'd1;
+    wire emit_last_lane_in_group = emit_lane_next >= valid_lanes_reg;
+    wire [FEATURE_WIDTH-1:0] next_row_group_base = row_group_base + LANES_FEATURE;
+    wire [FEATURE_WIDTH-1:0] next_group_remaining =
+        out_features_reg - next_row_group_base;
+    wire [15:0] start_valid_lanes =
+        (out_features < LANES_FEATURE) ? out_features[15:0] : LANES_U16;
+    wire [15:0] next_valid_lanes =
+        (next_group_remaining < LANES_FEATURE) ? next_group_remaining[15:0] : LANES_U16;
     wire last_weight_word_in_block =
         (weight_col == (Q8_BLOCK_SIZE - 1)) &&
         (weight_lane_base + WEIGHTS_PER_WORD >= LANES);
     wire final_input_word = last_group && last_block && last_weight_word_in_block;
+    wire s_axis_fire = s_axis_tvalid && s_axis_tready;
+    wire last_scale_word_in_block = (scale_lane + SCALES_PER_WORD >= LANES);
+    wire [TKEEP_WIDTH-1:0] expected_tkeep = {TKEEP_WIDTH{1'b1}};
+    wire s_axis_tkeep_ok = (s_axis_tkeep == expected_tkeep);
+    wire [127:0] s_axis_tdata_ext =
+        (TDATA_WIDTH == 128) ? s_axis_tdata : {96'd0, s_axis_tdata[31:0]};
+    wire [127:0] weight_word_ext =
+        (TDATA_WIDTH == 128) ? weight_word_reg : {96'd0, weight_word_reg[31:0]};
+    wire signed [63:0] scale_product_now =
+        mul_i32_i32_to_i64(block_acc[emit_lane], scale_q[emit_lane]);
+    wire signed [63:0] scale_shifted_now =
+        round_shift_i64(scaled_product_scalar, scale_shift_reg);
+    wire signed [ROW_ACC_WIDTH-1:0] row_acc_after_scalar =
+        row_acc[emit_lane] + scaled_shifted_scalar;
+    wire signed [31:0] row_out_after_scalar =
+        (row_acc_after_scalar > 64'sd2147483647) ? 32'sh7fffffff :
+        (row_acc_after_scalar < -64'sd2147483648) ? 32'sh80000000 :
+        row_acc_after_scalar[31:0];
 
     function signed [7:0] get_weight_byte;
-        input [TDATA_WIDTH-1:0] word;
+        input [127:0] word;
         input integer byte_index;
         begin
             case (byte_index)
                 0: get_weight_byte = word[7:0];
                 1: get_weight_byte = word[15:8];
                 2: get_weight_byte = word[23:16];
-                default: get_weight_byte = word[31:24];
+                3: get_weight_byte = word[31:24];
+                4: get_weight_byte = word[39:32];
+                5: get_weight_byte = word[47:40];
+                6: get_weight_byte = word[55:48];
+                7: get_weight_byte = word[63:56];
+                8: get_weight_byte = word[71:64];
+                9: get_weight_byte = word[79:72];
+                10: get_weight_byte = word[87:80];
+                11: get_weight_byte = word[95:88];
+                12: get_weight_byte = word[103:96];
+                13: get_weight_byte = word[111:104];
+                14: get_weight_byte = word[119:112];
+                15: get_weight_byte = word[127:120];
+                default: get_weight_byte = 8'sd0;
+            endcase
+        end
+    endfunction
+
+    function signed [31:0] get_scale_word;
+        input [127:0] word;
+        input integer scale_index;
+        begin
+            case (scale_index)
+                0: get_scale_word = word[31:0];
+                1: get_scale_word = word[63:32];
+                2: get_scale_word = word[95:64];
+                3: get_scale_word = word[127:96];
+                default: get_scale_word = 32'sd0;
             endcase
         end
     endfunction
@@ -211,7 +303,9 @@ module gemv_q8_0_stream_core #(
             weight_lane_base <= 16'd0;
             apply_lane_base <= 16'd0;
             emit_lane <= 16'd0;
+            valid_lanes_reg <= 16'd0;
             weight_word_reg <= {TDATA_WIDTH{1'b0}};
+            input_sample_reg <= 16'sd0;
             input_rd_en <= 1'b0;
             input_rd_addr <= {INPUT_ADDR_WIDTH{1'b0}};
             s_axis_tready <= 1'b0;
@@ -228,20 +322,43 @@ module gemv_q8_0_stream_core #(
             debug_row <= {FEATURE_WIDTH{1'b0}};
             debug_block <= {FEATURE_WIDTH{1'b0}};
             debug_lane <= 16'd0;
+            debug_out0 <= 32'sd0;
+            debug_out1 <= 32'sd0;
+            debug_out2 <= 32'sd0;
+            debug_in_count <= 32'd0;
+            debug_tlast_count <= 32'd0;
+            debug_tlast_tdata <= 32'd0;
+            debug_tlast_tkeep <= {(TDATA_WIDTH/8){1'b0}};
+            debug_scale0 <= 32'sd0;
+            debug_scale1 <= 32'sd0;
+            debug_scale2 <= 32'sd0;
+            debug_block0 <= 32'sd0;
+            debug_block1 <= 32'sd0;
+            debug_block2 <= 32'sd0;
+            debug_product0_lo <= 32'd0;
+            debug_product0_hi <= 32'd0;
+            debug_product1_lo <= 32'd0;
+            debug_product1_hi <= 32'd0;
+            debug_product2_lo <= 32'd0;
+            debug_product2_hi <= 32'd0;
+            debug_scaled0 <= 32'sd0;
+            debug_scaled1 <= 32'sd0;
+            debug_scaled2 <= 32'sd0;
+            debug_row_acc0 <= 32'sd0;
+            debug_row_acc1 <= 32'sd0;
+            debug_row_acc2 <= 32'sd0;
             for (i = 0; i < LANES; i = i + 1) begin
                 scale_q[i] <= 32'sd0;
                 block_acc[i] <= 32'sd0;
                 row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
-                scale_q_stage[i] <= 32'sd0;
-                block_acc_stage[i] <= 32'sd0;
-                scaled_product[i] <= 64'sd0;
-                scaled_shifted[i] <= 64'sd0;
+                row_out[i] <= 32'sd0;
             end
+            scaled_product_scalar <= 64'sd0;
+            scaled_shifted_scalar <= 64'sd0;
         end else begin
             done <= 1'b0;
             input_rd_en <= 1'b0;
             s_axis_tready <= 1'b0;
-
             case (state)
                 ST_IDLE: begin
                     busy <= 1'b0;
@@ -257,7 +374,10 @@ module gemv_q8_0_stream_core #(
                             in_features == {FEATURE_WIDTH{1'b0}} ||
                             out_features == {FEATURE_WIDTH{1'b0}} ||
                             (in_features % Q8_BLOCK_SIZE) != 0 ||
+                            (TDATA_WIDTH != 32 && TDATA_WIDTH != 128) ||
+                            (TDATA_WIDTH % 32) != 0 ||
                             (LANES % WEIGHTS_PER_WORD) != 0 ||
+                            (LANES % SCALES_PER_WORD) != 0 ||
                             scale_shift >= 6'd63
                         ) begin
                             error <= 1'b1;
@@ -274,14 +394,42 @@ module gemv_q8_0_stream_core #(
                             scale_lane <= 16'd0;
                             weight_col <= 16'd0;
                             weight_lane_base <= 16'd0;
+                            input_sample_reg <= 16'sd0;
                             emit_lane <= 16'd0;
+                            valid_lanes_reg <= start_valid_lanes;
                             debug_row <= {FEATURE_WIDTH{1'b0}};
                             debug_block <= {FEATURE_WIDTH{1'b0}};
                             debug_lane <= 16'd0;
+                            debug_out0 <= 32'sd0;
+                            debug_out1 <= 32'sd0;
+                            debug_out2 <= 32'sd0;
+                            debug_in_count <= 32'd0;
+                            debug_tlast_count <= 32'd0;
+                            debug_tlast_tdata <= 32'd0;
+                            debug_tlast_tkeep <= {(TDATA_WIDTH/8){1'b0}};
+                            debug_scale0 <= 32'sd0;
+                            debug_scale1 <= 32'sd0;
+                            debug_scale2 <= 32'sd0;
+                            debug_block0 <= 32'sd0;
+                            debug_block1 <= 32'sd0;
+                            debug_block2 <= 32'sd0;
+                            debug_product0_lo <= 32'd0;
+                            debug_product0_hi <= 32'd0;
+                            debug_product1_lo <= 32'd0;
+                            debug_product1_hi <= 32'd0;
+                            debug_product2_lo <= 32'd0;
+                            debug_product2_hi <= 32'd0;
+                            debug_scaled0 <= 32'sd0;
+                            debug_scaled1 <= 32'sd0;
+                            debug_scaled2 <= 32'sd0;
+                            debug_row_acc0 <= 32'sd0;
+                            debug_row_acc1 <= 32'sd0;
+                            debug_row_acc2 <= 32'sd0;
                             for (i = 0; i < LANES; i = i + 1) begin
                                 scale_q[i] <= 32'sd0;
                                 block_acc[i] <= 32'sd0;
                                 row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
+                                row_out[i] <= 32'sd0;
                             end
                             state <= ST_SCALE;
                         end
@@ -293,15 +441,35 @@ module gemv_q8_0_stream_core #(
                     debug_row <= row_group_base;
                     debug_block <= block_index;
                     debug_lane <= scale_lane;
-                    if (s_axis_tvalid) begin
+                    if (s_axis_fire) begin
                         if (s_axis_tlast) begin
+                            debug_tlast_count <= debug_in_count;
+                            debug_tlast_tdata <= s_axis_tdata;
+                            debug_tlast_tkeep <= s_axis_tkeep;
+                        end
+                        debug_in_count <= debug_in_count + 32'd1;
+                        if (!s_axis_tkeep_ok) begin
+                            debug_tlast_count <= debug_in_count;
+                            debug_tlast_tdata <= s_axis_tdata;
+                            debug_tlast_tkeep <= s_axis_tkeep;
+                            error <= 1'b1;
+                            error_code <= ERR_TKEEP;
+                            busy <= 1'b0;
+                            s_axis_tready <= 1'b0;
+                            state <= ST_IDLE;
+                        end else if (s_axis_tlast) begin
                             error <= 1'b1;
                             error_code <= ERR_TLAST;
                             busy <= 1'b0;
+                            s_axis_tready <= 1'b0;
                             state <= ST_IDLE;
                         end else begin
-                            scale_q[scale_lane] <= s_axis_tdata[31:0];
-                            if (scale_lane == LANES - 1) begin
+                            for (b = 0; b < SCALES_PER_WORD; b = b + 1) begin
+                                if (scale_lane + b < LANES) begin
+                                    scale_q[scale_lane + b] <= get_scale_word(s_axis_tdata_ext, b);
+                                end
+                            end
+                            if (last_scale_word_in_block) begin
                                 scale_lane <= 16'd0;
                                 weight_col <= 16'd0;
                                 weight_lane_base <= 16'd0;
@@ -310,7 +478,7 @@ module gemv_q8_0_stream_core #(
                                 end
                                 state <= ST_WEIGHT_RECV;
                             end else begin
-                                scale_lane <= scale_lane + 16'd1;
+                                scale_lane <= scale_lane + SCALES_PER_WORD_U16;
                             end
                         end
                     end
@@ -323,8 +491,23 @@ module gemv_q8_0_stream_core #(
                     debug_row <= row_group_base;
                     debug_block <= block_index;
                     debug_lane <= weight_lane_base;
-                    if (s_axis_tvalid) begin
-                        if (s_axis_tlast != final_input_word) begin
+                    if (s_axis_fire) begin
+                        s_axis_tready <= 1'b0;
+                        if (s_axis_tlast) begin
+                            debug_tlast_count <= debug_in_count;
+                            debug_tlast_tdata <= s_axis_tdata;
+                            debug_tlast_tkeep <= s_axis_tkeep;
+                        end
+                        debug_in_count <= debug_in_count + 32'd1;
+                        if (!s_axis_tkeep_ok) begin
+                            debug_tlast_count <= debug_in_count;
+                            debug_tlast_tdata <= s_axis_tdata;
+                            debug_tlast_tkeep <= s_axis_tkeep;
+                            error <= 1'b1;
+                            error_code <= ERR_TKEEP;
+                            busy <= 1'b0;
+                            state <= ST_IDLE;
+                        end else if (s_axis_tlast != final_input_word) begin
                             error <= 1'b1;
                             error_code <= ERR_TLAST;
                             busy <= 1'b0;
@@ -344,6 +527,34 @@ module gemv_q8_0_stream_core #(
                     debug_row <= row_group_base;
                     debug_block <= block_index;
                     debug_lane <= apply_lane_base;
+                    state <= ST_INPUT_WAIT2;
+                end
+
+                ST_INPUT_WAIT2: begin
+                    input_rd_en <= 1'b1;
+                    input_rd_addr <= (block_index * Q8_BLOCK_SIZE) + weight_col;
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= apply_lane_base;
+                    state <= ST_INPUT_WAIT3;
+                end
+
+                ST_INPUT_WAIT3: begin
+                    input_rd_en <= 1'b1;
+                    input_rd_addr <= (block_index * Q8_BLOCK_SIZE) + weight_col;
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= apply_lane_base;
+                    state <= ST_INPUT_CAPTURE;
+                end
+
+                ST_INPUT_CAPTURE: begin
+                    input_rd_en <= 1'b1;
+                    input_rd_addr <= (block_index * Q8_BLOCK_SIZE) + weight_col;
+                    input_sample_reg <= input_rd_data;
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= apply_lane_base;
                     state <= ST_WEIGHT_APPLY;
                 end
 
@@ -353,9 +564,9 @@ module gemv_q8_0_stream_core #(
                     debug_lane <= apply_lane_base;
                     for (b = 0; b < WEIGHTS_PER_WORD; b = b + 1) begin
                         if (apply_lane_base + b < LANES) begin
-                            block_acc[apply_lane_base + b] <=
+                                block_acc[apply_lane_base + b] <=
                                 block_acc[apply_lane_base + b] +
-                                mul_i16_i8_to_i32(input_rd_data, get_weight_byte(weight_word_reg, b));
+                                mul_i16_i8_to_i32(input_sample_reg, get_weight_byte(weight_word_ext, b));
                         end
                     end
 
@@ -382,10 +593,7 @@ module gemv_q8_0_stream_core #(
                         m_axis_tvalid <= 1'b0;
                         state <= ST_EMIT_BLOCK;
                     end else begin
-                        for (i = 0; i < LANES; i = i + 1) begin
-                            block_acc_stage[i] <= block_acc[i];
-                            scale_q_stage[i] <= scale_q[i];
-                        end
+                        emit_lane <= 16'd0;
                         state <= ST_SCALE_MUL;
                     end
                 end
@@ -393,12 +601,23 @@ module gemv_q8_0_stream_core #(
                 ST_SCALE_MUL: begin
                     debug_row <= row_group_base;
                     debug_block <= block_index;
-                    debug_lane <= 16'd0;
-                    for (i = 0; i < LANES; i = i + 1) begin
-                        scaled_product[i] <= mul_i32_i32_to_i64(
-                            block_acc_stage[i],
-                            scale_q_stage[i]
-                        );
+                    debug_lane <= emit_lane;
+                    scaled_product_scalar <= scale_product_now;
+                    if (emit_lane == 16'd0) begin
+                        debug_scale0 <= scale_q[emit_lane];
+                        debug_block0 <= block_acc[emit_lane];
+                        debug_product0_lo <= scale_product_now[31:0];
+                        debug_product0_hi <= scale_product_now[63:32];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_scale1 <= scale_q[emit_lane];
+                        debug_block1 <= block_acc[emit_lane];
+                        debug_product1_lo <= scale_product_now[31:0];
+                        debug_product1_hi <= scale_product_now[63:32];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_scale2 <= scale_q[emit_lane];
+                        debug_block2 <= block_acc[emit_lane];
+                        debug_product2_lo <= scale_product_now[31:0];
+                        debug_product2_hi <= scale_product_now[63:32];
                     end
                     state <= ST_SCALE_SHIFT;
                 end
@@ -406,12 +625,14 @@ module gemv_q8_0_stream_core #(
                 ST_SCALE_SHIFT: begin
                     debug_row <= row_group_base;
                     debug_block <= block_index;
-                    debug_lane <= 16'd0;
-                    for (i = 0; i < LANES; i = i + 1) begin
-                        scaled_shifted[i] <= round_shift_i64(
-                            scaled_product[i],
-                            scale_shift_reg
-                        );
+                    debug_lane <= emit_lane;
+                    scaled_shifted_scalar <= scale_shifted_now;
+                    if (emit_lane == 16'd0) begin
+                        debug_scaled0 <= scale_shifted_now[31:0];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_scaled1 <= scale_shifted_now[31:0];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_scaled2 <= scale_shifted_now[31:0];
                     end
                     state <= ST_SCALE_ACCUM;
                 end
@@ -419,11 +640,23 @@ module gemv_q8_0_stream_core #(
                 ST_SCALE_ACCUM: begin
                     debug_row <= row_group_base;
                     debug_block <= block_index;
-                    debug_lane <= 16'd0;
-                    for (i = 0; i < LANES; i = i + 1) begin
-                        row_acc[i] <= row_acc[i] + scaled_shifted[i];
+                    debug_lane <= emit_lane;
+                    row_acc[emit_lane] <= row_acc_after_scalar;
+                    row_out[emit_lane] <= row_out_after_scalar;
+                    if (emit_lane == 16'd0) begin
+                        debug_row_acc0 <= row_acc_after_scalar[31:0];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_row_acc1 <= row_acc_after_scalar[31:0];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_row_acc2 <= row_acc_after_scalar[31:0];
                     end
-                    state <= ST_AFTER_SCALE;
+                    if (emit_lane == LANES - 1) begin
+                        emit_lane <= 16'd0;
+                        state <= ST_AFTER_SCALE;
+                    end else begin
+                        emit_lane <= emit_lane + 16'd1;
+                        state <= ST_SCALE_MUL;
+                    end
                 end
 
                 ST_AFTER_SCALE: begin
@@ -449,37 +682,46 @@ module gemv_q8_0_stream_core #(
                         if (m_axis_tready) begin
                             m_axis_tvalid <= 1'b0;
                             m_axis_tlast <= 1'b0;
-                            emit_lane <= emit_lane + 16'd1;
-                        end
-                    end else if (emit_lane >= LANES) begin
-                        if (last_group) begin
-                            busy <= 1'b0;
-                            done <= 1'b1;
-                            state <= ST_IDLE;
-                        end else begin
-                            row_group_base <= row_group_base + LANES_FEATURE;
-                            block_index <= {FEATURE_WIDTH{1'b0}};
-                            scale_lane <= 16'd0;
-                            weight_col <= 16'd0;
-                            weight_lane_base <= 16'd0;
-                            for (i = 0; i < LANES; i = i + 1) begin
-                                scale_q[i] <= 32'sd0;
-                                block_acc[i] <= 32'sd0;
-                                row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
+                            if (emit_last_lane_in_group) begin
+                                emit_lane <= 16'd0;
+                                if (last_group) begin
+                                    busy <= 1'b0;
+                                    done <= 1'b1;
+                                    state <= ST_IDLE;
+                                end else begin
+                                    row_group_base <= next_row_group_base;
+                                    valid_lanes_reg <= next_valid_lanes;
+                                    block_index <= {FEATURE_WIDTH{1'b0}};
+                                    scale_lane <= 16'd0;
+                                    weight_col <= 16'd0;
+                                    weight_lane_base <= 16'd0;
+                                    for (i = 0; i < LANES; i = i + 1) begin
+                                        scale_q[i] <= 32'sd0;
+                                        block_acc[i] <= 32'sd0;
+                                        row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
+                                        row_out[i] <= 32'sd0;
+                                    end
+                                    state <= ST_SCALE;
+                                end
+                            end else begin
+                                emit_lane <= emit_lane + 16'd1;
                             end
-                            state <= ST_SCALE;
                         end
-                    end else if (row_group_base + emit_lane >= out_features_reg) begin
-                        emit_lane <= emit_lane + 16'd1;
                     end else begin
-                        m_axis_tdata <= saturate_to_i32(row_acc[emit_lane]);
+                        m_axis_tdata <= row_out[emit_lane];
                         m_axis_tvalid <= 1'b1;
-                        m_axis_tlast <= last_group &&
-                            (row_group_base + emit_lane + 1'b1 >= out_features_reg);
-                        m_axis_row <= row_group_base + emit_lane;
+                        m_axis_tlast <= last_group && emit_last_lane_in_group;
+                        m_axis_row <= row_group_base + emit_lane_feature;
                         m_axis_block <= block_index;
                         m_axis_lane <= emit_lane;
-                        debug_row <= row_group_base + emit_lane;
+                        if (row_group_base + emit_lane_feature == 0) begin
+                            debug_out0 <= row_out[emit_lane];
+                        end else if (row_group_base + emit_lane_feature == 1) begin
+                            debug_out1 <= row_out[emit_lane];
+                        end else if (row_group_base + emit_lane_feature == 2) begin
+                            debug_out2 <= row_out[emit_lane];
+                        end
+                        debug_row <= row_group_base + emit_lane_feature;
                         debug_block <= block_index;
                         debug_lane <= emit_lane;
                     end
@@ -490,49 +732,58 @@ module gemv_q8_0_stream_core #(
                         if (m_axis_tready) begin
                             m_axis_tvalid <= 1'b0;
                             m_axis_tlast <= 1'b0;
-                            emit_lane <= emit_lane + 16'd1;
-                        end
-                    end else if (emit_lane >= LANES) begin
-                        if (last_block) begin
-                            if (last_group) begin
-                                busy <= 1'b0;
-                                done <= 1'b1;
-                                state <= ST_IDLE;
-                            end else begin
-                                row_group_base <= row_group_base + LANES_FEATURE;
-                                block_index <= {FEATURE_WIDTH{1'b0}};
-                                scale_lane <= 16'd0;
-                                weight_col <= 16'd0;
-                                weight_lane_base <= 16'd0;
-                                for (i = 0; i < LANES; i = i + 1) begin
-                                    scale_q[i] <= 32'sd0;
-                                    block_acc[i] <= 32'sd0;
-                                    row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
+                            if (emit_last_lane_in_group) begin
+                                emit_lane <= 16'd0;
+                                if (last_block) begin
+                                    if (last_group) begin
+                                        busy <= 1'b0;
+                                        done <= 1'b1;
+                                        state <= ST_IDLE;
+                                    end else begin
+                                        row_group_base <= next_row_group_base;
+                                        valid_lanes_reg <= next_valid_lanes;
+                                        block_index <= {FEATURE_WIDTH{1'b0}};
+                                        scale_lane <= 16'd0;
+                                        weight_col <= 16'd0;
+                                        weight_lane_base <= 16'd0;
+                                        for (i = 0; i < LANES; i = i + 1) begin
+                                            scale_q[i] <= 32'sd0;
+                                            block_acc[i] <= 32'sd0;
+                                            row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
+                                            row_out[i] <= 32'sd0;
+                                        end
+                                        state <= ST_SCALE;
+                                    end
+                                end else begin
+                                    block_index <= block_index + FEATURE_ONE;
+                                    scale_lane <= 16'd0;
+                                    weight_col <= 16'd0;
+                                    weight_lane_base <= 16'd0;
+                                    for (i = 0; i < LANES; i = i + 1) begin
+                                        scale_q[i] <= 32'sd0;
+                                        block_acc[i] <= 32'sd0;
+                                    end
+                                    state <= ST_SCALE;
                                 end
-                                state <= ST_SCALE;
+                            end else begin
+                                emit_lane <= emit_lane + 16'd1;
                             end
-                        end else begin
-                            block_index <= block_index + FEATURE_ONE;
-                            scale_lane <= 16'd0;
-                            weight_col <= 16'd0;
-                            weight_lane_base <= 16'd0;
-                            for (i = 0; i < LANES; i = i + 1) begin
-                                scale_q[i] <= 32'sd0;
-                                block_acc[i] <= 32'sd0;
-                            end
-                            state <= ST_SCALE;
                         end
-                    end else if (row_group_base + emit_lane >= out_features_reg) begin
-                        emit_lane <= emit_lane + 16'd1;
                     end else begin
                         m_axis_tdata <= block_acc[emit_lane];
                         m_axis_tvalid <= 1'b1;
-                        m_axis_tlast <= last_group && last_block &&
-                            (row_group_base + emit_lane + 1'b1 >= out_features_reg);
-                        m_axis_row <= row_group_base + emit_lane;
+                        m_axis_tlast <= last_group && last_block && emit_last_lane_in_group;
+                        m_axis_row <= row_group_base + emit_lane_feature;
                         m_axis_block <= block_index;
                         m_axis_lane <= emit_lane;
-                        debug_row <= row_group_base + emit_lane;
+                        if (row_group_base + emit_lane_feature == 0) begin
+                            debug_out0 <= block_acc[emit_lane];
+                        end else if (row_group_base + emit_lane_feature == 1) begin
+                            debug_out1 <= block_acc[emit_lane];
+                        end else if (row_group_base + emit_lane_feature == 2) begin
+                            debug_out2 <= block_acc[emit_lane];
+                        end
+                        debug_row <= row_group_base + emit_lane_feature;
                         debug_block <= block_index;
                         debug_lane <= emit_lane;
                     end

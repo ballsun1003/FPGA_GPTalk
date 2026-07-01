@@ -1,0 +1,11 @@
+test name: test_s05_1_scalar_scale_s03_fsbl_active_bit_s03_uboot
+time: 2026-06-30 18:54:13 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: caafb1588997231a72f6365f35a6786cf8b094bfeaef8de334aedd9aff5b10c2
+SD BOOT.BIN sha256: caafb1588997231a72f6365f35a6786cf8b094bfeaef8de334aedd9aff5b10c2
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_1_SCALAR_SCALE_S03_FSBL_ACTIVE_BIT_S03_UBOOT_20260630_185411.BIN
+backup sha256: 0f909df23586d376e1a4c48ae7ce9ddb24f25207ab9872e169fba9fdd5248e1f
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

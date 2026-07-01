@@ -1,0 +1,6 @@
+BENCH mode=0 scaled repeat=100 poll_strategy=busy poll_sleep_us=0 reset_strategy=reset_once_reuse fail_count=0 first_fail_iter=-1 min_us=241 avg_us=244 max_us=285 p50_us=241 p95_us=267
+BENCH mode=1 block_acc repeat=100 poll_strategy=busy poll_sleep_us=0 reset_strategy=reset_once_reuse fail_count=0 first_fail_iter=-1 min_us=237 avg_us=241 max_us=245 p50_us=241 p95_us=244
+BENCH mode=0 scaled repeat=100 poll_strategy=busy poll_sleep_us=0 reset_strategy=reset_every_run fail_count=0 first_fail_iter=-1 min_us=243 avg_us=246 max_us=283 p50_us=244 p95_us=248
+BENCH mode=1 block_acc repeat=100 poll_strategy=busy poll_sleep_us=0 reset_strategy=reset_every_run fail_count=0 first_fail_iter=-1 min_us=240 avg_us=246 max_us=286 p50_us=244 p95_us=269
+BENCH mode=0 scaled repeat=100 poll_strategy=sleep1000 poll_sleep_us=1000 reset_strategy=reset_once_reuse fail_count=0 first_fail_iter=-1 min_us=1306 avg_us=1313 max_us=1347 p50_us=1313 p95_us=1319
+BENCH mode=1 block_acc repeat=100 poll_strategy=sleep1000 poll_sleep_us=1000 reset_strategy=reset_once_reuse fail_count=0 first_fail_iter=-1 min_us=238 avg_us=917 max_us=1339 p50_us=1308 p95_us=1319

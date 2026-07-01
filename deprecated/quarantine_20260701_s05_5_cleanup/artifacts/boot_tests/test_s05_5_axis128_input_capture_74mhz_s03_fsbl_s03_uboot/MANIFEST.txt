@@ -1,0 +1,44 @@
+test name: test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.5 128-bit AXIS MM2S input-capture board rerun BOOT: known-good S03 FSBL + OOC-rebuilt S05.5 axis128 input-capture 74MHz bitstream + S03 U-Boot
+
+created: 2026-07-01 14:56:10
+
+FSBL path: artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_5_axis128_input_capture_74MHz.bit
+bitstream sha256: 942f60dd54abac23a067a237afee1d7b0aa4660ac412d155c1c61d7a74322284
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_5_axis128_input_capture_74MHz.xsa
+XSA sha256: 4b6efb7d1e2fa0872062c14c1b959cf44f904af7538a95740fb068356127fada
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_1_synth_1/design_1_gemv_q8_0_dma_top_0_1.dcp
+GEMV OOC DCP sha256: 5fb47b534ca1d3564b89cb54b456beeeda504f3fe13a86f0389efaa67cce15b0
+
+U-Boot path: artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+
+Bootgen:
+- log: logs/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sdb1:/BOOT.BIN
+- SD BOOT.BIN sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+- previous BOOT backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_5_AXIS128_INPUT_CAPTURE_74MHZ_S03_FSBL_S03_UBOOT_20260701_145607.BIN
+- previous BOOT backup sha256: 3b61460c9f46a9f42ad19b904b5bd4a9ec1aeb89675bbd133bf39307ad8b33d6
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot_sd_stage.log
+- unmount: done

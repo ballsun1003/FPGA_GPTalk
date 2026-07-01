@@ -1,0 +1,1 @@
+verilog xil_defaultlib "../../vivado_ip/rtl/gemv_q8_0_axi_lite_smoke.v"

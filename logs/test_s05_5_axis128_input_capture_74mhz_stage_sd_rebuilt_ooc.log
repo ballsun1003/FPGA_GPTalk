@@ -1,0 +1,7 @@
+Unmounted /dev/sdb1.
+BOOT.BIN: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+MANIFEST: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot/MANIFEST.txt
+bootgen log: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot_bootgen.log
+SD /dev/sdb1:/BOOT.BIN sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+SD staging log: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot_sd_stage.log

@@ -1,0 +1,38 @@
+echo __DMA_PROVIDER_START__; echo __DEV_DMA__; ls -l /dev/udm abuf* /dev/dma_proxy* /dev/dma* 2>&1 || true; echo __SYS_CLASS__; ls -ld /sys/cl ass/u-dma-buf /sys/class/dma /sys/class/dma_heap 2>&1 || true; echo __DT_RESERVE D__; ls -la /proc/device-tree/reserved-memory 2>&1 || true; find /proc/device-tr ee -maxdepth 4 \( -iname "*udmabuf*" -o -iname "*dma*" -o -iname "*reserved*" \)  2>/dev/null | sort | head -100; echo __PROC_IOMEM__; cat /proc/iomem; echo __DM ESG_DMA_PROVIDER__; dmesg | grep -Ei "udmabuf|u-dma-buf|dma.proxy|dma_proxy|rese rved-memory|cma|coherent|dma heap" || true; echo __DMA_PROVIDER_END__
+__DMA_PROVIDER_START__
+__DEV_DMA__
+ls: /dev/udmabuf*: No such file or directory
+ls: /dev/dma_proxy*: No such file or directory
+ls: /dev/dma*: No such file or directory
+__SYS_CLASS__
+ls: /sys/class/u-dma-buf: No such file or directory
+ls: /sys/class/dma_heap: No such file or directory
+drwxr-xr-x    2 root     root             0 Jan  1  1970 /sys/class/dma
+__DT_RESERVED__
+ls: /proc/device-tree/reserved-memory: No such file or directory
+__PROC_IOMEM__
+00000000-3fffffff : System RAM
+  00008000-008fffff : Kernel code
+  00a00000-00a7d883 : Kernel data
+e0001000-e0001fff : xuartps
+e0002000-e0002fff : /amba/usb@e0002000
+  e0002000-e0002fff : /amba/usb@e0002000
+e0004000-e0004fff : /amba/i2c@e0004000
+e0005000-e0005fff : /amba/i2c@e0005000
+e000a000-e000afff : /amba/gpio@e000a000
+e000b000-e000bfff : /amba/ethernet@e000b000
+e000d000-e000dfff : /amba/spi@e000d000
+e0100000-e0100fff : /amba/sdhci@e0100000
+f8003000-f8003fff : /amba/dmac@f8003000
+  f8003000-f8003fff : /amba/dmac@f8003000
+f8005000-f8005fff : /amba/watchdog@f8005000
+f8007000-f80070ff : /amba/devcfg@f8007000
+f8007100-f800711f : /amba/adc@f8007100
+f800c000-f800cfff : /amba/ocmc@f800c000
+fffc0000-ffffffff : f800c000.ocmc
+__DMESG_DMA_PROVIDER__
+cma: Reserved 128 MiB at 0x38000000
+Memory: 898088K/1048576K available (6144K kernel code, 237K rwdata, 1544K rodata, 1024K init, 264K bss, 19416K reserved, 131072K cma-reserved, 131072K highmem)
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+__DMA_PROVIDER_END__
+root@Zybo-Z7-20:~# 

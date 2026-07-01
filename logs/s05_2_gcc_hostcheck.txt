@@ -1,0 +1,9 @@
+required UIO devices not found
+[FPGA GEMV HW TEST]
+case: fake_gemv
+golden_dir=builtin
+carveout phys_base=0x3c000000 phys_size=0x04000000
+LOAD builtin fake_gemv bytes input=64 scale=64 weight=512 scaled_ref=12 block_ref=12
+S05 packet contract PASS: total_words=144 scale_words=16 weight_words=128 first_weight_word=16 expected_tlast_word=143 expected_tlast_weight_col=31 expected_tlast_lane_base=12 first_weight_tdata=0x00000201 last_tdata=0x00000000
+PACKET bytes=576 scale_bytes=64 weight_bytes=512 result_bytes=12 dma_packet_bytes=576
+GEOMETRY lanes=16 in_features=32 out_features=3 padded_out_features=16 row_padding=13 blocks_per_row=1 expected_tlast_lane_base=12

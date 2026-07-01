@@ -1,0 +1,94 @@
+S03 SD copy log
+Date: 2026-06-29 KST
+
+S01 precheck:
+- logs/s01_dma_arch_verify.txt reports PASS.
+- AXI DMA + AXI-Stream GEMV path is present.
+- AXI-Lite is control/status only; no AXI-Lite bulk data path.
+- Active Vivado project is hw/vivado_project/GPTalk.xpr.
+
+S03 hardware packaging:
+- HDMI TX PL path was added because the existing S02 export did not expose HDMI output ports.
+- The first HDMI build at 76.923 MHz failed timing with setup WNS about -0.353 ns.
+- A 50.000 MHz fallback build passed, but it was too conservative.
+- Final selected clock plan:
+  - FCLK0/control+dynclk: 100.000 MHz
+  - FCLK1/video HP+AXIS: 133.333 MHz
+  - FCLK2/GEMV+DMA: 74.000 MHz
+- Final 74 MHz timing:
+  - setup WNS: 0.033 ns
+  - setup TNS approx: 0.000 ns
+  - hold WHS: 0.013 ns
+  - hold THS approx: 0.000 ns
+- Timing report: reports/gptalk_dma_74mhz_timing_summary.rpt
+- Bitstream/XSA verify: logs/s02_bitstream_xsa_verify.txt
+
+Address map:
+- AXI VDMA display base: 0x43010000
+- VTC output base: 0x43C10000
+- AXI dynclk base: 0x43C20000
+- GEMV control base: 0x43CA0000
+- AXI DMA base: 0x40400000
+- Input BRAM base: 0x42000000
+
+Packaging method:
+- bootgen fallback.
+- Generated locally:
+  - artifacts/s03_bootgen/gptalk_dma_boot.bif
+  - artifacts/s03_bootgen/BOOT.BIN
+  - artifacts/s03_bootgen/image.ub
+  - artifacts/s03_bootgen/GPTalk_dma.bit
+  - artifacts/s03_bootgen/GPTalk_dma.xsa
+  - logs/s03_petalinux_or_bootgen_log.txt
+
+Local SD stage:
+- artifacts/s03_sd_stage/bootfs/BOOT.BIN
+- artifacts/s03_sd_stage/bootfs/image.ub
+- artifacts/s03_sd_stage/bootfs/smollm2_zybo/hw/GPTalk_dma.bit
+- artifacts/s03_sd_stage/bootfs/smollm2_zybo/hw/GPTalk_dma.xsa
+- artifacts/s03_sd_stage/bootfs/smollm2_zybo/hw/hw_dma_hdmi_address_map.txt
+- artifacts/s03_sd_stage/bootfs/smollm2_zybo/logs/s02_bitstream_xsa_verify.txt
+- artifacts/s03_sd_stage/bootfs/smollm2_zybo/logs/s03_hdmi_vivado_build_ctrl100_gemv74.log
+- artifacts/s03_sd_stage/bootfs/smollm2_zybo/logs/bootgen_log.txt
+
+Detected SD mounts during copy:
+- /dev/sdb1 -> /tmp/sd_bootfs, vfat
+- /dev/sdb2 -> /run/media/pjs/rootfs, ext4
+
+SD repair/copy actions:
+- /dev/sdb1 initially mounted read-only with errors=remount-ro.
+- fsck.vfat -a /dev/sdb1 completed successfully.
+- /dev/sdb1 was mounted read-write at /tmp/sd_bootfs.
+- artifacts/s03_sd_stage/bootfs/. was copied to /tmp/sd_bootfs/.
+- sync /tmp/sd_bootfs completed.
+
+Hash check:
+- Staged BOOT.BIN:
+  846ef51ea488bbe85be1753e6e4023eb3916dab22c03dd83339ba3a0814950e8
+- SD BOOT.BIN:
+  846ef51ea488bbe85be1753e6e4023eb3916dab22c03dd83339ba3a0814950e8
+- Staged image.ub:
+  512702a4fcd816dd58736b165cde654f732f3262384e87fd7514f0a9f832a21c
+- SD image.ub:
+  512702a4fcd816dd58736b165cde654f732f3262384e87fd7514f0a9f832a21c
+- Staged GPTalk_dma.bit:
+  0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+- SD GPTalk_dma.bit:
+  0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+- Staged GPTalk_dma.xsa:
+  88973c037eaaff23a1ceb6e531855e21d7080e1a547406fc94617ef0f55f94b1
+- SD GPTalk_dma.xsa:
+  88973c037eaaff23a1ceb6e531855e21d7080e1a547406fc94617ef0f55f94b1
+
+Copy result:
+- SD bootfs copy is complete.
+- BOOT.BIN, image.ub, GPTalk_dma.bit, and GPTalk_dma.xsa on SD match the staged S03 files.
+
+Rootfs note:
+- During copy, /dev/sdb2 was mounted read-only with errors=remount-ro.
+- No rootfs payload was modified for S03.
+
+Post-copy unmount:
+- /dev/sdb1 unmounted successfully.
+- /dev/sdb2 unmounted successfully.
+- findmnt no longer reports /dev/sdb1 or /dev/sdb2 as mounted.

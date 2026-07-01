@@ -1,0 +1,44 @@
+test name: test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot
+
+Purpose:
+- S05.1 expose mode0 scale/block/product/shift/row_acc debug registers
+
+created: 2026-06-30 19:12:59
+
+FSBL path: artifacts/boot_tests/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma.bit
+bitstream sha256: 59c936dccfc6b2f268ea4eff884f4987d682ea14be15a08d437b791fc60a608a
+
+XSA source: hw/vivado_project/export/GPTalk_dma.xsa
+XSA sha256: a0e4944d8dd99d48c42663004e48d17fa705b4f02b60328b7719c3bf1094d939
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_0_synth_1/design_1_gemv_q8_0_dma_top_0_0.dcp
+GEMV OOC DCP sha256: f3ec379a71f1bbd8d3f4f786c26c3660d1ffcc4bfc7471603001890fbd611422
+
+U-Boot path: artifacts/boot_tests/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 54baaa510a4a123c4c1e6ec5b66a4756c2101e1efde90c86e317764c34c931ff
+
+Bootgen:
+- log: logs/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sdb1:/BOOT.BIN
+- SD BOOT.BIN sha256: 54baaa510a4a123c4c1e6ec5b66a4756c2101e1efde90c86e317764c34c931ff
+- previous BOOT backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_1_SCALE_DEBUG_S03_FSBL_ACTIVE_BIT_S03_UBOOT_20260630_191253.BIN
+- previous BOOT backup sha256: caafb1588997231a72f6365f35a6786cf8b094bfeaef8de334aedd9aff5b10c2
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_1_scale_debug_s03_fsbl_active_bit_s03_uboot_sd_stage.log
+- unmount: done

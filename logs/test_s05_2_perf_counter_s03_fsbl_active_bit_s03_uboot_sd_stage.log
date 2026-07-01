@@ -1,0 +1,21 @@
+Error mounting /dev/sda1: GDBus.Error:org.freedesktop.UDisks2.Error.AlreadyMounted: Device /dev/sda1 is already mounted at `/run/media/pjs/bootfs'.
+
+Traceback (most recent call last):
+  File "/run/media/pjs/6A43-DC8A/smollm2-zybo/scripts/package_gptalk_boot.py", line 247, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/run/media/pjs/6A43-DC8A/smollm2-zybo/scripts/package_gptalk_boot.py", line 163, in main
+    sd_result = stage_sd(args.stage_sd, boot_bin, args.test_name)
+  File "/run/media/pjs/6A43-DC8A/smollm2-zybo/scripts/package_gptalk_boot.py", line 71, in stage_sd
+    mount = mount_partition(device)
+  File "/run/media/pjs/6A43-DC8A/smollm2-zybo/scripts/package_gptalk_boot.py", line 59, in mount_partition
+    out = subprocess.check_output(["udisksctl", "mount", "-b", device], text=True)
+  File "/usr/lib/python3.14/subprocess.py", line 473, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['udisksctl', 'mount', '-b', '/dev/sda1']' returned non-zero exit status 1.

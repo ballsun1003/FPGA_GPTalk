@@ -1,0 +1,23 @@
+
+Broadcast message from root@Zybo-Z7-20 (ttyPS0) (Thu Jun 25 08:33:45 2026):
+The system is going down for system halt NOW!
+INIT: Switching to runlevel: 0àINIT: Sending processes the TERM signal
+root@Zybo-Z7-20:~# Stopping Dropbear SSH server: stopped /usr/sbin/dropbear (pid 1058)
+dropbear.
+Stopping system message bus: dbus.
+hwclock: can't open '/dev/misc/rtc': No such file or directory
+Stopping syslogd/klogd: stopped syslogd (pid 1066)
+stopped klogd (pid 1069)
+done
+Stopping tcf-agent: OK
+ALSA: Storing mixer settings...
+/usr/sbin/alsactl: save_state:1595: No soundcards found...
+Deconfiguring network interfaces... done.
+Sending all processes the TERM signal...
+logout
+Sending all processes the KILL signal...
+Unmounting remote filesystems...
+Deactivating swap...
+Unmounting local filesystems...
+EXT4-fs (mmcblk0p2): re-mounted. Opts: data=ordered
+reboot: System halted

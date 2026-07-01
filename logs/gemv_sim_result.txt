@@ -1,0 +1,8 @@
+status: PASS
+Prompt 09 GEMV simulation passed.
+RTL: /run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_stream_core.v
+TB: /run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core.v
+Golden: /run/media/pjs/6A43-DC8A/smollm2-zybo/pycharm/golden/fake_gemv
+[PASS] mode=0 scaled outputs matched golden/fake_gemv
+[PASS] mode=1 block-acc outputs matched golden/fake_gemv
+[PASS] tb_gemv_q8_0_stream_core completed

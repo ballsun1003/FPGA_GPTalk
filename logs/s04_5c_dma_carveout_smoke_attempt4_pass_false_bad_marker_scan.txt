@@ -1,0 +1,333 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S04_5C_PRECHECK_START__;cat /proc/cmdline;echo __IOMEM__;cat /proc/iomem;echo __TOOLS__;command -v gcc || true;echo __S04_5C_PRECHECK_END__
+__S04_5C_PRECHECK_START__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+__IOMEM__
+00000000-3bffffff : System RAM
+  00008000-008fffff : Kernel code
+  00a00000-00a7d883 : Kernel data
+e0001000-e0001fff : xuartps
+e0002000-e0002fff : /amba/usb@e0002000
+  e0002000-e0002fff : /amba/usb@e0002000
+e0004000-e0004fff : /amba/i2c@e0004000
+e0005000-e0005fff : /amba/i2c@e0005000
+e000a000-e000afff : /amba/gpio@e000a000
+e000b000-e000bfff : /amba/ethernet@e000b000
+e000d000-e000dfff : /amba/spi@e000d000
+e0100000-e0100fff : /amba/sdhci@e0100000
+f8003000-f8003fff : /amba/dmac@f8003000
+  f8003000-f8003fff : /amba/dmac@f8003000
+f8005000-f8005fff : /amba/watchdog@f8005000
+f8007000-f80070ff : /amba/devcfg@f8007000
+f8007100-f800711f : /amba/adc@f8007100
+f800c000-f800cfff : /amba/ocmc@f800c000
+fffc0000-ffffffff : f800c000.ocmc
+__TOOLS__
+/usr/bin/gcc
+__S04_5C_PRECHECK_END__
+root@Zybo-Z7-20:~# __S04_5C_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/s04_5_dma_carveout_smoke.c /tmp/s04_5_dma_carveout_smoke; cat > /tmp/s04_5_dma_carveout_smoke.c <<'__S04_5C_C_SOURCE__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <setjmp.h>
+#include <signal.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <unistd.h>
+
+static sigjmp_buf bus_jmp;
+static volatile uint64_t current_phys;
+static volatile uint64_t current_offset;
+static volatile uint32_t current_expected;
+static volatile const char *current_op = "none";
+
+static void on_sigbus(int signo)
+{
+    (void)signo;
+    siglongjmp(bus_jmp, 1);
+}
+
+static void usage(const char *argv0)
+{
+    fprintf(stderr,
+            "usage: %s --phys-base <addr> --size <bytes> --pattern-count <count>\n",
+            argv0);
+}
+
+static int parse_u64_arg(const char *name, const char *value, uint64_t *out)
+{
+    char *end = NULL;
+    errno = 0;
+    unsigned long long parsed = strtoull(value, &end, 0);
+    if (errno || end == value || *end != '\0') {
+        fprintf(stderr, "invalid %s: %s\n", name, value);
+        return -1;
+    }
+    *out = (uint64_t)parsed;
+    return 0;
+}
+
+static uint32_t make_pattern(uint64_t phys, uint64_t index)
+{
+    uint32_t x = (uint32_t)(phys ^ (phys >> 32) ^ (index * 0x9e3779b9u));
+    return x ^ 0xa5a50000u ^ (uint32_t)index;
+}
+
+int main(int argc, char **argv)
+{
+    uint64_t phys_base = 0;
+    uint64_t size = 0;
+    uint64_t pattern_count = 0;
+
+    for (int i = 1; i < argc; i++) {
+        if (strcmp(argv[i], "--phys-base") == 0 && i + 1 < argc) {
+            if (parse_u64_arg("--phys-base", argv[++i], &phys_base) != 0)
+                return 2;
+        } else if (strcmp(argv[i], "--size") == 0 && i + 1 < argc) {
+            if (parse_u64_arg("--size", argv[++i], &size) != 0)
+                return 2;
+        } else if (strcmp(argv[i], "--pattern-count") == 0 && i + 1 < argc) {
+            if (parse_u64_arg("--pattern-count", argv[++i], &pattern_count) != 0)
+                return 2;
+        } else {
+            usage(argv[0]);
+            return 2;
+        }
+    }
+
+    if (size < sizeof(uint32_t) || pattern_count == 0) {
+        usage(argv[0]);
+        return 2;
+    }
+    if ((phys_base & 0x3u) != 0 || (size & 0x3u) != 0) {
+        fprintf(stderr, "phys-base and size must be 32-bit aligned\n");
+        return 2;
+    }
+
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_handler = on_sigbus;
+    sigemptyset(&sa.sa_mask);
+    if (sigaction(SIGBUS, &sa, NULL) != 0) {
+        fprintf(stderr, "sigaction(SIGBUS) failed: errno=%d %s\n", errno, strerror(errno));
+        return 1;
+    }
+
+    long page_size = sysconf(_SC_PAGESIZE);
+    if (page_size <= 0) {
+        fprintf(stderr, "sysconf(_SC_PAGESIZE) failed\n");
+        return 1;
+    }
+
+    uint64_t page_mask = (uint64_t)page_size - 1u;
+    uint64_t map_base = phys_base & ~page_mask;
+    uint64_t page_delta = phys_base - map_base;
+    uint64_t map_size = page_delta + size;
+    if (map_size > (uint64_t)((size_t)-1)) {
+        fprintf(stderr, "mapping too large for this userspace: 0x%016" PRIx64 "\n", map_size);
+        return 2;
+    }
+
+    printf("s04_5_dma_carveout_smoke\n");
+    printf("phys_base=0x%08" PRIx64 " size=0x%08" PRIx64 " pattern_count=%" PRIu64 "\n",
+           phys_base, size, pattern_count);
+    printf("page_size=%ld map_base=0x%08" PRIx64 " map_size=0x%08" PRIx64 "\n",
+           page_size, map_base, map_size);
+
+    int fd = open("/dev/mem", O_RDWR | O_SYNC);
+    if (fd < 0) {
+        fprintf(stderr, "open /dev/mem failed: errno=%d %s\n", errno, strerror(errno));
+        return 1;
+    }
+    printf("open /dev/mem O_RDWR|O_SYNC PASS\n");
+
+    void *mapped = mmap(NULL, (size_t)map_size, PROT_READ | PROT_WRITE, MAP_SHARED,
+                        fd, (off_t)map_base);
+    if (mapped == MAP_FAILED) {
+        fprintf(stderr,
+                "mmap failed: phys_base=0x%08" PRIx64 " size=0x%08" PRIx64
+                " errno=%d %s\n",
+                phys_base, size, errno, strerror(errno));
+        close(fd);
+        return 1;
+    }
+    printf("mmap PASS virt=%p\n", mapped);
+
+    volatile uint8_t *base = (volatile uint8_t *)mapped + page_delta;
+    uint64_t max_offset = size - sizeof(uint32_t);
+    uint64_t step = pattern_count > 1 ? max_offset / (pattern_count - 1) : 0;
+    step &= ~UINT64_C(3);
+
+    uint64_t pass_count = 0;
+    for (uint64_t i = 0; i < pattern_count; i++) {
+        uint64_t offset;
+        if (i + 1 == pattern_count) {
+            offset = max_offset & ~UINT64_C(3);
+        } else {
+            offset = (i * step) & ~UINT64_C(3);
+        }
+        uint64_t phys = phys_base + offset;
+        uint32_t expected = make_pattern(phys, i);
+        current_phys = phys;
+        current_offset = offset;
+        current_expected = expected;
+
+        if (sigsetjmp(bus_jmp, 1) != 0) {
+            fprintf(stderr,
+                    "SIGBUS during %s: phys=0x%08" PRIx64
+                    " offset=0x%08" PRIx64 " expected=0x%08" PRIx32 "\n",
+                    (const char *)current_op,
+                    (uint64_t)current_phys,
+                    (uint64_t)current_offset,
+                    (uint32_t)current_expected);
+            munmap(mapped, (size_t)map_size);
+            close(fd);
+            return 1;
+        }
+
+        volatile uint32_t *ptr = (volatile uint32_t *)(base + offset);
+        current_op = "write";
+        *ptr = expected;
+        __sync_synchronize();
+
+        current_op = "read";
+        uint32_t actual = *ptr;
+        __sync_synchronize();
+
+        if (actual != expected) {
+            fprintf(stderr,
+                    "MISMATCH: phys=0x%08" PRIx64 " offset=0x%08" PRIx64
+                    " expected=0x%08" PRIx32 " actual=0x%08" PRIx32
+                    " errno=%d %s\n",
+                    phys, offset, expected, actual, errno, strerror(errno));
+            munmap(mapped, (size_t)map_size);
+            close(fd);
+            return 1;
+        }
+
+        printf("PASS[%03" PRIu64 "]: phys=0x%08" PRIx64
+               " offset=0x%08" PRIx64 " pattern=0x%08" PRIx32 "\n",
+               i, phys, offset, expected);
+        pass_count++;
+    }
+
+    if (munmap(mapped, (size_t)map_size) != 0) {
+        fprintf(stderr, "munmap failed: errno=%d %s\n", errno, strerror(errno));
+        close(fd);
+        return 1;
+    }
+    close(fd);
+
+    printf("SUMMARY PASS patterns=%" PRIu64 " phys_base=0x%08" PRIx64
+           " size=0x%08" PRIx64 "\n",
+           pass_count, phys_base, size);
+    return 0;
+}
+__S04_5C_C_SOURCE__
+wc -c /tmp/s04_5_dma_carveout_smoke.c
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 6404 /tmp/s04_5_dma_carveout_smoke.c
+root@Zybo-Z7-20:~# __S04_5C_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/s04_5_dma_carveout_smoke /tmp/s04_5_dma_carveout_smoke.c; rc=$?; echo __S04_5C_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/s04_5_dma_carveout_smoke
+[01m[K/tmp/s04_5_dma_carveout_smoke.c:[m[K In function '[01m[Kmain[m[K':
+[01m[K/tmp/s04_5_dma_carveout_smoke.c:140:18:[m[K [01;35m[Kwarning: [m[Kvariable '[01m[Koffset[m[K' might be clobbered by '[01m[Klongjmp[m[K' or '[01m[Kvfork[m[K' [[01;35m[K-Wclobbered[m[K]
+         uint64_t [01;35m[Koffset[m[K;
+                  [01;35m[K^~~~~~[m[K
+__S04_5C_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         24912 Jun 25 08:51 /tmp/s04_5_dma_carveout_smoke
+root@Zybo-Z7-20:~# __S04_5C_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S04_5C_RUN_START__;/tmp/s04_5_dma_carveout_smoke --phys-base 0x3c000000 --size 0x04000000 --pattern-count 64; rc=$?; echo __S04_5C_RUN_RC__=$rc; echo __S04_5C_DMESG_CHECK__; dmesg | tail -120 | grep -Ei 'panic|oops|bug:|bus error|external abort|imprecise|segfault|devmem|DMA|uio' || true; echo __S04_5C_RUN_END__
+__S04_5C_RUN_START__
+s04_5_dma_carveout_smoke
+phys_base=0x3c000000 size=0x04000000 pattern_count=64
+page_size=4096 map_base=0x3c000000 map_size=0x04000000
+open /dev/mem O_RDWR|O_SYNC PASS
+mmap PASS virt=0xb2e59000
+PASS[000]: phys=0x3c000000 offset=0x00000000 pattern=0x99a50000
+PASS[001]: phys=0x3c104104 offset=0x00104104 pattern=0x078238bc
+PASS[002]: phys=0x3c208208 offset=0x00208208 pattern=0xa5eb7178
+PASS[003]: phys=0x3c30c30c offset=0x0030c30c pattern=0x4333ae24
+PASS[004]: phys=0x3c410410 offset=0x00410410 pattern=0xe139e2f0
+PASS[005]: phys=0x3c514514 offset=0x00514514 pattern=0x8ee1258c
+PASS[006]: phys=0x3c618618 offset=0x00618618 pattern=0x2c885c48
+PASS[007]: phys=0x3c71c71c offset=0x0071c71c pattern=0xca509314
+PASS[008]: phys=0x3c820820 offset=0x00820820 pattern=0x689cc5e0
+PASS[009]: phys=0x3c924924 offset=0x00924924 pattern=0x16c40eac
+PASS[010]: phys=0x3ca28a28 offset=0x00a28a28 pattern=0xb72d4b18
+PASS[011]: phys=0x3cb2cb2c offset=0x00b2cb2c pattern=0x5575f1d4
+PASS[012]: phys=0x3cc30c30 offset=0x00c30c30 pattern=0xf3ffb890
+PASS[013]: phys=0x3cd34d34 offset=0x00d34d34 pattern=0x91a7635c
+PASS[014]: phys=0x3ce38e38 offset=0x00e38e38 pattern=0x3e4e2628
+PASS[015]: phys=0x3cf3cf3c offset=0x00f3cf3c pattern=0xdc16eee4
+PASS[016]: phys=0x3d041040 offset=0x01041040 pattern=0x7bd68bc0
+PASS[017]: phys=0x3d145144 offset=0x01145144 pattern=0x191e441c
+PASS[018]: phys=0x3d249248 offset=0x01249248 pattern=0x87671d58
+PASS[019]: phys=0x3d34d34c offset=0x0134d34c pattern=0x268fdbe4
+PASS[020]: phys=0x3d451450 offset=0x01451450 pattern=0xc4b59630
+PASS[021]: phys=0x3d555554 offset=0x01555554 pattern=0x627ca96c
+PASS[022]: phys=0x3d659658 offset=0x01659658 pattern=0x0004e3a8
+PASS[023]: phys=0x3d75d75c offset=0x0175d75c pattern=0xae2b38d4
+PASS[024]: phys=0x3d861860 offset=0x01861860 pattern=0x4d107120
+PASS[025]: phys=0x3d965964 offset=0x01965964 pattern=0xeb59ba6c
+PASS[026]: phys=0x3da69a68 offset=0x01a69a68 pattern=0x89a1c6b8
+PASS[027]: phys=0x3db6db6c offset=0x01b6db6c pattern=0x37ca0df4
+PASS[028]: phys=0x3dc71c70 offset=0x01c71c70 pattern=0xd6734c50
+PASS[029]: phys=0x3dd75d74 offset=0x01d75d74 pattern=0x743a949c
+PASS[030]: phys=0x3de79e78 offset=0x01e79e78 pattern=0x12c2ddc8
+PASS[031]: phys=0x3df7df7c offset=0x01f7df7c pattern=0xb0e56204
+PASS[032]: phys=0x3e082080 offset=0x02082080 pattern=0x5d421780
+PASS[033]: phys=0x3e186184 offset=0x02186184 pattern=0xfe9bd17c
+PASS[034]: phys=0x3e28a288 offset=0x0228a288 pattern=0x98d38838
+PASS[035]: phys=0x3e38e38c offset=0x0238e38c pattern=0x3a0847e4
+PASS[036]: phys=0x3e492490 offset=0x02492490 pattern=0xa4213ab0
+PASS[037]: phys=0x3e596594 offset=0x02596594 pattern=0x45f8f20c
+PASS[038]: phys=0x3e69a698 offset=0x0269a698 pattern=0xe7f0b7c8
+PASS[039]: phys=0x3e79e79c offset=0x0279e79c pattern=0x81af6c94
+PASS[040]: phys=0x3e8a28a0 offset=0x028a28a0 pattern=0x23842c60
+PASS[041]: phys=0x3e9a69a4 offset=0x029a69a4 pattern=0xcddd172c
+PASS[042]: phys=0x3eaaaaa8 offset=0x02aaaaa8 pattern=0x6e1652d8
+PASS[043]: phys=0x3ebaebac offset=0x02baebac pattern=0x084e9994
+PASS[044]: phys=0x3ecb2cb0 offset=0x02cb2cb0 pattern=0xaae6c750
+PASS[045]: phys=0x3edb6db4 offset=0x02db6db4 pattern=0x54be081c
+PASS[046]: phys=0x3eebaeb8 offset=0x02ebaeb8 pattern=0xf6b971a8
+PASS[047]: phys=0x3efbefbc offset=0x02fbefbc pattern=0x9771b764
+PASS[048]: phys=0x3f0c30c0 offset=0x030c30c0 pattern=0x30cfe240
+PASS[049]: phys=0x3f1c71c4 offset=0x031c71c4 pattern=0xd2273d9c
+PASS[050]: phys=0x3f2cb2c8 offset=0x032cb2c8 pattern=0x7c5c74d8
+PASS[051]: phys=0x3f3cf3cc offset=0x033cf3cc pattern=0x1f94cc24
+PASS[052]: phys=0x3f4d34d0 offset=0x034d34d0 pattern=0xb9ac8d70
+PASS[053]: phys=0x3f5d75d4 offset=0x035d75d4 pattern=0x5b8446ac
+PASS[054]: phys=0x3f6db6d8 offset=0x036db6d8 pattern=0xc57b1be8
+PASS[055]: phys=0x3f7df7dc offset=0x037df7dc pattern=0x6733d154
+PASS[056]: phys=0x3f8e38e0 offset=0x038e38e0 pattern=0x060998a0
+PASS[057]: phys=0x3f9e79e4 offset=0x039e79e4 pattern=0xa06163ec
+PASS[058]: phys=0x3faebae8 offset=0x03aebae8 pattern=0x429a2938
+PASS[059]: phys=0x3fbefbec offset=0x03befbec pattern=0xecd2f674
+PASS[060]: phys=0x3fcf3cf0 offset=0x03cf3cf0 pattern=0x8f6abb90
+PASS[061]: phys=0x3fdf7df4 offset=0x03df7df4 pattern=0x29427cdc
+PASS[062]: phys=0x3fefbef8 offset=0x03efbef8 pattern=0xcb25c408
+PASS[063]: phys=0x3ffffffc offset=0x03fffffc pattern=0x75fc0b44
+SUMMARY PASS patterns=64 phys_base=0x3c000000 size=0x04000000
+__S04_5C_RUN_RC__=0
+__S04_5C_DMESG_CHECK__
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+__S04_5C_RUN_END__
+root@Zybo-Z7-20:~# __S04_5C_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 

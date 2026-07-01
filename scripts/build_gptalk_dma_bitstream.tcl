@@ -51,6 +51,11 @@ if {$pl_clk_mhz <= 0.0} {
     error "GPTALK_PL_CLK_MHZ must be positive, got: $pl_clk_mhz_raw"
 }
 set clk_label [clock_label $pl_clk_mhz]
+set export_tag [env_default GPTALK_EXPORT_TAG "${clk_label}MHz"]
+if {$export_tag eq ""} {
+    set export_tag "${clk_label}MHz"
+}
+set update_latest [env_default GPTALK_UPDATE_LATEST 1]
 
 set ctrl_clk_mhz_raw [env_default GPTALK_CTRL_CLK_MHZ 100]
 if {![string is double -strict $ctrl_clk_mhz_raw]} {
@@ -372,6 +377,13 @@ close $strategy_fd
 
 reset_run_clean impl_1
 reset_run_clean synth_1
+set gemv_ooc_runs [get_runs -quiet design_1_gemv_q8_0_dma_top_0_*_synth_1]
+foreach gemv_ooc_run $gemv_ooc_runs {
+    reset_run_clean $gemv_ooc_run
+    launch_runs $gemv_ooc_run -jobs $vivado_jobs
+    wait_on_run $gemv_ooc_run
+    assert_run_complete $gemv_ooc_run
+}
 launch_runs synth_1 -jobs $vivado_jobs
 wait_on_run synth_1
 assert_run_complete synth_1
@@ -450,15 +462,23 @@ if {[llength $bit_candidates] == 0} {
     error "bitstream not found under [file join $project_dir GPTalk.runs impl_1]"
 }
 set bit_file [lindex $bit_candidates 0]
-set export_bit_file [file join $export_dir "GPTalk_dma_${clk_label}MHz.bit"]
+set export_bit_file [file join $export_dir "GPTalk_dma_${export_tag}.bit"]
 set latest_bit_file [file join $export_dir GPTalk_dma.bit]
 file copy -force $bit_file $export_bit_file
-file copy -force $bit_file $latest_bit_file
+if {$update_latest} {
+    file copy -force $bit_file $latest_bit_file
+} else {
+    set latest_bit_file "SKIPPED_BY_GPTALK_UPDATE_LATEST=0"
+}
 
-set xsa_file [file join $export_dir "GPTalk_dma_${clk_label}MHz.xsa"]
+set xsa_file [file join $export_dir "GPTalk_dma_${export_tag}.xsa"]
 set latest_xsa_file [file join $export_dir GPTalk_dma.xsa]
 write_hw_platform -fixed -include_bit -force -file $xsa_file
-file copy -force $xsa_file $latest_xsa_file
+if {$update_latest} {
+    file copy -force $xsa_file $latest_xsa_file
+} else {
+    set latest_xsa_file "SKIPPED_BY_GPTALK_UPDATE_LATEST=0"
+}
 
 set verify_fd [open $verify_log a]
 puts $verify_fd "write_bitstream: PASS"

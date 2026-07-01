@@ -1,0 +1,299 @@
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 11:30:50 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source scripts/build_gptalk_dma_bitstream.tcl
+# set script_dir [file normalize [file dirname [info script]]]
+# set repo_root [file normalize [file join $script_dir ..]]
+# set project_xpr [file join $repo_root hw vivado_project GPTalk.xpr]
+# set project_dir [file dirname $project_xpr]
+# set log_dir [file join $repo_root logs]
+# set report_dir [file join $repo_root reports]
+# set docs_dir [file join $repo_root docs]
+# set internal_docs_dir [file join $docs_dir internal]
+# set export_dir [file join $project_dir export]
+# file mkdir $log_dir
+# file mkdir $report_dir
+# file mkdir $docs_dir
+# file mkdir $internal_docs_dir
+# file mkdir $export_dir
+# if {![file exists $project_xpr]} {
+#     error "Active Vivado project is missing: $project_xpr"
+# }
+# proc env_default {name default_value} {
+#     if {[info exists ::env($name)] && $::env($name) ne ""} {
+#         return $::env($name)
+#     }
+#     return $default_value
+# }
+# proc clock_label {clk_mhz} {
+#     if {[expr {abs($clk_mhz - round($clk_mhz)) < 0.001}]} {
+#         return [format "%d" [expr {int(round($clk_mhz))}]]
+#     }
+#     set label [format "%.3f" $clk_mhz]
+#     regsub {0+$} $label "" label
+#     regsub {\.$} $label "" label
+#     regsub -all {\.} $label "p" label
+#     return $label
+# }
+# set pl_clk_mhz_raw [env_default GPTALK_PL_CLK_MHZ 50]
+# if {![string is double -strict $pl_clk_mhz_raw]} {
+#     error "GPTALK_PL_CLK_MHZ must be numeric, got: $pl_clk_mhz_raw"
+# }
+# set pl_clk_mhz [expr {double($pl_clk_mhz_raw)}]
+# if {$pl_clk_mhz <= 0.0} {
+#     error "GPTALK_PL_CLK_MHZ must be positive, got: $pl_clk_mhz_raw"
+# }
+# set clk_label [clock_label $pl_clk_mhz]
+# set actual_freq_hz_raw [env_default GPTALK_PL_ACTUAL_FREQ_HZ [expr {int(round($pl_clk_mhz * 1000000.0))}]]
+# if {![string is integer -strict $actual_freq_hz_raw] || $actual_freq_hz_raw <= 0} {
+#     error "GPTALK_PL_ACTUAL_FREQ_HZ must be a positive integer, got: $actual_freq_hz_raw"
+# }
+# set actual_freq_hz $actual_freq_hz_raw
+# set jobs_raw [env_default GPTALK_VIVADO_JOBS 8]
+# if {![string is integer -strict $jobs_raw] || $jobs_raw <= 0} {
+#     error "GPTALK_VIVADO_JOBS must be a positive integer, got: $jobs_raw"
+# }
+# set vivado_jobs $jobs_raw
+# set apply_clock_only [env_default GPTALK_APPLY_CLOCK_ONLY 0]
+# set fallback_log {}
+# proc try_run_strategy {run_name label candidates} {
+#     global fallback_log
+#     foreach candidate $candidates {
+#         if {[catch {set_property strategy $candidate [get_runs $run_name]} msg]} {
+#             lappend fallback_log "$label fallback: $candidate rejected: $msg"
+#         } else {
+#             return $candidate
+#         }
+#     }
+#     lappend fallback_log "$label fallback: no candidate accepted; leaving unchanged"
+#     return "unchanged"
+# }
+# proc try_step_directive {run_name prop_name label candidates} {
+#     global fallback_log
+#     foreach candidate $candidates {
+#         if {[catch {set_property $prop_name $candidate [get_runs $run_name]} msg]} {
+#             lappend fallback_log "$label fallback: $candidate rejected: $msg"
+#         } else {
+#             return $candidate
+#         }
+#     }
+#     lappend fallback_log "$label fallback: no candidate accepted; leaving unchanged"
+#     return "unchanged"
+# }
+# proc report_or_warn {label command} {
+#     if {[catch {uplevel 1 $command} msg]} {
+#         puts "WARN: $label failed: $msg"
+#         return 0
+#     }
+#     puts "REPORT_OK: $label"
+#     return 1
+# }
+# proc assert_run_complete {run_name} {
+#     set progress [get_property PROGRESS [get_runs $run_name]]
+#     set status [get_property STATUS [get_runs $run_name]]
+#     if {$progress ne "100%"} {
+#         error "$run_name did not complete: progress=$progress status=$status"
+#     }
+#     if {![string match "*Complete*" $status]} {
+#         error "$run_name failed: $status"
+#     }
+# }
+# proc timing_slack_summary {delay_type} {
+#     set worst "N/A"
+#     set total 0.0
+#     set count 0
+#     set worst_paths [get_timing_paths -delay_type $delay_type -max_paths 1]
+#     if {[llength $worst_paths] > 0} {
+#         set worst [get_property SLACK [lindex $worst_paths 0]]
+#     }
+#     set violating_paths [get_timing_paths -delay_type $delay_type -slack_lesser_than 0 -max_paths 10000]
+#     foreach path $violating_paths {
+#         set slack [get_property SLACK $path]
+#         if {[string is double -strict $slack] && $slack < 0.0} {
+#             set total [expr {$total + double($slack)}]
+#             incr count
+#         }
+#     }
+#     return [list $worst $total $count]
+# }
+# set bd_name "design_1"
+# set bd_file [file join $project_dir GPTalk.srcs sources_1 bd $bd_name ${bd_name}.bd]
+# if {![file exists $bd_file]} {
+#     error "Block design is missing: $bd_file"
+# }
+# set module_xci [file join $project_dir GPTalk.srcs sources_1 bd $bd_name ip design_1_gemv_q8_0_dma_top_0_0 design_1_gemv_q8_0_dma_top_0_0.xci]
+# proc patch_freq_hz_file {path freq_hz} {
+#     if {![file exists $path]} {
+#         return 0
+#     }
+#     set fd [open $path r]
+#     set text [read $fd]
+#     close $fd
+# 
+#     set changed 0
+#     set patch_next_value 0
+#     set out_lines {}
+#     foreach line [split $text "\n"] {
+#         if {[string first "\"FREQ_HZ\"" $line] >= 0} {
+#             if {[regsub {("value": *")[0-9]+(")} $line "\\1$freq_hz\\2" new_line]} {
+#                 set line $new_line
+#                 set changed 1
+#                 set patch_next_value 0
+#             } else {
+#                 set patch_next_value 1
+#             }
+#         } elseif {$patch_next_value} {
+#             if {[regsub {("value": *")[0-9]+(")} $line "\\1$freq_hz\\2" new_line]} {
+#                 set line $new_line
+#                 set changed 1
+#                 set patch_next_value 0
+#             }
+#         }
+#         lappend out_lines $line
+#     }
+# 
+#     if {$changed} {
+#         set fd [open $path w]
+#         puts -nonewline $fd [join $out_lines "\n"]
+#         close $fd
+#     }
+#     return $changed
+# }
+# patch_freq_hz_file $bd_file $actual_freq_hz
+# patch_freq_hz_file $module_xci $actual_freq_hz
+# open_project $project_xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+INFO: [Project 1-5579] Found utility IPs instantiated in one or more block designs which have equivalent inline hdl with improved performance and reduced diskspace. It is recommended to migrate these utility IPs to inline hdl using the command upgrade_project -migrate_to_inline_hdl. The utility IPs may be deprecated in future releases. More information on inline hdl is available in UG994.
+# set_property target_language Verilog [current_project]
+# open_bd_design /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+Reading block design file </home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd>...
+Adding component instance block -- xilinx.com:ip:processing_system7:5.5 - processing_system7_0
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_50M
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_ctrl_smc
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_hp0_smc
+Adding component instance block -- xilinx.com:ip:axi_dma:7.1 - axi_dma_0
+Adding component instance block -- xilinx.com:ip:axis_data_fifo:2.0 - mm2s_axis_fifo
+Adding component instance block -- xilinx.com:ip:axis_data_fifo:2.0 - s2mm_axis_fifo
+Adding component instance block -- xilinx.com:ip:axi_bram_ctrl:4.1 - axi_input_bram_ctrl
+Adding component instance block -- xilinx.com:ip:blk_mem_gen:8.4 - input_vector_bram
+Adding component instance block -- xilinx.com:module_ref:gemv_q8_0_dma_top:1.0 - gemv_q8_0_dma_top_0
+Successfully read diagram <design_1> from block design file </home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd>
+# set ps7 [get_bd_cells -quiet processing_system7_0]
+# if {[llength $ps7] == 0} {
+#     error "processing_system7_0 is missing from $bd_name"
+# }
+# if {[llength [get_bd_cells -quiet gemv_q8_0_dma_top_0]]} {
+#     catch {update_module_reference [get_bd_cells gemv_q8_0_dma_top_0]}
+# }
+# set_property CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ [format "%.6f" $pl_clk_mhz] $ps7
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+# set fclk0 [get_bd_pins -quiet processing_system7_0/FCLK_CLK0]
+# if {[llength $fclk0]} {
+#     set fclk_freq [get_property -quiet CONFIG.FREQ_HZ $fclk0]
+#     if {$fclk_freq ne "" && $fclk_freq ne $actual_freq_hz} {
+#         puts "WARN: requested actual FREQ_HZ $actual_freq_hz differs from PS FCLK_CLK0 $fclk_freq"
+#     }
+# }
+# foreach intf_name [list \
+#     gemv_q8_0_dma_top_0/S_AXI \
+#     gemv_q8_0_dma_top_0/S_AXIS \
+#     gemv_q8_0_dma_top_0/M_AXIS \
+# ] {
+#     set intf_pin [get_bd_intf_pins -quiet $intf_name]
+#     if {[llength $intf_pin]} {
+#         # FREQ_HZ is read-only on module_ref pins after import; it is patched
+#         # in the BD/XCI metadata before open_bd_design.
+#     }
+# }
+# set gemv_clk [get_bd_pins -quiet gemv_q8_0_dma_top_0/S_AXI_ACLK]
+# if {[llength $gemv_clk]} {
+#     # See module_ref metadata patch above.
+# }
+# validate_bd_design
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+INFO: [BD 5-943] Reserving offset range <0x43C0_0000 [ 4K ]> from slave interface '/axi_ctrl_smc/S00_AXI' to master interface '/axi_ctrl_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x4040_0000 [ 64K ]> from slave interface '/axi_ctrl_smc/S00_AXI' to master interface '/axi_ctrl_smc/M01_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x4200_0000 [ 64K ]> from slave interface '/axi_ctrl_smc/S00_AXI' to master interface '/axi_ctrl_smc/M02_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] design_1_axi_ctrl_smc_0: SmartConnect design_1_axi_ctrl_smc_0 is in High-performance Mode.
+INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 1G ]> from slave interface '/axi_hp0_smc/S00_AXI' to master interface '/axi_hp0_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 1G ]> from slave interface '/axi_hp0_smc/S01_AXI' to master interface '/axi_hp0_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] design_1_axi_hp0_smc_0: SmartConnect design_1_axi_hp0_smc_0 is in High-performance Mode.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+# save_bd_design
+Wrote  : </home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd> 
+# generate_target all [get_files $bd_file]
+INFO: [BD 41-1662] The design 'design_1.bd' is already validated. Therefore parameter propagation will not be re-run.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/input_vector_bram/addra'(32) to pin: '/axi_input_bram_ctrl/bram_addr_a'(16) - Only lower order bits will be connected.
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/input_vector_bram/addra'(32) to pin: '/axi_input_bram_ctrl/bram_addr_a'(16) - Only lower order bits will be connected.
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/sim/design_1.v
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI_GP0'. A default connection has been created.
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'S_AXI_HP0'. A default connection has been created.
+INFO: [BD 41-1029] Generation completed for the IP Integrator block processing_system7_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_ps7_0_50M .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/hw_handoff/design_1_axi_ctrl_smc_0.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/synth/design_1_axi_ctrl_smc_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_ctrl_smc .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/hw_handoff/design_1_axi_hp0_smc_0.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/synth/design_1_axi_hp0_smc_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_hp0_smc .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_dma_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block mm2s_axis_fifo .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block s2mm_axis_fifo .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_input_bram_ctrl .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block gemv_q8_0_dma_top_0 .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/hw_handoff/design_1.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.hwdef
+generate_target: Time (s): cpu = 00:00:09 ; elapsed = 00:00:10 . Memory (MB): peak = 1787.465 ; gain = 0.000 ; free physical = 53901 ; free virtual = 66018
+# update_compile_order -fileset sources_1
+# if {[llength [get_files -quiet [file join $project_dir GPTalk.gen sources_1 bd $bd_name hdl ${bd_name}_wrapper.v]]]} {
+#     set_property top ${bd_name}_wrapper [current_fileset]
+# }
+# if {$apply_clock_only} {
+#     set apply_log [file join $log_dir s02_clock_prediction.txt]
+#     set apply_fd [open $apply_log w]
+#     puts $apply_fd "S02 predicted clock application"
+#     puts $apply_fd "Active Vivado project: $project_xpr"
+#     puts $apply_fd [format "Applied PL clock target: %.3f MHz" $pl_clk_mhz]
+#     puts $apply_fd "Applied PL clock actual FREQ_HZ: $actual_freq_hz"
+#     puts $apply_fd "Source data:"
+#     puts $apply_fd "- 50 MHz run: setup WNS 1.427 ns, TNS 0.000 ns, hold WHS 0.016 ns, THS 0.000 ns"
+#     puts $apply_fd "- 75 nominal run: actual clk_fpga_0 76.929 MHz, setup WNS 0.000 ns, TNS 0.000 ns, hold WHS 0.025 ns, THS 0.000 ns"
+#     puts $apply_fd "Prediction: 76.929 MHz is the highest no-violation clock supported by the available timing data."
+#     puts $apply_fd "Action: BD/XCI frequency metadata restored to 76923080 Hz; no synthesis/implementation was run in this apply-only pass."
+#     close $apply_fd
+#     close_project
+#     puts "APPLIED_CLOCK_ONLY=1"
+#     puts "APPLIED_FREQ_HZ=$actual_freq_hz"
+#     puts "CLOCK_PREDICTION_LOG=$apply_log"
+#     return
+# }
+APPLIED_CLOCK_ONLY=1
+APPLIED_FREQ_HZ=76923080
+CLOCK_PREDICTION_LOG=/home/pjs/Desktop/smollm2-zybo/logs/s02_clock_prediction.txt
+INFO: [Common 17-206] Exiting Vivado at Mon Jun 29 11:31:10 2026...

@@ -1,0 +1,35 @@
+GPTalk no-bitstream BOOT isolation artifacts
+Date: 2026-06-30 KST
+
+Purpose:
+- Remove the bitstream partition and test whether FSBL can initialize DDR/MIO/UART and hand off to U-Boot.
+- If no-bitstream reaches U-Boot but bitstream-included S04 BOOT keeps DONE off, focus on FSBL PL configuration or bitstream packaging.
+- If no-bitstream also fails to reach U-Boot, focus on S04 FSBL itself or U-Boot handoff.
+
+S04 no-bitstream BOOT:
+- BIF: artifacts/hw_preflight_boot/s04_no_bitstream.bif
+- BOOT: artifacts/hw_preflight_boot/BOOT_S04_NOBIT.BIN
+- SHA256: 2ed1582ca1d680e7e392ca4bd0c6abaf7411bf4f807a0697f2e7c037f6928d5f
+- Components: S04 custom FSBL + U-Boot, no bitstream
+- bootgen: PASS, see logs/bootgen_s04_nobit.log
+- SD bootfs: staged as active BOOT.BIN on /dev/sdc1 at 2026-06-30 KST
+- Previous active BOOT.BIN backup on SD: BOOT_BEFORE_S04_NOBIT_20260630.BIN
+- Board result: FAIL/NO UART OUTPUT
+- UART capture: logs/serial_s04_nobit_20260630_112020.log
+- Capture length: 90 seconds
+- Captured bytes: 0
+- Enter probe: logs/serial_s04_nobit_enter_probe_20260630_112333.log, 5 seconds, 0 bytes
+- Host UART device during test: /dev/ttyUSB1, Digilent Adept if01-port0
+- USB disconnect during capture: not observed
+- Expected DONE LED: off, because this BOOT intentionally contains no bitstream
+- Success criterion: UART reaches FSBL/U-Boot
+- Interpretation: S04 FSBL did not prove DDR/MIO/UART/U-Boot handoff even with the bitstream partition removed.
+
+S03 no-bitstream BOOT:
+- BIF: artifacts/hw_preflight_boot/s03_no_bitstream.bif
+- BOOT: artifacts/hw_preflight_boot/BOOT_S03_NOBIT.BIN
+- SHA256: 53d62004e2c579d9bca8f5d2ae30c9e4acfe74e93b1d6635400ce36746c568c4
+- Components: S03 known-good-for-DONE FSBL + U-Boot, no bitstream
+- bootgen: PASS, see logs/bootgen_s03_nobit.log
+- Board result: not tested yet
+- Next isolation step: stage this BOOT.BIN on SD and test the same UART path.

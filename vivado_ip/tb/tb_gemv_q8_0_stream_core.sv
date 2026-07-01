@@ -12,6 +12,13 @@ module tb_gemv_q8_0_stream_core;
     localparam integer INPUT_BYTES = IN_FEATURES * 2;
     localparam integer WEIGHT_BYTES = PADDED_OUT_FEATURES * IN_FEATURES;
     localparam integer SCALE_BYTES = PADDED_OUT_FEATURES * BLOCKS_PER_ROW * 4;
+    localparam integer SCALE_WORDS = SCALE_BYTES / 4;
+    localparam integer WEIGHT_WORDS = WEIGHT_BYTES / 4;
+    localparam integer PACKET_WORDS = SCALE_WORDS + WEIGHT_WORDS;
+    localparam integer EXPECTED_TLAST_WORD = PACKET_WORDS - 1;
+    localparam integer EXPECTED_TLAST_WEIGHT_COL = Q8_BLOCK_SIZE - 1;
+    localparam integer EXPECTED_TLAST_LANE_BASE = LANES - 4;
+    localparam integer ERR_TLAST = 2;
     localparam integer SCALED_BYTES = OUT_FEATURES * 4;
     localparam integer BLOCK_ACC_BYTES = OUT_FEATURES * BLOCKS_PER_ROW * 4;
     localparam integer TIMEOUT_CYCLES = 20000;
@@ -29,6 +36,7 @@ module tb_gemv_q8_0_stream_core;
     reg signed [15:0] input_rd_data;
 
     reg [31:0] s_axis_tdata;
+    reg [3:0] s_axis_tkeep;
     reg s_axis_tvalid;
     wire s_axis_tready;
     reg s_axis_tlast;
@@ -48,6 +56,31 @@ module tb_gemv_q8_0_stream_core;
     wire [31:0] debug_row;
     wire [31:0] debug_block;
     wire [15:0] debug_lane;
+    wire signed [31:0] debug_out0;
+    wire signed [31:0] debug_out1;
+    wire signed [31:0] debug_out2;
+    wire [31:0] debug_in_count;
+    wire [31:0] debug_tlast_count;
+    wire [31:0] debug_tlast_tdata;
+    wire [3:0] debug_tlast_tkeep;
+    wire signed [31:0] debug_scale0;
+    wire signed [31:0] debug_scale1;
+    wire signed [31:0] debug_scale2;
+    wire signed [31:0] debug_block0;
+    wire signed [31:0] debug_block1;
+    wire signed [31:0] debug_block2;
+    wire [31:0] debug_product0_lo;
+    wire [31:0] debug_product0_hi;
+    wire [31:0] debug_product1_lo;
+    wire [31:0] debug_product1_hi;
+    wire [31:0] debug_product2_lo;
+    wire [31:0] debug_product2_hi;
+    wire signed [31:0] debug_scaled0;
+    wire signed [31:0] debug_scaled1;
+    wire signed [31:0] debug_scaled2;
+    wire signed [31:0] debug_row_acc0;
+    wire signed [31:0] debug_row_acc1;
+    wire signed [31:0] debug_row_acc2;
 
     reg [7:0] input_bytes [0:INPUT_BYTES-1];
     reg [7:0] weight_bytes [0:WEIGHT_BYTES-1];
@@ -89,6 +122,7 @@ module tb_gemv_q8_0_stream_core;
         .input_rd_addr(input_rd_addr),
         .input_rd_data(input_rd_data),
         .s_axis_tdata(s_axis_tdata),
+        .s_axis_tkeep(s_axis_tkeep),
         .s_axis_tvalid(s_axis_tvalid),
         .s_axis_tready(s_axis_tready),
         .s_axis_tlast(s_axis_tlast),
@@ -105,7 +139,32 @@ module tb_gemv_q8_0_stream_core;
         .error_code(error_code),
         .debug_row(debug_row),
         .debug_block(debug_block),
-        .debug_lane(debug_lane)
+        .debug_lane(debug_lane),
+        .debug_out0(debug_out0),
+        .debug_out1(debug_out1),
+        .debug_out2(debug_out2),
+        .debug_in_count(debug_in_count),
+        .debug_tlast_count(debug_tlast_count),
+        .debug_tlast_tdata(debug_tlast_tdata),
+        .debug_tlast_tkeep(debug_tlast_tkeep),
+        .debug_scale0(debug_scale0),
+        .debug_scale1(debug_scale1),
+        .debug_scale2(debug_scale2),
+        .debug_block0(debug_block0),
+        .debug_block1(debug_block1),
+        .debug_block2(debug_block2),
+        .debug_product0_lo(debug_product0_lo),
+        .debug_product0_hi(debug_product0_hi),
+        .debug_product1_lo(debug_product1_lo),
+        .debug_product1_hi(debug_product1_hi),
+        .debug_product2_lo(debug_product2_lo),
+        .debug_product2_hi(debug_product2_hi),
+        .debug_scaled0(debug_scaled0),
+        .debug_scaled1(debug_scaled1),
+        .debug_scaled2(debug_scaled2),
+        .debug_row_acc0(debug_row_acc0),
+        .debug_row_acc1(debug_row_acc1),
+        .debug_row_acc2(debug_row_acc2)
     );
 
     initial begin
@@ -178,6 +237,21 @@ module tb_gemv_q8_0_stream_core;
                 weight_bytes[byte_index + 1],
                 weight_bytes[byte_index]
             };
+        end
+    endfunction
+
+    function [31:0] packet_word_by_index;
+        input integer word_index;
+        integer rel;
+        integer weight_index;
+        begin
+            if (word_index < SCALE_WORDS) begin
+                packet_word_by_index = le_i32_scale(word_index * 4);
+            end else begin
+                rel = word_index - SCALE_WORDS;
+                weight_index = rel * 4;
+                packet_word_by_index = packed_weight_word(weight_index);
+            end
         end
     endfunction
 
@@ -281,6 +355,7 @@ module tb_gemv_q8_0_stream_core;
             in_features = IN_FEATURES;
             out_features = OUT_FEATURES;
             s_axis_tdata = 32'd0;
+            s_axis_tkeep = 4'hf;
             s_axis_tvalid = 1'b0;
             s_axis_tlast = 1'b0;
             m_axis_tready = 1'b1;
@@ -299,10 +374,11 @@ module tb_gemv_q8_0_stream_core;
         begin
             @(posedge clk);
             s_axis_tdata <= data;
+            s_axis_tkeep <= 4'hf;
             s_axis_tlast <= last;
             s_axis_tvalid <= 1'b1;
             @(posedge clk);
-            while (!s_axis_tready) begin
+            while (!s_axis_tready && !error) begin
                 @(posedge clk);
             end
             s_axis_tvalid <= 1'b0;
@@ -338,6 +414,91 @@ module tb_gemv_q8_0_stream_core;
                         end
                     end
                 end
+            end
+        end
+    endtask
+
+    task drive_packet_by_word_index;
+        input integer tlast_word;
+        input integer omit_tlast;
+        input integer send_late_extra_tlast;
+        integer word_index;
+        reg last;
+        begin
+            for (word_index = 0; word_index < PACKET_WORDS; word_index = word_index + 1) begin
+                last = (!omit_tlast && (word_index == tlast_word));
+                send_word(packet_word_by_index(word_index), last);
+                if (error) begin
+                    word_index = PACKET_WORDS;
+                end
+            end
+            if (!error && send_late_extra_tlast) begin
+                send_word(32'hdead_beef, 1'b1);
+            end
+        end
+    endtask
+
+    task run_tlast_case;
+        input [511:0] case_name;
+        input integer tlast_word;
+        input integer omit_tlast;
+        input integer send_late_extra_tlast;
+        input integer expect_error;
+        integer cycle;
+        integer start_failures;
+        begin
+            reset_dut;
+            current_mode = 1'b0;
+            start_failures = failure_count;
+            active = 1'b0;
+
+            @(posedge clk);
+            mode <= 1'b0;
+            scale_shift <= SCALE_SHIFT[5:0];
+            in_features <= IN_FEATURES;
+            out_features <= OUT_FEATURES;
+            start <= 1'b1;
+            @(posedge clk);
+            start <= 1'b0;
+
+            drive_packet_by_word_index(tlast_word, omit_tlast, send_late_extra_tlast);
+
+            cycle = 0;
+            while (cycle < TIMEOUT_CYCLES && !done && !error) begin
+                cycle = cycle + 1;
+                @(posedge clk);
+            end
+            repeat (2) @(posedge clk);
+            s_axis_tvalid <= 1'b0;
+            s_axis_tlast <= 1'b0;
+
+            if (cycle >= TIMEOUT_CYCLES) begin
+                failure_count = failure_count + 1;
+                $display("[FAIL] %0s timeout", case_name);
+            end else if (expect_error) begin
+                if (!error || error_code !== ERR_TLAST) begin
+                    failure_count = failure_count + 1;
+                    $display("[FAIL] %0s expected ERR_TLAST got error=%0b error_code=%0d debug_row=%0d debug_block=%0d debug_lane=%0d",
+                             case_name, error, error_code, debug_row, debug_block, debug_lane);
+                end else begin
+                    $display("[PASS] %0s produced ERR_TLAST debug_row=%0d debug_block=%0d debug_lane=%0d",
+                             case_name, debug_row, debug_block, debug_lane);
+                end
+            end else begin
+                if (error) begin
+                    failure_count = failure_count + 1;
+                    $display("[FAIL] %0s unexpected error_code=%0d debug_row=%0d debug_block=%0d debug_lane=%0d",
+                             case_name, error_code, debug_row, debug_block, debug_lane);
+                end else if (!done) begin
+                    failure_count = failure_count + 1;
+                    $display("[FAIL] %0s did not complete", case_name);
+                end else begin
+                    $display("[PASS] %0s completed with TLAST word=%0d", case_name, tlast_word);
+                end
+            end
+
+            if (failure_count != start_failures && expect_error) begin
+                $display("[INFO] %0s expected error test failed", case_name);
             end
         end
     endtask
@@ -415,7 +576,7 @@ module tb_gemv_q8_0_stream_core;
             @(posedge clk);
             start <= 1'b0;
 
-            drive_packet;
+            drive_packet_by_word_index(EXPECTED_TLAST_WORD, 0, 0);
 
             cycle = 0;
             while (cycle < TIMEOUT_CYCLES && !done && !error) begin
@@ -447,7 +608,7 @@ module tb_gemv_q8_0_stream_core;
     endtask
 
     initial begin
-        golden_dir = "/home/user22/Desktop/smollm2-zybo/pycharm/golden/fake_gemv";
+        golden_dir = "pycharm/golden/fake_gemv";
         plusargs_ok = $value$plusargs("GOLDEN_DIR=%s", golden_dir);
         failure_count = 0;
         output_count = 0;
@@ -458,6 +619,12 @@ module tb_gemv_q8_0_stream_core;
 
         run_mode(1'b0, "mode=0 scaled");
         run_mode(1'b1, "mode=1 block-acc");
+        if (failure_count == 0) begin
+            $display("[PASS] normal packet TLAST at word 143 matched golden/fake_gemv in both modes");
+        end
+        run_tlast_case("early TLAST at word 142", EXPECTED_TLAST_WORD - 1, 0, 0, 1);
+        run_tlast_case("missing TLAST", EXPECTED_TLAST_WORD, 1, 0, 1);
+        run_tlast_case("extra beat late TLAST at word 144", EXPECTED_TLAST_WORD + 1, 1, 1, 1);
 
         if (failure_count == 0) begin
             $display("[PASS] tb_gemv_q8_0_stream_core completed");

@@ -1,0 +1,92 @@
+test name: test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.5 128-bit AXIS board rerun BOOT after fixing GEMV input BRAM Port B DOUT connectivity.
+- Composition is known-good S03 FSBL + S05.5 axis128 BRAM scalar-pin bitstream + S03 U-Boot.
+
+created: 2026-07-01 15:16 KST
+
+FSBL path: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit
+bitstream sha256: 1f873bc39b48d56275f9f07e7fd5db1b979adc118beff768c0b24a9204a7d4ac
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.xsa
+XSA sha256: 005b3f9b04cc521fca0c4979d77a8c19cdab9c0335a477cb973e48a7ec627f08
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_2_synth_1/design_1_gemv_q8_0_dma_top_0_2.dcp
+GEMV OOC DCP sha256: a0086eaa87aeabd76b053f034b46458cad79ba252c6a7a6bc856d6e0a5652263
+
+U-Boot path: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+
+Timing:
+- target clock: 74 MHz
+- setup WNS(ns): 0.389
+- setup TNS approx(ns): 0.000
+- hold WHS(ns): 0.018
+- hold THS approx(ns): 0.000
+- build log: logs/s05_5_axis128_bram_scalar_bitstream_build.log
+
+BD audit:
+- log: logs/s05_5_bd_width_audit.txt
+- MM2S AXIS width: 128
+- S2MM AXIS width: 32
+- axis_dwidth_converter: NONE
+- axis_clock_converter: NONE
+- GEMV BRAM Port B scalar DOUT net: /input_vector_bram_doutb
+- GEMV INPUT_BRAM_PORT interface net: NONE
+
+Root-cause hypothesis fixed:
+- Previous 128-bit board result block_acc was [2048, 256, -192].
+- That exactly matches fake_gemv input samples even columns = 8, odd columns = 0.
+- The module_ref XCI had INPUT_BRAM_DOUT driver_value 8, and the BD left input_vector_bram/doutb as a one-pin net.
+- scripts/s05_5_apply_axis128_bd.tcl now forces scalar BRAM Port B pin connections and removes the BRAM interface net.
+
+Bootgen:
+- log: logs/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sdb1:/BOOT.BIN
+- SD BOOT.BIN sha256: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+- previous BOOT backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_5_AXIS128_BRAM_SCALAR_74MHZ_S03_FSBL_S03_UBOOT_20260701_1516.BIN
+- previous BOOT backup sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot_sd_stage.log
+
+Expected board result:
+- DONE LED on
+- Linux root prompt
+- GEMV BUILD_CONFIG axis_width=128 lanes=16
+- mode=0 scaled PASS
+- mode=1 block_acc PASS
+
+Actual board result:
+- PASS
+- DONE LED: user reported on at boot
+- Linux root prompt: detected on /dev/ttyUSB1
+- GEMV BUILD_CONFIG: 0x00800010, axis_width=128, lanes=16
+- mode=0 scaled: PASS, result [-48, 19, -6]
+- mode=1 block_acc: PASS, result [-193, 38, -50]
+- AXI DMA MM2S/S2MM used: yes
+- input BRAM used: yes
+- AXI-Lite bulk path used: no
+- no kernel panic/oops/bus error observed
+- quiet 100-run regression: PASS, mode=0 fail_count=0, mode=1 fail_count=0
+- quiet 100-run latency: mode=0 avg 251 us, mode=1 avg 251 us
+
+Serial log path:
+- logs/s05_5_axis128_bram_scalar_board_full_debug.txt
+- logs/s05_5_axis128_bram_scalar_board_quiet_100.txt

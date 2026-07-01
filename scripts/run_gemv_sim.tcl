@@ -238,7 +238,11 @@ set rtl_file [file join $repo_root vivado_ip rtl gemv_q8_0_stream_core.v]
 set tb_wrapper_file [file join $repo_root vivado_ip tb tb_gemv_q8_0_stream_core.v]
 set tb_sv_file [file join $repo_root vivado_ip tb tb_gemv_q8_0_stream_core.sv]
 set golden_dir [file join $repo_root pycharm golden fake_gemv]
-set xsim_gcc_dir "/tools/Xilinx/Vivado/2024.2/tps/lnx64/gcc-9.3.0/bin"
+if {[info exists ::env(XSIM_GCC_DIR)]} {
+    set xsim_gcc_dir [file normalize $::env(XSIM_GCC_DIR)]
+} else {
+    set xsim_gcc_dir ""
+}
 
 foreach required [list $rtl_file $tb_wrapper_file $tb_sv_file] {
     if {![file exists $required]} {
@@ -256,10 +260,6 @@ foreach required [list \
     if {![file exists $required]} {
         fail_result $result_file "missing golden file: $required"
     }
-}
-
-if {![file executable [file join $xsim_gcc_dir gcc]]} {
-    fail_result $result_file "missing Vivado xsim GCC: [file join $xsim_gcc_dir gcc]"
 }
 
 foreach hdl_file [list $rtl_file $tb_wrapper_file $tb_sv_file] {
@@ -297,8 +297,18 @@ set run_message "Prompt 09 GEMV simulation passed.\nRTL: $rtl_file\nTB: $tb_wrap
 if {[catch {
     if {[info exists ::env(XILINX_VIVADO)]} {
         set vivado_root [file normalize $::env(XILINX_VIVADO)]
+    } elseif {[info exists ::env(VIVADO_ROOT)]} {
+        set vivado_root [file normalize $::env(VIVADO_ROOT)]
+    } elseif {[auto_execok vivado] ne ""} {
+        set vivado_root [file normalize [file join [file dirname [file dirname [auto_execok vivado]]]]]
     } else {
-        set vivado_root "/tools/Xilinx/Vivado/2024.2"
+        fail_result $result_file "Vivado not found. Set XILINX_VIVADO/VIVADO_ROOT or put vivado on PATH."
+    }
+    if {$xsim_gcc_dir eq ""} {
+        set xsim_gcc_dir [file join $vivado_root tps lnx64 gcc-9.3.0 bin]
+    }
+    if {![file executable [file join $xsim_gcc_dir gcc]]} {
+        fail_result $result_file "missing Vivado xsim GCC: [file join $xsim_gcc_dir gcc]"
     }
     set vivado_bin [file join $vivado_root bin]
     set vivado_libroot [file join $vivado_root lib lnx64.o]

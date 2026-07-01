@@ -1,0 +1,34 @@
+GPTalk FSBL compare
+Date: 2026-06-30 KST
+
+S03 known-good-for-DONE FSBL:
+- Path: artifacts/s03_bootgen/zynq_fsbl.elf
+- Size: 184976 bytes
+- SHA256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+- ELF: ARM 32-bit EABI5, statically linked, not stripped
+- GCC comment: Linaro GCC Snapshot 6.2-2016.11, 6.2.1 20161114
+- String evidence: /home/peta/zybo_petalinux/tools/petalinux-2017.4/tools/linux-i386/gcc-arm-none-eabi
+- Source/build provenance: pre-existing S03 bootgen artifact. Treat as known-good for PL DONE only. Do not overwrite.
+
+S04 custom FSBL that produced DONE-off BOOT:
+- Path: artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+- Size: 701472 bytes
+- SHA256: ab8076eec9c40b434d01a3486c8aa6f21b20b9e282d53898d54410f31b188b43
+- ELF: ARM 32-bit EABI5, statically linked, with debug_info, not stripped
+- GCC comment: arm-none-eabi 14.2.1 20241119
+- String evidence: /tmp/smollm2_s04_toolchain_root/usr/lib/gcc/arm-none-eabi/14.2.1
+- FSBL source/BSP: artifacts/s04_linux_dt/embeddedsw-xlnx_rel_v2021.1/lib/sw_apps/zynq_fsbl
+- ps7_init source copied into BSP:
+  artifacts/s04_linux_dt/embeddedsw-xlnx_rel_v2021.1/lib/sw_apps/zynq_fsbl/misc/gptalk_zybo/ps7_init.c
+- ps7_init SHA256:
+  1a6aacd1fae3efa978c6ccbcf0b0fad6a0ab77e45b88a94eb666179aa403e555
+- Active export ps7_init.c SHA256:
+  1a6aacd1fae3efa978c6ccbcf0b0fad6a0ab77e45b88a94eb666179aa403e555
+- Conclusion: S04 FSBL uses active export ps7_init, but its FSBL source/toolchain differ substantially from S03.
+
+BOOT correlation:
+- Both S03 and S04 BOOT images contain the same GPTalk_dma.bit hash and same u-boot.elf hash.
+- DONE LED differs with FSBL/BOOT packaging:
+  S03 FSBL BOOT: DONE on
+  S04 FSBL BOOT: DONE off
+- Primary suspect remains S04 FSBL build/PCAP path or bootgen packaging around that FSBL.

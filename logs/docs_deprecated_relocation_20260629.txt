@@ -1,0 +1,13 @@
+Deprecated docs relocation
+Date: 2026-06-29 KST
+
+Moved deprecated/superseded documents out of the active docs root:
+
+- docs/interface_contract.md -> docs/deprecated/interface_contract.md
+- docs/hw_bringup_result.md -> docs/deprecated/hw_bringup_result.md
+- docs/deprecated_axi_lite_data_path.md -> docs/deprecated/deprecated_axi_lite_data_path.md
+- docs/rtl_next_step.md -> docs/deprecated/rtl_next_step_s00_deprecated_stub.md
+
+The existing docs/deprecated/rtl_next_step.md historical document was preserved
+and not overwritten.
+

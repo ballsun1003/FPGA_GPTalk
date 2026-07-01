@@ -1,233 +1,98 @@
 # Active 상태판
 
-## 현재 단계
+`docs/00_ACTIVE_KR.md`는 현재 상태판이다. 긴 분석, 과거 실패 이력, 프롬프트 전문, 빌드 로그는 여기에 넣지 않는다. 상세는 `docs/s05_*`, `docs/internal/*`, `logs/*`, `reports/*`, `artifacts/boot_tests/*/MANIFEST.txt`를 본다.
 
-- 현재 단계: S04.5B permanent `mem=960M` bootargs power-cycle 재검증 PASS. PetaLinux full rebuild 금지 유지. SD bootfs `uEnv.txt`로 `mem=960M` 자동 반영 확인 완료. S04.5A/C/B 모두 PASS이며 다음은 S05 fake_gemv DMA smoke
+## 현재 상태
+
+- 현재 단계: S05.5 128-bit AXIS MM2S bring-up PASS.
+- 다음 단계: 사용자 명시 요청 전까지 S05.6 또는 S06으로 진행 금지.
 - Active Vivado project: `hw/vivado_project/GPTalk.xpr`
 - Vivado GUI에서 열 파일: `hw/vivado_project/GPTalk.xpr`
+- 현재 보드 부팅 기준: S05.5 128-bit candidate BOOT.
+- 32-bit known-good `GPTalk_dma.bit` / `GPTalk_dma.xsa` alias는 보존됨.
+- PetaLinux full rebuild 대상 아님.
 
-## Active build script
+## 다음 명령
 
-- BD 생성/갱신: 현재 BLOCKED. `scripts/create_or_update_gptalk_dma_bd.tcl`과 `scripts/create_or_update_gptalk_dma_hdmi_bd.tcl`은 PS7 삭제/재생성 경로라 실행 즉시 중단됨
-- S02 bitstream/XSA build: `scripts/build_gptalk_dma_bitstream.tcl`
-- 실패 report 수집: `scripts/report_failed_impl.tcl`
-
-## 다음에 실행할 명령
-
-하드웨어 preflight 결과를 먼저 확인한다.
+사용자가 S05.6을 명시 요청하면 먼저 프롬프트를 확인한다.
 
 ```bash
-cat logs/hw_preflight_result.txt
-cat logs/bootgen_bif.txt
-cat logs/fsbl_compare.txt
-cat logs/hw_direct_program_result.txt
-cat logs/bootgen_bif_s03.txt
-cat logs/bootgen_bif_s04.txt   # legacy filename; recovery BOOT BIF 기록
+sed -n '/# S05.6/,/# S06/p' prompts/smollm2_zybo_guide_v6r3_20260701.md
 ```
 
-다음 단계는 S05 fake_gemv DMA smoke이다. SD bootfs `uEnv.txt`로 `mem=960M`이 영구 반영되어 리셋 후에도 carveout이 유지된다.
-
-최근 관측 SD 상태:
-
-- SD device: `/dev/sdc`, bootfs `/dev/sdc1`, rootfs `/dev/sdc2`
-- 현재 `lsblk` 기준 bootfs/rootfs는 미마운트 상태
-- no-bitstream BOOT 테스트 전에는 반드시 `lsblk`로 장치명을 재확인한다
-- 현재 SD bootfs active `BOOT.BIN`: `artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN`
-- 현재 SD bootfs `BOOT.BIN` hash: `03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030`
-- SD bootfs backup: `BOOT_BEFORE_TEST_C_CANONICAL_20260630.BIN`
-- SD bootfs fsck after staging: clean
-- SD bootfs `image.ub`: recovery minimal DT FIT 유지
-- rootfs payload: `/opt/smollm2_zybo`
-- rootfs payload 내용: recovery `BOOT.BIN`/`image.ub`/minimal DT, current `GPTalk_dma.bit`/`.xsa`, `runtime_c`, fake_gemv golden, Q8_0 model, q8_0_lane16 layout, S03 docs/logs/address map
-- rootfs 여유 공간: 약 `4.7G`
-
-보드가 부팅되면 먼저 다음을 확인한다.
+S05.5 보드 상태만 재확인할 때:
 
 ```bash
-ls -R /opt/smollm2_zybo | head
-ls /sys/class/uio
-dmesg | grep -Ei 'uio|dma|gemv|panic|ov5640|mipi|xilinx_drm'
+env S05_SERIAL=/dev/ttyUSB1 \
+  S05_LOG_PATH=logs/s05_5_axis128_bram_scalar_board_quiet_100_rerun.txt \
+  S05_EXTRA_ARGS="--expect-axis-width 128 --quiet-pass --repeat 100 --poll-sleep-us 0" \
+  S05_RUN_TIMEOUT=240 \
+  python3 scripts/s05_gemv_hw_test.py
 ```
 
-S04.5C에서 검증한 carveout:
-
-- DDR: `0x00000000-0x3fffffff` (1 GiB)
-- temporary bootargs: `mem=960M`
-- permanent bootargs source: SD bootfs `/uEnv.txt`
-- Linux System RAM after S04.5A: `0x00000000-0x3bffffff`
-- carveout: `0x3c000000-0x3fffffff` (64 MiB)
-- S04.5A/B/C logs/docs: `logs/s04_5a_temp_mem_boot.txt`, `logs/s04_5b_sd_bootargs_update.txt`, `logs/s04_5b_boot_verify.txt`, `logs/s04_5c_dma_carveout_smoke.txt`, `docs/s04_5_dma_buffer_provider.md`
-
-S02를 재현 빌드할 때만 다음 명령을 사용한다.
+SD 작업 전:
 
 ```bash
-env GPTALK_PL_CLK_MHZ=75 GPTALK_PL_ACTUAL_FREQ_HZ=76923080 \
-  /tools/Xilinx/Vivado/2024.2/bin/vivado -mode batch \
-  -source scripts/build_gptalk_dma_bitstream.tcl \
-  > logs/gptalk_dma_build_75mhz.log 2>&1
+lsblk -o NAME,SIZE,FSTYPE,LABEL,UUID,MOUNTPOINTS
 ```
 
-S03 시작 전 확인:
+## 현재 보드/SD
 
-```bash
-ls -lh hw/vivado_project/export/GPTalk_dma.bit hw/vivado_project/export/GPTalk_dma.xsa
-```
+- Serial console: `/dev/ttyUSB1`, `115200`
+- SD bootfs 최근 device: `/dev/sdb1`
+- bootargs: `mem=960M`
+- DMA carveout: `0x3c000000-0x3fffffff` (64 MiB), `/dev/mem O_SYNC`
+- UIO expected: `axi_dma`, `input_bram`, `gemv_ctrl`
+- HDMI Linux console 없음. S04/S05/S06은 serial 기준으로 진행.
 
-## 현재 bitstream/XSA
+## 현재 BOOT/bitstream
 
-- GPTalk DMA bitstream: `hw/vivado_project/export/GPTalk_dma.bit`
-- GPTalk DMA XSA: `hw/vivado_project/export/GPTalk_dma.xsa`
-- XSA 내부 bitstream: `GPTalk_dma_74MHz.bit`, active bitstream hash와 일치
-- 최고 no-violation 적용 클럭: actual `76.929 MHz` (`FREQ_HZ=76923080`)
-- 보존된 75 MHz 산출물: `hw/vivado_project/export/GPTalk_dma_75MHz.bit`, `hw/vivado_project/export/GPTalk_dma_75MHz.xsa`
-- Vivado strategy 기록 위치: `logs/vivado_impl_strategy.txt`
+- BOOT folder: `artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot`
+- BOOT.BIN hash: `4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c`
+- Bitstream: `hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit`
+- Bitstream hash: `1f873bc39b48d56275f9f07e7fd5db1b979adc118beff768c0b24a9204a7d4ac`
+- XSA: `hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.xsa`
+- XSA hash: `005b3f9b04cc521fca0c4979d77a8c19cdab9c0335a477cb973e48a7ec627f08`
+- Timing: 74 MHz PASS, setup WNS `0.389 ns`, hold WHS `0.018 ns`
+- Timing report: `reports/s05_5_timing_74MHz.rpt`
 
-## Active RTL
+## S05.5 검증 결과
 
-- `vivado_ip/rtl/gemv_q8_0_stream_core.v`
-- `vivado_ip/rtl/gemv_q8_0_dma_top.v`
-- `vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v`
+- `GEMV BUILD_CONFIG=0x00800010 axis_width=128 lanes=16`
+- mode=0 scaled PASS: `[-48, 19, -6]`
+- mode=1 block_acc PASS: `[-193, 38, -50]`
+- quiet 100-run PASS: mode0/mode1 fail_count `0`
+- quiet latency: mode0 avg `251 us`, mode1 avg `251 us`
+- Root cause fixed: BRAM Port B `INPUT_BRAM_DOUT` floating/module_ref driver value issue. Scalar pin connection으로 수정됨.
 
-## Deprecated project
+## 보존된 32-bit known-good
 
-- `deprecated/vivado_projects/zybo_gemv_dma/zybo_gemv_dma.xpr`
-- `deprecated/vivado_projects/zybo_gemv_smoke/zybo_gemv_smoke.xpr`
-- `deprecated/vivado_projects/zybo_gemv_bringup/zybo_gemv_bringup.xpr`
+- Bitstream alias: `hw/vivado_project/export/GPTalk_dma.bit`
+- Bitstream hash: `158ba9de633fc8ea4a8b4822d0589fad427ec25502ff67cc8d44ef604696acb0`
+- XSA alias: `hw/vivado_project/export/GPTalk_dma.xsa`
+- XSA hash: `f6ef5281f7558d21435127cc6858e72d312089e1f7a26bed34ce4206ae9a1d7d`
+- Known-good 32-bit BOOT hash: `17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42`
+- Backup: `artifacts/s05_3_validated_known_good_reexport_20260701_010926`
 
-`hw/` 아래 active `.xpr`는 `hw/vivado_project/GPTalk.xpr` 하나만 유지한다.
+## 금지사항
 
-## 절대 사용 금지
+- 사용자 요청 없이 S05.6/S06 진행 금지.
+- known-good 32-bit alias 덮어쓰기 금지.
+- rejected S05.2 counter bitstream/BOOT 재사용 금지.
+- custom/recovery FSBL 사용 금지.
+- PetaLinux full rebuild 금지.
+- AXI-Lite bulk data path 복귀 금지.
+- TLAST/TKEEP check 제거 금지.
+- `valid_lanes_reg` output emit fix 되돌리기 금지.
 
-- AXI-Lite `INPUT_DATA` 반복 write로 input vector 전송
-- AXI-Lite `STREAM_DATA` 반복 write로 weight/scale stream 전송
-- AXI-Lite `RESULT_DATA` 반복 read로 output vector 전송
-- smoke register-only bitstream을 full GEMV bitstream으로 취급
-- `gemv_q8_0_axi_lite.v`, `gemv_q8_0_axi_lite_smoke.v`를 active datapath로 복구
-- mode=0 scaled output 제거
-- mode=1 block_acc debug 제거
-- lane 수 축소
-- fake_gemv 전용 하드코딩 IP
+## 참고
 
-## 마지막 PASS/FAIL 요약
-
-- `scripts/run_gemv_sim.tcl`: PASS
-- `scripts/create_or_update_gptalk_dma_bd.tcl`: BLOCKED, 기존 버전은 `design_1`/PS7을 삭제 후 재생성하므로 사용 금지
-- GPTalk 내부 BD validate: PASS
-- GPTalk top: `design_1_wrapper`
-- Address map: `logs/hw_dma_address_map.txt`
-- S02 synthesis/implementation/bitstream/XSA: PASS
-- S02 최고 클럭 예측/적용: PASS, actual `76.929 MHz`
-- Timing summary: setup WNS `0.000 ns`, setup TNS `0.000 ns`, hold WHS `0.025 ns`, hold THS `0.000 ns`
-- S02 verify log: `logs/s02_bitstream_xsa_verify.txt`
-- Clock prediction log: `logs/s02_clock_prediction.txt`
-- S03 bootgen fallback SD packaging: PASS
-- S03 board boot with fallback image: FAIL, rootfs mount 이후 old demo DT/PL mismatch로 kernel panic
-- Recovery minimal Linux DT FIT: STAGED, `artifacts/s04_linux_dt/bootfs/image.ub`
-- Recovery current-PS-init FSBL build: PASS, `artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf`
-- Recovery BOOT.BIN bootgen: PASS, `artifacts/s04_linux_dt/bootfs/BOOT.BIN`
-- S03 recovery SD bootfs copy: PASS, `/run/media/pjs/bootfs/BOOT.BIN` and `/run/media/pjs/bootfs/image.ub` hashes match staging
-- S03 and later SD rootfs payload copy: PASS, `/tmp/sd_rootfs/opt/smollm2_zybo`
-- S03 recovery custom BOOT board result: FAIL, DONE LED off
-- Previous S03 BOOT board result: DONE LED on, but old DT path kernel panic
-- Hardware preflight BD validate: PASS, `logs/hw_preflight_bd_validate.log`
-- Hardware preflight STOP reason: BD creation scripts recreated PS7 with board preset instead of proving original GPTalk PS7 preservation; custom/recovery FSBL/BOOT packaging gives DONE LED off
-- GEMV HP port policy: GEMV DMA는 PS HP DDR port를 써야 하며, 현재 HDMI+DMA 구조에서는 video VDMA가 HP0, GEMV DMA가 HP1을 사용한다. HP1 사용 자체는 실패 원인이 아니다
-- Direct active bitstream Vivado/JTAG program: PASS by Vivado, `logs/hw_direct_program_result.txt`; 물리 DONE LED 확인 필요
-- custom/recovery FSBL no-bitstream board result: FAIL, UART 90초 캡처 0바이트, Enter probe 0바이트. Logs: `logs/serial_s04_nobit_20260630_112020.log`, `logs/serial_s04_nobit_enter_probe_20260630_112333.log`
-- known-good S03 FSBL no-bitstream board result: PASS, `/dev/ttyUSB1` UART 25849 bytes, U-Boot reached, recovery `image.ub` booted to `root@Zybo-Z7-20:~#`. Logs: `logs/serial_test_b_s03_fsbl_no_bit_ttyUSB1_20260630_113716.log`
-- Board shutdown after test_b: PASS, `logs/serial_poweroff_after_test_b_20260630_113956.log`, `reboot: System halted`
-- canonical S03 boot recovery with bitstream result: PASS. Test `test_c_s03_fsbl_active_bit_s03_uboot`, BOOT hash `03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030`, DONE LED on, `/dev/ttyUSB1` prompt observed, Linux root prompt reached. Result log: `logs/test_c_s03_fsbl_active_bit_s03_uboot_result.txt`
-- Runtime/DT probe after boot: PASS for basic access. UIO nodes present: `axi_dma`, `input_bram`, `hdmi_vdma`, `hdmi_vtc`, `hdmi_dynclk`, `gemv_ctrl`; `/opt/smollm2_zybo` present. Probe log: `logs/serial_test_c_canonical_runtime_probe_20260630_115317.log`
-- HDMI no-output diagnostic: EXPECTED with current Linux image. `/dev/fb0` and `/dev/dri/card0` absent; active console is `ttyPS0`; HDMI VDMA/VTC/dynclk are UIO-only. S04/S05/S06 continue over serial. S07 must add HDMI userspace init/draw or framebuffer/DRM path. Log: `logs/hdmi_no_output_diag.txt`
-- S04 UIO/register/DMA register smoke: PASS for name-based UIO lookup, address map compare, GEMV register read, input BRAM write/readback, AXI DMA reset/status. No bus error/kernel oops observed. At that time DMA data transfer was blocked by missing buffer provider; S04.5C now provides the MVP `/dev/mem` carveout path. Logs: `logs/s04_board_uio_register_dma_smoke.txt`, `docs/s04_smoke_verify.md`
-- S04.5A temporary `mem=960M` carveout boot: PASS. SD 수정 없음, `saveenv` 없음, root prompt reached, `/proc/cmdline` contains `mem=960M`, `/proc/iomem` System RAM is `00000000-3bffffff`, UIO nodes remain present. Candidate carveout for S04.5C: `0x3c000000-0x3fffffff` (64 MiB). Logs/docs: `logs/s04_5a_temp_mem_boot.txt`, `docs/s04_5_dma_buffer_provider.md`
-- S04.5C `/dev/mem` carveout smoke: PASS. Board native compile PASS, `/dev/mem O_RDWR|O_SYNC` open PASS, 64 MiB mmap PASS, 64 pattern write/readback PASS from `0x3c000000` through `0x3ffffffc`, run RC `0`, no bus error/kernel oops observed. Logs/source: `logs/s04_5c_dma_carveout_smoke.txt`, `artifacts/boot_tests/s04_5_dma_carveout_smoke.c`, `scripts/s04_5c_carveout_smoke.py`
-- S04.5B permanent bootargs: PASS, power-cycle reverify PASS at 2026-06-30 14:50:53 KST. SD bootfs `/uEnv.txt` added with verified `mem=960M` bootargs, backup at bootfs `/backup/bootargs_20260630_144412/`, `BOOT.BIN` and `image.ub` unchanged, reboot verification PASS: `/proc/cmdline` has `mem=960M`, `/proc/iomem` System RAM is `00000000-3bffffff`, UIO nodes present, bootfs `uEnv.txt` sha256 `369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76`. Logs: `logs/s04_5b_sd_bootargs_update.txt`, `logs/s04_5b_boot_verify.txt`
-- boot test folders: `artifacts/boot_tests/test_a_recovery_fsbl_no_bit`, `artifacts/boot_tests/test_b_s03_fsbl_no_bit`, `artifacts/boot_tests/test_c_s03_fsbl_with_bit`, `artifacts/boot_tests/test_d_recovery_fsbl_with_bit`
-- Deprecated/hold boot test: `artifacts/boot_tests/test_c_s03_fsbl_with_bit` is DO_NOT_USE because it copied bitstream/U-Boot from recovery artifact paths.
-- Active S03 boot recovery baseline: `artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN`
-- BOOT BIF split logs: `logs/bootgen_bif_s03.txt`, `logs/bootgen_bif_s04.txt` (legacy filename for recovery BOOT)
-- PetaLinux full rebuild: BLOCKED until hardware/FSBL/BOOT packaging is resolved
-
-## 현재 host tool 상태
-
-- PetaLinux command: not in PATH
-- Host ARM Linux cross compiler: not in PATH
-- Vivado/bootgen/dtc: `/tools/Xilinx/Vivado/2024.2/bin`
-- SD rootfs에는 ARM native `gcc`/`make`가 있음. S05 `runtime_c`는 보드 부팅 후 `/opt/smollm2_zybo/runtime_c`에서 빌드한다.
-
-## 사람이 볼 문서
-
-- `README.md`
-- `docs/VIVADO_GUI_KR.md`
-
-## 내부 참고
-
-- `docs/internal/interface_contract_dma.md`: C/RTL/DMA register 계약서
-- `docs/internal/hw_dma_architecture.md`: DMA 구조 상세
-- `docs/internal/hw_route_recovery.md`: timing/routing 복구 메모
-- `prompts/`: Codex/agent용 단계 문서
-
-## S02 빌드 산출물 기록
-
-- 기록 시각: 2026-06-29 11:02:39 KST
-- PL clock target: `50.000 MHz`
-- Bitstream: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_50MHz.bit`
-- XSA: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_50MHz.xsa`
-- Latest bitstream alias: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.bit`
-- Latest XSA alias: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.xsa`
-- Timing: setup WNS `1.427` ns, hold WHS `0.016` ns
-- Strategy log: `/home/pjs/Desktop/smollm2-zybo/logs/vivado_impl_strategy.txt`
-- S02 verify log: `/home/pjs/Desktop/smollm2-zybo/logs/s02_bitstream_xsa_verify.txt`
-
-## S02 빌드 산출물 기록
-
-- 기록 시각: 2026-06-29 11:23:04 KST
-- PL clock target: `75.000 MHz`
-- PL clock actual FREQ_HZ: `76923080`
-- Bitstream: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_75MHz.bit`
-- XSA: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_75MHz.xsa`
-- Latest bitstream alias: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.bit`
-- Latest XSA alias: `/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.xsa`
-- Timing: setup WNS `0.000` ns, hold WHS `0.025` ns
-- Strategy log: `/home/pjs/Desktop/smollm2-zybo/logs/vivado_impl_strategy.txt`
-- S02 verify log: `/home/pjs/Desktop/smollm2-zybo/logs/s02_bitstream_xsa_verify.txt`
-
-## S02 빌드 산출물 기록
-
-- 기록 시각: 2026-06-29 15:44:23 KST
-- PL clock target: `50.000 MHz`
-- PL clock actual FREQ_HZ: `50000000`
-- Bitstream: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_50MHz.bit`
-- XSA: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_50MHz.xsa`
-- Latest bitstream alias: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.bit`
-- Latest XSA alias: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.xsa`
-- Timing: setup WNS `0.995` ns, hold WHS `0.009` ns
-- Strategy log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/vivado_impl_strategy.txt`
-- S02 verify log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s02_bitstream_xsa_verify.txt`
-
-## S02 빌드 산출물 기록
-
-- 기록 시각: 2026-06-29 15:53:20 KST
-- PL clock target: `50.000 MHz`
-- PL clock actual FREQ_HZ: `50000000`
-- Bitstream: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_50MHz.bit`
-- XSA: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_50MHz.xsa`
-- Latest bitstream alias: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.bit`
-- Latest XSA alias: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.xsa`
-- Timing: setup WNS `0.619` ns, hold WHS `0.020` ns
-- Strategy log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/vivado_impl_strategy.txt`
-- S02 verify log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s02_bitstream_xsa_verify.txt`
-
-## S02 빌드 산출물 기록
-
-- 기록 시각: 2026-06-29 17:16:34 KST
-- PL clock target: `74.000 MHz`
-- PL clock actual FREQ_HZ: `74000000`
-- Bitstream: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_74MHz.bit`
-- XSA: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_74MHz.xsa`
-- Latest bitstream alias: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.bit`
-- Latest XSA alias: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.xsa`
-- Timing: setup WNS `0.033` ns, hold WHS `0.013` ns
-- Strategy log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/vivado_impl_strategy.txt`
-- S02 verify log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s02_bitstream_xsa_verify.txt`
+- S05.5 상세: `docs/s05_5_128bit_axis_bringup.md`
+- S05.4 workload model: `docs/s05_4_real_workload_throughput_model.md`
+- S05.3 latency forensic: `docs/s05_3_control_polling_dma_latency.md`
+- S05 fake_gemv PASS 기준: `docs/s05_fake_gemv_hw_pass_verify.md`
+- DMA buffer provider: `docs/s04_5_dma_buffer_provider.md`
+- Vivado GUI: `docs/VIVADO_GUI_KR.md`
+- DMA 계약: `docs/internal/interface_contract_dma.md`
+- 격리된 과거/실패 산출물: `deprecated/quarantine_20260701_s05_5_cleanup/`
+- Git/절대경로 정리 격리: `deprecated/20260701_git_abs_cleanup/`

@@ -1,0 +1,17 @@
+S05 packet summary
+packet_bytes: 576
+scale_bytes: 64
+weight_bytes: 512
+total_words: 144
+scale_words: 16
+weight_words: 128
+first_weight_word: 16
+last_word_index: 143
+expected_tlast_word: 143
+expected_tlast_weight_col: 31
+expected_tlast_lane_base: 12
+dma_mm2s_len: 576
+software_expected_tlast_words: 143
+padded_scale_nonzero_count: 0
+padded_weight_nonzero_count: 0
+contract_check: PASS

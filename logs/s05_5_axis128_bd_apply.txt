@@ -1,0 +1,24 @@
+S05.5 apply 128-bit AXIS BD variant
+project: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.xpr
+bd: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+scope: reuse active GPTalk.xpr; preserve PS7; recreate only gemv_q8_0_dma_top_0 module_ref cell.
+
+before:
+axi_dma_0 CONFIG.c_m_axis_mm2s_tdata_width: 128
+axi_dma_0 CONFIG.c_s_axis_s2mm_tdata_width: 32
+mm2s_axis_fifo CONFIG.TDATA_NUM_BYTES: 16
+s2mm_axis_fifo CONFIG.TDATA_NUM_BYTES: 4
+gemv S_AXIS_TDATA LEFT: 127
+validate_bd_design status: 0
+validate_bd_design message: 
+validate_bd_design note: nonzero status is tolerated here because the active GPTalk HDMI VDMA address path has a pre-existing validate issue unrelated to the GEMV 128-bit stream boundary.
+
+after:
+axi_dma_0 CONFIG.c_m_axis_mm2s_tdata_width: 128
+axi_dma_0 CONFIG.c_s_axis_s2mm_tdata_width: 32
+mm2s_axis_fifo CONFIG.TDATA_NUM_BYTES: 16
+s2mm_axis_fifo CONFIG.TDATA_NUM_BYTES: 4
+gemv S_AXIS_TDATA LEFT: 127
+gemv S_AXIS_TKEEP LEFT: 15
+gemv M_AXIS_TDATA LEFT: 31
+result: PASS

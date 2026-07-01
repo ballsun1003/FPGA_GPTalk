@@ -1,0 +1,50 @@
+S04.5B SD-only permanent bootargs update
+
+Staging time: 2026-06-30 14:44:12 KST
+Target SD: /dev/sdc
+bootfs: /dev/sdc1, label bootfs, UUID F587-071F
+rootfs: /dev/sdc2, label rootfs, UUID d6944274-f2f7-4644-96a4-213c3b367f5c
+
+Method:
+- Mounted bootfs/rootfs RW on PC.
+- Did not change BOOT.BIN.
+- Did not change image.ub.
+- Did not change rootfs payload.
+- Added bootfs /uEnv.txt for U-Boot env import.
+- Synced and unmounted both SD partitions.
+
+Backup:
+- /backup/bootargs_20260630_144412/MANIFEST.txt
+- /backup/bootargs_20260630_144412/MISSING_boot.scr
+- /backup/bootargs_20260630_144412/MISSING_uEnv.txt
+- /backup/bootargs_20260630_144412/MISSING_extlinux_extlinux.conf
+- /backup/bootargs_20260630_144412/boot_artifacts.sha256
+
+uEnv.txt:
+bootargs=console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+
+Hashes after staging:
+BOOT.BIN 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+image.ub e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+
+Verification:
+- PASS, board boot after staging.
+- Serial verification log: logs/s04_5b_boot_verify.txt
+- /proc/cmdline contains mem=960M automatically.
+- /proc/iomem System RAM ends at 0x3bffffff.
+- Carveout 0x3c000000-0x3fffffff remains outside System RAM.
+- UIO nodes remain present.
+- bootfs uEnv.txt mounted on board at /run/media/mmcblk0p1/uEnv.txt.
+- uEnv.txt sha256 on board: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- Kernel panic/oops observed: no
+
+Power-cycle reverify:
+- Time: 2026-06-30 14:50:53 KST
+- Result: PASS
+- /proc/cmdline contains mem=960M automatically.
+- /proc/iomem System RAM ends at 0x3bffffff.
+- Carveout 0x3c000000-0x3fffffff remains outside System RAM.
+- UIO nodes remain present.
+- bootfs uEnv.txt sha256 remains 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76.
+- Kernel panic/oops observed: no

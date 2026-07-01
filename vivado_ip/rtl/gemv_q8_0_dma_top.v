@@ -64,10 +64,10 @@ module gemv_q8_0_dma_top #(
     input wire S_AXI_RREADY,
 
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS TDATA" *)
-    (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME S_AXIS, TDATA_NUM_BYTES 4, HAS_TKEEP 1, HAS_TLAST 1" *)
-    input wire [31:0] S_AXIS_TDATA,
+    (* X_INTERFACE_PARAMETER = "XIL_INTERFACENAME S_AXIS, TDATA_NUM_BYTES 16, HAS_TKEEP 1, HAS_TLAST 1" *)
+    input wire [127:0] S_AXIS_TDATA,
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS TKEEP" *)
-    input wire [3:0] S_AXIS_TKEEP,
+    input wire [15:0] S_AXIS_TKEEP,
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS TVALID" *)
     input wire S_AXIS_TVALID,
     (* X_INTERFACE_INFO = "xilinx.com:interface:axis:1.0 S_AXIS TREADY" *)
@@ -104,6 +104,8 @@ module gemv_q8_0_dma_top #(
     input wire [31:0] INPUT_BRAM_DOUT
 );
 
+    localparam integer AXIS_DATA_WIDTH = 128;
+
     wire ctrl_start;
     wire ctrl_clear;
     wire ctrl_mode;
@@ -132,6 +134,33 @@ module gemv_q8_0_dma_top #(
     wire [31:0] core_debug_row;
     wire [31:0] core_debug_block;
     wire [15:0] core_debug_lane;
+    wire signed [31:0] core_debug_out0;
+    wire signed [31:0] core_debug_out1;
+    wire signed [31:0] core_debug_out2;
+    wire [31:0] core_debug_in_count;
+    wire [31:0] core_debug_tlast_count;
+    wire [31:0] core_debug_tlast_tdata;
+    wire [(AXIS_DATA_WIDTH/8)-1:0] core_debug_tlast_tkeep;
+    wire [31:0] core_debug_tlast_tkeep_u32 =
+        {{(32-(AXIS_DATA_WIDTH/8)){1'b0}}, core_debug_tlast_tkeep};
+    wire signed [31:0] core_debug_scale0;
+    wire signed [31:0] core_debug_scale1;
+    wire signed [31:0] core_debug_scale2;
+    wire signed [31:0] core_debug_block0;
+    wire signed [31:0] core_debug_block1;
+    wire signed [31:0] core_debug_block2;
+    wire [31:0] core_debug_product0_lo;
+    wire [31:0] core_debug_product0_hi;
+    wire [31:0] core_debug_product1_lo;
+    wire [31:0] core_debug_product1_hi;
+    wire [31:0] core_debug_product2_lo;
+    wire [31:0] core_debug_product2_hi;
+    wire signed [31:0] core_debug_scaled0;
+    wire signed [31:0] core_debug_scaled1;
+    wire signed [31:0] core_debug_scaled2;
+    wire signed [31:0] core_debug_row_acc0;
+    wire signed [31:0] core_debug_row_acc1;
+    wire signed [31:0] core_debug_row_acc2;
 
     reg input_half_sel;
     wire [31:0] input_addr_u32 = {{(32-INPUT_ADDR_WIDTH){1'b0}}, core_input_rd_addr};
@@ -160,6 +189,8 @@ module gemv_q8_0_dma_top #(
     gemv_q8_0_ctrl_axi_lite #(
         .C_S_AXI_DATA_WIDTH(C_S_AXI_DATA_WIDTH),
         .C_S_AXI_ADDR_WIDTH(C_S_AXI_ADDR_WIDTH),
+        .AXIS_DATA_WIDTH(AXIS_DATA_WIDTH),
+        .LANES(LANES),
         .VERSION(VERSION)
     ) ctrl (
         .S_AXI_ACLK(S_AXI_ACLK),
@@ -201,13 +232,38 @@ module gemv_q8_0_dma_top #(
         .result_out_ready(M_AXIS_TREADY),
         .debug_row(core_debug_row),
         .debug_block(core_debug_block),
-        .debug_lane(core_debug_lane)
+        .debug_lane(core_debug_lane),
+        .debug_out0(core_debug_out0),
+        .debug_out1(core_debug_out1),
+        .debug_out2(core_debug_out2),
+        .debug_in_count(core_debug_in_count),
+        .debug_tlast_count(core_debug_tlast_count),
+        .debug_tlast_tdata(core_debug_tlast_tdata),
+        .debug_tlast_tkeep(core_debug_tlast_tkeep_u32),
+        .debug_scale0(core_debug_scale0),
+        .debug_scale1(core_debug_scale1),
+        .debug_scale2(core_debug_scale2),
+        .debug_block0(core_debug_block0),
+        .debug_block1(core_debug_block1),
+        .debug_block2(core_debug_block2),
+        .debug_product0_lo(core_debug_product0_lo),
+        .debug_product0_hi(core_debug_product0_hi),
+        .debug_product1_lo(core_debug_product1_lo),
+        .debug_product1_hi(core_debug_product1_hi),
+        .debug_product2_lo(core_debug_product2_lo),
+        .debug_product2_hi(core_debug_product2_hi),
+        .debug_scaled0(core_debug_scaled0),
+        .debug_scaled1(core_debug_scaled1),
+        .debug_scaled2(core_debug_scaled2),
+        .debug_row_acc0(core_debug_row_acc0),
+        .debug_row_acc1(core_debug_row_acc1),
+        .debug_row_acc2(core_debug_row_acc2)
     );
 
     gemv_q8_0_stream_core #(
         .LANES(LANES),
         .Q8_BLOCK_SIZE(Q8_BLOCK_SIZE),
-        .TDATA_WIDTH(32),
+        .TDATA_WIDTH(AXIS_DATA_WIDTH),
         .INPUT_ADDR_WIDTH(INPUT_ADDR_WIDTH),
         .FEATURE_WIDTH(32),
         .SCALE_SHIFT_WIDTH(6),
@@ -216,7 +272,7 @@ module gemv_q8_0_dma_top #(
         .ROUND_ENABLE(1)
     ) core (
         .clk(S_AXI_ACLK),
-        .reset_p(!S_AXI_ARESETN),
+        .reset_p(!S_AXI_ARESETN || ctrl_clear),
         .start(ctrl_start),
         .mode(ctrl_mode),
         .scale_shift(ctrl_scale_shift),
@@ -226,6 +282,7 @@ module gemv_q8_0_dma_top #(
         .input_rd_addr(core_input_rd_addr),
         .input_rd_data(core_input_rd_data),
         .s_axis_tdata(S_AXIS_TDATA),
+        .s_axis_tkeep(S_AXIS_TKEEP),
         .s_axis_tvalid(S_AXIS_TVALID),
         .s_axis_tready(S_AXIS_TREADY),
         .s_axis_tlast(S_AXIS_TLAST),
@@ -242,7 +299,32 @@ module gemv_q8_0_dma_top #(
         .error_code(core_error_code),
         .debug_row(core_debug_row),
         .debug_block(core_debug_block),
-        .debug_lane(core_debug_lane)
+        .debug_lane(core_debug_lane),
+        .debug_out0(core_debug_out0),
+        .debug_out1(core_debug_out1),
+        .debug_out2(core_debug_out2),
+        .debug_in_count(core_debug_in_count),
+        .debug_tlast_count(core_debug_tlast_count),
+        .debug_tlast_tdata(core_debug_tlast_tdata),
+        .debug_tlast_tkeep(core_debug_tlast_tkeep),
+        .debug_scale0(core_debug_scale0),
+        .debug_scale1(core_debug_scale1),
+        .debug_scale2(core_debug_scale2),
+        .debug_block0(core_debug_block0),
+        .debug_block1(core_debug_block1),
+        .debug_block2(core_debug_block2),
+        .debug_product0_lo(core_debug_product0_lo),
+        .debug_product0_hi(core_debug_product0_hi),
+        .debug_product1_lo(core_debug_product1_lo),
+        .debug_product1_hi(core_debug_product1_hi),
+        .debug_product2_lo(core_debug_product2_lo),
+        .debug_product2_hi(core_debug_product2_hi),
+        .debug_scaled0(core_debug_scaled0),
+        .debug_scaled1(core_debug_scaled1),
+        .debug_scaled2(core_debug_scaled2),
+        .debug_row_acc0(core_debug_row_acc0),
+        .debug_row_acc1(core_debug_row_acc1),
+        .debug_row_acc2(core_debug_row_acc2)
     );
 
 endmodule

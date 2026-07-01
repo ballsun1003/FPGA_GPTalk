@@ -1,0 +1,70 @@
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Wed Jul  1 12:42:58 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source scripts/s05_5_probe_gemv_params.tcl
+# set repo_root [file normalize [file join [file dirname [info script]] ..]]
+# set project_xpr [file join $repo_root hw vivado_project GPTalk.xpr]
+# set bd_file [file join $repo_root hw vivado_project GPTalk.srcs sources_1 bd design_1 design_1.bd]
+# set log_file [file join $repo_root logs s05_5_gemv_param_probe.txt]
+# file mkdir [file dirname $log_file]
+# open_project $project_xpr
+WARNING: [filemgmt 56-3] IPUserFilesDir: Could not find the directory '/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.ip_user_files'.
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/run/media/pjs/6A43-DC8A/smollm2-zybo/third_party/digilent-vivado-library/if'.
+INFO: [IP_Flow 19-1700] Loaded user IP repository '/run/media/pjs/6A43-DC8A/smollm2-zybo/third_party/digilent-vivado-library/ip'.
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+INFO: [Project 1-5579] Found utility IPs instantiated in one or more block designs which have equivalent inline hdl with improved performance and reduced diskspace. It is recommended to migrate these utility IPs to inline hdl using the command upgrade_project -migrate_to_inline_hdl. The utility IPs may be deprecated in future releases. More information on inline hdl is available in UG994.
+# open_bd_design /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+Reading block design file </run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd>...
+Adding component instance block -- xilinx.com:ip:processing_system7:5.5 - processing_system7_0
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_100M
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_133M
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_gemv
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_ctrl_smc
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_video_hp0_smc
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_gemv_hp1_smc
+Adding component instance block -- xilinx.com:ip:axi_clock_converter:2.1 - axi_gemv_ctrl_clkconv
+Adding component instance block -- xilinx.com:ip:axi_clock_converter:2.1 - axi_bram_ctrl_clkconv
+Adding component instance block -- xilinx.com:ip:axi_clock_converter:2.1 - axi_dma_ctrl_clkconv
+Adding component instance block -- digilentinc.com:ip:axi_dynclk:1.2 - axi_dynclk_0
+Adding component instance block -- xilinx.com:ip:v_tc:6.2 - v_tc_out
+Adding component instance block -- xilinx.com:ip:axi_vdma:6.3 - axi_vdma_1
+Adding component instance block -- xilinx.com:ip:axis_subset_converter:1.1 - axis_subset_converter_out
+Adding component instance block -- xilinx.com:ip:v_axi4s_vid_out:4.0 - v_axi4s_vid_out_0
+Adding component instance block -- digilentinc.com:ip:rgb2dvi:1.4 - rgb2dvi_1
+Adding component instance block -- xilinx.com:ip:axi_dma:7.1 - axi_dma_0
+Adding component instance block -- xilinx.com:ip:axis_data_fifo:2.0 - mm2s_axis_fifo
+Adding component instance block -- xilinx.com:ip:axis_data_fifo:2.0 - s2mm_axis_fifo
+Adding component instance block -- xilinx.com:ip:axi_bram_ctrl:4.1 - axi_input_bram_ctrl
+Adding component instance block -- xilinx.com:ip:blk_mem_gen:8.4 - input_vector_bram
+Adding component instance block -- xilinx.com:module_ref:gemv_q8_0_dma_top:1.0 - gemv_q8_0_dma_top_0
+Adding component instance block -- xilinx.com:ip:xlconcat:2.1 - xlconcat_0
+Successfully read diagram <design_1> from block design file </run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd>
+# set cell [get_bd_cells -quiet gemv_q8_0_dma_top_0]
+# if {![llength $cell]} {
+#     error "missing gemv_q8_0_dma_top_0"
+# }
+# catch {update_module_reference $cell} update_msg
+# set fd [open $log_file w]
+# puts $fd "S05.5 GEMV module_ref parameter probe"
+# puts $fd "update_module_reference: $update_msg"
+# puts $fd ""
+# foreach prop [lsort [list_property $cell]] {
+#     if {[regexp -nocase {(AXIS|TDATA|TKEEP|LANES|PARAM|CONFIG|VLNV)} $prop]} {
+#         puts $fd "$prop: [get_property $prop $cell]"
+#     }
+# }
+# close $fd
+# puts "S05_5_GEMV_PARAM_PROBE_LOG=$log_file"
+S05_5_GEMV_PARAM_PROBE_LOG=/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_5_gemv_param_probe.txt
+# close_project
+INFO: [Common 17-206] Exiting Vivado at Wed Jul  1 12:43:06 2026...

@@ -1,0 +1,9 @@
+PC SD staging
+target: /dev/sda1:/BOOT.BIN
+mount: /run/media/pjs/bootfs
+backup: /dev/sda1:/BOOT_BEFORE_TEST_S05_3_REEXPORT_XSA_S03_FSBL_ACTIVE_BIT_S03_UBOOT_20260701_010620.BIN
+17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42  artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42  /run/media/pjs/bootfs/BOOT_BEFORE_TEST_S05_3_REEXPORT_XSA_S03_FSBL_ACTIVE_BIT_S03_UBOOT_20260701_010620.BIN
+17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42  /run/media/pjs/bootfs/BOOT.BIN
+e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715  /run/media/pjs/bootfs/image.ub
+369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76  /run/media/pjs/bootfs/uEnv.txt

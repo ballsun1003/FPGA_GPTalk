@@ -1,0 +1,110 @@
+S00 deprecate AXI-Lite data path
+Date: 2026-06-29 KST
+
+Scope
+-----
+Performed S00 only. No S01 DMA RTL, DMA Tcl, Vivado build, bitstream, or XSA work
+was created or run.
+
+Moved out of active build
+-------------------------
+vivado_ip/rtl/gemv_q8_0_axi_lite.v
+  -> deprecated/old_axi_lite_bringup/vivado_ip/rtl/gemv_q8_0_axi_lite.v
+vivado_ip/rtl/gemv_q8_0_axi_lite_smoke.v
+  -> deprecated/old_axi_lite_bringup/vivado_ip/rtl/gemv_q8_0_axi_lite_smoke.v
+scripts/create_zybo_gemv_hw.tcl
+  -> deprecated/old_axi_lite_bringup/scripts/create_zybo_gemv_hw.tcl
+scripts/create_zybo_gemv_smoke_hw.tcl
+  -> deprecated/old_axi_lite_bringup/scripts/create_zybo_gemv_smoke_hw.tcl
+
+Preserved active files
+----------------------
+vivado_ip/rtl/gemv_q8_0_stream_core.v
+vivado_ip/tb/tb_gemv_q8_0_stream_core.sv
+vivado_ip/tb/tb_gemv_q8_0_stream_core.v
+scripts/run_gemv_sim.tcl
+golden/fake_gemv/
+fpga_layout/q8_0_lane16/
+runtime_c/
+logs/gemv_sim_result.txt
+
+Updated or created documentation
+--------------------------------
+docs/interface_contract.md
+  Added top DEPRECATED warning for the old AXI-Lite INPUT_DATA/STREAM_DATA/
+  RESULT_DATA data path.
+docs/rtl_next_step.md
+  Created an active-path DEPRECATED stub because docs/rtl_next_step.md was
+  missing; the historical copy remains at docs/depreciated/rtl_next_step.md.
+docs/hw_bringup_result.md
+  Added top SUPERSEDED warning so the smoke AXI-Lite bitstream is retained only
+  as historical evidence and not treated as the final path.
+docs/deprecated_axi_lite_data_path.md
+  Created S00 deprecation record.
+
+Active RTL/script snapshot after move
+-------------------------------------
+scripts/run_gemv_sim.tcl
+vivado_ip/rtl/gemv_q8_0_stream_core.v
+
+Deprecated file snapshot after move
+-----------------------------------
+deprecated/old_axi_lite_bringup/scripts/create_zybo_gemv_hw.tcl
+deprecated/old_axi_lite_bringup/scripts/create_zybo_gemv_smoke_hw.tcl
+deprecated/old_axi_lite_bringup/vivado_ip/rtl/gemv_q8_0_axi_lite.v
+deprecated/old_axi_lite_bringup/vivado_ip/rtl/gemv_q8_0_axi_lite_smoke.v
+
+S01 TODO marker
+---------------
+scripts/create_zybo_gemv_dma_hw.tcl does not exist yet. This is expected after
+S00 and is a TODO for S01.
+
+Required grep result
+--------------------
+Command:
+rg -n "REG_STREAM_DATA|REG_INPUT_DATA|REG_RESULT_DATA|STREAM_DATA|INPUT_DATA|RESULT_DATA" vivado_ip scripts docs
+
+Output:
+docs/interface_contract.md:4:bring-up path. The AXI-Lite `INPUT_DATA`/`STREAM_DATA`/`RESULT_DATA` data path
+docs/interface_contract.md:39:| `0x2C` | `INPUT_DATA` | RW | Full wrapper: signed low 16-bit input sample at `INPUT_ADDR`; smoke: readback register |
+docs/interface_contract.md:40:| `0x30` | `STREAM_DATA` | WO/RB | Full wrapper: push one Q8_0 stream word when `STATUS[3]` is set; smoke: readback register |
+docs/interface_contract.md:41:| `0x34` | `STREAM_LAST` | RW | bit0 used as stream `tlast` on next `STREAM_DATA` write |
+docs/interface_contract.md:44:| `0x40` | `RESULT_DATA` | RO | Result data at `RESULT_ADDR` |
+docs/interface_contract.md:69:For `gemv_q8_0_axi_lite.v`, software should load input samples through `INPUT_ADDR`/`INPUT_DATA`, program `SCALE_SHIFT`, `IN_FEATURES`, `OUT_FEATURES`, set `CONTROL.mode`, pulse `CONTROL.start`, poll `STATUS.stream_ready`, write Q8_0 scale/weight words to `STREAM_DATA`, then poll `STATUS.done_sticky` and read results through `RESULT_ADDR`/`RESULT_*`.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:23:    AXI-Lite STREAM_DATA 반복 write로 weight/scale을 보내는 구조
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:24:    AXI-Lite INPUT_DATA 반복 write로 input vector를 보내는 구조
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:25:    AXI-Lite RESULT_DATA 반복 read로 output vector를 읽는 구조
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:171:    active scripts에서 INPUT_DATA/STREAM_DATA/RESULT_DATA 기반 최종 경로가 사라져야 한다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:186:- AXI-Lite INPUT_DATA 반복 write로 input vector 전송
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:187:- AXI-Lite STREAM_DATA 반복 write로 weight/scale stream 전송
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:188:- AXI-Lite RESULT_DATA 반복 read로 output vector 전송
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:210:  이유: AXI-Lite INPUT_DATA/STREAM_DATA/RESULT_DATA 경로는 최종 구조가 아니다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:220:2. grep -Rni "REG_STREAM_DATA\|REG_INPUT_DATA\|REG_RESULT_DATA\|STREAM_DATA\|INPUT_DATA\|RESULT_DATA" vivado_ip scripts docs 결과를 저장한다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:242:5. STREAM_DATA/RESULT_DATA/INPUT_DATA 키워드가 active 최종 경로에 남아 있지 않은가?
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:280:5. gemv_q8_0_axi_lite.v는 INPUT_DATA, STREAM_DATA, RESULT_DATA를 통해 대용량 데이터를 AXI-Lite로 전송한다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:296:- AXI-Lite STREAM_DATA로 weight/scale을 밀어 넣는 구조
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:297:- AXI-Lite INPUT_DATA로 대량 input을 밀어 넣는 구조
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:298:- AXI-Lite RESULT_DATA로 output vector 전체를 읽는 구조
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:327:    최종 구조에서 INPUT_DATA 단일 AXI-Lite register를 반복 write하는 방식.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:348:- INPUT_DATA
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:349:- STREAM_DATA
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:351:- RESULT_DATA
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:408:    기존 AXI-Lite INPUT_DATA/STREAM_DATA/RESULT_DATA 경로는 deprecated라고 표시한다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:442:5. STREAM_DATA/RESULT_DATA 반복 MMIO 방식이 최종 경로에서 제거된다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:469:7. INPUT_DATA/STREAM_DATA/RESULT_DATA가 final datapath에 남아 있지 않은가?
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:731:- AXI-Lite STREAM_DATA/RESULT_DATA 경로를 쓰지 않는다.
+docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md:948:| AXI-Lite STREAM_DATA로 weight 전송 | 최종 구조 부적합 |
+docs/deprecated_axi_lite_data_path.md:38:- `INPUT_DATA` repeated AXI-Lite writes for input vectors
+docs/deprecated_axi_lite_data_path.md:39:- `STREAM_DATA` repeated AXI-Lite writes for weight/scale stream words
+docs/deprecated_axi_lite_data_path.md:40:- `RESULT_DATA` repeated AXI-Lite reads for output vectors
+docs/deprecated_axi_lite_data_path.md:42:The old wrappers also contain related register names such as `REG_INPUT_DATA`,
+docs/deprecated_axi_lite_data_path.md:43:`REG_STREAM_DATA`, and `REG_RESULT_DATA`; those names are now confined to the
+
+Interpretation
+--------------
+No matching keyword remains under active vivado_ip or scripts paths. Remaining
+matches are in deprecated/reference documents:
+- docs/interface_contract.md has a top DEPRECATED warning.
+- docs/deprecated_axi_lite_data_path.md is the S00 deprecated record.
+- docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md is the stage guide, not
+  an active final build path.

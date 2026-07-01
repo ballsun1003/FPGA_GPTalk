@@ -1,0 +1,46 @@
+echo __HDMI_DIAG_START__; echo __CMDLINE__; cat /proc/cmdline ; echo __DEV_FB__; ls -l /dev/fb* 2>&1 || true; echo __DEV_DRI__; ls -ld /dev/dr i /dev/dri/* 2>&1 || true; echo __GRAPHICS__; ls -l /sys/class/graphics 2>&1 ||  true; for d in /sys/class/graphics/*; do [ -e "$d" ] && echo "$d -> $(readlink - f "$d")"; done; echo __ACTIVE_CONSOLE__; cat /sys/class/tty/console/active 2>&1  || true; echo __UIO_BINDINGS__; ls -l /sys/class/uio 2>&1 || true; for d in /sys /class/uio/uio*; do [ -e "$d" ] && echo "$d name=$(cat "$d/name" 2>/dev/null) de vice=$(readlink -f "$d/device" 2>/dev/null)"; done; echo __HDMI_SYSFS_DEVICES__;  find /sys/devices -maxdepth 8 \( -iname "*hdmi*" -o -iname "*vdma*" -o -iname " *vtc*" -o -iname "*dynclk*" -o -iname "*drm*" -o -iname "*fb*" \) 2>/dev/null |  sort | head -200; echo __DMESG_HDMI__; dmesg | grep -Ei "drm|fb|framebuffer|hdmi |vdma|vtc|dynclk|xilinx|uio|amba_pl|fpga"; echo __HDMI_DIAG_END__
+__HDMI_DIAG_START__
+__CMDLINE__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait
+__DEV_FB__
+ls: /dev/fb*: No such file or directory
+__DEV_DRI__
+ls: /dev/dri: No such file or directory
+ls: /dev/dri/*: No such file or directory
+__GRAPHICS__
+total 0
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 fbcon -> ../../devices/virtual/graphics/fbcon
+/sys/class/graphics/fbcon -> /sys/devices/virtual/graphics/fbcon
+__ACTIVE_CONSOLE__
+ttyPS0
+__UIO_BINDINGS__
+total 0
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 uio0 -> ../../devices/soc0/amba_pl/40400000.axi_dma/uio/uio0
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 uio1 -> ../../devices/soc0/amba_pl/42000000.input_bram/uio/uio1
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 uio2 -> ../../devices/soc0/amba_pl/43010000.hdmi_vdma/uio/uio2
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 uio3 -> ../../devices/soc0/amba_pl/43c10000.hdmi_vtc/uio/uio3
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 uio4 -> ../../devices/soc0/amba_pl/43c20000.hdmi_dynclk/uio/uio4
+lrwxrwxrwx    1 root     root             0 Jan  1  1970 uio5 -> ../../devices/soc0/amba_pl/43ca0000.gemv_ctrl/uio/uio5
+/sys/class/uio/uio0 name=axi_dma device=/sys/devices/soc0/amba_pl/40400000.axi_dma
+/sys/class/uio/uio1 name=input_bram device=/sys/devices/soc0/amba_pl/42000000.input_bram
+/sys/class/uio/uio2 name=hdmi_vdma device=/sys/devices/soc0/amba_pl/43010000.hdmi_vdma
+/sys/class/uio/uio3 name=hdmi_vtc device=/sys/devices/soc0/amba_pl/43c10000.hdmi_vtc
+/sys/class/uio/uio4 name=hdmi_dynclk device=/sys/devices/soc0/amba_pl/43c20000.hdmi_dynclk
+/sys/class/uio/uio5 name=gemv_ctrl device=/sys/devices/soc0/amba_pl/43ca0000.gemv_ctrl
+__HDMI_SYSFS_DEVICES__
+/sys/devices/soc0/amba_pl/43010000.hdmi_vdma
+/sys/devices/soc0/amba_pl/43c10000.hdmi_vtc
+/sys/devices/soc0/amba_pl/43c20000.hdmi_dynclk
+/sys/devices/virtual/graphics/fbcon
+/sys/devices/virtual/vtconsole
+/sys/devices/virtual/vtconsole/vtcon0
+__DMESG_HDMI__
+Linux version 4.9.0-xilinx-v2017.4 (peta@2328463296f9) (gcc version 6.2.1 20161016 (Linaro GCC 6.2-2016.11)) #1 SMP PREEMPT Thu Jun 25 08:31:10 UTC 2026
+Kernel command line: console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait
+FPGA manager framework
+fpga-region fpga-full: FPGA Region probed
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__HDMI_DIAG_END__
+root@Zybo-Z7-20:~# 

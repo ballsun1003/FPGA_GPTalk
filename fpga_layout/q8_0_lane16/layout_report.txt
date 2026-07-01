@@ -1,8 +1,8 @@
 Q8_0 FPGA lane layout conversion report
 layout: q8_0_lane_grouped_col_major_v1
 lanes: 16
-source gguf: /home/user22/Desktop/smollm2-zybo/quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
-source tensor map: /home/user22/Desktop/smollm2-zybo/pycharm/fpga_layout/tensor_map.json
+source gguf: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+source tensor map: pycharm/fpga_layout/tensor_map.json
 
 Summary:
 - converted tensors: 211

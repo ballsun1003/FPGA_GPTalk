@@ -1,0 +1,1505 @@
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 11:23:35 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source scripts/build_gptalk_dma_bitstream.tcl
+# set script_dir [file normalize [file dirname [info script]]]
+# set repo_root [file normalize [file join $script_dir ..]]
+# set project_xpr [file join $repo_root hw vivado_project GPTalk.xpr]
+# set project_dir [file dirname $project_xpr]
+# set log_dir [file join $repo_root logs]
+# set report_dir [file join $repo_root reports]
+# set docs_dir [file join $repo_root docs]
+# set internal_docs_dir [file join $docs_dir internal]
+# set export_dir [file join $project_dir export]
+# file mkdir $log_dir
+# file mkdir $report_dir
+# file mkdir $docs_dir
+# file mkdir $internal_docs_dir
+# file mkdir $export_dir
+# if {![file exists $project_xpr]} {
+#     error "Active Vivado project is missing: $project_xpr"
+# }
+# proc env_default {name default_value} {
+#     if {[info exists ::env($name)] && $::env($name) ne ""} {
+#         return $::env($name)
+#     }
+#     return $default_value
+# }
+# proc clock_label {clk_mhz} {
+#     if {[expr {abs($clk_mhz - round($clk_mhz)) < 0.001}]} {
+#         return [format "%d" [expr {int(round($clk_mhz))}]]
+#     }
+#     set label [format "%.3f" $clk_mhz]
+#     regsub {0+$} $label "" label
+#     regsub {\.$} $label "" label
+#     regsub -all {\.} $label "p" label
+#     return $label
+# }
+# set pl_clk_mhz_raw [env_default GPTALK_PL_CLK_MHZ 50]
+# if {![string is double -strict $pl_clk_mhz_raw]} {
+#     error "GPTALK_PL_CLK_MHZ must be numeric, got: $pl_clk_mhz_raw"
+# }
+# set pl_clk_mhz [expr {double($pl_clk_mhz_raw)}]
+# if {$pl_clk_mhz <= 0.0} {
+#     error "GPTALK_PL_CLK_MHZ must be positive, got: $pl_clk_mhz_raw"
+# }
+# set clk_label [clock_label $pl_clk_mhz]
+# set actual_freq_hz_raw [env_default GPTALK_PL_ACTUAL_FREQ_HZ [expr {int(round($pl_clk_mhz * 1000000.0))}]]
+# if {![string is integer -strict $actual_freq_hz_raw] || $actual_freq_hz_raw <= 0} {
+#     error "GPTALK_PL_ACTUAL_FREQ_HZ must be a positive integer, got: $actual_freq_hz_raw"
+# }
+# set actual_freq_hz $actual_freq_hz_raw
+# set jobs_raw [env_default GPTALK_VIVADO_JOBS 8]
+# if {![string is integer -strict $jobs_raw] || $jobs_raw <= 0} {
+#     error "GPTALK_VIVADO_JOBS must be a positive integer, got: $jobs_raw"
+# }
+# set vivado_jobs $jobs_raw
+# set fallback_log {}
+# proc try_run_strategy {run_name label candidates} {
+#     global fallback_log
+#     foreach candidate $candidates {
+#         if {[catch {set_property strategy $candidate [get_runs $run_name]} msg]} {
+#             lappend fallback_log "$label fallback: $candidate rejected: $msg"
+#         } else {
+#             return $candidate
+#         }
+#     }
+#     lappend fallback_log "$label fallback: no candidate accepted; leaving unchanged"
+#     return "unchanged"
+# }
+# proc try_step_directive {run_name prop_name label candidates} {
+#     global fallback_log
+#     foreach candidate $candidates {
+#         if {[catch {set_property $prop_name $candidate [get_runs $run_name]} msg]} {
+#             lappend fallback_log "$label fallback: $candidate rejected: $msg"
+#         } else {
+#             return $candidate
+#         }
+#     }
+#     lappend fallback_log "$label fallback: no candidate accepted; leaving unchanged"
+#     return "unchanged"
+# }
+# proc report_or_warn {label command} {
+#     if {[catch {uplevel 1 $command} msg]} {
+#         puts "WARN: $label failed: $msg"
+#         return 0
+#     }
+#     puts "REPORT_OK: $label"
+#     return 1
+# }
+# proc assert_run_complete {run_name} {
+#     set progress [get_property PROGRESS [get_runs $run_name]]
+#     set status [get_property STATUS [get_runs $run_name]]
+#     if {$progress ne "100%"} {
+#         error "$run_name did not complete: progress=$progress status=$status"
+#     }
+#     if {![string match "*Complete*" $status]} {
+#         error "$run_name failed: $status"
+#     }
+# }
+# proc timing_slack_summary {delay_type} {
+#     set worst "N/A"
+#     set total 0.0
+#     set count 0
+#     set worst_paths [get_timing_paths -delay_type $delay_type -max_paths 1]
+#     if {[llength $worst_paths] > 0} {
+#         set worst [get_property SLACK [lindex $worst_paths 0]]
+#     }
+#     set violating_paths [get_timing_paths -delay_type $delay_type -slack_lesser_than 0 -max_paths 10000]
+#     foreach path $violating_paths {
+#         set slack [get_property SLACK $path]
+#         if {[string is double -strict $slack] && $slack < 0.0} {
+#             set total [expr {$total + double($slack)}]
+#             incr count
+#         }
+#     }
+#     return [list $worst $total $count]
+# }
+# set bd_name "design_1"
+# set bd_file [file join $project_dir GPTalk.srcs sources_1 bd $bd_name ${bd_name}.bd]
+# if {![file exists $bd_file]} {
+#     error "Block design is missing: $bd_file"
+# }
+# set module_xci [file join $project_dir GPTalk.srcs sources_1 bd $bd_name ip design_1_gemv_q8_0_dma_top_0_0 design_1_gemv_q8_0_dma_top_0_0.xci]
+# proc patch_freq_hz_file {path freq_hz} {
+#     if {![file exists $path]} {
+#         return 0
+#     }
+#     set fd [open $path r]
+#     set text [read $fd]
+#     close $fd
+# 
+#     set changed 0
+#     set patch_next_value 0
+#     set out_lines {}
+#     foreach line [split $text "\n"] {
+#         if {[string first "\"FREQ_HZ\"" $line] >= 0} {
+#             if {[regsub {("value": *")[0-9]+(")} $line "\\1$freq_hz\\2" new_line]} {
+#                 set line $new_line
+#                 set changed 1
+#                 set patch_next_value 0
+#             } else {
+#                 set patch_next_value 1
+#             }
+#         } elseif {$patch_next_value} {
+#             if {[regsub {("value": *")[0-9]+(")} $line "\\1$freq_hz\\2" new_line]} {
+#                 set line $new_line
+#                 set changed 1
+#                 set patch_next_value 0
+#             }
+#         }
+#         lappend out_lines $line
+#     }
+# 
+#     if {$changed} {
+#         set fd [open $path w]
+#         puts -nonewline $fd [join $out_lines "\n"]
+#         close $fd
+#     }
+#     return $changed
+# }
+# patch_freq_hz_file $bd_file $actual_freq_hz
+# patch_freq_hz_file $module_xci $actual_freq_hz
+# open_project $project_xpr
+Scanning sources...
+Finished scanning sources
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+INFO: [Project 1-5579] Found utility IPs instantiated in one or more block designs which have equivalent inline hdl with improved performance and reduced diskspace. It is recommended to migrate these utility IPs to inline hdl using the command upgrade_project -migrate_to_inline_hdl. The utility IPs may be deprecated in future releases. More information on inline hdl is available in UG994.
+# set_property target_language Verilog [current_project]
+# open_bd_design /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+Reading block design file </home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd>...
+Adding component instance block -- xilinx.com:ip:processing_system7:5.5 - processing_system7_0
+Adding component instance block -- xilinx.com:ip:proc_sys_reset:5.0 - rst_ps7_0_50M
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_ctrl_smc
+Adding component instance block -- xilinx.com:ip:smartconnect:1.0 - axi_hp0_smc
+Adding component instance block -- xilinx.com:ip:axi_dma:7.1 - axi_dma_0
+Adding component instance block -- xilinx.com:ip:axis_data_fifo:2.0 - mm2s_axis_fifo
+Adding component instance block -- xilinx.com:ip:axis_data_fifo:2.0 - s2mm_axis_fifo
+Adding component instance block -- xilinx.com:ip:axi_bram_ctrl:4.1 - axi_input_bram_ctrl
+Adding component instance block -- xilinx.com:ip:blk_mem_gen:8.4 - input_vector_bram
+Adding component instance block -- xilinx.com:module_ref:gemv_q8_0_dma_top:1.0 - gemv_q8_0_dma_top_0
+Successfully read diagram <design_1> from block design file </home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd>
+# set ps7 [get_bd_cells -quiet processing_system7_0]
+# if {[llength $ps7] == 0} {
+#     error "processing_system7_0 is missing from $bd_name"
+# }
+# if {[llength [get_bd_cells -quiet gemv_q8_0_dma_top_0]]} {
+#     catch {update_module_reference [get_bd_cells gemv_q8_0_dma_top_0]}
+# }
+# set_property CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ [format "%.6f" $pl_clk_mhz] $ps7
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+# set fclk0 [get_bd_pins -quiet processing_system7_0/FCLK_CLK0]
+# if {[llength $fclk0]} {
+#     set fclk_freq [get_property -quiet CONFIG.FREQ_HZ $fclk0]
+#     if {$fclk_freq ne "" && $fclk_freq ne $actual_freq_hz} {
+#         puts "WARN: requested actual FREQ_HZ $actual_freq_hz differs from PS FCLK_CLK0 $fclk_freq"
+#     }
+# }
+# foreach intf_name [list \
+#     gemv_q8_0_dma_top_0/S_AXI \
+#     gemv_q8_0_dma_top_0/S_AXIS \
+#     gemv_q8_0_dma_top_0/M_AXIS \
+# ] {
+#     set intf_pin [get_bd_intf_pins -quiet $intf_name]
+#     if {[llength $intf_pin]} {
+#         # FREQ_HZ is read-only on module_ref pins after import; it is patched
+#         # in the BD/XCI metadata before open_bd_design.
+#     }
+# }
+# set gemv_clk [get_bd_pins -quiet gemv_q8_0_dma_top_0/S_AXI_ACLK]
+# if {[llength $gemv_clk]} {
+#     # See module_ref metadata patch above.
+# }
+# validate_bd_design
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+INFO: [BD 5-943] Reserving offset range <0x43C0_0000 [ 4K ]> from slave interface '/axi_ctrl_smc/S00_AXI' to master interface '/axi_ctrl_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x4040_0000 [ 64K ]> from slave interface '/axi_ctrl_smc/S00_AXI' to master interface '/axi_ctrl_smc/M01_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x4200_0000 [ 64K ]> from slave interface '/axi_ctrl_smc/S00_AXI' to master interface '/axi_ctrl_smc/M02_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] design_1_axi_ctrl_smc_0: SmartConnect design_1_axi_ctrl_smc_0 is in High-performance Mode.
+INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 1G ]> from slave interface '/axi_hp0_smc/S00_AXI' to master interface '/axi_hp0_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [BD 5-943] Reserving offset range <0x0000_0000 [ 1G ]> from slave interface '/axi_hp0_smc/S01_AXI' to master interface '/axi_hp0_smc/M00_AXI'. This will be used by smartconnect on path for routing.
+INFO: [xilinx.com:ip:smartconnect:1.0-1] design_1_axi_hp0_smc_0: SmartConnect design_1_axi_hp0_smc_0 is in High-performance Mode.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+# save_bd_design
+Wrote  : </home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd> 
+# generate_target all [get_files $bd_file]
+INFO: [BD 41-1662] The design 'design_1.bd' is already validated. Therefore parameter propagation will not be re-run.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+WARNING: [filemgmt 56-443] The ECC Algorithm string is empty. Setting the Memory Map to default ECC value to ECC_NONE.
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/input_vector_bram/addra'(32) to pin: '/axi_input_bram_ctrl/bram_addr_a'(16) - Only lower order bits will be connected.
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v
+WARNING: [BD 41-2384] Width mismatch when connecting pin: '/input_vector_bram/addra'(32) to pin: '/axi_input_bram_ctrl/bram_addr_a'(16) - Only lower order bits will be connected.
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/sim/design_1.v
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI_GP0'. A default connection has been created.
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'S_AXI_HP0'. A default connection has been created.
+INFO: [BD 41-1029] Generation completed for the IP Integrator block processing_system7_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_ps7_0_50M .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/hw_handoff/design_1_axi_ctrl_smc_0.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/synth/design_1_axi_ctrl_smc_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_ctrl_smc .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/hw_handoff/design_1_axi_hp0_smc_0.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/synth/design_1_axi_hp0_smc_0.hwdef
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_hp0_smc .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_dma_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block mm2s_axis_fifo .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block s2mm_axis_fifo .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block axi_input_bram_ctrl .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block gemv_q8_0_dma_top_0 .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/hw_handoff/design_1.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.hwdef
+generate_target: Time (s): cpu = 00:00:08 ; elapsed = 00:00:09 . Memory (MB): peak = 1787.531 ; gain = 0.000 ; free physical = 53936 ; free virtual = 66037
+# update_compile_order -fileset sources_1
+# if {[llength [get_files -quiet [file join $project_dir GPTalk.gen sources_1 bd $bd_name hdl ${bd_name}_wrapper.v]]]} {
+#     set_property top ${bd_name}_wrapper [current_fileset]
+# }
+# set synth_strategy [try_run_strategy synth_1 "synth_1 strategy" [list \
+#     "Flow_PerfOptimized_high" \
+#     "Flow_AreaOptimized_high" \
+#     "Vivado Synthesis Defaults" \
+# ]]
+# set impl_strategy [try_run_strategy impl_1 "impl_1 strategy" [list \
+#     "Performance_ExplorePostRoutePhysOpt" \
+#     "Performance_Explore" \
+#     "Performance_NetDelay_high" \
+#     "Performance_WLBlockPlacement" \
+#     "Vivado Implementation Defaults" \
+# ]]
+# set opt_directive [try_step_directive impl_1 STEPS.OPT_DESIGN.ARGS.DIRECTIVE "opt_design directive" [list Explore ExploreWithRemap AddRemap Default]]
+# set place_directive [try_step_directive impl_1 STEPS.PLACE_DESIGN.ARGS.DIRECTIVE "place_design directive" [list ExtraNetDelay_high ExtraPostPlacementOpt Explore WLDrivenBlockPlacement Default]]
+# set phys_directive [try_step_directive impl_1 STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE "phys_opt_design directive" [list AggressiveExplore Explore AggressiveFanoutOpt Default]]
+# set route_directive [try_step_directive impl_1 STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE "route_design directive" [list AggressiveExplore Explore NoTimingRelaxation Default]]
+# if {[catch {set_property STEPS.PHYS_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]} msg]} {
+#     lappend fallback_log "phys_opt_design enable rejected: $msg"
+# }
+# if {[catch {set_property STEPS.POST_ROUTE_PHYS_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]} msg]} {
+#     lappend fallback_log "post_route_phys_opt_design enable rejected: $msg"
+# }
+# set post_route_phys_directive [try_step_directive impl_1 STEPS.POST_ROUTE_PHYS_OPT_DESIGN.ARGS.DIRECTIVE "post_route_phys_opt_design directive" [list AggressiveExplore Explore Default]]
+# set strategy_log [file join $log_dir vivado_impl_strategy.txt]
+# set strategy_fd [open $strategy_log w]
+# puts $strategy_fd "GPTalk DMA Vivado build strategy"
+# puts $strategy_fd "Project: $project_xpr"
+# puts $strategy_fd [format "PL clock target: %.3f MHz" $pl_clk_mhz]
+# puts $strategy_fd "PL clock actual FREQ_HZ: $actual_freq_hz"
+# puts $strategy_fd "Vivado jobs: $vivado_jobs"
+# puts $strategy_fd "synth_1 strategy: $synth_strategy"
+# puts $strategy_fd "impl_1 strategy: $impl_strategy"
+# puts $strategy_fd "opt_design directive: $opt_directive"
+# puts $strategy_fd "place_design directive: $place_directive"
+# puts $strategy_fd "phys_opt_design directive: $phys_directive"
+# puts $strategy_fd "route_design directive: $route_directive"
+# puts $strategy_fd "post_route_phys_opt_design directive: $post_route_phys_directive"
+# puts $strategy_fd ""
+# puts $strategy_fd "Fallback notes:"
+# if {[llength $fallback_log] == 0} {
+#     puts $strategy_fd "- none"
+# } else {
+#     foreach item $fallback_log {
+#         puts $strategy_fd "- $item"
+#     }
+# }
+# close $strategy_fd
+# reset_run synth_1
+INFO: [Project 1-1161] Replacing file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp with file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/design_1_wrapper.dcp
+# launch_runs synth_1 -jobs $vivado_jobs
+INFO: [IP_Flow 19-6930] IPCACHE: runCacheChecks() number of threads = 8
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_axi_ctrl_smc_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_axi_dma_0_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_axi_hp0_smc_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_axi_input_bram_ctrl_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_mm2s_axis_fifo_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_rst_ps7_0_50M_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_s2mm_axis_fifo_0
+INFO: [IP_Flow 19-8020] IPCACHE: runCacheChecks() calling threadPool finishWork()
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_axi_ctrl_smc_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_axi_dma_0_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_axi_hp0_smc_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_axi_input_bram_ctrl_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_rst_ps7_0_50M_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_mm2s_axis_fifo_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_s2mm_axis_fifo_0
+[Mon Jun 29 11:23:55 2026] Launched design_1_s2mm_axis_fifo_0_synth_1, design_1_axi_input_bram_ctrl_0_synth_1, design_1_gemv_q8_0_dma_top_0_0_synth_1, design_1_mm2s_axis_fifo_0_synth_1, design_1_axi_dma_0_0_synth_1, design_1_axi_hp0_smc_0_synth_1, design_1_axi_ctrl_smc_0_synth_1, design_1_rst_ps7_0_50M_0_synth_1, design_1_processing_system7_0_0_synth_1...
+Run output will be captured here:
+design_1_s2mm_axis_fifo_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_s2mm_axis_fifo_0_synth_1/runme.log
+design_1_axi_input_bram_ctrl_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_axi_input_bram_ctrl_0_synth_1/runme.log
+design_1_gemv_q8_0_dma_top_0_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_0_synth_1/runme.log
+design_1_mm2s_axis_fifo_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_mm2s_axis_fifo_0_synth_1/runme.log
+design_1_axi_dma_0_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_axi_dma_0_0_synth_1/runme.log
+design_1_axi_hp0_smc_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_axi_hp0_smc_0_synth_1/runme.log
+design_1_axi_ctrl_smc_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_axi_ctrl_smc_0_synth_1/runme.log
+design_1_rst_ps7_0_50M_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_rst_ps7_0_50M_0_synth_1/runme.log
+design_1_processing_system7_0_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/design_1_processing_system7_0_0_synth_1/runme.log
+[Mon Jun 29 11:23:55 2026] Launched synth_1...
+Run output will be captured here: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/runme.log
+# wait_on_run synth_1
+[Mon Jun 29 11:23:55 2026] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log design_1_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_wrapper.tcl
+
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 11:25:55 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source design_1_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+Command: read_checkpoint -auto_incremental -incremental /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/utils_1/imports/synth_1/design_1_wrapper.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top design_1_wrapper -part xc7z020clg400-1 -directive PerformanceOptimized -fsm_extraction one_hot -keep_equivalent_registers -resource_sharing off -no_lc -shreg_min_size 5
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 322444
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2043.039 ; gain = 401.523 ; free physical = 52604 ; free virtual = 64669
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'design_1_wrapper' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'design_1' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:13]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_ctrl_smc_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_ctrl_smc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_ctrl_smc_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_ctrl_smc_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'M01_AXI_awprot' of module 'design_1_axi_ctrl_smc_0' is unconnected for instance 'axi_ctrl_smc' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:283]
+WARNING: [Synth 8-7071] port 'M01_AXI_wstrb' of module 'design_1_axi_ctrl_smc_0' is unconnected for instance 'axi_ctrl_smc' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:283]
+WARNING: [Synth 8-7071] port 'M01_AXI_arprot' of module 'design_1_axi_ctrl_smc_0' is unconnected for instance 'axi_ctrl_smc' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:283]
+WARNING: [Synth 8-7071] port 'M02_AXI_awqos' of module 'design_1_axi_ctrl_smc_0' is unconnected for instance 'axi_ctrl_smc' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:283]
+WARNING: [Synth 8-7071] port 'M02_AXI_arqos' of module 'design_1_axi_ctrl_smc_0' is unconnected for instance 'axi_ctrl_smc' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:283]
+WARNING: [Synth 8-7023] instance 'axi_ctrl_smc' of module 'design_1_axi_ctrl_smc_0' has 111 connections declared, but only 106 given [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:283]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_dma_0_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_dma_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_dma_0_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_dma_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mm2s_prmry_reset_out_n' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:390]
+WARNING: [Synth 8-7071] port 's2mm_prmry_reset_out_n' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:390]
+WARNING: [Synth 8-7071] port 'mm2s_introut' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:390]
+WARNING: [Synth 8-7071] port 's2mm_introut' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:390]
+WARNING: [Synth 8-7071] port 'axi_dma_tstvec' of module 'design_1_axi_dma_0_0' is unconnected for instance 'axi_dma_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:390]
+WARNING: [Synth 8-7023] instance 'axi_dma_0' of module 'design_1_axi_dma_0_0' has 64 connections declared, but only 59 given [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:390]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_hp0_smc_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_hp0_smc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_hp0_smc_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_hp0_smc_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_axi_input_bram_ctrl_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_input_bram_ctrl_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_axi_input_bram_ctrl_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_axi_input_bram_ctrl_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_gemv_q8_0_dma_top_0_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_gemv_q8_0_dma_top_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_gemv_q8_0_dma_top_0_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_gemv_q8_0_dma_top_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_input_vector_bram_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_input_vector_bram_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_input_vector_bram_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_input_vector_bram_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'rsta_busy' of module 'design_1_input_vector_bram_0' is unconnected for instance 'input_vector_bram' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:601]
+WARNING: [Synth 8-7071] port 'rstb_busy' of module 'design_1_input_vector_bram_0' is unconnected for instance 'input_vector_bram' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:601]
+WARNING: [Synth 8-7023] instance 'input_vector_bram' of module 'design_1_input_vector_bram_0' has 16 connections declared, but only 14 given [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:601]
+INFO: [Synth 8-6157] synthesizing module 'design_1_mm2s_axis_fifo_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_mm2s_axis_fifo_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_mm2s_axis_fifo_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_mm2s_axis_fifo_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_processing_system7_0_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_processing_system7_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_processing_system7_0_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_processing_system7_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'USB0_PORT_INDCTL' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'USB0_VBUS_PWRSELECT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_BID' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_RID' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_RCOUNT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_WCOUNT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_RACOUNT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7071] port 'S_AXI_HP0_WACOUNT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+WARNING: [Synth 8-7023] instance 'processing_system7_0' of module 'design_1_processing_system7_0_0' has 110 connections declared, but only 102 given [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:631]
+INFO: [Synth 8-6157] synthesizing module 'design_1_rst_ps7_0_50M_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_rst_ps7_0_50M_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_rst_ps7_0_50M_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_rst_ps7_0_50M_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:734]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:734]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:734]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'design_1_rst_ps7_0_50M_0' is unconnected for instance 'rst_ps7_0_50M' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:734]
+WARNING: [Synth 8-7023] instance 'rst_ps7_0_50M' of module 'design_1_rst_ps7_0_50M_0' has 10 connections declared, but only 6 given [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:734]
+INFO: [Synth 8-6157] synthesizing module 'design_1_s2mm_axis_fifo_0' [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_s2mm_axis_fifo_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_s2mm_axis_fifo_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/.Xil/Vivado-322385-pjs-laptop/realtime/design_1_s2mm_axis_fifo_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/synth/design_1.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_wrapper' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2122.977 ; gain = 481.461 ; free physical = 52501 ; free virtual = 64566
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2134.852 ; gain = 493.336 ; free physical = 52501 ; free virtual = 64566
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2134.852 ; gain = 493.336 ; free physical = 52501 ; free virtual = 64566
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2134.852 ; gain = 0.000 ; free physical = 52501 ; free virtual = 64566
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc] for cell 'design_1_i/processing_system7_0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc] for cell 'design_1_i/processing_system7_0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0_in_context.xdc] for cell 'design_1_i/rst_ps7_0_50M'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0_in_context.xdc] for cell 'design_1_i/rst_ps7_0_50M'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/design_1_axi_ctrl_smc_0/design_1_axi_ctrl_smc_0_in_context.xdc] for cell 'design_1_i/axi_ctrl_smc'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/design_1_axi_ctrl_smc_0/design_1_axi_ctrl_smc_0_in_context.xdc] for cell 'design_1_i/axi_ctrl_smc'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/design_1_axi_hp0_smc_0/design_1_axi_hp0_smc_0_in_context.xdc] for cell 'design_1_i/axi_hp0_smc'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/design_1_axi_hp0_smc_0/design_1_axi_hp0_smc_0_in_context.xdc] for cell 'design_1_i/axi_hp0_smc'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0/design_1_axi_dma_0_0_in_context.xdc] for cell 'design_1_i/axi_dma_0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0/design_1_axi_dma_0_0_in_context.xdc] for cell 'design_1_i/axi_dma_0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_mm2s_axis_fifo_0/design_1_mm2s_axis_fifo_0/design_1_s2mm_axis_fifo_0_in_context.xdc] for cell 'design_1_i/mm2s_axis_fifo'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_mm2s_axis_fifo_0/design_1_mm2s_axis_fifo_0/design_1_s2mm_axis_fifo_0_in_context.xdc] for cell 'design_1_i/mm2s_axis_fifo'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_s2mm_axis_fifo_0/design_1_s2mm_axis_fifo_0/design_1_s2mm_axis_fifo_0_in_context.xdc] for cell 'design_1_i/s2mm_axis_fifo'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_s2mm_axis_fifo_0/design_1_s2mm_axis_fifo_0/design_1_s2mm_axis_fifo_0_in_context.xdc] for cell 'design_1_i/s2mm_axis_fifo'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_input_bram_ctrl_0/design_1_axi_input_bram_ctrl_0/design_1_axi_input_bram_ctrl_0_in_context.xdc] for cell 'design_1_i/axi_input_bram_ctrl'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_input_bram_ctrl_0/design_1_axi_input_bram_ctrl_0/design_1_axi_input_bram_ctrl_0_in_context.xdc] for cell 'design_1_i/axi_input_bram_ctrl'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_input_vector_bram_0/design_1_input_vector_bram_0/design_1_input_vector_bram_0_in_context.xdc] for cell 'design_1_i/input_vector_bram'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_input_vector_bram_0/design_1_input_vector_bram_0/design_1_input_vector_bram_0_in_context.xdc] for cell 'design_1_i/input_vector_bram'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0_in_context.xdc] for cell 'design_1_i/gemv_q8_0_dma_top_0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0_in_context.xdc] for cell 'design_1_i/gemv_q8_0_dma_top_0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/constrs_1/imports/Downloads/Zybo-Z7-Master.xdc]
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/constrs_1/imports/Downloads/Zybo-Z7-Master.xdc]
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2183.777 ; gain = 0.000 ; free physical = 52518 ; free virtual = 64584
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2183.777 ; gain = 0.000 ; free physical = 52529 ; free virtual = 64594
+WARNING: [Timing 38-316] Clock period '20.000' specified during out-of-context synthesis of instance 'design_1_i/input_vector_bram' at clock pin 'clka' is different from the actual clock period '10.000', this can lead to different synthesis results.
+INFO: [Designutils 20-5440] No compile time benefit to using incremental synthesis; A full resynthesis will be run
+INFO: [Designutils 20-4379] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2183.777 ; gain = 542.262 ; free physical = 52531 ; free virtual = 64597
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2191.781 ; gain = 550.266 ; free physical = 52531 ; free virtual = 64597
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 2).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 3).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 4).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 5).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 6).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 7).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 8).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 9).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 10).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 11).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 12).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 13).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 14).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 15).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 16).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 17).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 18).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 19).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 20).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 21).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 22).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 23).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 24).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 25).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 26).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 27).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 28).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 29).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 30).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 31).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 32).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 33).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 34).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 35).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 36).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 37).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cas_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 38).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cas_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 39).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cke. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 40).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cke. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 41).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cs_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 42).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cs_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 43).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ck_p. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 44).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ck_p. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 45).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ck_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 46).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ck_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 47).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 48).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 49).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 50).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 51).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 52).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 53).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 54).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 55).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 56).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 57).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 58).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 59).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 60).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 61).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 62).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 63).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 64).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 65).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 66).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 67).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 68).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 69).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 70).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 71).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 72).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 73).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 74).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 75).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 76).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 77).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 78).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 79).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 80).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 81).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 82).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 83).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 84).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 85).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 86).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 87).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 88).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 89).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 90).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 91).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 92).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 93).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 94).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 95).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 96).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 97).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 98).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 99).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 100).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 101).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 102).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 103).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 104).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 105).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 106).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 107).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 108).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 109).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 110).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 111).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 112).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 113).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 114).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 115).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 116).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 117).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 118).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 119).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 120).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 121).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 122).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 123).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 124).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 125).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 126).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 127).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 128).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 129).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 130).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 131).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 132).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 133).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 134).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 135).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_reset_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 136).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_reset_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 137).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_odt. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 138).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_odt. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 139).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ras_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 140).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ras_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 141).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrn. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 142).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrn. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 143).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrp. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 144).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrp. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 145).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_we_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 146).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_we_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 147).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 148).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 149).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 150).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 151).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 152).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 153).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 154).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 155).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 156).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 157).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 158).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 159).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 160).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 161).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 162).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 163).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 164).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 165).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 166).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 167).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 168).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 169).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 170).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 171).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 172).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 173).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 174).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 175).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 176).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 177).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 178).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 179).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 180).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 181).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 182).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 183).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 184).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 185).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 186).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 187).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 188).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 189).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 190).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 191).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 192).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 193).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 194).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 195).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 196).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 197).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[32]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 198).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[32]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 199).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[33]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 200).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[33]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 201).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[34]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 202).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[34]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 203).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[35]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 204).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[35]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 205).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[36]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 206).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[36]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 207).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[37]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 208).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[37]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 209).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[38]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 210).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[38]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 211).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[39]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 212).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[39]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 213).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 214).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 215).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[40]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 216).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[40]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 217).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[41]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 218).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[41]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 219).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[42]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 220).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[42]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 221).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[43]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 222).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[43]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 223).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[44]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 224).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[44]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 225).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[45]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 226).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[45]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 227).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[46]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 228).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[46]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 229).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[47]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 230).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[47]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 231).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[48]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 232).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[48]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 233).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[49]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 234).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[49]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 235).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 236).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 237).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[50]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 238).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[50]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 239).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[51]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 240).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[51]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 241).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[52]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 242).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[52]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 243).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[53]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 244).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[53]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 245).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 246).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 247).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 248).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 249).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 250).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 251).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 252).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 253).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 254).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 255).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_clk. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 256).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_clk. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 257).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_porb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 258).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_porb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 259).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_srstb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 260).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_srstb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 261).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/processing_system7_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/rst_ps7_0_50M. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/axi_ctrl_smc. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/axi_hp0_smc. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/axi_dma_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/mm2s_axis_fifo. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/s2mm_axis_fifo. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/axi_input_bram_ctrl. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/input_vector_bram. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/gemv_q8_0_dma_top_0. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2191.781 ; gain = 550.266 ; free physical = 52526 ; free virtual = 64599
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:06 ; elapsed = 00:00:06 . Memory (MB): peak = 2191.781 ; gain = 550.266 ; free physical = 52526 ; free virtual = 64593
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 2191.781 ; gain = 550.266 ; free physical = 52532 ; free virtual = 64603
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2268.781 ; gain = 627.266 ; free physical = 52475 ; free virtual = 64546
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2268.781 ; gain = 627.266 ; free physical = 52475 ; free virtual = 64546
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2278.797 ; gain = 637.281 ; free physical = 52474 ; free virtual = 64545
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52344 ; free virtual = 64412
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64413
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64413
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64413
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64413
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64413
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+--------------------------------+----------+
+|      |BlackBox name                   |Instances |
++------+--------------------------------+----------+
+|1     |design_1_axi_ctrl_smc_0         |         1|
+|2     |design_1_axi_dma_0_0            |         1|
+|3     |design_1_axi_hp0_smc_0          |         1|
+|4     |design_1_axi_input_bram_ctrl_0  |         1|
+|5     |design_1_gemv_q8_0_dma_top_0_0  |         1|
+|6     |design_1_input_vector_bram_0    |         1|
+|7     |design_1_mm2s_axis_fifo_0       |         1|
+|8     |design_1_processing_system7_0_0 |         1|
+|9     |design_1_rst_ps7_0_50M_0        |         1|
+|10    |design_1_s2mm_axis_fifo_0       |         1|
++------+--------------------------------+----------+
+
+Report Cell Usage: 
++------+------------------------------+------+
+|      |Cell                          |Count |
++------+------------------------------+------+
+|1     |design_1_axi_ctrl_smc         |     1|
+|2     |design_1_axi_dma_0            |     1|
+|3     |design_1_axi_hp0_smc          |     1|
+|4     |design_1_axi_input_bram_ctrl  |     1|
+|5     |design_1_gemv_q8_0_dma_top_0  |     1|
+|6     |design_1_input_vector_bram    |     1|
+|7     |design_1_mm2s_axis_fifo       |     1|
+|8     |design_1_processing_system7_0 |     1|
+|9     |design_1_rst_ps7_0_50M        |     1|
+|10    |design_1_s2mm_axis_fifo       |     1|
++------+------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.609 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64413
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 1 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2447.609 ; gain = 757.168 ; free physical = 52342 ; free virtual = 64414
+Synthesis Optimization Complete : Time (s): cpu = 00:00:11 ; elapsed = 00:00:11 . Memory (MB): peak = 2447.617 ; gain = 806.094 ; free physical = 52342 ; free virtual = 64414
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2447.617 ; gain = 0.000 ; free physical = 52378 ; free virtual = 64450
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2447.617 ; gain = 0.000 ; free physical = 52519 ; free virtual = 64591
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: 21d531d3
+INFO: [Common 17-83] Releasing license: Synthesis
+45 Infos, 31 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:16 ; elapsed = 00:00:15 . Memory (MB): peak = 2447.617 ; gain = 966.180 ; free physical = 52515 ; free virtual = 64587
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1778.581; main = 1637.634; forked = 266.994
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3297.188; main = 2447.613; forked = 947.387
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/synth_1/design_1_wrapper.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file design_1_wrapper_utilization_synth.rpt -pb design_1_wrapper_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Jun 29 11:26:15 2026...
+[Mon Jun 29 11:26:25 2026] synth_1 finished
+wait_on_runs: Time (s): cpu = 00:09:20 ; elapsed = 00:02:30 . Memory (MB): peak = 1899.723 ; gain = 0.000 ; free physical = 53897 ; free virtual = 65962
+# assert_run_complete synth_1
+# reset_run impl_1
+# launch_runs impl_1 -to_step write_bitstream -jobs $vivado_jobs
+[Mon Jun 29 11:26:29 2026] Launched impl_1...
+Run output will be captured here: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/impl_1/runme.log
+# wait_on_run impl_1
+[Mon Jun 29 11:26:29 2026] Waiting for impl_1 to finish...
+
+*** Running vivado
+    with args -log design_1_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source design_1_wrapper.tcl -notrace
+
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 11:26:31 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source design_1_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+Command: link_design -top design_1_wrapper -part xc7z020clg400-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/design_1_axi_ctrl_smc_0.dcp' for cell 'design_1_i/axi_ctrl_smc'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.dcp' for cell 'design_1_i/axi_dma_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/design_1_axi_hp0_smc_0.dcp' for cell 'design_1_i/axi_hp0_smc'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_input_bram_ctrl_0/design_1_axi_input_bram_ctrl_0.dcp' for cell 'design_1_i/axi_input_bram_ctrl'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0.dcp' for cell 'design_1_i/gemv_q8_0_dma_top_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_input_vector_bram_0/design_1_input_vector_bram_0.dcp' for cell 'design_1_i/input_vector_bram'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_mm2s_axis_fifo_0/design_1_mm2s_axis_fifo_0.dcp' for cell 'design_1_i/mm2s_axis_fifo'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.dcp' for cell 'design_1_i/processing_system7_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0.dcp' for cell 'design_1_i/rst_ps7_0_50M'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_s2mm_axis_fifo_0/design_1_s2mm_axis_fifo_0.dcp' for cell 'design_1_i/s2mm_axis_fifo'
+Netlist sorting complete. Time (s): cpu = 00:00:00.24 ; elapsed = 00:00:00.24 . Memory (MB): peak = 1689.480 ; gain = 0.000 ; free physical = 53190 ; free virtual = 65292
+INFO: [Netlist 29-17] Analyzing 2039 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2024.2.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xdc] for cell 'design_1_i/processing_system7_0/inst'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xdc] for cell 'design_1_i/processing_system7_0/inst'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0_board.xdc] for cell 'design_1_i/rst_ps7_0_50M/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0_board.xdc] for cell 'design_1_i/rst_ps7_0_50M/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0.xdc] for cell 'design_1_i/rst_ps7_0_50M/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0.xdc] for cell 'design_1_i/rst_ps7_0_50M/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/ip/ip_1/bd_01d9_psr_aclk_0_board.xdc] for cell 'design_1_i/axi_ctrl_smc/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/ip/ip_1/bd_01d9_psr_aclk_0_board.xdc] for cell 'design_1_i/axi_ctrl_smc/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/ip/ip_1/bd_01d9_psr_aclk_0.xdc] for cell 'design_1_i/axi_ctrl_smc/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/bd_0/ip/ip_1/bd_01d9_psr_aclk_0.xdc] for cell 'design_1_i/axi_ctrl_smc/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/smartconnect.xdc] for cell 'design_1_i/axi_ctrl_smc/inst'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/smartconnect.xdc] for cell 'design_1_i/axi_ctrl_smc/inst'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/ip/ip_1/bd_9c81_psr_aclk_0_board.xdc] for cell 'design_1_i/axi_hp0_smc/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/ip/ip_1/bd_9c81_psr_aclk_0_board.xdc] for cell 'design_1_i/axi_hp0_smc/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/ip/ip_1/bd_9c81_psr_aclk_0.xdc] for cell 'design_1_i/axi_hp0_smc/inst/clk_map/psr_aclk/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/bd_0/ip/ip_1/bd_9c81_psr_aclk_0.xdc] for cell 'design_1_i/axi_hp0_smc/inst/clk_map/psr_aclk/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/smartconnect.xdc] for cell 'design_1_i/axi_hp0_smc/inst'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_hp0_smc_0/smartconnect.xdc] for cell 'design_1_i/axi_hp0_smc/inst'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xdc] for cell 'design_1_i/axi_dma_0/U0'
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xdc:52]
+WARNING: [Vivado_Tcl 4-921] Waiver ID 'CDC-1' -to list should not be empty. [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xdc:56]
+WARNING: [Vivado_Tcl 4-919] Waiver ID 'CDC-1' -from list should not be empty. [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xdc:61]
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xdc] for cell 'design_1_i/axi_dma_0/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/constrs_1/imports/Downloads/Zybo-Z7-Master.xdc]
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.srcs/constrs_1/imports/Downloads/Zybo-Z7-Master.xdc]
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0_clocks.xdc] for cell 'design_1_i/axi_dma_0/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.gen/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0_clocks.xdc] for cell 'design_1_i/axi_dma_0/U0'
+INFO: [Project 1-1714] 117 XPM XDC files have been applied to the design.
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Generating merged BMM file for the design top 'design_1_wrapper'...
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2533.961 ; gain = 0.000 ; free physical = 52556 ; free virtual = 64659
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 253 instances were transformed.
+  RAM16X1D => RAM32X1D (RAMD32(x2)): 1 instance 
+  RAM32M => RAM32M (RAMD32(x6), RAMS32(x2)): 243 instances
+  RAM32X1D => RAM32X1D (RAMD32(x2)): 9 instances
+
+21 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+link_design: Time (s): cpu = 00:00:11 ; elapsed = 00:00:10 . Memory (MB): peak = 2533.961 ; gain = 1051.559 ; free physical = 52556 ; free virtual = 64659
+Command: opt_design -directive Explore
+INFO: [Vivado_Tcl 4-136] Directive used for opt_design is: Explore
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.34 . Memory (MB): peak = 2533.961 ; gain = 0.000 ; free physical = 52515 ; free virtual = 64619
+
+Starting Logic Optimization Task
+
+Phase 1 Initialization
+
+Phase 1.1 Core Generation And Design Setup
+Phase 1.1 Core Generation And Design Setup | Checksum: 1ad4d95f6
+
+Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2755.945 ; gain = 0.000 ; free physical = 52274 ; free virtual = 64378
+
+Phase 1.2 Setup Constraints And Sort Netlist
+Phase 1.2 Setup Constraints And Sort Netlist | Checksum: 1ad4d95f6
+
+Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2755.945 ; gain = 0.000 ; free physical = 52258 ; free virtual = 64362
+Phase 1 Initialization | Checksum: 1ad4d95f6
+
+Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2755.945 ; gain = 0.000 ; free physical = 52258 ; free virtual = 64360
+
+Phase 2 Timer Update And Timing Data Collection
+
+Phase 2.1 Timer Update
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Phase 2.1 Timer Update | Checksum: 1ad4d95f6
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:00.88 . Memory (MB): peak = 2831.758 ; gain = 75.812 ; free physical = 52226 ; free virtual = 64326
+
+Phase 2.2 Timing Data Collection
+Phase 2.2 Timing Data Collection | Checksum: 1ad4d95f6
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:00.92 . Memory (MB): peak = 2831.758 ; gain = 75.812 ; free physical = 52222 ; free virtual = 64323
+Phase 2 Timer Update And Timing Data Collection | Checksum: 1ad4d95f6
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:00.92 . Memory (MB): peak = 2831.758 ; gain = 75.812 ; free physical = 52222 ; free virtual = 64323
+
+Phase 3 Retarget
+INFO: [Opt 31-1851] Number of loadless carry chains removed were: 0
+INFO: [Opt 31-1834] Total Chains To Be Transformed Were: 0 AND Number of Transformed insts Created are: 0
+INFO: [Opt 31-1566] Pulled 25 inverters resulting in an inversion of 101 pins
+INFO: [Opt 31-138] Pushed 45 inverter(s) to 247 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 3 Retarget | Checksum: fbd487ce
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 2831.758 ; gain = 75.812 ; free physical = 52215 ; free virtual = 64316
+Retarget | Checksum: fbd487ce
+INFO: [Opt 31-389] Phase Retarget created 63 cells and removed 198 cells
+INFO: [Opt 31-1021] In phase Retarget, 120 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 4 Constant propagation
+INFO: [Opt 31-138] Pushed 1 inverter(s) to 2 load pin(s).
+Phase 4 Constant propagation | Checksum: 14e0ad3de
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 2831.758 ; gain = 75.812 ; free physical = 52214 ; free virtual = 64316
+Constant propagation | Checksum: 14e0ad3de
+INFO: [Opt 31-389] Phase Constant propagation created 165 cells and removed 582 cells
+INFO: [Opt 31-1021] In phase Constant propagation, 120 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 5 Sweep
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2831.758 ; gain = 0.000 ; free physical = 52205 ; free virtual = 64307
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2831.758 ; gain = 0.000 ; free physical = 52207 ; free virtual = 64308
+Phase 5 Sweep | Checksum: ef2d5fec
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:02 . Memory (MB): peak = 2831.758 ; gain = 75.812 ; free physical = 52213 ; free virtual = 64315
+Sweep | Checksum: ef2d5fec
+INFO: [Opt 31-389] Phase Sweep created 0 cells and removed 1246 cells
+INFO: [Opt 31-1021] In phase Sweep, 151 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 6 BUFG optimization
+Phase 6 BUFG optimization | Checksum: ef2d5fec
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:02 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52218 ; free virtual = 64315
+BUFG optimization | Checksum: ef2d5fec
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 7 Shift Register Optimization
+INFO: [Opt 31-1064] SRL Remap converted 0 SRLs to 0 registers and converted 0 registers of register chains to 0 SRLs
+Phase 7 Shift Register Optimization | Checksum: ef2d5fec
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:02 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52217 ; free virtual = 64319
+Shift Register Optimization | Checksum: ef2d5fec
+INFO: [Opt 31-389] Phase Shift Register Optimization created 0 cells and removed 0 cells
+INFO: [Opt 31-1555] control_set_opt supports Versal devices only, and device 7z020 is unsupported
+
+Phase 8 Post Processing Netlist
+INFO: [Opt 31-1566] Pulled 1 inverters resulting in an inversion of 1 pins
+Phase 8 Post Processing Netlist | Checksum: 67acfd04
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:02 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52217 ; free virtual = 64319
+Post Processing Netlist | Checksum: 67acfd04
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 1 cells
+INFO: [Opt 31-1021] In phase Post Processing Netlist, 120 netlist objects are constrained preventing optimization. Please run opt_design with -debug_log to get more detail. 
+
+Phase 9 Finalization
+
+Phase 9.1 Finalizing Design Cores and Updating Shapes
+Phase 9.1 Finalizing Design Cores and Updating Shapes | Checksum: 1456f39e8
+
+Time (s): cpu = 00:00:05 ; elapsed = 00:00:03 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52216 ; free virtual = 64318
+
+Phase 9.2 Verifying Netlist Connectivity
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2863.773 ; gain = 0.000 ; free physical = 52216 ; free virtual = 64318
+Phase 9.2 Verifying Netlist Connectivity | Checksum: 1456f39e8
+
+Time (s): cpu = 00:00:05 ; elapsed = 00:00:03 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52216 ; free virtual = 64318
+Phase 9 Finalization | Checksum: 1456f39e8
+
+Time (s): cpu = 00:00:05 ; elapsed = 00:00:03 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52216 ; free virtual = 64318
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |              63  |             198  |                                            120  |
+|  Constant propagation         |             165  |             582  |                                            120  |
+|  Sweep                        |               0  |            1246  |                                            151  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               0  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               1  |                                            120  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+Ending Logic Optimization Task | Checksum: 1456f39e8
+
+Time (s): cpu = 00:00:05 ; elapsed = 00:00:03 . Memory (MB): peak = 2863.773 ; gain = 107.828 ; free physical = 52216 ; free virtual = 64318
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2863.773 ; gain = 0.000 ; free physical = 52216 ; free virtual = 64318
+Ending Netlist Obfuscation Task | Checksum: 1456f39e8
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2863.773 ; gain = 0.000 ; free physical = 52216 ; free virtual = 64318
+INFO: [Common 17-83] Releasing license: Implementation
+49 Infos, 3 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+INFO: [Vivado 12-24828] Executing command : report_drc -file design_1_wrapper_drc_opted.rpt -pb design_1_wrapper_drc_opted.pb -rpx design_1_wrapper_drc_opted.rpx
+Command: report_drc -file design_1_wrapper_drc_opted.rpt -pb design_1_wrapper_drc_opted.pb -rpx design_1_wrapper_drc_opted.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/impl_1/design_1_wrapper_drc_opted.rpt.
+report_drc completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Wrote PlaceDB: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52176 ; free virtual = 64279
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52176 ; free virtual = 64279
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.14 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52174 ; free virtual = 64279
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.16 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52171 ; free virtual = 64277
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52171 ; free virtual = 64277
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52184 ; free virtual = 64291
+Write Physdb Complete: Time (s): cpu = 00:00:00.22 ; elapsed = 00:00:00.05 . Memory (MB): peak = 2870.711 ; gain = 0.000 ; free physical = 52182 ; free virtual = 64289
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.runs/impl_1/design_1_wrapper_opt.dcp' has been generated.
+Command: place_design -directive ExtraNetDelay_high
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-83] Releasing license: Implementation
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Vivado_Tcl 4-2302] The placer was invoked with the 'ExtraNetDelay_high' directive.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 8 CPUs
+
+Starting Placer Task
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2907.367 ; gain = 0.000 ; free physical = 52137 ; free virtual = 64245
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: b1085b3f
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2907.367 ; gain = 0.000 ; free physical = 52136 ; free virtual = 64245
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2907.367 ; gain = 0.000 ; free physical = 52136 ; free virtual = 64245
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 53f8bed0
+
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:01 . Memory (MB): peak = 2907.367 ; gain = 0.000 ; free physical = 52121 ; free virtual = 64230
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 14fc8756e
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:04 . Memory (MB): peak = 3004.668 ; gain = 97.301 ; free physical = 52013 ; free virtual = 64120
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 14fc8756e
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:04 . Memory (MB): peak = 3004.668 ; gain = 97.301 ; free physical = 52013 ; free virtual = 64120
+Phase 1 Placer Initialization | Checksum: 14fc8756e
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:04 . Memory (MB): peak = 3004.668 ; gain = 97.301 ; free physical = 52009 ; free virtual = 64116
+
+Phase 2 Global Placement
+
+Phase 2.1 Floorplanning
+Phase 2.1 Floorplanning | Checksum: 689a9830
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:05 . Memory (MB): peak = 3069.637 ; gain = 162.270 ; free physical = 51995 ; free virtual = 64102
+
+Phase 2.2 Update Timing before SLR Path Opt
+Phase 2.2 Update Timing before SLR Path Opt | Checksum: 98c5d18b
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:06 . Memory (MB): peak = 3069.637 ; gain = 162.270 ; free physical = 51957 ; free virtual = 64064
+
+Phase 2.3 Post-Processing in Floorplanning
+Phase 2.3 Post-Processing in Floorplanning | Checksum: 98c5d18b
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:06 . Memory (MB): peak = 3069.637 ; gain = 162.270 ; free physical = 51960 ; free virtual = 64067
+
+Phase 2.4 Global Place Phase1
+Phase 2.4 Global Place Phase1 | Checksum: 9ecf778e
+
+Time (s): cpu = 00:00:52 ; elapsed = 00:00:16 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51961 ; free virtual = 64074
+
+Phase 2.5 Global Place Phase2
+
+Phase 2.5.1 UpdateTiming Before Physical Synthesis
+Phase 2.5.1 UpdateTiming Before Physical Synthesis | Checksum: 151a0057e
+
+Time (s): cpu = 00:00:55 ; elapsed = 00:00:17 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51994 ; free virtual = 64103
+
+Phase 2.5.2 Physical Synthesis In Placer
+INFO: [Physopt 32-1035] Found 250 LUTNM shape to break, 820 LUT instances to create LUTNM shape
+INFO: [Physopt 32-1044] Break lutnm for timing: one critical 6, two critical 244, total 250, new lutff created 0
+INFO: [Physopt 32-1138] End 1 Pass. Optimized 565 nets or LUTs. Breaked 250 LUTs, combined 315 existing LUTs and moved 0 existing LUT
+INFO: [Physopt 32-1408] Pass 1. Identified 2 candidate nets for high-fanout optimization.
+INFO: [Physopt 32-81] Processed net design_1_i/gemv_q8_0_dma_top_0/inst/core/state[3]. Replicated 8 times.
+INFO: [Physopt 32-81] Processed net design_1_i/gemv_q8_0_dma_top_0/inst/core/state[2]. Replicated 7 times.
+INFO: [Physopt 32-232] Optimized 2 nets. Created 15 new instances.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 2 nets or cells. Created 15 new cells, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.05 . Memory (MB): peak = 3085.645 ; gain = 0.000 ; free physical = 52001 ; free virtual = 64110
+INFO: [Physopt 32-457] Pass 1. Identified 50 candidate cells for DSP register optimization.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__1__0. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[3]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__5__0. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__10. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__3__0. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[7]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[12]. 16 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__1__1. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[4]. 16 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[0]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__2__1. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[7]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[9]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[0]. 16 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__0__1. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__9. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[12]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__6__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[8]. 16 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[11]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__4__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[4]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[11]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[8]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__0__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[7]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__7. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[9]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__5. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[12]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[3]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__1__2. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__3__2. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[12]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[6]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[13]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__3. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[15]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__11. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[14]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[3]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[11]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[8]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[15]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[1]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__7__0. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[5]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[6]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[4]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[13]__0. 17 registers were pushed out.
+INFO: [Physopt 32-457] Pass 2. Identified 46 candidate cells for DSP register optimization.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__4__2. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__1. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[9]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[2]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[0]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[1]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[2]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__2. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[14]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[5]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__2__2. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[10]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__4__1. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[9]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__8__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[10]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__0__2. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[15]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[5]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[11]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__8. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[4]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[6]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[6]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__6. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[3]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__2__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[5]__0. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[15]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[8]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[2]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__3__1. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return__4. 17 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[7]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[13]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[2]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/mul_i32_i32_to_i64_return. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[10]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[1]. 15 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[1]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[14]__0. 47 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[0]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[13]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[10]. 30 registers were pushed out.
+INFO: [Physopt 32-665] Processed cell design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product_reg[14]. 30 registers were pushed out.
+INFO: [Physopt 32-775] End 2 Pass. Optimized 96 nets or cells. Created 2260 new cells, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 3085.645 ; gain = 0.000 ; free physical = 51879 ; free virtual = 63989
+INFO: [Physopt 32-1123] No candidate cells found for Shift Register to Pipeline optimization
+INFO: [Physopt 32-775] End 2 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-1401] No candidate cells found for Shift Register optimization.
+INFO: [Physopt 32-677] No candidate cells for Shift Register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-527] Pass 1: Identified 1 candidate cell for BRAM register optimization
+INFO: [Physopt 32-665] Processed cell design_1_i/mm2s_axis_fifo/inst/gen_fifo.xpm_fifo_axis_inst/xpm_fifo_base_inst/gen_sdpram.xpm_memory_base_inst/gen_wr_a.gen_word_narrow.mem_reg_1. 1 register was pushed out.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 1 net or cell. Created 1 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.06 . Memory (MB): peak = 3085.645 ; gain = 0.000 ; free physical = 51879 ; free virtual = 63989
+INFO: [Physopt 32-846] No candidate cells for URAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-846] No candidate cells for URAM register optimization found in the design
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-949] No candidate nets found for dynamic/static region interface net replication
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3085.645 ; gain = 0.000 ; free physical = 51879 ; free virtual = 63988
+
+Summary of Physical Synthesis Optimizations
+============================================
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                                     |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  LUT Combining                                    |          250  |            315  |                   565  |           0  |           1  |  00:00:00  |
+|  Retime                                           |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Very High Fanout                                 |           15  |              0  |                     2  |           0  |           1  |  00:00:00  |
+|  DSP Register                                     |         2260  |              0  |                    96  |           0  |           1  |  00:00:04  |
+|  Shift Register to Pipeline                       |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Shift Register                                   |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  BRAM Register                                    |            1  |              0  |                     1  |           0  |           1  |  00:00:00  |
+|  URAM Register                                    |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Dynamic/Static Region Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                                            |         2526  |            315  |                   664  |           0  |           9  |  00:00:04  |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Phase 2.5.2 Physical Synthesis In Placer | Checksum: 14e919495
+
+Time (s): cpu = 00:01:02 ; elapsed = 00:00:22 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51940 ; free virtual = 64049
+Phase 2.5 Global Place Phase2 | Checksum: 17eab304f
+
+Time (s): cpu = 00:01:04 ; elapsed = 00:00:23 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51946 ; free virtual = 64053
+Phase 2 Global Placement | Checksum: 17eab304f
+
+Time (s): cpu = 00:01:04 ; elapsed = 00:00:23 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51945 ; free virtual = 64053
+
+Phase 3 Detail Placement
+
+Phase 3.1 Commit Multi Column Macros
+Phase 3.1 Commit Multi Column Macros | Checksum: 1fcf1ce33
+
+Time (s): cpu = 00:01:07 ; elapsed = 00:00:24 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51953 ; free virtual = 64062
+
+Phase 3.2 Commit Most Macros & LUTRAMs
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: c42c483e
+
+Time (s): cpu = 00:01:13 ; elapsed = 00:00:26 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51937 ; free virtual = 64047
+
+Phase 3.3 Area Swap Optimization
+Phase 3.3 Area Swap Optimization | Checksum: e705f00e
+
+Time (s): cpu = 00:01:14 ; elapsed = 00:00:26 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51949 ; free virtual = 64059
+
+Phase 3.4 Pipeline Register Optimization
+Phase 3.4 Pipeline Register Optimization | Checksum: 10787d0bf
+
+Time (s): cpu = 00:01:14 ; elapsed = 00:00:26 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51941 ; free virtual = 64051
+
+Phase 3.5 Fast Optimization
+Phase 3.5 Fast Optimization | Checksum: f1040541
+
+Time (s): cpu = 00:01:22 ; elapsed = 00:00:28 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51988 ; free virtual = 64097
+
+Phase 3.6 Small Shape Detail Placement
+Phase 3.6 Small Shape Detail Placement | Checksum: 164dbfe51
+
+Time (s): cpu = 00:01:28 ; elapsed = 00:00:33 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 52016 ; free virtual = 64126
+
+Phase 3.7 Re-assign LUT pins
+Phase 3.7 Re-assign LUT pins | Checksum: 1af244f9c
+
+Time (s): cpu = 00:01:28 ; elapsed = 00:00:33 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 52007 ; free virtual = 64116
+
+Phase 3.8 Pipeline Register Optimization
+Phase 3.8 Pipeline Register Optimization | Checksum: 1855375be
+
+Time (s): cpu = 00:01:29 ; elapsed = 00:00:34 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 52011 ; free virtual = 64120
+
+Phase 3.9 Fast Optimization
+Phase 3.9 Fast Optimization | Checksum: 1cadad8ff
+
+Time (s): cpu = 00:01:40 ; elapsed = 00:00:37 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51963 ; free virtual = 64073
+Phase 3 Detail Placement | Checksum: 1cadad8ff
+
+Time (s): cpu = 00:01:40 ; elapsed = 00:00:37 . Memory (MB): peak = 3085.645 ; gain = 178.277 ; free physical = 51976 ; free virtual = 64086
+
+Phase 4 Post Placement Optimization and Clean-Up
+
+Phase 4.1 Post Commit Optimization
+INFO: [Place 46-20] Placer is running with the ExtraNetDelay_high directive. Post Placement Optimization may take longer to complete with ExtraNetDelay_high compared to other directives.
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 4.1.1 Post Placement Optimization
+Post Placement Optimization Initialization | Checksum: 194a1f7ec
+
+Phase 4.1.1.1 BUFG Insertion
+
+Starting Physical Synthesis Task
+
+Phase 1 Physical Synthesis Initialization
+INFO: [Physopt 32-721] Multithreading enabled for phys_opt_design using a maximum of 8 CPUs
+INFO: [Physopt 32-619] Estimated Timing Summary | WNS=-3.852 | TNS=-6941.053 |
+Phase 1 Physical Synthesis Initialization | Checksum: def5a1f0
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.42 . Memory (MB): peak = 3139.434 ; gain = 0.000 ; free physical = 51936 ; free virtual = 64044
+INFO: [Place 46-33] Processed net design_1_i/gemv_q8_0_dma_top_0/inst/core/SR[0], BUFG insertion was skipped due to placement/routing conflicts.
+INFO: [Place 46-33] Processed net design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_product, BUFG insertion was skipped due to placement/routing conflicts.
+INFO: [Place 46-33] Processed net design_1_i/gemv_q8_0_dma_top_0/inst/core/scaled_shifted, BUFG insertion was skipped due to placement/routing conflicts.
+INFO: [Place 46-56] BUFG insertion identified 3 candidate nets. Inserted BUFG: 0, Replicated BUFG Driver: 0, Skipped due to Placement/Routing Conflicts: 3, Skipped due to Timing Degradation: 0, Skipped due to netlist editing failed: 0.
+Ending Physical Synthesis Task | Checksum: 16555f5e5
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.71 . Memory (MB): peak = 3139.434 ; gain = 0.000 ; free physical = 51949 ; free virtual = 64058
+Phase 4.1.1.1 BUFG Insertion | Checksum: 194a1f7ec
+
+Time (s): cpu = 00:01:51 ; elapsed = 00:00:40 . Memory (MB): peak = 3139.434 ; gain = 232.066 ; free physical = 51943 ; free virtual = 64053
+
+Phase 4.1.1.2 Post Placement Timing Optimization
+INFO: [Common 17-41] Interrupt caught. Command should exit soon.
+INFO: [Common 17-41] Interrupt caught. Command should exit soon.
+[Mon Jun 29 11:28:22 2026] Interrupt received
+wait_on_runs: Time (s): cpu = 00:00:00.62 ; elapsed = 00:01:52 . Memory (MB): peak = 1899.723 ; gain = 0.000 ; free physical = 51963 ; free virtual = 64077
+INFO: [Common 17-344] 'wait_on_runs' was cancelled
+INFO: [Common 17-344] 'source' was cancelled
+INFO: [Common 17-206] Exiting Vivado at Mon Jun 29 11:28:22 2026...

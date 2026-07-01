@@ -1,0 +1,5 @@
+echo __OOPS_CHECK_START__; dmesg | grep -Ei "kernel panic|oop s|bus error|Unhandled fault|imprecise external abort|segfault|dma.*error|AXI|SLV ERR|DECERR" || true; echo __OOPS_CHECK_END__
+__OOPS_CHECK_START__
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+__OOPS_CHECK_END__
+root@Zybo-Z7-20:~# 

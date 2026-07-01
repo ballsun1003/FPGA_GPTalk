@@ -32,8 +32,8 @@
       "s2mm_axis_fifo": "",
       "axi_input_bram_ctrl": "",
       "input_vector_bram": "",
-      "gemv_q8_0_dma_top_0": "",
-      "xlconcat_0": ""
+      "xlconcat_0": "",
+      "gemv_q8_0_dma_top_0": ""
     },
     "interface_ports": {
       "DDR": {
@@ -2164,13 +2164,13 @@
             "value": "0"
           },
           "c_m_axi_mm2s_data_width": {
-            "value": "32"
+            "value": "128"
           },
           "c_m_axi_s2mm_data_width": {
             "value": "32"
           },
           "c_m_axis_mm2s_tdata_width": {
-            "value": "32"
+            "value": "128"
           },
           "c_s_axis_s2mm_tdata_width": {
             "value": "32"
@@ -2228,7 +2228,7 @@
             "value": "1"
           },
           "TDATA_NUM_BYTES": {
-            "value": "4"
+            "value": "16"
           }
         },
         "interface_ports": {
@@ -2326,15 +2326,27 @@
           }
         }
       },
+      "xlconcat_0": {
+        "vlnv": "xilinx.com:ip:xlconcat:2.1",
+        "ip_revision": "6",
+        "xci_name": "design_1_xlconcat_0_0",
+        "xci_path": "ip/design_1_xlconcat_0_0/design_1_xlconcat_0_0.xci",
+        "inst_hier_path": "xlconcat_0",
+        "parameters": {
+          "NUM_PORTS": {
+            "value": "4"
+          }
+        }
+      },
       "gemv_q8_0_dma_top_0": {
-        "vlnv": "xilinx.com:module_ref:gemv_q8_0_dma_top:1.0",
+        "vlnv": "xilinx.com:module_ref:gemv_q8_0_dma_top_axis128:1.0",
         "ip_revision": "1",
-        "xci_name": "design_1_gemv_q8_0_dma_top_0_0",
-        "xci_path": "ip/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0.xci",
+        "xci_name": "design_1_gemv_q8_0_dma_top_0_2",
+        "xci_path": "ip/design_1_gemv_q8_0_dma_top_0_2/design_1_gemv_q8_0_dma_top_0_2.xci",
         "inst_hier_path": "gemv_q8_0_dma_top_0",
         "reference_info": {
           "ref_type": "hdl",
-          "ref_name": "gemv_q8_0_dma_top",
+          "ref_name": "gemv_q8_0_dma_top_axis128",
           "boundary_crc": "0x0"
         },
         "interface_ports": {
@@ -2564,7 +2576,7 @@
             "vlnv": "xilinx.com:interface:axis_rtl:1.0",
             "parameters": {
               "TDATA_NUM_BYTES": {
-                "value": "4",
+                "value": "16",
                 "value_src": "constant"
               },
               "HAS_TKEEP": {
@@ -2608,13 +2620,13 @@
               "TDATA": {
                 "physical_name": "S_AXIS_TDATA",
                 "direction": "I",
-                "left": "31",
+                "left": "127",
                 "right": "0"
               },
               "TKEEP": {
                 "physical_name": "S_AXIS_TKEEP",
                 "direction": "I",
-                "left": "3",
+                "left": "15",
                 "right": "0"
               },
               "TLAST": {
@@ -2794,18 +2806,6 @@
                 "value_src": "constant"
               }
             }
-          }
-        }
-      },
-      "xlconcat_0": {
-        "vlnv": "xilinx.com:ip:xlconcat:2.1",
-        "ip_revision": "6",
-        "xci_name": "design_1_xlconcat_0_0",
-        "xci_path": "ip/design_1_xlconcat_0_0/design_1_xlconcat_0_0.xci",
-        "inst_hier_path": "xlconcat_0",
-        "parameters": {
-          "NUM_PORTS": {
-            "value": "4"
           }
         }
       }
@@ -3100,10 +3100,10 @@
           "mm2s_axis_fifo/s_axis_aclk",
           "s2mm_axis_fifo/s_axis_aclk",
           "axi_input_bram_ctrl/s_axi_aclk",
-          "gemv_q8_0_dma_top_0/S_AXI_ACLK",
           "axi_dma_ctrl_clkconv/m_axi_aclk",
           "axi_gemv_ctrl_clkconv/m_axi_aclk",
-          "axi_bram_ctrl_clkconv/m_axi_aclk"
+          "axi_bram_ctrl_clkconv/m_axi_aclk",
+          "gemv_q8_0_dma_top_0/S_AXI_ACLK"
         ]
       },
       "processing_system7_0_FCLK_RESET0_N": {
@@ -3142,10 +3142,10 @@
           "mm2s_axis_fifo/s_axis_aresetn",
           "s2mm_axis_fifo/s_axis_aresetn",
           "axi_input_bram_ctrl/s_axi_aresetn",
-          "gemv_q8_0_dma_top_0/S_AXI_ARESETN",
           "axi_dma_ctrl_clkconv/m_axi_aresetn",
           "axi_gemv_ctrl_clkconv/m_axi_aresetn",
-          "axi_bram_ctrl_clkconv/m_axi_aresetn"
+          "axi_bram_ctrl_clkconv/m_axi_aresetn",
+          "gemv_q8_0_dma_top_0/S_AXI_ARESETN"
         ]
       },
       "v_axi4s_vid_out_0_vtg_ce": {
@@ -3187,11 +3187,6 @@
               "SEG_axi_input_bram_ctrl_Mem0": {
                 "address_block": "/axi_input_bram_ctrl/S_AXI/Mem0",
                 "offset": "0x42000000",
-                "range": "64K"
-              },
-              "SEG_axi_vdma_1_Reg": {
-                "address_block": "/axi_vdma_1/S_AXI_LITE/Reg",
-                "offset": "0x43010000",
                 "range": "64K"
               },
               "SEG_gemv_q8_0_dma_top_0_reg0": {

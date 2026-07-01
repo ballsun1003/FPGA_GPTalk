@@ -1,0 +1,52 @@
+GPTalk S03 boot recovery canonical test_c result
+Date: 2026-06-30 KST
+
+test name:
+- test_c_s03_fsbl_active_bit_s03_uboot
+
+FSBL:
+- path: artifacts/s03_bootgen/zynq_fsbl.elf
+- sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream:
+- path: hw/vivado_project/export/GPTalk_dma.bit
+- sha256: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+
+U-Boot:
+- path: artifacts/s03_bootgen/u-boot.elf
+- sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF:
+- artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/boot.bif
+
+BOOT.BIN sha256:
+- 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+
+SD copied file:
+- /dev/sdc1:/BOOT.BIN
+
+UART:
+- /dev/ttyUSB1 prompt probe bytes: 21
+- /dev/ttyUSB1 runtime probe bytes: 2750
+- serial log: logs/serial_test_c_canonical_ttyUSB1_20260630_115226.log
+- runtime probe log: logs/serial_test_c_canonical_runtime_probe_20260630_115317.log
+
+DONE LED:
+- on, confirmed by user
+
+U-Boot entry:
+- yes, inferred from successful Linux boot/root prompt on same serial path
+
+Linux root prompt:
+- yes, root@Zybo-Z7-20:~#
+
+Runtime/DT access:
+- /sys/class/uio contains axi_dma, input_bram, hdmi_vdma, hdmi_vtc, hdmi_dynclk, gemv_ctrl
+- /opt/smollm2_zybo exists
+
+Judgment:
+- PASS.
+- Adopt artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN as the S03 boot recovery baseline.
+- custom/recovery FSBL remains rejected.
+- PetaLinux full rebuild remains unnecessary for S03 boot recovery.
+

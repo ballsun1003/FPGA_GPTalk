@@ -1,0 +1,34 @@
+test name: test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot
+
+Purpose:
+- S05.3 reexport active known-good candidate XSA after rejected counter cleanup
+
+created: 2026-07-01 00:59:12
+
+FSBL path: artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma.bit
+bitstream sha256: 158ba9de633fc8ea4a8b4822d0589fad427ec25502ff67cc8d44ef604696acb0
+
+XSA source: hw/vivado_project/export/GPTalk_dma.xsa
+XSA sha256: f6ef5281f7558d21435127cc6858e72d312089e1f7a26bed34ce4206ae9a1d7d
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_0_synth_1/design_1_gemv_q8_0_dma_top_0_0.dcp
+GEMV OOC DCP sha256: 6826ab2bbeb37ef5548abd64e3214e382683e82b3838f0b96189ef1f361ae5e6
+
+U-Boot path: artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42
+
+Bootgen:
+- log: logs/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot_bootgen.log
+- result: PASS

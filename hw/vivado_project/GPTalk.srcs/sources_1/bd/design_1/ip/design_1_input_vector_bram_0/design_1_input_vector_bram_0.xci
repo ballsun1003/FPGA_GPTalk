@@ -255,7 +255,7 @@
           "mode": "slave",
           "parameters": {
             "MEM_ADDRESS_MODE": [ { "value": "BYTE_ADDRESS", "value_permission": "bd", "resolve_type": "user", "usage": "all" } ],
-            "MEM_SIZE": [ { "value": "8192", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
+            "MEM_SIZE": [ { "value": "65536", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "MEM_WIDTH": [ { "value": "32", "value_permission": "bd", "resolve_type": "generated", "format": "long", "is_ips_inferred": true, "is_static_object": false } ],
             "MEM_ECC": [ { "value": "NONE", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],
             "MASTER_TYPE": [ { "value": "BRAM_CTRL", "value_src": "user", "value_permission": "bd", "resolve_type": "generated", "is_ips_inferred": true, "is_static_object": false } ],

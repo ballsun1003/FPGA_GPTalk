@@ -1,0 +1,50 @@
+test name: test_s05_1_s03_fsbl_handshake_bit_s03_uboot
+
+Purpose:
+- Test S05.1 RTL fix with the known-good S03 FSBL and S03 U-Boot.
+- The bitstream includes the stream-core AXI handshake fix for S05 TLAST debug.
+- This does not use the discarded custom/recovery FSBL.
+
+FSBL path: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot/GPTalk_dma_handshake.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma.bit
+bitstream sha256: 60472431c6b4a7d34b79556ef75c0cc2319c93f9eca98e9b2dff7464f180bbdc
+
+U-Boot path: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot/boot.bif
+BIF sha256: 68e6c752422014cedd5c761923fb9a8cf346e20d9592f52e4373d2ac10fa7fb5
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: ce5e2939614531a14e6957b17ee9ff6fa3ec7103ca0031a45068e6bd71144b97
+
+Expected result:
+- DONE LED: on
+- UART byte count: nonzero
+- U-Boot entry: yes
+- Linux root prompt: yes
+- S05 gemv_hw_test: mode=0 scaled PASS and mode=1 block_acc PASS
+
+Actual result:
+- SD copied target: /dev/sdb1:/BOOT.BIN
+- SD copied BOOT.BIN sha256: ce5e2939614531a14e6957b17ee9ff6fa3ec7103ca0031a45068e6bd71144b97
+- SD previous BOOT backup: /dev/sdb1:/BOOT_BEFORE_S05_1_HANDSHAKE_20260630.BIN
+- SD previous BOOT backup sha256: 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+- SD image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- SD uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- UART byte count: not tested yet
+- DONE LED: not tested yet
+- U-Boot entry: not tested yet
+- Linux root prompt: not tested yet
+- S05 gemv_hw_test: not rerun yet
+- serial log path: TBD
+- S05 rerun log path: TBD
+
+Bootgen:
+- log: logs/s05_1_bootgen_handshake_boot.log
+- result: PASS, Bootimage generated successfully

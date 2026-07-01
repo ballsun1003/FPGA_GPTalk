@@ -1,0 +1,1465 @@
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 06:09:03 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+CRITICAL WARNING: [Common 17-741] No write access right to the local Tcl store at '/home/pjs/.Xilinx/Vivado/2024.2.2/XilinxTclStore'. XilinxTclStore is reverted to the installation area. If you want to use local Tcl Store, please change the access right and relaunch Vivado.
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source scripts/create_zybo_gemv_smoke_hw.tcl
+# set script_dir [file normalize [file dirname [info script]]]
+# set repo_root [file normalize [file join $script_dir ..]]
+# set out_dir [file join $repo_root hw zybo_gemv_smoke]
+# set log_dir [file join $repo_root logs]
+# file mkdir $log_dir
+# set board_repo [file join $repo_root vivado_board_files digilent-vivado-boards new board_files]
+# if {[file exists $board_repo]} {
+#     set_param board.repoPaths [list $board_repo]
+# }
+# set board_part "digilentinc.com:zybo-z7-20:part0:1.2"
+# set part_name "xc7z020clg400-1"
+# set bd_name "design_1"
+# set gemv_base 0x43C00000
+# set rtl_smoke [file join $repo_root vivado_ip rtl gemv_q8_0_axi_lite_smoke.v]
+# if {![file exists $rtl_smoke]} {
+#     error "missing RTL file: $rtl_smoke"
+# }
+# file delete -force $out_dir
+# create_project zybo_gemv_smoke $out_dir -part $part_name
+# set_property board_part $board_part [current_project]
+# set_property target_language Verilog [current_project]
+# add_files -norecurse -fileset sources_1 [list $rtl_smoke]
+# set_property file_type Verilog [get_files $rtl_smoke]
+# update_compile_order -fileset sources_1
+# create_bd_design design_1
+Wrote  : </home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.srcs/sources_1/bd/design_1/design_1.bd> 
+# create_bd_cell -type ip -vlnv xilinx.com:ip:processing_system7 processing_system7_0
+# apply_bd_automation -rule xilinx.com:bd_rule:processing_system7 \
+#     -config {make_external "FIXED_IO, DDR" apply_board_preset "1" Master "Disable" Slave "Disable"} \
+#     [get_bd_cells processing_system7_0]
+# set_property -dict [list \
+#     CONFIG.PCW_USE_M_AXI_GP0 {1} \
+#     CONFIG.PCW_EN_CLK0_PORT {1} \
+#     CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ {100.000000} \
+# ] [get_bd_cells processing_system7_0]
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+# create_bd_cell -type module -reference gemv_q8_0_axi_lite_smoke gemv_q8_0_axi_lite_smoke_0
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'ADDR_LSB' by 2 for port or parameter 'wr_addr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'OPT_MEM_ADDR_BITS' by 7 for port or parameter 'wr_addr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'ADDR_LSB' by 2 for port or parameter 'wr_addr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'ADDR_LSB' by 2 for port or parameter 'rd_addr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'OPT_MEM_ADDR_BITS' by 7 for port or parameter 'rd_addr'
+INFO: [IP_Flow 19-1976] HDL Parser: Replacing 'ADDR_LSB' by 2 for port or parameter 'rd_addr'
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI_ACLK' of definition 'xilinx.com:signal:clock:1.0' (from X_INTERFACE_INFO parameter from HDL file).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI_ACLK' of definition 'xilinx.com:signal:clock:1.0' (from 'X_INTERFACE_INFO' attribute).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI_ARESETN' of definition 'xilinx.com:signal:reset:1.0' (from X_INTERFACE_INFO parameter from HDL file).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI_ARESETN' of definition 'xilinx.com:signal:reset:1.0' (from 'X_INTERFACE_INFO' attribute).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI' of definition 'xilinx.com:interface:aximm:1.0' (from X_INTERFACE_INFO parameter from HDL file).
+INFO: [IP_Flow 19-5107] Inferred bus interface 'S_AXI' of definition 'xilinx.com:interface:aximm:1.0' (from 'X_INTERFACE_INFO' attribute).
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI_ACLK': Added interface parameter 'ASSOCIATED_BUSIF' with value 'S_AXI'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI_ACLK': Added interface parameter 'ASSOCIATED_RESET' with value 'S_AXI_ARESETN'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI_ACLK': Added interface parameter 'FREQ_HZ' with value '100000000'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI_ARESETN': Added interface parameter 'POLARITY' with value 'ACTIVE_LOW'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'DATA_WIDTH' with value '32'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'PROTOCOL' with value 'AXI4LITE'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'FREQ_HZ' with value '100000000'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'ADDR_WIDTH' with value '12'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'HAS_BURST' with value '0'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'HAS_LOCK' with value '0'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'HAS_PROT' with value '1'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'HAS_CACHE' with value '0'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'HAS_QOS' with value '0'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'HAS_REGION' with value '0'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'SUPPORTS_NARROW_BURST' with value '0'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'NUM_READ_OUTSTANDING' with value '1'.
+INFO: [IP_Flow 19-4728] Bus Interface 'S_AXI': Added interface parameter 'NUM_WRITE_OUTSTANDING' with value '1'.
+INFO: [IP_Flow 19-7067] Note that bus interface 'S_AXI_ACLK' has a fixed FREQ_HZ of '100000000'. This value will be respected whenever this IP is instantiated in IP Integrator.
+INFO: [IP_Flow 19-7067] Note that bus interface 'S_AXI' has a fixed FREQ_HZ of '100000000'. This value will be respected whenever this IP is instantiated in IP Integrator.
+# connect_bd_net [get_bd_pins processing_system7_0/FCLK_CLK0] [get_bd_pins gemv_q8_0_axi_lite_smoke_0/S_AXI_ACLK]
+# connect_bd_net [get_bd_pins processing_system7_0/FCLK_RESET0_N] [get_bd_pins gemv_q8_0_axi_lite_smoke_0/S_AXI_ARESETN]
+# apply_bd_automation -rule xilinx.com:bd_rule:axi4 \
+#     -config {Master "/processing_system7_0/M_AXI_GP0" Slave "/gemv_q8_0_axi_lite_smoke_0/S_AXI" intc_ip "New AXI Interconnect" Clk_master "/processing_system7_0/FCLK_CLK0" Clk_slave "/processing_system7_0/FCLK_CLK0" Clk_xbar "/processing_system7_0/FCLK_CLK0"} \
+#     [get_bd_intf_pins gemv_q8_0_axi_lite_smoke_0/S_AXI]
+INFO: [Ipptcl 7-1463] No Compatible Board Interface found. Board Tab not created in customize GUI
+Slave segment '/gemv_q8_0_axi_lite_smoke_0/S_AXI/reg0' is being assigned into address space '/processing_system7_0/Data' at <0x4000_0000 [ 4K ]>.
+# assign_bd_address
+INFO: [BD 41-3093] Triggering Legacy Auto Assign Algorithm
+# set gemv_segs [get_bd_addr_segs -quiet -regexp {.*SEG_gemv_q8_0_axi_lite_smoke_0.*}]
+# if {[llength $gemv_segs] == 0} {
+#     error "could not find GEMV smoke AXI address segment"
+# }
+# foreach seg $gemv_segs {
+#     set_property offset $gemv_base $seg
+#     set_property range 4K $seg
+# }
+# validate_bd_design
+CRITICAL WARNING: [PSU-1]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_0 has negative value -0.050 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-2]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_1 has negative value -0.044 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-3]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_2 has negative value -0.035 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [PSU-4]  Parameter : PCW_UIPARAM_DDR_DQS_TO_CLK_DELAY_3 has negative value -0.100 . PS DDR interfaces might fail when entering negative DQS skew values. 
+CRITICAL WARNING: [BD 41-1347] Reset pin /gemv_q8_0_axi_lite_smoke_0/S_AXI_ARESETN (associated clock /gemv_q8_0_axi_lite_smoke_0/S_AXI_ACLK) is connected to asynchronous reset source /processing_system7_0/FCLK_RESET0_N.
+This may prevent design from meeting timing. Instead it should be connected to reset source /rst_ps7_0_100M/peripheral_aresetn.
+CRITICAL WARNING: [BD 41-1347] Reset pin /ps7_0_axi_periph/S00_ARESETN (associated clock /ps7_0_axi_periph/S00_ACLK) is connected to asynchronous reset source /processing_system7_0/FCLK_RESET0_N.
+This may prevent design from meeting timing. Instead it should be connected to reset source /rst_ps7_0_100M/peripheral_aresetn.
+# save_bd_design
+Wrote  : </home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.srcs/sources_1/bd/design_1/design_1.bd> 
+# set address_report [file join $log_dir hw_smoke_address_map.txt]
+# set addr_fd [open $address_report w]
+# puts $addr_fd "Zybo Z7-20 GEMV smoke address map"
+# puts $addr_fd "Generated by scripts/create_zybo_gemv_smoke_hw.tcl"
+# puts $addr_fd ""
+# foreach seg [get_bd_addr_segs -quiet -regexp {.*SEG_.*}] {
+#     puts $addr_fd [format "%s OFFSET=%s RANGE=%s" $seg [get_property OFFSET $seg] [get_property RANGE $seg]]
+# }
+# close $addr_fd
+# set bd_file [get_files [file join $out_dir zybo_gemv_smoke.srcs sources_1 bd $bd_name ${bd_name}.bd]]
+# make_wrapper -files $bd_file -top
+INFO: [BD 41-1662] The design 'design_1.bd' is already validated. Therefore parameter propagation will not be re-run.
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/sim/design_1.v
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v
+# add_files -norecurse [file join $out_dir zybo_gemv_smoke.gen sources_1 bd $bd_name hdl ${bd_name}_wrapper.v]
+# set_property top ${bd_name}_wrapper [current_fileset]
+# update_compile_order -fileset sources_1
+# launch_runs synth_1 -jobs 8
+INFO: [BD 41-1662] The design 'design_1.bd' is already validated. Therefore parameter propagation will not be re-run.
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/sim/design_1.v
+Verilog Output written to : /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v
+INFO: [IP_Flow 19-5611] Unable to find an associated reset port for the interface 'M_AXI_GP0'. A default connection has been created.
+INFO: [BD 41-1029] Generation completed for the IP Integrator block processing_system7_0 .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block gemv_q8_0_axi_lite_smoke_0 .
+WARNING: [IP_Flow 19-4994] Overwriting existing constraint file '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_ps7_0_axi_periph_imp_auto_pc_0/design_1_ps7_0_axi_periph_imp_auto_pc_0_ooc.xdc'
+INFO: [BD 41-1029] Generation completed for the IP Integrator block ps7_0_axi_periph/s00_couplers/auto_pc .
+INFO: [BD 41-1029] Generation completed for the IP Integrator block rst_ps7_0_100M .
+Exporting to file /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/hw_handoff/design_1.hwh
+Generated Hardware Definition File /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.hwdef
+INFO: [IP_Flow 19-6930] IPCACHE: runCacheChecks() number of threads = 8
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_ps7_0_axi_periph_imp_auto_pc_0
+INFO: [IP_Flow 19-6921] IPCACHE: Adding cache check func to thread queue for IP design_1_rst_ps7_0_100M_0
+INFO: [IP_Flow 19-8020] IPCACHE: runCacheChecks() calling threadPool finishWork()
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_ps7_0_axi_periph_imp_auto_pc_0
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: design_1_rst_ps7_0_100M_0
+WARNING: [Vivado 12-7122] Auto Incremental Compile:: No reference checkpoint was found in run synth_1. Auto-incremental flow will not be run, the standard flow will be run instead.
+[Mon Jun 29 06:09:24 2026] Launched design_1_rst_ps7_0_100M_0_synth_1, design_1_ps7_0_axi_periph_imp_auto_pc_0_synth_1, design_1_gemv_q8_0_axi_lite_smoke_0_0_synth_1, design_1_processing_system7_0_0_synth_1...
+Run output will be captured here:
+design_1_rst_ps7_0_100M_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/design_1_rst_ps7_0_100M_0_synth_1/runme.log
+design_1_ps7_0_axi_periph_imp_auto_pc_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/design_1_ps7_0_axi_periph_imp_auto_pc_0_synth_1/runme.log
+design_1_gemv_q8_0_axi_lite_smoke_0_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/design_1_gemv_q8_0_axi_lite_smoke_0_0_synth_1/runme.log
+design_1_processing_system7_0_0_synth_1: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/design_1_processing_system7_0_0_synth_1/runme.log
+[Mon Jun 29 06:09:24 2026] Launched synth_1...
+Run output will be captured here: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/runme.log
+launch_runs: Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 1715.492 ; gain = 88.043 ; free physical = 23345 ; free virtual = 67053
+# wait_on_run synth_1
+[Mon Jun 29 06:09:24 2026] Waiting for synth_1 to finish...
+
+*** Running vivado
+    with args -log design_1_wrapper.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source design_1_wrapper.tcl
+
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 06:10:06 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+CRITICAL WARNING: [Common 17-741] No write access right to the local Tcl store at '/home/pjs/.Xilinx/Vivado/2024.2.2/XilinxTclStore'. XilinxTclStore is reverted to the installation area. If you want to use local Tcl Store, please change the access right and relaunch Vivado.
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source design_1_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+Command: synth_design -top design_1_wrapper -part xc7z020clg400-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 1714
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2002.754 ; gain = 408.258 ; free physical = 21949 ; free virtual = 65738
+---------------------------------------------------------------------------------
+INFO: [Synth 8-6157] synthesizing module 'design_1_wrapper' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
+INFO: [Synth 8-6157] synthesizing module 'design_1' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:13]
+INFO: [Synth 8-6157] synthesizing module 'design_1_gemv_q8_0_axi_lite_smoke_0_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_gemv_q8_0_axi_lite_smoke_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_gemv_q8_0_axi_lite_smoke_0_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_gemv_q8_0_axi_lite_smoke_0_0_stub.v:6]
+INFO: [Synth 8-6157] synthesizing module 'design_1_processing_system7_0_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_processing_system7_0_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_processing_system7_0_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_processing_system7_0_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'USB0_PORT_INDCTL' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:162]
+WARNING: [Synth 8-7071] port 'USB0_VBUS_PWRSELECT' of module 'design_1_processing_system7_0_0' is unconnected for instance 'processing_system7_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:162]
+WARNING: [Synth 8-7023] instance 'processing_system7_0' of module 'design_1_processing_system7_0_0' has 65 connections declared, but only 63 given [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:162]
+INFO: [Synth 8-6157] synthesizing module 'design_1_ps7_0_axi_periph_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:299]
+INFO: [Synth 8-6157] synthesizing module 's00_couplers_imp_UYSKKA' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:553]
+INFO: [Synth 8-6157] synthesizing module 'design_1_ps7_0_axi_periph_imp_auto_pc_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_ps7_0_axi_periph_imp_auto_pc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_ps7_0_axi_periph_imp_auto_pc_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_ps7_0_axi_periph_imp_auto_pc_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 's00_couplers_imp_UYSKKA' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:553]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_ps7_0_axi_periph_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:299]
+INFO: [Synth 8-6157] synthesizing module 'design_1_rst_ps7_0_100M_0' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_rst_ps7_0_100M_0_stub.v:6]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_rst_ps7_0_100M_0' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/.Xil/Vivado-1671-pjs-laptop/realtime/design_1_rst_ps7_0_100M_0_stub.v:6]
+WARNING: [Synth 8-7071] port 'mb_reset' of module 'design_1_rst_ps7_0_100M_0' is unconnected for instance 'rst_ps7_0_100M' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:290]
+WARNING: [Synth 8-7071] port 'bus_struct_reset' of module 'design_1_rst_ps7_0_100M_0' is unconnected for instance 'rst_ps7_0_100M' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:290]
+WARNING: [Synth 8-7071] port 'peripheral_reset' of module 'design_1_rst_ps7_0_100M_0' is unconnected for instance 'rst_ps7_0_100M' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:290]
+WARNING: [Synth 8-7071] port 'interconnect_aresetn' of module 'design_1_rst_ps7_0_100M_0' is unconnected for instance 'rst_ps7_0_100M' [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:290]
+WARNING: [Synth 8-7023] instance 'rst_ps7_0_100M' of module 'design_1_rst_ps7_0_100M_0' has 10 connections declared, but only 6 given [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:290]
+INFO: [Synth 8-6155] done synthesizing module 'design_1' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/synth/design_1.v:13]
+INFO: [Synth 8-6155] done synthesizing module 'design_1_wrapper' (0#1) [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/hdl/design_1_wrapper.v:13]
+WARNING: [Synth 8-7129] Port M_ACLK in module s00_couplers_imp_UYSKKA is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M_ARESETN in module s00_couplers_imp_UYSKKA is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ACLK in module design_1_ps7_0_axi_periph_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ARESETN in module design_1_ps7_0_axi_periph_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2078.691 ; gain = 484.195 ; free physical = 21898 ; free virtual = 65688
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2093.535 ; gain = 499.039 ; free physical = 21900 ; free virtual = 65690
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:03 ; elapsed = 00:00:04 . Memory (MB): peak = 2093.535 ; gain = 499.039 ; free physical = 21900 ; free virtual = 65691
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2093.535 ; gain = 0.000 ; free physical = 21898 ; free virtual = 65689
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc] for cell 'design_1_i/processing_system7_0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc] for cell 'design_1_i/processing_system7_0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_gemv_q8_0_axi_lite_smoke_0_0/design_1_gemv_q8_0_axi_lite_smoke_0_0/design_1_gemv_q8_0_axi_lite_smoke_0_0_in_context.xdc] for cell 'design_1_i/gemv_q8_0_axi_lite_smoke_0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_gemv_q8_0_axi_lite_smoke_0_0/design_1_gemv_q8_0_axi_lite_smoke_0_0/design_1_gemv_q8_0_axi_lite_smoke_0_0_in_context.xdc] for cell 'design_1_i/gemv_q8_0_axi_lite_smoke_0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_ps7_0_axi_periph_imp_auto_pc_0/design_1_ps7_0_axi_periph_imp_auto_pc_0/design_1_ps7_0_axi_periph_imp_auto_pc_0_in_context.xdc] for cell 'design_1_i/ps7_0_axi_periph/s00_couplers/auto_pc'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_ps7_0_axi_periph_imp_auto_pc_0/design_1_ps7_0_axi_periph_imp_auto_pc_0/design_1_ps7_0_axi_periph_imp_auto_pc_0_in_context.xdc] for cell 'design_1_i/ps7_0_axi_periph/s00_couplers/auto_pc'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0_in_context.xdc] for cell 'design_1_i/rst_ps7_0_100M'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0_in_context.xdc] for cell 'design_1_i/rst_ps7_0_100M'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2142.461 ; gain = 0.000 ; free physical = 21985 ; free virtual = 65778
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2142.461 ; gain = 0.000 ; free physical = 21985 ; free virtual = 65778
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2142.461 ; gain = 547.965 ; free physical = 21979 ; free virtual = 65776
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg400-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2150.465 ; gain = 555.969 ; free physical = 21979 ; free virtual = 65776
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 2).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 3).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 4).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 5).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 6).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 7).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 8).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 9).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 10).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 11).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 12).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 13).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 14).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 15).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 16).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 17).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 18).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 19).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 20).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 21).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 22).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 23).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 24).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 25).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 26).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 27).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 28).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 29).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_addr[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 30).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_addr[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 31).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 32).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 33).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 34).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 35).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ba[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 36).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ba[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 37).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cas_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 38).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cas_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 39).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cke. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 40).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cke. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 41).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_cs_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 42).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_cs_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 43).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ck_p. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 44).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ck_p. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 45).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ck_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 46).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ck_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 47).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 48).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 49).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 50).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 51).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 52).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 53).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dm[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 54).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dm[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 55).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 56).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 57).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 58).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 59).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 60).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 61).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_p[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 62).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_p[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 63).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 64).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 65).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 66).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 67).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 68).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 69).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dqs_n[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 70).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dqs_n[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 71).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 72).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 73).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 74).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 75).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 76).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 77).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 78).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 79).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 80).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 81).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 82).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 83).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 84).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 85).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 86).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 87).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 88).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 89).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 90).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 91).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 92).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 93).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 94).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 95).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 96).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 97).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 98).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 99).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 100).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 101).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 102).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 103).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 104).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 105).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 106).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 107).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 108).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 109).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 110).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 111).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 112).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 113).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 114).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 115).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 116).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 117).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 118).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 119).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 120).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 121).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 122).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 123).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 124).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 125).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 126).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 127).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 128).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 129).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 130).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 131).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 132).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 133).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_dq[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 134).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_dq[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 135).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_reset_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 136).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_reset_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 137).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_odt. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 138).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_odt. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 139).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_ras_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 140).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_ras_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 141).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrn. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 142).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrn. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 143).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrp. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 144).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ddr_vrp. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 145).
+Applied set_property IO_BUFFER_TYPE = NONE for DDR_we_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 146).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for DDR_we_n. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 147).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 148).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[0]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 149).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 150).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[10]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 151).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 152).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[11]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 153).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 154).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[12]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 155).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 156).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[13]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 157).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 158).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[14]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 159).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 160).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[15]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 161).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 162).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[16]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 163).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 164).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[17]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 165).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 166).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[18]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 167).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 168).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[19]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 169).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 170).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[1]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 171).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 172).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[20]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 173).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 174).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[21]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 175).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 176).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[22]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 177).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 178).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[23]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 179).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 180).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[24]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 181).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 182).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[25]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 183).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 184).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[26]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 185).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 186).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[27]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 187).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 188).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[28]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 189).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 190).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[29]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 191).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 192).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[2]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 193).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 194).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[30]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 195).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 196).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[31]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 197).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[32]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 198).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[32]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 199).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[33]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 200).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[33]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 201).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[34]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 202).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[34]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 203).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[35]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 204).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[35]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 205).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[36]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 206).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[36]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 207).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[37]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 208).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[37]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 209).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[38]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 210).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[38]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 211).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[39]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 212).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[39]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 213).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 214).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[3]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 215).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[40]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 216).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[40]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 217).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[41]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 218).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[41]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 219).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[42]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 220).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[42]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 221).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[43]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 222).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[43]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 223).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[44]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 224).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[44]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 225).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[45]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 226).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[45]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 227).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[46]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 228).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[46]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 229).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[47]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 230).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[47]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 231).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[48]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 232).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[48]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 233).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[49]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 234).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[49]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 235).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 236).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[4]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 237).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[50]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 238).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[50]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 239).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[51]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 240).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[51]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 241).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[52]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 242).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[52]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 243).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[53]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 244).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[53]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 245).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 246).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[5]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 247).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 248).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[6]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 249).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 250).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[7]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 251).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 252).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[8]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 253).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_mio[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 254).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_mio[9]. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 255).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_clk. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 256).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_clk. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 257).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_porb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 258).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_porb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 259).
+Applied set_property IO_BUFFER_TYPE = NONE for FIXED_IO_ps_srstb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 260).
+Applied set_property CLOCK_BUFFER_TYPE = NONE for FIXED_IO_ps_srstb. (constraint file  /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0/design_1_processing_system7_0_0_in_context.xdc, line 261).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/processing_system7_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/gemv_q8_0_axi_lite_smoke_0. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/ps7_0_axi_periph/s00_couplers/auto_pc. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/ps7_0_axi_periph. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for design_1_i/rst_ps7_0_100M. (constraint file  auto generated constraint).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2150.465 ; gain = 555.969 ; free physical = 21979 ; free virtual = 65776
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 2150.465 ; gain = 555.969 ; free physical = 21976 ; free virtual = 65774
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+WARNING: [Synth 8-7129] Port ACLK in module design_1_ps7_0_axi_periph_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port ARESETN in module design_1_ps7_0_axi_periph_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M00_ACLK in module design_1_ps7_0_axi_periph_0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port M00_ARESETN in module design_1_ps7_0_axi_periph_0 is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:09 ; elapsed = 00:00:09 . Memory (MB): peak = 2150.465 ; gain = 555.969 ; free physical = 21968 ; free virtual = 65770
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2229.465 ; gain = 634.969 ; free physical = 21902 ; free virtual = 65707
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2229.465 ; gain = 634.969 ; free physical = 21902 ; free virtual = 65707
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:00:12 ; elapsed = 00:00:13 . Memory (MB): peak = 2239.480 ; gain = 644.984 ; free physical = 21893 ; free virtual = 65699
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21748 ; free virtual = 65557
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21748 ; free virtual = 65557
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21749 ; free virtual = 65558
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21749 ; free virtual = 65558
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21749 ; free virtual = 65558
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21749 ; free virtual = 65558
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+----------------------------------------+----------+
+|      |BlackBox name                           |Instances |
++------+----------------------------------------+----------+
+|1     |design_1_gemv_q8_0_axi_lite_smoke_0_0   |         1|
+|2     |design_1_processing_system7_0_0         |         1|
+|3     |design_1_ps7_0_axi_periph_imp_auto_pc_0 |         1|
+|4     |design_1_rst_ps7_0_100M_0               |         1|
++------+----------------------------------------+----------+
+
+Report Cell Usage: 
++------+--------------------------------------+------+
+|      |Cell                                  |Count |
++------+--------------------------------------+------+
+|1     |design_1_gemv_q8_0_axi_lite_smoke_0   |     1|
+|2     |design_1_processing_system7_0         |     1|
+|3     |design_1_ps7_0_axi_periph_imp_auto_pc |     1|
+|4     |design_1_rst_ps7_0_100M               |     1|
++------+--------------------------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.293 ; gain = 814.797 ; free physical = 21748 ; free virtual = 65557
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 0 critical warnings and 5 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:00:13 ; elapsed = 00:00:13 . Memory (MB): peak = 2409.293 ; gain = 765.871 ; free physical = 21747 ; free virtual = 65557
+Synthesis Optimization Complete : Time (s): cpu = 00:00:14 ; elapsed = 00:00:15 . Memory (MB): peak = 2409.301 ; gain = 814.797 ; free physical = 21747 ; free virtual = 65557
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2409.301 ; gain = 0.000 ; free physical = 21748 ; free virtual = 65557
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2409.301 ; gain = 0.000 ; free physical = 21885 ; free virtual = 65698
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: e93bc144
+INFO: [Common 17-83] Releasing license: Synthesis
+31 Infos, 17 Warnings, 0 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:00:22 ; elapsed = 00:00:20 . Memory (MB): peak = 2409.301 ; gain = 926.859 ; free physical = 21895 ; free virtual = 65700
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1600.195; main = 1600.195; forked = 266.951
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3097.730; main = 2409.297; forked = 947.262
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/synth_1/design_1_wrapper.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file design_1_wrapper_utilization_synth.rpt -pb design_1_wrapper_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Mon Jun 29 06:10:31 2026...
+[Mon Jun 29 06:10:41 2026] synth_1 finished
+wait_on_runs: Time (s): cpu = 00:02:22 ; elapsed = 00:01:17 . Memory (MB): peak = 1715.492 ; gain = 0.000 ; free physical = 23244 ; free virtual = 67065
+# if {[get_property PROGRESS [get_runs synth_1]] ne "100%"} {
+#     error "synth_1 did not complete"
+# }
+# if {[get_property STATUS [get_runs synth_1]] ne "synth_design Complete!"} {
+#     error "synth_1 failed: [get_property STATUS [get_runs synth_1]]"
+# }
+# launch_runs impl_1 -to_step write_bitstream -jobs 8
+[Mon Jun 29 06:10:44 2026] Launched impl_1...
+Run output will be captured here: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/runme.log
+# wait_on_run impl_1
+[Mon Jun 29 06:10:44 2026] Waiting for impl_1 to finish...
+
+*** Running vivado
+    with args -log design_1_wrapper.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source design_1_wrapper.tcl -notrace
+
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Mon Jun 29 06:10:46 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+CRITICAL WARNING: [Common 17-741] No write access right to the local Tcl store at '/home/pjs/.Xilinx/Vivado/2024.2.2/XilinxTclStore'. XilinxTclStore is reverted to the installation area. If you want to use local Tcl Store, please change the access right and relaunch Vivado.
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source design_1_wrapper.tcl -notrace
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/tools/Xilinx/Vivado/2024.2/data/ip'.
+Command: link_design -top design_1_wrapper -part xc7z020clg400-1
+Design is defaulting to srcset: sources_1
+Design is defaulting to constrset: constrs_1
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_gemv_q8_0_axi_lite_smoke_0_0/design_1_gemv_q8_0_axi_lite_smoke_0_0.dcp' for cell 'design_1_i/gemv_q8_0_axi_lite_smoke_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.dcp' for cell 'design_1_i/processing_system7_0'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0.dcp' for cell 'design_1_i/rst_ps7_0_100M'
+INFO: [Project 1-454] Reading design checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_ps7_0_axi_periph_imp_auto_pc_0/design_1_ps7_0_axi_periph_imp_auto_pc_0.dcp' for cell 'design_1_i/ps7_0_axi_periph/s00_couplers/auto_pc'
+Netlist sorting complete. Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.02 . Memory (MB): peak = 1573.719 ; gain = 0.000 ; free physical = 22661 ; free virtual = 66497
+INFO: [Netlist 29-17] Analyzing 26 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2024.2.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xdc] for cell 'design_1_i/processing_system7_0/inst'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xdc] for cell 'design_1_i/processing_system7_0/inst'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0_board.xdc] for cell 'design_1_i/rst_ps7_0_100M/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0_board.xdc] for cell 'design_1_i/rst_ps7_0_100M/U0'
+Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0.xdc] for cell 'design_1_i/rst_ps7_0_100M/U0'
+Finished Parsing XDC File [/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.gen/sources_1/bd/design_1/ip/design_1_rst_ps7_0_100M_0/design_1_rst_ps7_0_100M_0.xdc] for cell 'design_1_i/rst_ps7_0_100M/U0'
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 1803.215 ; gain = 0.000 ; free physical = 22515 ; free virtual = 66344
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+14 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+link_design completed successfully
+Command: opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command opt_design
+
+Starting DRC Task
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Project 1-461] DRC finished with 0 Errors
+INFO: [Project 1-462] Please refer to the DRC report (report_drc) for more information.
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.33 . Memory (MB): peak = 1919.949 ; gain = 116.734 ; free physical = 22423 ; free virtual = 66264
+
+Starting Cache Timing Information Task
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Ending Cache Timing Information Task | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2315.902 ; gain = 395.953 ; free physical = 22035 ; free virtual = 65878
+
+Starting Logic Optimization Task
+
+Phase 1 Initialization
+
+Phase 1.1 Core Generation And Design Setup
+Phase 1.1 Core Generation And Design Setup | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21725 ; free virtual = 65570
+
+Phase 1.2 Setup Constraints And Sort Netlist
+Phase 1.2 Setup Constraints And Sort Netlist | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21724 ; free virtual = 65570
+Phase 1 Initialization | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21723 ; free virtual = 65569
+
+Phase 2 Timer Update And Timing Data Collection
+
+Phase 2.1 Timer Update
+Phase 2.1 Timer Update | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21723 ; free virtual = 65571
+
+Phase 2.2 Timing Data Collection
+Phase 2.2 Timing Data Collection | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21722 ; free virtual = 65568
+Phase 2 Timer Update And Timing Data Collection | Checksum: 12c9ee0cd
+
+Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21722 ; free virtual = 65568
+
+Phase 3 Retarget
+INFO: [Opt 31-1851] Number of loadless carry chains removed were: 0
+INFO: [Opt 31-1834] Total Chains To Be Transformed Were: 0 AND Number of Transformed insts Created are: 0
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+INFO: [Opt 31-49] Retargeted 0 cell(s).
+Phase 3 Retarget | Checksum: 1d41e831d
+
+Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21721 ; free virtual = 65567
+Retarget | Checksum: 1d41e831d
+INFO: [Opt 31-389] Phase Retarget created 4 cells and removed 29 cells
+
+Phase 4 Constant propagation
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Phase 4 Constant propagation | Checksum: 16a05f590
+
+Time (s): cpu = 00:00:00.21 ; elapsed = 00:00:00.07 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21722 ; free virtual = 65568
+Constant propagation | Checksum: 16a05f590
+INFO: [Opt 31-389] Phase Constant propagation created 0 cells and removed 8 cells
+
+Phase 5 Sweep
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21723 ; free virtual = 65568
+INFO: [Constraints 18-11670] Building netlist checker database with flags, 0x8
+Done building netlist checker database: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21722 ; free virtual = 65568
+Phase 5 Sweep | Checksum: 191006662
+
+Time (s): cpu = 00:00:00.27 ; elapsed = 00:00:00.13 . Memory (MB): peak = 2659.707 ; gain = 0.000 ; free physical = 21722 ; free virtual = 65568
+Sweep | Checksum: 191006662
+INFO: [Opt 31-389] Phase Sweep created 0 cells and removed 218 cells
+
+Phase 6 BUFG optimization
+Phase 6 BUFG optimization | Checksum: 191006662
+
+Time (s): cpu = 00:00:00.29 ; elapsed = 00:00:00.15 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21722 ; free virtual = 65568
+BUFG optimization | Checksum: 191006662
+INFO: [Opt 31-662] Phase BUFG optimization created 0 cells of which 0 are BUFGs and removed 0 cells.
+
+Phase 7 Shift Register Optimization
+INFO: [Opt 31-1064] SRL Remap converted 0 SRLs to 0 registers and converted 0 registers of register chains to 0 SRLs
+Phase 7 Shift Register Optimization | Checksum: 191006662
+
+Time (s): cpu = 00:00:00.3 ; elapsed = 00:00:00.15 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21722 ; free virtual = 65568
+Shift Register Optimization | Checksum: 191006662
+INFO: [Opt 31-389] Phase Shift Register Optimization created 0 cells and removed 0 cells
+
+Phase 8 Post Processing Netlist
+Phase 8 Post Processing Netlist | Checksum: 1000168bc
+
+Time (s): cpu = 00:00:00.31 ; elapsed = 00:00:00.16 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21727 ; free virtual = 65573
+Post Processing Netlist | Checksum: 1000168bc
+INFO: [Opt 31-389] Phase Post Processing Netlist created 0 cells and removed 0 cells
+
+Phase 9 Finalization
+
+Phase 9.1 Finalizing Design Cores and Updating Shapes
+Phase 9.1 Finalizing Design Cores and Updating Shapes | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00.4 ; elapsed = 00:00:00.19 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21728 ; free virtual = 65574
+
+Phase 9.2 Verifying Netlist Connectivity
+
+Starting Connectivity Check Task
+
+Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00 . Memory (MB): peak = 2691.723 ; gain = 0.000 ; free physical = 21728 ; free virtual = 65574
+Phase 9.2 Verifying Netlist Connectivity | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00.43 ; elapsed = 00:00:00.19 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21728 ; free virtual = 65574
+Phase 9 Finalization | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00.45 ; elapsed = 00:00:00.2 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21728 ; free virtual = 65574
+Opt_design Change Summary
+=========================
+
+
+-------------------------------------------------------------------------------------------------------------------------
+|  Phase                        |  #Cells created  |  #Cells Removed  |  #Constrained objects preventing optimizations  |
+-------------------------------------------------------------------------------------------------------------------------
+|  Retarget                     |               4  |              29  |                                              0  |
+|  Constant propagation         |               0  |               8  |                                              0  |
+|  Sweep                        |               0  |             218  |                                              0  |
+|  BUFG optimization            |               0  |               0  |                                              0  |
+|  Shift Register Optimization  |               0  |               0  |                                              0  |
+|  Post Processing Netlist      |               0  |               0  |                                              0  |
+-------------------------------------------------------------------------------------------------------------------------
+
+
+Ending Logic Optimization Task | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00.47 ; elapsed = 00:00:00.2 . Memory (MB): peak = 2691.723 ; gain = 32.016 ; free physical = 21728 ; free virtual = 65574
+
+Starting Power Optimization Task
+INFO: [Pwropt 34-132] Skipping clock gating for clocks with a period < 2.00 ns.
+Ending Power Optimization Task | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2691.723 ; gain = 0.000 ; free physical = 21728 ; free virtual = 65574
+
+Starting Final Cleanup Task
+Ending Final Cleanup Task | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2691.723 ; gain = 0.000 ; free physical = 21728 ; free virtual = 65574
+
+Starting Netlist Obfuscation Task
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2691.723 ; gain = 0.000 ; free physical = 21728 ; free virtual = 65574
+Ending Netlist Obfuscation Task | Checksum: 12e7608e1
+
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2691.723 ; gain = 0.000 ; free physical = 21728 ; free virtual = 65574
+INFO: [Common 17-83] Releasing license: Implementation
+35 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+opt_design completed successfully
+opt_design: Time (s): cpu = 00:00:07 ; elapsed = 00:00:06 . Memory (MB): peak = 2691.723 ; gain = 888.508 ; free physical = 21728 ; free virtual = 65574
+INFO: [Vivado 12-24828] Executing command : report_drc -file design_1_wrapper_drc_opted.rpt -pb design_1_wrapper_drc_opted.pb -rpx design_1_wrapper_drc_opted.rpx
+Command: report_drc -file design_1_wrapper_drc_opted.rpt -pb design_1_wrapper_drc_opted.pb -rpx design_1_wrapper_drc_opted.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_drc_opted.rpt.
+report_drc completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21675 ; free virtual = 65522
+Wrote PlaceDB: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21673 ; free virtual = 65520
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21673 ; free virtual = 65520
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21671 ; free virtual = 65519
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21671 ; free virtual = 65519
+Wrote Device Cache: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21671 ; free virtual = 65519
+Write Physdb Complete: Time (s): cpu = 00:00:00.11 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2694.691 ; gain = 0.000 ; free physical = 21671 ; free virtual = 65519
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_opt.dcp' has been generated.
+Command: place_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-83] Releasing license: Implementation
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+Running DRC as a precondition to command place_design
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 4-198] DRC finished with 0 Errors
+INFO: [Vivado_Tcl 4-199] Please refer to the DRC report (report_drc) for more information.
+INFO: [Place 30-611] Multithreading enabled for place_design using a maximum of 8 CPUs
+
+Starting Placer Task
+
+Phase 1 Placer Initialization
+
+Phase 1.1 Placer Initialization Netlist Sorting
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2751.402 ; gain = 0.000 ; free physical = 21604 ; free virtual = 65452
+Phase 1.1 Placer Initialization Netlist Sorting | Checksum: 7b373cff
+
+Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2751.402 ; gain = 0.000 ; free physical = 21604 ; free virtual = 65452
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2751.402 ; gain = 0.000 ; free physical = 21604 ; free virtual = 65452
+
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device | Checksum: 771296a6
+
+Time (s): cpu = 00:00:00.54 ; elapsed = 00:00:00.22 . Memory (MB): peak = 2751.402 ; gain = 0.000 ; free physical = 21584 ; free virtual = 65432
+
+Phase 1.3 Build Placer Netlist Model
+Phase 1.3 Build Placer Netlist Model | Checksum: 69a438a1
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.38 . Memory (MB): peak = 2790.445 ; gain = 39.043 ; free physical = 21588 ; free virtual = 65436
+
+Phase 1.4 Constrain Clocks/Macros
+Phase 1.4 Constrain Clocks/Macros | Checksum: 69a438a1
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.38 . Memory (MB): peak = 2790.445 ; gain = 39.043 ; free physical = 21588 ; free virtual = 65436
+Phase 1 Placer Initialization | Checksum: 69a438a1
+
+Time (s): cpu = 00:00:01 ; elapsed = 00:00:00.39 . Memory (MB): peak = 2790.445 ; gain = 39.043 ; free physical = 21588 ; free virtual = 65435
+
+Phase 2 Global Placement
+
+Phase 2.1 Floorplanning
+Phase 2.1 Floorplanning | Checksum: eae59e3e
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.52 . Memory (MB): peak = 2790.445 ; gain = 39.043 ; free physical = 21596 ; free virtual = 65443
+
+Phase 2.2 Update Timing before SLR Path Opt
+Phase 2.2 Update Timing before SLR Path Opt | Checksum: b515d2d7
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.6 . Memory (MB): peak = 2790.445 ; gain = 39.043 ; free physical = 21591 ; free virtual = 65439
+
+Phase 2.3 Post-Processing in Floorplanning
+Phase 2.3 Post-Processing in Floorplanning | Checksum: b515d2d7
+
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:00.6 . Memory (MB): peak = 2790.445 ; gain = 39.043 ; free physical = 21591 ; free virtual = 65439
+
+Phase 2.4 Global Place Phase1
+Phase 2.4 Global Place Phase1 | Checksum: d9d70f7e
+
+Time (s): cpu = 00:00:07 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21580 ; free virtual = 65430
+
+Phase 2.5 Global Place Phase2
+
+Phase 2.5.1 UpdateTiming Before Physical Synthesis
+Phase 2.5.1 UpdateTiming Before Physical Synthesis | Checksum: eee9f3a2
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21582 ; free virtual = 65433
+
+Phase 2.5.2 Physical Synthesis In Placer
+INFO: [Physopt 32-1035] Found 0 LUTNM shape to break, 15 LUT instances to create LUTNM shape
+INFO: [Physopt 32-1044] Break lutnm for timing: one critical 0, two critical 0, total 0, new lutff created 0
+INFO: [Physopt 32-1138] End 1 Pass. Optimized 6 nets or LUTs. Breaked 0 LUT, combined 6 existing LUTs and moved 0 existing LUT
+INFO: [Physopt 32-65] No nets found for high-fanout optimization.
+INFO: [Physopt 32-232] Optimized 0 net. Created 0 new instance.
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+INFO: [Physopt 32-670] No setup violation found.  DSP Register Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  Shift Register to Pipeline Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  Shift Register Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  BRAM Register Optimization was not performed.
+INFO: [Physopt 32-670] No setup violation found.  URAM Register Optimization was not performed.
+INFO: [Physopt 32-949] No candidate nets found for dynamic/static region interface net replication
+INFO: [Physopt 32-775] End 1 Pass. Optimized 0 net or cell. Created 0 new cell, deleted 0 existing cell and moved 0 existing cell
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21594 ; free virtual = 65446
+
+Summary of Physical Synthesis Optimizations
+============================================
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  Optimization                                     |  Added Cells  |  Removed Cells  |  Optimized Cells/Nets  |  Dont Touch  |  Iterations  |  Elapsed   |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+|  LUT Combining                                    |            0  |              6  |                     6  |           0  |           1  |  00:00:00  |
+|  Retime                                           |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Very High Fanout                                 |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  DSP Register                                     |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Shift Register to Pipeline                       |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Shift Register                                   |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  BRAM Register                                    |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  URAM Register                                    |            0  |              0  |                     0  |           0  |           0  |  00:00:00  |
+|  Dynamic/Static Region Interface Net Replication  |            0  |              0  |                     0  |           0  |           1  |  00:00:00  |
+|  Total                                            |            0  |              6  |                     6  |           0  |           4  |  00:00:00  |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Phase 2.5.2 Physical Synthesis In Placer | Checksum: 17dc38d2b
+
+Time (s): cpu = 00:00:08 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21594 ; free virtual = 65447
+Phase 2.5 Global Place Phase2 | Checksum: 11d49b3dd
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21602 ; free virtual = 65454
+Phase 2 Global Placement | Checksum: 11d49b3dd
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21602 ; free virtual = 65454
+
+Phase 3 Detail Placement
+
+Phase 3.1 Commit Multi Column Macros
+Phase 3.1 Commit Multi Column Macros | Checksum: 155768bf3
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21602 ; free virtual = 65454
+
+Phase 3.2 Commit Most Macros & LUTRAMs
+Phase 3.2 Commit Most Macros & LUTRAMs | Checksum: 167e9b995
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21591 ; free virtual = 65442
+
+Phase 3.3 Area Swap Optimization
+Phase 3.3 Area Swap Optimization | Checksum: 16abcf6c2
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21582 ; free virtual = 65434
+
+Phase 3.4 Pipeline Register Optimization
+Phase 3.4 Pipeline Register Optimization | Checksum: 20702f2e4
+
+Time (s): cpu = 00:00:09 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21587 ; free virtual = 65439
+
+Phase 3.5 Small Shape Detail Placement
+Phase 3.5 Small Shape Detail Placement | Checksum: 1a10e3eda
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:02 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21582 ; free virtual = 65434
+
+Phase 3.6 Re-assign LUT pins
+Phase 3.6 Re-assign LUT pins | Checksum: d910e57e
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21580 ; free virtual = 65432
+
+Phase 3.7 Pipeline Register Optimization
+Phase 3.7 Pipeline Register Optimization | Checksum: 1b5eae95c
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21580 ; free virtual = 65432
+Phase 3 Detail Placement | Checksum: 1b5eae95c
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21580 ; free virtual = 65432
+
+Phase 4 Post Placement Optimization and Clean-Up
+
+Phase 4.1 Post Commit Optimization
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+
+Phase 4.1.1 Post Placement Optimization
+Post Placement Optimization Initialization | Checksum: c1c0e3c5
+
+Phase 4.1.1.1 BUFG Insertion
+
+Starting Physical Synthesis Task
+
+Phase 1 Physical Synthesis Initialization
+INFO: [Physopt 32-721] Multithreading enabled for phys_opt_design using a maximum of 8 CPUs
+INFO: [Physopt 32-619] Estimated Timing Summary | WNS=3.317 | TNS=0.000 |
+Phase 1 Physical Synthesis Initialization | Checksum: 1416b7735
+
+Time (s): cpu = 00:00:00.17 ; elapsed = 00:00:00.03 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21575 ; free virtual = 65425
+INFO: [Place 46-56] BUFG insertion identified 0 candidate nets. Inserted BUFG: 0, Replicated BUFG Driver: 0, Skipped due to Placement/Routing Conflicts: 0, Skipped due to Timing Degradation: 0, Skipped due to netlist editing failed: 0.
+Ending Physical Synthesis Task | Checksum: 1410957b5
+
+Time (s): cpu = 00:00:00.18 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21575 ; free virtual = 65425
+Phase 4.1.1.1 BUFG Insertion | Checksum: c1c0e3c5
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21575 ; free virtual = 65425
+
+Phase 4.1.1.2 Post Placement Timing Optimization
+INFO: [Place 30-746] Post Placement Timing Summary WNS=3.317. For the most accurate timing information please run report_timing.
+Phase 4.1.1.2 Post Placement Timing Optimization | Checksum: d07209b8
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21575 ; free virtual = 65425
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21575 ; free virtual = 65425
+Phase 4.1 Post Commit Optimization | Checksum: d07209b8
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21575 ; free virtual = 65425
+
+Phase 4.2 Post Placement Cleanup
+Phase 4.2 Post Placement Cleanup | Checksum: d07209b8
+
+Time (s): cpu = 00:00:10 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21571 ; free virtual = 65415
+
+Phase 4.3 Placer Reporting
+
+Phase 4.3.1 Print Estimated Congestion
+INFO: [Place 30-612] Post-Placement Estimated Congestion 
+ ____________________________________________________
+|           | Global Congestion | Short Congestion  |
+| Direction | Region Size       | Region Size       |
+|___________|___________________|___________________|
+|      North|                1x1|                1x1|
+|___________|___________________|___________________|
+|      South|                1x1|                1x1|
+|___________|___________________|___________________|
+|       East|                1x1|                1x1|
+|___________|___________________|___________________|
+|       West|                1x1|                1x1|
+|___________|___________________|___________________|
+
+Phase 4.3.1 Print Estimated Congestion | Checksum: d07209b8
+
+Time (s): cpu = 00:00:11 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21567 ; free virtual = 65417
+Phase 4.3 Placer Reporting | Checksum: d07209b8
+
+Time (s): cpu = 00:00:11 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21567 ; free virtual = 65417
+
+Phase 4.4 Final Placement Cleanup
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21567 ; free virtual = 65417
+
+Time (s): cpu = 00:00:11 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21567 ; free virtual = 65417
+Phase 4 Post Placement Optimization and Clean-Up | Checksum: 171730e8d
+
+Time (s): cpu = 00:00:11 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21567 ; free virtual = 65417
+Ending Placer Task | Checksum: 12ecb90a8
+
+Time (s): cpu = 00:00:11 ; elapsed = 00:00:03 . Memory (MB): peak = 2798.449 ; gain = 47.047 ; free physical = 21566 ; free virtual = 65417
+70 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+place_design completed successfully
+INFO: [Vivado 12-24838] Running report commands "report_control_sets, report_io, report_utilization" in parallel.
+Running report generation with 3 threads.
+INFO: [Vivado 12-24828] Executing command : report_control_sets -verbose -file design_1_wrapper_control_sets_placed.rpt
+report_control_sets: Time (s): cpu = 00:00:00.04 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21542 ; free virtual = 65392
+INFO: [Vivado 12-24828] Executing command : report_utilization -file design_1_wrapper_utilization_placed.rpt -pb design_1_wrapper_utilization_placed.pb
+INFO: [Vivado 12-24828] Executing command : report_io -file design_1_wrapper_io_placed.rpt
+report_io: Time (s): cpu = 00:00:00.12 ; elapsed = 00:00:00.12 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21531 ; free virtual = 65380
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21536 ; free virtual = 65385
+Wrote PlaceDB: Time (s): cpu = 00:00:00.14 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21534 ; free virtual = 65386
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21534 ; free virtual = 65386
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.02 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21533 ; free virtual = 65385
+Wrote Netlist Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21533 ; free virtual = 65385
+Wrote Device Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21533 ; free virtual = 65386
+Write Physdb Complete: Time (s): cpu = 00:00:00.19 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21533 ; free virtual = 65386
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_placed.dcp' has been generated.
+Command: phys_opt_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+
+Starting Initial Update Timing Task
+
+Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.07 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21515 ; free virtual = 65368
+INFO: [Vivado_Tcl 4-2279] Estimated Timing Summary | WNS= 3.317 | TNS= 0.000 | 
+INFO: [Vivado_Tcl 4-383] Design worst setup slack (WNS) is greater than or equal to 0.000 ns. All physical synthesis setup optimizations will be skipped.
+INFO: [Vivado_Tcl 4-232] No setup violation found. The netlist was not modified.
+INFO: [Common 17-83] Releasing license: Implementation
+81 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+phys_opt_design completed successfully
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21524 ; free virtual = 65377
+Wrote PlaceDB: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.04 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21515 ; free virtual = 65370
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21515 ; free virtual = 65370
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.03 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21515 ; free virtual = 65370
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21515 ; free virtual = 65370
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21511 ; free virtual = 65367
+Write Physdb Complete: Time (s): cpu = 00:00:00.19 ; elapsed = 00:00:00.06 . Memory (MB): peak = 2798.449 ; gain = 0.000 ; free physical = 21511 ; free virtual = 65367
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_physopt.dcp' has been generated.
+Command: route_design
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+
+
+Starting Routing Task
+INFO: [Route 35-254] Multithreading enabled for route_design using a maximum of 8 CPUs
+
+Phase 1 Build RT Design
+Checksum: PlaceDB: 1d9ac582 ConstDB: 0 ShapeSum: fb375836 RouteDB: 15f972f0
+Post Restoration Checksum: NetGraph: 659d18bf | NumContArr: 49c4d953 | Constraints: c2a8fa9d | Timing: c2a8fa9d
+Phase 1 Build RT Design | Checksum: 234b3e74c
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:12 . Memory (MB): peak = 2875.391 ; gain = 76.941 ; free physical = 21435 ; free virtual = 65305
+
+Phase 2 Router Initialization
+
+Phase 2.1 Fix Topology Constraints
+Phase 2.1 Fix Topology Constraints | Checksum: 234b3e74c
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:12 . Memory (MB): peak = 2875.391 ; gain = 76.941 ; free physical = 21435 ; free virtual = 65305
+
+Phase 2.2 Pre Route Cleanup
+Phase 2.2 Pre Route Cleanup | Checksum: 234b3e74c
+
+Time (s): cpu = 00:00:14 ; elapsed = 00:00:12 . Memory (MB): peak = 2875.391 ; gain = 76.941 ; free physical = 21435 ; free virtual = 65305
+ Number of Nodes with overlaps = 0
+
+Phase 2.3 Update Timing
+Phase 2.3 Update Timing | Checksum: 290c7c5f7
+
+Time (s): cpu = 00:00:15 ; elapsed = 00:00:13 . Memory (MB): peak = 2903.406 ; gain = 104.957 ; free physical = 21422 ; free virtual = 65293
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.502  | TNS=0.000  | WHS=-0.146 | THS=-10.979|
+
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0 %
+  Global Horizontal Routing Utilization  = 0 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 1300
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 1300
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 2 Router Initialization | Checksum: 270b127ee
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21429 ; free virtual = 65299
+
+Phase 3 Global Routing
+Phase 3 Global Routing | Checksum: 270b127ee
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21429 ; free virtual = 65299
+
+Phase 4 Initial Routing
+
+Phase 4.1 Initial Net Routing Pass
+Phase 4.1 Initial Net Routing Pass | Checksum: 2c4374450
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21424 ; free virtual = 65294
+Phase 4 Initial Routing | Checksum: 2c4374450
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21424 ; free virtual = 65294
+
+Phase 5 Rip-up And Reroute
+
+Phase 5.1 Global Iteration 0
+ Number of Nodes with overlaps = 82
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.716  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.1 Global Iteration 0 | Checksum: 1e6492db8
+
+Time (s): cpu = 00:00:16 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21441 ; free virtual = 65312
+
+Phase 5.2 Global Iteration 1
+ Number of Nodes with overlaps = 2
+ Number of Nodes with overlaps = 0
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.716  | TNS=0.000  | WHS=N/A    | THS=N/A    |
+
+Phase 5.2 Global Iteration 1 | Checksum: 162ffd127
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+Phase 5 Rip-up And Reroute | Checksum: 162ffd127
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+
+Phase 6 Delay and Skew Optimization
+
+Phase 6.1 Delay CleanUp
+Phase 6.1 Delay CleanUp | Checksum: 162ffd127
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+
+Phase 6.2 Clock Skew Optimization
+Phase 6.2 Clock Skew Optimization | Checksum: 162ffd127
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+Phase 6 Delay and Skew Optimization | Checksum: 162ffd127
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+
+Phase 7 Post Hold Fix
+
+Phase 7.1 Hold Fix Iter
+INFO: [Route 35-416] Intermediate Timing Summary | WNS=3.730  | TNS=0.000  | WHS=0.037  | THS=0.000  |
+
+Phase 7.1 Hold Fix Iter | Checksum: 2249ee4e0
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+Phase 7 Post Hold Fix | Checksum: 2249ee4e0
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+
+Phase 8 Route finalize
+
+Router Utilization Summary
+  Global Vertical Routing Utilization    = 0.206534 %
+  Global Horizontal Routing Utilization  = 0.215855 %
+  Routable Net Status*
+  *Does not include unroutable nets such as driverless and loadless.
+  Run report_route_status for detailed report.
+  Number of Failed Nets               = 0
+    (Failed Nets is the sum of unrouted and partially routed nets)
+  Number of Unrouted Nets             = 0
+  Number of Partially Routed Nets     = 0
+  Number of Node Overlaps             = 0
+
+Phase 8 Route finalize | Checksum: 2249ee4e0
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+
+Phase 9 Verifying routed nets
+
+ Verification completed successfully
+Phase 9 Verifying routed nets | Checksum: 2249ee4e0
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21445 ; free virtual = 65316
+
+Phase 10 Depositing Routes
+Phase 10 Depositing Routes | Checksum: 2ae80ae87
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21452 ; free virtual = 65323
+
+Phase 11 Post Process Routing
+Phase 11 Post Process Routing | Checksum: 2ae80ae87
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21451 ; free virtual = 65322
+
+Phase 12 Post Router Timing
+INFO: [Route 35-57] Estimated Timing Summary | WNS=3.730  | TNS=0.000  | WHS=0.037  | THS=0.000  |
+
+INFO: [Route 35-327] The final timing numbers are based on the router estimated timing analysis. For a complete and accurate timing signoff, please run report_timing_summary.
+Phase 12 Post Router Timing | Checksum: 2ae80ae87
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21451 ; free virtual = 65322
+Total Elapsed time in route_design: 13.13 secs
+
+Phase 13 Post-Route Event Processing
+Phase 13 Post-Route Event Processing | Checksum: 244196c2a
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21452 ; free virtual = 65323
+INFO: [Route 35-16] Router Completed Successfully
+Ending Routing Task | Checksum: 244196c2a
+
+Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21451 ; free virtual = 65322
+
+Routing Is Done.
+INFO: [Common 17-83] Releasing license: Implementation
+93 Infos, 0 Warnings, 0 Critical Warnings and 0 Errors encountered.
+route_design completed successfully
+route_design: Time (s): cpu = 00:00:17 ; elapsed = 00:00:13 . Memory (MB): peak = 2909.688 ; gain = 111.238 ; free physical = 21450 ; free virtual = 65322
+INFO: [Vivado 12-24828] Executing command : report_drc -file design_1_wrapper_drc_routed.rpt -pb design_1_wrapper_drc_routed.pb -rpx design_1_wrapper_drc_routed.rpx
+Command: report_drc -file design_1_wrapper_drc_routed.rpt -pb design_1_wrapper_drc_routed.pb -rpx design_1_wrapper_drc_routed.rpx
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado_Tcl 2-168] The results of DRC are in file /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_drc_routed.rpt.
+report_drc completed successfully
+INFO: [Vivado 12-24828] Executing command : report_methodology -file design_1_wrapper_methodology_drc_routed.rpt -pb design_1_wrapper_methodology_drc_routed.pb -rpx design_1_wrapper_methodology_drc_routed.rpx
+Command: report_methodology -file design_1_wrapper_methodology_drc_routed.rpt -pb design_1_wrapper_methodology_drc_routed.pb -rpx design_1_wrapper_methodology_drc_routed.rpx
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [DRC 23-133] Running Methodology with 8 threads
+INFO: [Vivado_Tcl 2-1520] The results of Report Methodology are in file /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_methodology_drc_routed.rpt.
+report_methodology completed successfully
+INFO: [Vivado 12-24828] Executing command : report_timing_summary -max_paths 10 -report_unconstrained -file design_1_wrapper_timing_summary_routed.rpt -pb design_1_wrapper_timing_summary_routed.pb -rpx design_1_wrapper_timing_summary_routed.rpx -warn_on_violation 
+INFO: [Timing 38-35] Done setting XDC timing constraints.
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Vivado 12-24838] Running report commands "report_bus_skew, report_incremental_reuse, report_route_status" in parallel.
+Running report generation with 3 threads.
+INFO: [Vivado 12-24828] Executing command : report_incremental_reuse -file design_1_wrapper_incremental_reuse_routed.rpt
+INFO: [Vivado_Tcl 4-1062] Incremental flow is disabled. No incremental reuse Info to report.
+INFO: [Vivado 12-24828] Executing command : report_route_status -file design_1_wrapper_route_status.rpt -pb design_1_wrapper_route_status.pb
+INFO: [Vivado 12-24828] Executing command : report_bus_skew -warn_on_violation -file design_1_wrapper_bus_skew_routed.rpt -pb design_1_wrapper_bus_skew_routed.pb -rpx design_1_wrapper_bus_skew_routed.rpx
+INFO: [Timing 38-91] UpdateTimingParams: Speed grade: -1, Delay Type: min_max.
+INFO: [Timing 38-191] Multithreading enabled for timing update using a maximum of 8 CPUs
+INFO: [Vivado 12-24828] Executing command : report_power -file design_1_wrapper_power_routed.rpt -pb design_1_wrapper_power_summary_routed.pb -rpx design_1_wrapper_power_routed.rpx
+Command: report_power -file design_1_wrapper_power_routed.rpt -pb design_1_wrapper_power_summary_routed.pb -rpx design_1_wrapper_power_routed.rpx
+Running Vector-less Activity Propagation...
+
+Finished Running Vector-less Activity Propagation
+WARNING: [Power 33-332] Found switching activity that implies high-fanout reset nets being asserted for excessive periods of time which may result in inaccurate power analysis.
+Resolution: To review and fix problems, please run Power Constraints Advisor in the GUI from Tools > Power Constraints Advisor or run report_power with the -advisory option to generate a text report.
+113 Infos, 1 Warnings, 0 Critical Warnings and 0 Errors encountered.
+report_power completed successfully
+INFO: [Vivado 12-24828] Executing command : report_clock_utilization -file design_1_wrapper_clock_utilization_routed.rpt
+INFO: [Timing 38-480] Writing timing data to binary archive.
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.02 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21325 ; free virtual = 65204
+Wrote PlaceDB: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.04 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21329 ; free virtual = 65208
+Wrote PulsedLatchDB: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21329 ; free virtual = 65208
+Writing XDEF routing.
+Writing XDEF routing logical nets.
+Writing XDEF routing special nets.
+Wrote RouteStorage: Time (s): cpu = 00:00:00.06 ; elapsed = 00:00:00.02 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21329 ; free virtual = 65209
+Wrote Netlist Cache: Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21329 ; free virtual = 65209
+Wrote Device Cache: Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21328 ; free virtual = 65209
+Write Physdb Complete: Time (s): cpu = 00:00:00.23 ; elapsed = 00:00:00.07 . Memory (MB): peak = 3066.812 ; gain = 0.000 ; free physical = 21328 ; free virtual = 65209
+INFO: [Common 17-1381] The checkpoint '/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper_routed.dcp' has been generated.
+Command: write_bitstream -force design_1_wrapper.bit
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-1839] IP Catalog is up to date.
+INFO: [DRC 23-27] Running DRC with 8 threads
+INFO: [Vivado 12-3199] DRC finished with 0 Errors
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 8 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Writing bitstream ./design_1_wrapper.bit...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-1876] WebTalk data collection is mandatory when using a ULT device. To see the specific WebTalk data collected for your design, open the usage_statistics_webtalk.html or usage_statistics_webtalk.xml file in the implementation directory.
+CRITICAL WARNING: [Common 17-570] Unable to write the webtalk settings file.  Please check that the appropriate environment variable (APPDATA or HOME) is properly set.
+CRITICAL WARNING: [Common 17-570] Unable to write the webtalk settings file.  Please check that the appropriate environment variable (APPDATA or HOME) is properly set.
+INFO: [Common 17-83] Releasing license: Implementation
+125 Infos, 1 Warnings, 2 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:12 ; elapsed = 00:00:16 . Memory (MB): peak = 3344.352 ; gain = 229.488 ; free physical = 20934 ; free virtual = 64843
+INFO: [Common 17-206] Exiting Vivado at Mon Jun 29 06:11:40 2026...
+[Mon Jun 29 06:11:40 2026] impl_1 finished
+wait_on_runs: Time (s): cpu = 00:01:20 ; elapsed = 00:00:56 . Memory (MB): peak = 1715.492 ; gain = 0.000 ; free physical = 23120 ; free virtual = 67029
+# if {[get_property PROGRESS [get_runs impl_1]] ne "100%"} {
+#     error "impl_1 did not complete"
+# }
+# if {![string match "*Complete*" [get_property STATUS [get_runs impl_1]]]} {
+#     error "impl_1 failed: [get_property STATUS [get_runs impl_1]]"
+# }
+# set bit_file [file join $out_dir zybo_gemv_smoke.runs impl_1 ${bd_name}_wrapper.bit]
+# set export_dir [file join $out_dir export]
+# file mkdir $export_dir
+# set xsa_file [file join $export_dir zybo_gemv_smoke.xsa]
+# write_hw_platform -fixed -include_bit -force -file $xsa_file
+INFO: [Project 1-1918] Creating Hardware Platform: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/export/zybo_gemv_smoke.xsa ...
+WARNING: [Project 1-645] Board images not set in Hardware Platform.
+INFO: [Project 1-1943] The Hardware Platform can be used for Hardware
+INFO: [Project 1-1941] Successfully created Hardware Platform: /home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/export/zybo_gemv_smoke.xsa
+INFO: [Hsi 55-2053] elapsed time for repository (/tools/Xilinx/Vivado/2024.2/data/embeddedsw) loading 0 seconds
+# puts "BIT_FILE=$bit_file"
+BIT_FILE=/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper.bit
+# puts "XSA_FILE=$xsa_file"
+XSA_FILE=/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_smoke/export/zybo_gemv_smoke.xsa
+# puts [format "GEMV_BASE=0x%08X" $gemv_base]
+GEMV_BASE=0x43C00000
+# puts "ADDRESS_REPORT=$address_report"
+ADDRESS_REPORT=/home/pjs/Desktop/smollm2-zybo/logs/hw_smoke_address_map.txt
+INFO: [Common 17-206] Exiting Vivado at Mon Jun 29 06:11:42 2026...

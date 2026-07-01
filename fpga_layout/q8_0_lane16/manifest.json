@@ -3,8 +3,8 @@
   "layout_name": "q8_0_lane_grouped_col_major_v1",
   "lanes": 16,
   "source": {
-    "gguf": "/home/user22/Desktop/smollm2-zybo/quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf",
-    "tensor_map": "/home/user22/Desktop/smollm2-zybo/pycharm/fpga_layout/tensor_map.json"
+    "gguf": "quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf",
+    "tensor_map": "pycharm/fpga_layout/tensor_map.json"
   },
   "summary": {
     "converted_tensors": 211,

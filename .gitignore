@@ -40,11 +40,7 @@ pycharm/fpga_layout/q8_0_lane16/*.bin
 *.str
 *.wdb
 *.wcfg
-*.dcp
-*.bit
-*.bin.bit
 *.ltx
-*.xsa
 *.hwdef
 *.runs/
 *.cache/
@@ -62,11 +58,16 @@ hw/vivado_project/GPTalk.sim/
 # Deprecated/generated Vivado project snapshots
 deprecated/vivado_projects/
 
-# Logs and generated reports
-logs/*
-!logs/.gitkeep
-reports/*
-!reports/.gitkeep
+# Quarantined Git metadata is kept locally for recovery forensics, but should
+# not be committed back into this repository.
+deprecated/20260701_git_abs_cleanup/root_git_corrupt/
+deprecated/20260701_git_abs_cleanup/nested_git/
+
+# Keep logs/reports visible for bring-up traceability. Ignore only bulky
+# simulator scratch directories; selected logs and reports are small enough to
+# track when they document a board or build result.
+!logs/**/*.log
+logs/s05_5_xsim_*/
 
 # Simulator temporary files
 .xsim.gcc.version

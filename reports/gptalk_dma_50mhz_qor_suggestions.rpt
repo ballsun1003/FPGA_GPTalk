@@ -1,0 +1,37 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2.2 (lin64) Build 6060944 Thu Mar 06 19:10:09 MST 2025
+| Date         : Mon Jun 29 15:53:16 2026
+| Host         : pjs-laptop running 64-bit Ubuntu 26.04 LTS
+| Command      : report_qor_suggestions -file reports/gptalk_dma_50mhz_qor_suggestions.rpt
+| Design       : design_1_wrapper
+| Device       : xc7z020
+| Design State : Physopt postRoute
+| ML Models    : v2020.1.0
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Report QoR Suggestions
+
+Table of Contents
+-----------------
+1. QoR Suggestions Report Summary
+2. ML Strategies
+
+1. QoR Suggestions Report Summary
+---------------------------------
+
++------+----+--------+--------------+----------------+-----------+-------+----------------------+------------------------------------------------------------------------------------------+--------+
+| Name | Id | Status | Generated At | Applicable For | Automatic | Scope | Incremental Friendly |                                        Description                                       | Source |
++------+----+--------+--------------+----------------+-----------+-------+----------------------+------------------------------------------------------------------------------------------+--------+
+* No QoR suggestions are provided when the fully routed design is assessed to easily meet timing.
+
+
+2. ML Strategies
+----------------
+
++---+----+---------+---------+
+| # | Id | Command | Options |
++---+----+---------+---------+
+* The design is not compatible for suggesting strategy, as it was not run using vivado implementation default or vivado implementation explore strategy.
+
+

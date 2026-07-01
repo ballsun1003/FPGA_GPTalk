@@ -1,0 +1,34 @@
+S05.1 RTL TLAST forensic simulation summary
+Date: 2026-06-30 KST
+
+Vivado command:
+/tools/Xilinx/Vivado/2024.2/bin/vivado -mode batch -source scripts/run_gemv_sim.tcl > logs/s05_1_rtl_tlast_tb_vivado.log 2>&1
+
+Result: PASS
+
+RTL fix under test:
+- gemv_q8_0_stream_core now accepts S_AXIS input only on s_axis_fire.
+- s_axis_fire = s_axis_tvalid && s_axis_tready.
+- This fixes the previous AXI Stream contract violation where input was
+  consumed on TVALID alone.
+
+Relevant xsim lines:
+[PASS] mode=0 scaled outputs matched golden/fake_gemv
+[PASS] mode=1 block-acc outputs matched golden/fake_gemv
+[PASS] normal packet TLAST at word 143 matched golden/fake_gemv in both modes
+[PASS] early TLAST at word 142 produced ERR_TLAST debug_row=0 debug_block=0 debug_lane=8
+[PASS] missing TLAST produced ERR_TLAST debug_row=0 debug_block=0 debug_lane=12
+[PASS] extra beat late TLAST at word 144 produced ERR_TLAST debug_row=0 debug_block=0 debug_lane=12
+[PASS] tb_gemv_q8_0_stream_core completed
+
+C packet total words: 144
+C expected TLAST word: 143
+RTL expected TLAST word: 143
+Board failure equivalent: early TLAST at word 142, debug_lane=8
+
+Conclusion:
+The C packet layout and stream-core RTL TLAST expectation match. The board
+failure signature is consistent with the old core advancing its stream state
+without a TVALID && TREADY handshake. The RTL handshake fix passes simulation.
+Next target is board rerun with the S05.1 BOOT image, not PetaLinux or C packet
+geometry.

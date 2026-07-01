@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "source": {
-    "inspect_csv": "/home/user22/Desktop/smollm2-zybo/pycharm/reports/gguf_inspect/tensors.csv",
+    "inspect_csv": "pycharm/reports/gguf_inspect/tensors.csv",
     "generator": "pycharm/pc_tools/create_tensor_map.py"
   },
   "summary": {

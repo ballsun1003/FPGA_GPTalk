@@ -1,0 +1,2 @@
+verilog xil_defaultlib "/home/pjs/Desktop/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_stream_core.v"
+verilog xil_defaultlib "/home/pjs/Desktop/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_axi_lite.v"

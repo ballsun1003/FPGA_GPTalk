@@ -1,0 +1,62 @@
+Zybo Z7-20 GEMV hardware bring-up log
+Date: 2026-06-29 KST
+
+Simulation:
+- Ran/verified Vivado xsim flow through scripts/run_gemv_sim.tcl.
+- logs/gemv_sim_result.txt status: PASS.
+- PASS lines:
+  [PASS] mode=0 scaled outputs matched golden/fake_gemv
+  [PASS] mode=1 block-acc outputs matched golden/fake_gemv
+  [PASS] tb_gemv_q8_0_stream_core completed
+
+Static checks:
+- No real/shortreal/float/floating-point keyword match in vivado_ip/rtl or vivado_ip/tb.
+- tb_gemv_q8_0_stream_core.sv contains the tb module.
+- tb_gemv_q8_0_stream_core.v is an include wrapper and has no literal module definition.
+
+Full GEMV AXI-Lite attempt:
+- Added vivado_ip/rtl/gemv_q8_0_axi_lite.v.
+- Added scripts/create_zybo_gemv_hw.tcl.
+- Vivado 2024.2.2 full-core synthesis completed.
+- Full-core implementation was stopped during route after congestion and timing risk:
+  WNS=-10.568 ns, TNS=-17035.241 ns
+  Unrouted nets at route init: 73660
+  Node overlap count reduced to 10027 before stopping.
+- Full-core bitstream was not generated.
+- Console log: logs/create_zybo_gemv_hw_console.log.
+
+Fallback smoke hardware:
+- Added vivado_ip/rtl/gemv_q8_0_axi_lite_smoke.v.
+- Added scripts/create_zybo_gemv_smoke_hw.tcl.
+- xvlog syntax check passed.
+- Vivado 2024.2.2 smoke build completed route and bitgen.
+- Timing met:
+  WNS=3.734 ns, TNS=0.000 ns, WHS=0.038 ns, THS=0.000 ns.
+- Bitstream:
+  hw/zybo_gemv_smoke/zybo_gemv_smoke.runs/impl_1/design_1_wrapper.bit
+- XSA:
+  hw/zybo_gemv_smoke/export/zybo_gemv_smoke.xsa
+- Address map:
+  /processing_system7_0/Data/SEG_gemv_q8_0_axi_lite_smoke_0_reg0 OFFSET=0x43C00000 RANGE=0x00001000
+
+PetaLinux/SD status:
+- petalinux-build, petalinux-config, and petalinux-package were not found in PATH.
+- Search under /tools, /opt, and /home/pjs found Vivado/Vitis settings scripts only, not PetaLinux.
+- SD mounts are read-only:
+  /run/media/pjs/bootfs
+  /run/media/pjs/rootfs
+- Existing SD boot files observed:
+  /run/media/pjs/bootfs/BOOT.BIN
+  /run/media/pjs/bootfs/image.ub
+- No SD card files were modified.
+
+Board test not run:
+- Zybo board was not connected/booted in this session.
+- After boot image packaging, run:
+  devmem 0x43C00000 32
+  devmem 0x43C00008 32
+  devmem 0x43C00004 32 0x00000001
+  devmem 0x43C00008 32
+- Expected smoke readback:
+  VERSION 0x00090001
+  STATUS bit8 set after reset, bit1 set after start pulse

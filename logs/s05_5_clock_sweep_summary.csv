@@ -1,0 +1,2 @@
+axis_width,target_clock_mhz,timing_result,setup_wns_ns,setup_tns_ns,hold_whs_ns,hold_ths_ns,board_result,mode0_avg_us,mode1_avg_us,notes
+128,74,PASS,0.389,0.000,0.018,0.000,PASS,251,251,"Clock list in prompt is example sweep candidates; 74 MHz passed timing and board regression after BRAM Port B scalar DOUT connectivity fix. Higher clocks not attempted in S05.5 after functional fix because user requested S05.5 only and no S05.6/S06 progression."

@@ -1,0 +1,83 @@
+GPTalk hardware preflight result
+Date: 2026-06-30 KST
+
+active project:
+- PASS: hw/vivado_project/GPTalk.xpr is the only .xpr under hw/.
+- Deprecated projects remain under deprecated/vivado_projects/.
+
+BD validate:
+- PASS: logs/hw_preflight_bd_validate.log reports BD validate PASS.
+
+DMA path:
+- PASS/OK under the current HP-port policy.
+- Present:
+  PS M_AXI_GP0 -> AXI-Lite control/status
+  PS M_AXI_GP0 -> AXI DMA S_AXI_LITE
+  AXI DMA M_AXIS_MM2S -> mm2s_axis_fifo -> GEMV S_AXIS
+  GEMV M_AXIS -> s2mm_axis_fifo -> AXI DMA S_AXIS_S2MM
+- DDR path:
+  Video VDMA uses PS S_AXI_HP0.
+  GEMV AXI DMA M_AXI_MM2S/M_AXI_S2MM use PS S_AXI_HP1.
+  This is acceptable: GEMV must use a PS HP DDR port; HP0 is not mandatory when video already uses HP0.
+- Evidence: logs/hw_dma_address_map.txt and logs/hw_preflight_summary.txt.
+
+PS7 preservation:
+- FAIL/STOP.
+- scripts/create_or_update_gptalk_dma_bd.tcl and scripts/create_or_update_gptalk_dma_hdmi_bd.tcl delete design_1, create a new processing_system7_0, and apply board preset.
+- This is not a proven preservation of the original GPTalk PS7 DDR/MIO/SD/UART settings.
+- These scripts are now blocked at startup so they cannot recreate PS7 again by accident.
+- Current PS7 selected properties look plausible for Zybo Z7-20:
+  DDR MT41K256M16 RE-125, DDR 533.333333 MHz, SD0 MIO 40..45, UART1 MIO 48..49, CPU max 667.
+- However, because the scripts recreated PS7, preflight stops before PetaLinux rebuild.
+
+clock/reset:
+- PASS/REVIEW.
+- FCLK0 100 MHz: control/dynclk/VDMA AXI-Lite and GP0.
+- FCLK1 133.333333 MHz: video HP0/VDMA MM2S/video stream.
+- FCLK2 74 MHz: GEMV AXI DMA, GEMV core, FIFOs, HP1.
+- proc_sys_reset instances present for 100M, 133M, and GEMV domains.
+- Evidence: logs/hw_preflight_clock_reset.txt.
+
+bitstream path:
+- hw/vivado_project/export/GPTalk_dma.bit
+- Part: xc7z020clg400-1
+- Board part: digilentinc.com:zybo-z7-20:part0:1.2
+- Hash: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+
+XSA path:
+- hw/vivado_project/export/GPTalk_dma.xsa
+- Contains bitstream, design_1.hwh, sysdef.xml, ps7_init.*
+- Internal bitstream hash matches active GPTalk_dma.bit.
+
+BOOT.BIN composition:
+- Custom recovery BOOT: artifacts/s04_linux_dt/bootfs/BOOT.BIN
+  FSBL: artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+  bit: artifacts/s04_linux_dt/GPTalk_dma.bit
+  U-Boot: artifacts/s04_linux_dt/u-boot.elf
+- Previous S03 BOOT: artifacts/s03_bootgen/BOOT.BIN
+  FSBL: artifacts/s03_bootgen/zynq_fsbl.elf
+  bit: artifacts/s03_bootgen/GPTalk_dma.bit
+  U-Boot: artifacts/s03_bootgen/u-boot.elf
+- The bitstream and U-Boot hashes match between both BOOT images; FSBL differs.
+- Evidence: logs/bootgen_bif.txt.
+
+DONE LED status:
+- Custom recovery BOOT: FAIL, DONE LED off.
+- Previous S03 BOOT: PASS for PL configuration only, DONE LED on.
+- Direct Vivado/JTAG program of active bitstream: PASS by Vivado; physical DONE LED confirmation is still required from the board.
+
+U-Boot serial entry:
+- Not proven yet.
+- No-bitstream BOOT images generated for isolation:
+  artifacts/hw_preflight_boot/BOOT_S04_NOBIT.BIN
+  artifacts/hw_preflight_boot/BOOT_S03_NOBIT.BIN
+
+suspected cause:
+- Highest priority: custom FSBL/BOOT packaging path.
+- Also unresolved: active BD was recreated with board preset rather than proven-preserved original GPTalk PS7 configuration.
+
+next action:
+- Do not start PetaLinux full rebuild yet.
+- Confirm physical DONE LED after direct Vivado/JTAG program.
+- Test artifacts/hw_preflight_boot/BOOT_S04_NOBIT.BIN on SD for U-Boot serial isolation.
+- If S04 no-bitstream does not reach U-Boot, debug S04 FSBL or handoff before any PetaLinux rebuild.

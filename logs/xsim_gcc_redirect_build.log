@@ -1,0 +1,1 @@
+/tools/Xilinx/Vivado/2024.2/tps/lnx64/gcc-9.3.0/bin/gcc -shared -fPIC -O2 -I/usr/include/x86_64-linux-gnu -B/usr/lib/x86_64-linux-gnu/ -L/usr/lib/x86_64-linux-gnu -o /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/xsim_gcc_redirect.so /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/xsim_gcc_redirect.c -ldl

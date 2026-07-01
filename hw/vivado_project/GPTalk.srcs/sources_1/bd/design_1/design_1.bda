@@ -280,24 +280,6 @@
             },
             "V8": {
                 "VT": "AC",
-                "BA": "0x43010000",
-                "HA": "0x4301FFFF",
-                "BP": "C_BASEADDR",
-                "HP": "C_HIGHADDR",
-                "MA": "Data",
-                "MX": "/processing_system7_0",
-                "MI": "M_AXI_GP0",
-                "MS": "SEG_axi_vdma_1_Reg",
-                "MV": "xilinx.com:ip:processing_system7:5.5",
-                "SX": "/axi_vdma_1",
-                "SI": "S_AXI_LITE",
-                "SS": "Reg",
-                "SV": "xilinx.com:ip:axi_vdma:6.3",
-                "TM": "both",
-                "TU": "register"
-            },
-            "V9": {
-                "VT": "AC",
                 "BA": "0x43C10000",
                 "HA": "0x43C1FFFF",
                 "BP": "C_BASEADDR",
@@ -314,7 +296,7 @@
                 "TM": "both",
                 "TU": "register"
             },
-            "V10": {
+            "V9": {
                 "VT": "AC",
                 "BA": "0x43C20000",
                 "HA": "0x43C2FFFF",
@@ -332,7 +314,7 @@
                 "TM": "both",
                 "TU": "register"
             },
-            "V11": {
+            "V10": {
                 "VT": "AC",
                 "BA": "0x43CA0000",
                 "HA": "0x43CA0FFF",
@@ -346,7 +328,7 @@
                 "SX": "/gemv_q8_0_dma_top_0",
                 "SI": "S_AXI",
                 "SS": "reg0",
-                "SV": "xilinx.com:module_ref:gemv_q8_0_dma_top:1.0",
+                "SV": "xilinx.com:module_ref:gemv_q8_0_dma_top_axis128:1.0",
                 "TM": "both",
                 "TU": "register"
             }
@@ -397,11 +379,6 @@
             },
             {
                 "src": "V10",
-                "trg": "V2",
-                "EH": "2"
-            },
-            {
-                "src": "V11",
                 "trg": "V2",
                 "EH": "2"
             }

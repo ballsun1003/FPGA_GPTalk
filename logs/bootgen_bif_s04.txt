@@ -1,0 +1,38 @@
+GPTalk S04 recovery BOOT.BIN BIF
+Date: 2026-06-30 KST
+
+BOOT.BIN:
+- artifacts/s04_linux_dt/bootfs/BOOT.BIN
+- SHA256: 7e9e3766d6dbb0e52bb29814ecc1c689edff27033d4ec03dffe3c0db70f2205c
+- Board result: DONE LED off. Do not treat as a valid boot artifact.
+
+BIF:
+```bif
+the_ROM_image:
+{
+  [bootloader] zynq_fsbl_gptalk_2024.2.elf
+  GPTalk_dma.bit
+  u-boot.elf
+}
+```
+
+Components:
+- FSBL: artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+  SHA256: ab8076eec9c40b434d01a3486c8aa6f21b20b9e282d53898d54410f31b188b43
+- Bitstream: artifacts/s04_linux_dt/GPTalk_dma.bit
+  SHA256: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+- U-Boot: artifacts/s04_linux_dt/u-boot.elf
+  SHA256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+bootgen -read summary:
+- total_images: 3
+- partition 0: zynq_fsbl_gptalk_2024.2.elf.0, load 0x00000000, exec 0x00000000, encrypted no, aarch-32
+- partition 1: GPTalk_dma.bit.0, load 0x00000000, exec 0x00000000, encrypted no
+- partition 2: u-boot.elf.0, load 0x04000000, exec 0x04000000, encrypted no, aarch-32
+
+Difference versus S03:
+- Same bitstream hash.
+- Same U-Boot hash.
+- Different FSBL hash and size.
+- DONE LED behavior follows the FSBL/BOOT packaging difference.
+

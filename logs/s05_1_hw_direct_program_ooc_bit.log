@@ -1,0 +1,116 @@
+
+****** Vivado v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Tue Jun 30 17:36:38 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+Sourcing tcl script '/home/pjs/.Xilinx/Vivado/Vivado_init.tcl'
+source scripts/hw_direct_program_gptalk.tcl
+# set script_dir [file normalize [file dirname [info script]]]
+# set repo_root [file normalize [file join $script_dir ..]]
+# set bit_file [file join $repo_root hw vivado_project export GPTalk_dma.bit]
+# set log_dir [file join $repo_root logs]
+# set result_file [file join $log_dir hw_direct_program_result.txt]
+# file mkdir $log_dir
+# proc write_result {path text} {
+#     set fd [open $path w]
+#     puts -nonewline $fd $text
+#     close $fd
+# }
+# set result "GPTalk direct bitstream program result\n"
+# append result "Date: 2026-06-30 KST\n"
+# append result "Bitstream: $bit_file\n"
+# if {![file exists $bit_file]} {
+#     append result "Result: FAIL\nReason: bitstream missing\n"
+#     write_result $result_file $result
+#     error "bitstream missing: $bit_file"
+# }
+# if {[catch {
+#     open_hw_manager
+#     connect_hw_server
+#     set targets [get_hw_targets -quiet *]
+#     append result "Targets: $targets\n"
+#     if {[llength $targets] == 0} {
+#         error "no hardware targets found"
+#     }
+#     foreach target $targets {
+#         if {[catch {open_hw_target $target} target_msg]} {
+#             append result "open_hw_target failed for $target: $target_msg\n"
+#         } else {
+#             append result "Opened target: $target\n"
+#             break
+#         }
+#     }
+#     set devices [get_hw_devices -quiet]
+#     append result "Devices: $devices\n"
+#     if {[llength $devices] == 0} {
+#         error "no hardware devices found after opening target"
+#     }
+#     set dev ""
+#     foreach candidate $devices {
+#         set part ""
+#         catch {set part [get_property PART $candidate]}
+#         if {[string match -nocase "*xc7z020*" $part] || [string match -nocase "*xc7z020*" $candidate]} {
+#             set dev $candidate
+#             break
+#         }
+#     }
+#     if {$dev eq ""} {
+#         set dev [lindex $devices 0]
+#     }
+#     current_hw_device $dev
+#     refresh_hw_device $dev
+#     append result "Selected device: $dev\n"
+#     foreach prop [list PART DEVICE_ID PROGRAM.FILE PROGRAM.HW_CFGMEM] {
+#         set value "<unavailable>"
+#         catch {set value [get_property $prop $dev]}
+#         append result "$prop: $value\n"
+#     }
+#     set_property PROGRAM.FILE $bit_file $dev
+#     program_hw_devices $dev
+#     refresh_hw_device $dev
+#     append result "Result: PASS\n"
+#     append result "Vivado program_hw_devices completed. Confirm physical DONE LED on board.\n"
+# } err]} {
+#     append result "Result: FAIL\n"
+#     append result "Reason: $err\n"
+#     write_result $result_file $result
+#     error $err
+# }
+INFO: [Labtools 27-2285] Connecting to hw_server url TCP:localhost:3121
+INFO: [Labtools 27-2222] Launching hw_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+****** Xilinx hw_server v2024.2.2
+  **** Build date : Jan 17 2025 at 17:04:14
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+
+INFO: [Labtools 27-3415] Connecting to cs_server url TCP:localhost:0
+INFO: [Labtools 27-3417] Launching cs_server...
+INFO: [Labtools 27-2221] Launch Output:
+
+
+******** Xilinx cs_server v2024.2.0
+  ****** Build date   : Oct 31 2024-03:19:07
+    **** Build number : 2024.2.1730312347
+      ** Copyright 2017-2022 Xilinx, Inc. All Rights Reserved.
+      ** Copyright 2022-2026 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+
+no hardware targets found
+    while executing
+"error $err"
+    invoked from within
+"if {[catch {
+    open_hw_manager
+    connect_hw_server
+    set targets [get_hw_targets -quiet *]
+    append result "Targets: $targets\n"
+    if {[llen..."
+    (file "scripts/hw_direct_program_gptalk.tcl" line 27)
+INFO: [Common 17-206] Exiting Vivado at Tue Jun 30 17:36:43 2026...

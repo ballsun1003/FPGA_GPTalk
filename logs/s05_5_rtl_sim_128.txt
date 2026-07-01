@@ -1,0 +1,43 @@
+#-----------------------------------------------------------
+# xsim v2024.2.2 (64-bit)
+# SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+# IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+# SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+# Start of session at: Wed Jul  1 14:43:41 2026
+# Process ID         : 178249
+# Current directory  : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_5_xsim_128_20260701_144339
+# Command line       : xsim -log simulate.log -mode tcl -source {xsim.dir/s05_5_axis128_behav/xsim_script.tcl}
+# Log file           : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_5_xsim_128_20260701_144339/simulate.log
+# Journal file       : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_5_xsim_128_20260701_144339/xsim.jou
+# Running On         : pjs-laptop
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 26.04 LTS
+# Processor Detail   : 13th Gen Intel(R) Core(TM) i9-13900H
+# CPU Frequency      : 1123.133 MHz
+# CPU Physical cores : 10
+# CPU Logical cores  : 16
+# Host memory        : 65958 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 74548 MB
+# Available Virtual  : 71108 MB
+#-----------------------------------------------------------
+source xsim.dir/s05_5_axis128_behav/xsim_script.tcl
+# xsim {s05_5_axis128_behav} -testplusarg GOLDEN_DIR=/run/media/pjs/6A43-DC8A/smollm2-zybo/pycharm/golden/fake_gemv -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[PASS] byte lane order, scale header order, weight lane order axis=128
+[INFO] axis=128 scale_beats=4 weight_beats=32 total_beats=36 expected_tlast=35 full_tkeep=0xffff
+[PASS] fake_gemv mode=0 scaled axis=128 out_features=3 mode=0 outputs=3
+[PASS] fake_gemv mode=1 block_acc axis=128 out_features=3 mode=1 outputs=3
+[PASS] out_features=16 mode=0 axis=128 out_features=16 mode=0 outputs=16
+[PASS] out_features=16 mode=1 axis=128 out_features=16 mode=1 outputs=16
+[PASS] out_features=17 mode=0 axis=128 out_features=17 mode=0 outputs=17
+[PASS] out_features=17 mode=1 axis=128 out_features=17 mode=1 outputs=17
+[PASS] early TLAST axis=128 error_code=2 debug(row=0 block=0 lane=0)
+[PASS] missing TLAST axis=128 error_code=2 debug(row=0 block=0 lane=0)
+[PASS] extra beat after missing TLAST axis=128 error_code=2 debug(row=0 block=0 lane=0)
+[PASS] wrong TKEEP axis=128 error_code=4 debug(row=0 block=0 lane=0)
+[PASS] tb_gemv_q8_0_stream_core_axis_width axis=128 completed
+$finish called at time : 30025 ns : File "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core_axis_width.sv" Line 619
+exit
+INFO: [Common 17-206] Exiting xsim at Wed Jul  1 14:43:43 2026...

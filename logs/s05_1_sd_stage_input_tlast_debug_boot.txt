@@ -1,0 +1,24 @@
+S05.1 input-TLAST-debug SD staging
+time: 2026-06-30 18:42:01 KST
+bootfs: /run/media/pjs/bootfs
+new_boot: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_1_input_tlast_debug_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+new_boot_sha256: 0f909df23586d376e1a4c48ae7ce9ddb24f25207ab9872e169fba9fdd5248e1f
+existing_BOOT_sha256: 4a6536024bb4ee5bd607ff0e1b551430cbd2427b6a397339caa01c9a3cdebb36
+backup_path: /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_INPUT_TLAST_DEBUG_20260630.BIN
+backup_sha256: 4a6536024bb4ee5bd607ff0e1b551430cbd2427b6a397339caa01c9a3cdebb36
+sd_BOOT_sha256: 0f909df23586d376e1a4c48ae7ce9ddb24f25207ab9872e169fba9fdd5248e1f
+sd_image.ub_sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+sd_uEnv.txt_sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+after_BOOT_listing:
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 18:42 /run/media/pjs/bootfs/BOOT.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 18:42 /run/media/pjs/bootfs/BOOT.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 29 17:17 /run/media/pjs/bootfs/BOOT_BEFORE_S04_NOBIT_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 17:58 /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_BRAM_WAIT_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 17:58 /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_DEBUG_REGS_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 17:17 /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_HANDSHAKE_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 18:24 /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_INPUT_TLAST_DEBUG_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 30 17:42 /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_OOC_REBUILT_20260630.BIN
+-rw-r--r-- 1 pjs pjs  547440 Jun 30 11:14 /run/media/pjs/bootfs/BOOT_BEFORE_TEST_B_S03_NOBIT_20260630.BIN
+-rw-r--r-- 1 pjs pjs  531056 Jun 30 11:33 /run/media/pjs/bootfs/BOOT_BEFORE_TEST_C_CANONICAL_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4593008 Jun 30 05:33 /run/media/pjs/bootfs/BOOT_NEWFSBL_FAIL_20260630.BIN
+-rw-r--r-- 1 pjs pjs 4576624 Jun 29 17:17 /run/media/pjs/bootfs/BOOT_S03.BIN

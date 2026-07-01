@@ -1,0 +1,6 @@
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# __RESTORE_BOOTFS_BEGIN__
+root@Zybo-Z7-20:~# 64f8bfb3abd6395748742051b611ab72908d7252bbc4a02513402d7a9f8814d7  /run/media/mmcblk0p1/BOOT.BIN
+17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42  /run/media/mmcblk0p1/BOOT_BEFORE_TEST_S05_2_PERF_COUNTER_S03_FSBL_ACTIVE_BIT_S03_UBOOT_20260701_003158.BIN
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# 17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42  /run/media/mmcblk0p1/BOOT.BIN
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# __RESTORE_BOOTFS_DONE__=0
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# 

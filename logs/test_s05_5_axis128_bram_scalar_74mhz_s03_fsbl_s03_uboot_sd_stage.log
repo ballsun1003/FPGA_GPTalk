@@ -1,0 +1,11 @@
+test name: test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot
+date: 2026-07-01T15:16:27+09:00
+source BOOT: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+target BOOT: /run/media/pjs/bootfs/BOOT.BIN
+previous BOOT hash: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+backup path: /run/media/pjs/bootfs/BOOT_BEFORE_TEST_S05_5_AXIS128_BRAM_SCALAR_74MHZ_S03_FSBL_S03_UBOOT_20260701_1516.BIN
+backup hash: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+source hash: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+sd hash: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+image.ub hash: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt hash: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76

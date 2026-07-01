@@ -1,0 +1,94 @@
+S05.1 build and BOOT preparation summary
+Date: 2026-06-30 KST
+
+RTL fix:
+- File: vivado_ip/rtl/gemv_q8_0_stream_core.v
+- Change: S_AXIS input is consumed only on s_axis_fire.
+- s_axis_fire = s_axis_tvalid && s_axis_tready.
+
+C host validation:
+- gcc path: /usr/bin/gcc
+- compile command: gcc -std=c11 -Wall -Wextra -Werror -o /tmp/s05_gemv_hw_test_hostcheck runtime_c/gemv_hw_test.c
+- compile result: PASS
+- host run: /tmp/s05_gemv_hw_test_hostcheck --golden-dir builtin
+- host run result: packet contract PASS, then expected host-side stop at missing UIO
+- log: logs/s05_1_gcc_hostcheck.txt
+
+RTL simulation:
+- command: /tools/Xilinx/Vivado/2024.2/bin/vivado -mode batch -source scripts/run_gemv_sim.tcl > logs/s05_1_rtl_tlast_tb_vivado.log 2>&1
+- result: PASS
+- summary: logs/s05_1_rtl_tlast_tb.txt
+
+Vivado bitstream/XSA rebuild:
+- command: env GPTALK_PL_CLK_MHZ=74 GPTALK_PL_ACTUAL_FREQ_HZ=74000000 /tools/Xilinx/Vivado/2024.2/bin/vivado -mode batch -source scripts/build_gptalk_dma_bitstream.tcl > logs/s05_1_gptalk_dma_rebuild.log 2>&1
+- result: PASS
+- setup WNS: 0.033 ns
+- hold WHS: 0.013 ns
+- bitstream: hw/vivado_project/export/GPTalk_dma.bit
+- bitstream sha256: 60472431c6b4a7d34b79556ef75c0cc2319c93f9eca98e9b2dff7464f180bbdc
+- XSA: hw/vivado_project/export/GPTalk_dma.xsa
+- XSA sha256: 9f0683d4258e6fed9f1a56680e38168cfafa41433d784e9ec99b0c623fff16cb
+
+BOOT image prepared:
+- folder: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot
+- FSBL: artifacts/s03_bootgen/zynq_fsbl.elf
+- FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+- bitstream: hw/vivado_project/export/GPTalk_dma.bit
+- bitstream sha256: 60472431c6b4a7d34b79556ef75c0cc2319c93f9eca98e9b2dff7464f180bbdc
+- U-Boot: artifacts/s03_bootgen/u-boot.elf
+- U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+- BOOT.BIN: artifacts/boot_tests/test_s05_1_s03_fsbl_handshake_bit_s03_uboot/BOOT.BIN
+- BOOT.BIN sha256: ce5e2939614531a14e6957b17ee9ff6fa3ec7103ca0031a45068e6bd71144b97
+- bootgen log: logs/s05_1_bootgen_handshake_boot.log
+
+Important correction after first board rerun:
+- First S05.1 BOOT still failed with ERROR_CODE=2 debug_lane=8.
+- Root cause: the top bitstream was rebuilt, but the GEMV module_ref OOC DCP was stale from 2026-06-29.
+- Build script fixed: scripts/build_gptalk_dma_bitstream.tcl now resets and rebuilds design_1_gemv_q8_0_dma_top_0_0_synth_1 before top synth/impl.
+- OOC rebuild log: logs/s05_1_gptalk_dma_rebuild_ooc.log
+- OOC rebuilt DCP sha256: 99ddcca7ca30b077df2d1bc30f1d3d4426770696c368e85e6be8a6a79b886947
+- OOC rebuilt bitstream sha256: 9a39b3b321fc93c89c2140b1c98aba14a1e4678622f6e6dc8e2aa9189e220da6
+- OOC rebuilt XSA sha256: aafd118979c6635220fcdff84b2b643d18aa726d6678160d11f7a4d89cb84c34
+- OOC rebuild timing: setup WNS 0.001 ns, hold WHS 0.008 ns
+- OOC rebuilt BOOT folder: artifacts/boot_tests/test_s05_1_ooc_rebuilt_s03_fsbl_handshake_bit_s03_uboot
+- OOC rebuilt BOOT.BIN sha256: 0c6d39192a51b78e2cbd8c711ca9958a21563ead372c464548eac90968a9a720
+- OOC rebuilt BOOT staged to SD: yes
+- SD bootfs device: /dev/sdb1
+- SD bootfs mount at staging: /run/media/pjs/bootfs
+- SD /BOOT.BIN sha256: 0c6d39192a51b78e2cbd8c711ca9958a21563ead372c464548eac90968a9a720
+- SD previous BOOT backup: /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_OOC_REBUILT_20260630.BIN
+- SD previous BOOT backup sha256: ce5e2939614531a14e6957b17ee9ff6fa3ec7103ca0031a45068e6bd71144b97
+- SD image.ub sha256 unchanged: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- SD uEnv.txt sha256 unchanged: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- sync: completed after copy
+
+BRAM wait correction after OOC-rebuilt board rerun:
+- OOC-rebuilt BOOT cleared TLAST/GEMV ERROR_CODE=2.
+- Board run then completed MM2S/S2MM/GEMV done, but mode=0/mode=1 numerical results were wrong.
+- Hypothesis under test: actual input BRAM read latency needs one additional wait cycle.
+- RTL change: added ST_INPUT_WAIT2 before ST_WEIGHT_APPLY.
+- RTL sim log: logs/s05_1_rtl_bram_wait_tb_vivado.log
+- RTL sim result: PASS
+- Vivado rebuild log: logs/s05_1_gptalk_dma_rebuild_ooc_bramwait.log
+- BRAM wait OOC DCP sha256: 70601d7d5e896f4d8f1ada100a873b301ecf531d5a43ce8e94086d9986ccadd7
+- BRAM wait bitstream sha256: 6c67721e66745af9062b64d98c6efe93906a76a09d748c0524ac76ac09eead34
+- BRAM wait XSA sha256: 2a3929303906ff91c3cf14b6d26df9ebabf51ff983f15a12a40413982a25b6f2
+- BRAM wait timing: setup WNS 0.021 ns, hold WHS 0.007 ns
+- BRAM wait BOOT folder: artifacts/boot_tests/test_s05_1_bram_wait_s03_fsbl_handshake_bit_s03_uboot
+- BRAM wait BOOT.BIN sha256: 166e9cd953e70d7772a6b45cdba40b6014928de66ba408d3cd26f9336970a997
+- BRAM wait BOOT staged to SD: yes
+- SD /BOOT.BIN sha256: 166e9cd953e70d7772a6b45cdba40b6014928de66ba408d3cd26f9336970a997
+- SD previous BOOT backup: /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_BRAM_WAIT_20260630.BIN
+- SD previous BOOT backup sha256: 0c6d39192a51b78e2cbd8c711ca9958a21563ead372c464548eac90968a9a720
+
+SD/board status:
+- SD staged: yes
+- SD bootfs device: /dev/sdb1
+- SD bootfs mount: /run/media/pjs/bootfs
+- SD /BOOT.BIN sha256: ce5e2939614531a14e6957b17ee9ff6fa3ec7103ca0031a45068e6bd71144b97
+- SD previous BOOT backup: /run/media/pjs/bootfs/BOOT_BEFORE_S05_1_HANDSHAKE_20260630.BIN
+- SD previous BOOT backup sha256: 03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030
+- SD image.ub sha256 unchanged: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- SD uEnv.txt sha256 unchanged: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- sync: completed after copy
+- Next step: move SD to board, boot, confirm DONE/UART/Linux prompt, then rerun S05 gemv_hw_test.

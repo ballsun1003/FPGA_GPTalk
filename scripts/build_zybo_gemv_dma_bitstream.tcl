@@ -4,7 +4,7 @@
 # intentionally not run by S01-only agents.
 #
 # Recommended shell wrapper:
-#   nohup /opt/Xilinx/Vivado/2024.2/bin/vivado -mode batch \
+#   nohup vivado -mode batch \
 #     -source scripts/build_zybo_gemv_dma_bitstream.tcl \
 #     > logs/vivado_dma_build_console.log 2>&1 &
 

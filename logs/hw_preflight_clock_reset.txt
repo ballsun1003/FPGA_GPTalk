@@ -1,0 +1,86 @@
+GPTalk clock/reset preflight
+Active Vivado project: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.xpr
+cell processing_system7_0: PRESENT
+cell axi_dma_0: PRESENT
+cell mm2s_axis_fifo: PRESENT
+cell s2mm_axis_fifo: PRESENT
+cell gemv_q8_0_dma_top_0: PRESENT
+cell axi_gemv_hp1_smc: PRESENT
+cell axi_video_hp0_smc: PRESENT
+cell axi_ctrl_smc: PRESENT
+cell axi_dma_ctrl_clkconv: PRESENT
+cell axi_gemv_ctrl_clkconv: PRESENT
+cell axi_bram_ctrl_clkconv: PRESENT
+cell rst_ps7_0_100M: PRESENT
+cell rst_ps7_0_133M: PRESENT
+cell rst_ps7_0_gemv: PRESENT
+
+Clock nets:
+processing_system7_0_FCLK_CLK0: processing_system7_0_FCLK_CLK0
+  s_axi_aclk
+  aclk
+  s_axi_aclk
+  REF_CLK_I
+  s_axi_lite_aclk
+  s_axi_aclk
+  s_axi_lite_aclk
+  FCLK_CLK0
+  M_AXI_GP0_ACLK
+  slowest_sync_clk
+  s_axi_aclk
+processing_system7_0_FCLK_CLK1: processing_system7_0_FCLK_CLK1
+  m_axi_mm2s_aclk
+  m_axis_mm2s_aclk
+  aclk
+  aclk
+  FCLK_CLK1
+  S_AXI_HP0_ACLK
+  slowest_sync_clk
+  aclk
+processing_system7_0_FCLK_CLK2: processing_system7_0_FCLK_CLK2
+  m_axi_aclk
+  m_axi_mm2s_aclk
+  m_axi_s2mm_aclk
+  s_axi_lite_aclk
+  m_axi_aclk
+  m_axi_aclk
+  aclk
+  s_axi_aclk
+  S_AXI_ACLK
+  s_axis_aclk
+  FCLK_CLK2
+  S_AXI_HP1_ACLK
+  slowest_sync_clk
+  s_axis_aclk
+
+Reset nets:
+processing_system7_0_FCLK_RESET0_N: processing_system7_0_FCLK_RESET0_N
+  FCLK_RESET0_N
+  ext_reset_in
+  ext_reset_in
+  ext_reset_in
+rst_ps7_0_100M_peripheral_aresetn: rst_ps7_0_100M_peripheral_aresetn
+  s_axi_aresetn
+  aresetn
+  s_axi_aresetn
+  s_axi_lite_aresetn
+  s_axi_aresetn
+  axi_resetn
+  peripheral_aresetn
+  s_axi_aresetn
+rst_ps7_0_133M_peripheral_aresetn: rst_ps7_0_133M_peripheral_aresetn
+  aresetn
+  aresetn
+  peripheral_aresetn
+  aresetn
+rst_ps7_0_gemv_peripheral_aresetn: rst_ps7_0_gemv_peripheral_aresetn
+  m_axi_aresetn
+  axi_resetn
+  m_axi_aresetn
+  m_axi_aresetn
+  aresetn
+  s_axi_aresetn
+  S_AXI_ARESETN
+  s_axis_aresetn
+  peripheral_aresetn
+  s_axis_aresetn

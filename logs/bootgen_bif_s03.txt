@@ -1,0 +1,32 @@
+GPTalk S03 BOOT.BIN BIF
+Date: 2026-06-30 KST
+
+BOOT.BIN:
+- artifacts/s03_bootgen/BOOT.BIN
+- SHA256: 846ef51ea488bbe85be1753e6e4023eb3916dab22c03dd83339ba3a0814950e8
+- Board result: DONE LED on. Treat as known-good only for PL configuration; not a Linux recovery image by itself.
+
+BIF:
+```bif
+the_ROM_image:
+{
+  [bootloader] zynq_fsbl.elf
+  GPTalk_dma.bit
+  u-boot.elf
+}
+```
+
+Components:
+- FSBL: artifacts/s03_bootgen/zynq_fsbl.elf
+  SHA256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+- Bitstream: artifacts/s03_bootgen/GPTalk_dma.bit
+  SHA256: 0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+- U-Boot: artifacts/s03_bootgen/u-boot.elf
+  SHA256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+bootgen -read summary:
+- total_images: 3
+- partition 0: zynq_fsbl.elf.0, load 0x00000000, exec 0x00000000, encrypted no, aarch-32
+- partition 1: GPTalk_dma.bit.0, load 0x00000000, exec 0x00000000, encrypted no
+- partition 2: u-boot.elf.0, load 0x04000000, exec 0x04000000, encrypted no, aarch-32
+

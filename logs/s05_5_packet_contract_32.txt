@@ -1,0 +1,18 @@
+S05.5 packet contract 32-bit
+axis_data_width_bits: 32
+axis_bytes: 4
+lanes: 16
+packet_bytes: 576
+dma_mm2s_btt_bytes: 576
+dma_btt_unit: bytes
+scale_bytes: 64
+weight_bytes: 512
+scale_beats: 16
+weight_beats: 128
+total_beats: 144
+tlast_index: 143
+full_tkeep_hex: 0xf
+tkeep_all_fake_gemv_beats: full
+buffer_phys_addr: not_provided
+buffer_phys_16byte_aligned: not_checked
+contract_check: PASS

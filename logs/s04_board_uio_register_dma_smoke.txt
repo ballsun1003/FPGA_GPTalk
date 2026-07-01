@@ -1,0 +1,82 @@
+S04 board UIO/register/DMA smoke result
+Date: 2026-06-30 KST
+
+Context:
+- S03 boot recovery baseline: PASS
+- Active BOOT baseline: artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+- PetaLinux full rebuild: not run
+- Test interface: serial console /dev/ttyUSB1
+
+Source/logs:
+- board precheck: logs/serial_s04_uio_precheck_20260630_121419.log
+- DMA buffer provider check: logs/serial_s04_dma_buffer_provider_check_20260630_121546.log
+- smoke source: artifacts/boot_tests/s04_uio_register_dma_smoke.c
+- smoke run log: logs/serial_s04_uio_register_dma_smoke_run_20260630_121833.log
+- dmesg oops check: logs/serial_s04_dmesg_oops_check_20260630_122010.log
+
+UIO devices from board:
+- uio0 name=axi_dma     addr=0x40400000 size=0x00010000
+- uio1 name=input_bram  addr=0x42000000 size=0x00010000
+- uio2 name=hdmi_vdma   addr=0x43010000 size=0x00010000
+- uio3 name=hdmi_vtc    addr=0x43c10000 size=0x00010000
+- uio4 name=hdmi_dynclk addr=0x43c20000 size=0x00010000
+- uio5 name=gemv_ctrl   addr=0x43ca0000 size=0x00001000
+
+Vivado address map comparison:
+- axi_dma: PASS, UIO 0x40400000/0x10000 matches logs/hw_dma_address_map.txt
+- input_bram: PASS, UIO 0x42000000/0x10000 matches logs/hw_dma_address_map.txt
+- gemv_ctrl: PASS, UIO 0x43ca0000/0x1000 matches logs/hw_dma_address_map.txt
+
+Name-based UIO lookup:
+- axi_dma: PASS
+- input_bram: PASS
+- gemv_ctrl: PASS
+- UIO numbers were not hardcoded by the smoke program.
+
+gemv_ctrl register read:
+- VERSION offset 0x00: 0x000a0001
+- STATUS offset 0x08: 0x00000000
+- ERROR offset 0x0c: 0x00000000
+- DONE offset 0x30: 0x00000000
+- Result: PASS
+
+input_bram write/readback:
+- Tested 16 32-bit words at map start.
+- First pattern: 0xa5a50000
+- First readback: 0xa5a50000
+- Original words restored after readback.
+- Result: PASS
+
+axi_dma register reset/status:
+- Before MM2S: CR=0x00010002 SR=0x00000001 halted=1 idle=0 err_mask=0x000
+- Before S2MM: CR=0x00010002 SR=0x00000001 halted=1 idle=0 err_mask=0x000
+- After MM2S:  CR=0x00010002 SR=0x00000001 halted=1 idle=0 err_mask=0x000
+- After S2MM:  CR=0x00010002 SR=0x00000001 halted=1 idle=0 err_mask=0x000
+- Reset bit cleared and no DMAIntErr/DMASlvErr/DMADecErr/SG error bits were set.
+- Result: PASS
+
+Bus error/kernel oops:
+- None observed.
+- dmesg grep only matched "hw-breakpoint: maximum watchpoint size is 4 bytes."
+
+DMA buffer provider check:
+- /dev/udmabuf*: absent
+- /dev/dma_proxy*: absent
+- /dev/dma*: absent
+- /sys/class/u-dma-buf: absent
+- /sys/class/dma_heap: absent
+- /proc/device-tree/reserved-memory: absent
+- dmesg: CMA exists at 0x38000000, but no user-space DMA allocator/provider is exposed.
+
+DMA buffer method decision:
+- Current board image has no usable coherent DMA buffer provider.
+- Do not use malloc virtual addresses as DMA physical addresses.
+- Do not run fake_gemv DMA transfer with the current buffer state.
+- Chosen S05 DMA-buffer direction: reserved-memory carved out of DDR plus /dev/mem O_SYNC mapping, or an equivalent udmabuf/dma-proxy provider if added later.
+- Until that provider exists and cache/coherency rules are verified, DMA data transfer remains BLOCKED.
+
+Overall:
+- UIO/register/BRAM/DMA-register smoke: PASS.
+- DMA data transfer readiness: BLOCKED by missing coherent/reserved DMA buffer provider.
+- S05 fake_gemv FPGA DMA test: not allowed yet; first add/verify the DMA buffer provider.
+

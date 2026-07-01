@@ -1,0 +1,11 @@
+GPTalk hardware preflight address map
+Active Vivado project: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.xpr
+SEG_processing_system7_0_HP1_DDR_LOWOCM PATH=/axi_dma_0/Data_MM2S/SEG_processing_system7_0_HP1_DDR_LOWOCM OFFSET=0x00000000 RANGE=0x40000000
+SEG_processing_system7_0_HP1_DDR_LOWOCM PATH=/axi_dma_0/Data_S2MM/SEG_processing_system7_0_HP1_DDR_LOWOCM OFFSET=0x00000000 RANGE=0x40000000
+SEG_processing_system7_0_HP0_DDR_LOWOCM PATH=/axi_vdma_1/Data_MM2S/SEG_processing_system7_0_HP0_DDR_LOWOCM OFFSET=0x00000000 RANGE=0x40000000
+SEG_axi_dma_0_Reg PATH=/processing_system7_0/Data/SEG_axi_dma_0_Reg OFFSET=0x40400000 RANGE=0x00010000
+SEG_axi_dynclk_0_S_AXI_LITE_reg PATH=/processing_system7_0/Data/SEG_axi_dynclk_0_S_AXI_LITE_reg OFFSET=0x43C20000 RANGE=0x00010000
+SEG_axi_input_bram_ctrl_Mem0 PATH=/processing_system7_0/Data/SEG_axi_input_bram_ctrl_Mem0 OFFSET=0x42000000 RANGE=0x00010000
+SEG_axi_vdma_1_Reg PATH=/processing_system7_0/Data/SEG_axi_vdma_1_Reg OFFSET=0x43010000 RANGE=0x00010000
+SEG_gemv_q8_0_dma_top_0_reg0 PATH=/processing_system7_0/Data/SEG_gemv_q8_0_dma_top_0_reg0 OFFSET=0x43CA0000 RANGE=0x00001000
+SEG_v_tc_out_Reg PATH=/processing_system7_0/Data/SEG_v_tc_out_Reg OFFSET=0x43C10000 RANGE=0x00010000

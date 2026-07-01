@@ -1,0 +1,44 @@
+S00 verification: deprecated AXI-Lite data path
+Date: 2026-06-29 KST
+
+1. vivado_ip/rtl/gemv_q8_0_stream_core.v remains
+   PASS
+
+2. Existing AXI-Lite wrapper and smoke files were moved under
+   deprecated/old_axi_lite_bringup/
+   PASS
+   - deprecated/old_axi_lite_bringup/vivado_ip/rtl/gemv_q8_0_axi_lite.v
+   - deprecated/old_axi_lite_bringup/vivado_ip/rtl/gemv_q8_0_axi_lite_smoke.v
+   - deprecated/old_axi_lite_bringup/scripts/create_zybo_gemv_hw.tcl
+   - deprecated/old_axi_lite_bringup/scripts/create_zybo_gemv_smoke_hw.tcl
+
+3. Active build no longer uses create_zybo_gemv_hw.tcl or
+   create_zybo_gemv_smoke_hw.tcl as final paths
+   PASS
+   Active scripts directory now contains only:
+   - scripts/run_gemv_sim.tcl
+
+4. docs/interface_contract.md and docs/rtl_next_step.md have top DEPRECATED
+   warnings
+   PASS
+   docs/hw_bringup_result.md also has a top SUPERSEDED warning for the smoke
+   AXI-Lite path.
+
+5. STREAM_DATA/RESULT_DATA/INPUT_DATA keywords are not present in the active
+   final RTL/script path
+   PASS
+   Command:
+   rg -n "REG_STREAM_DATA|REG_INPUT_DATA|REG_RESULT_DATA|STREAM_DATA|INPUT_DATA|RESULT_DATA" vivado_ip scripts
+   Result:
+   no matches
+
+6. create_zybo_gemv_dma_hw.tcl TODO marker
+   TODO
+   scripts/create_zybo_gemv_dma_hw.tcl does not exist yet. This is expected
+   after S00 and belongs to S01.
+
+S00 final verdict
+-----------------
+PASS for S00. The old AXI-Lite data-path RTL and Tcl files are out of active
+build paths. No new RTL, DMA Tcl, Vivado build, bitstream, or XSA was created.
+

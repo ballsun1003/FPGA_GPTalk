@@ -1,0 +1,135 @@
+S01 DMA architecture verification
+Date: 2026-06-29 KST
+
+Scope guard
+-----------
+Performed S01 only. Created/updated DMA RTL, BD Tcl, build/report Tcl, and DMA
+architecture documents. Ran `scripts/create_zybo_gemv_dma_hw.tcl` to create and
+validate the Vivado block design and HDL wrapper. Did not run synthesis,
+implementation, bitstream generation, XSA export, PetaLinux, SD-card writes,
+serial access, or board tests.
+
+S00 precondition check
+----------------------
+PASS. S00 artifacts do not violate the global instructions:
+- Active RTL/script paths before S01 contained only:
+  - vivado_ip/rtl/gemv_q8_0_stream_core.v
+  - scripts/run_gemv_sim.tcl
+- Deprecated AXI-Lite bring-up RTL/Tcl files are under:
+  - deprecated/old_axi_lite_bringup/
+- Deprecated/superseded documents are under:
+  - docs/deprecated/
+- logs/docs_deprecated_relocation_20260629.txt explains the document relocation.
+- The fake_gemv golden data exists at the active simulation path:
+  - pycharm/golden/fake_gemv/
+- No active RTL/script path used the removed AXI-Lite bulk-data path.
+
+S01 artifacts
+-------------
+PASS. Required files exist:
+- vivado_ip/rtl/gemv_q8_0_dma_top.v
+- vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v
+- scripts/create_zybo_gemv_dma_hw.tcl
+- scripts/build_zybo_gemv_dma_bitstream.tcl
+- scripts/report_failed_impl.tcl
+- docs/hw_dma_architecture.md
+- docs/hw_route_recovery.md
+- docs/interface_contract_dma.md
+- hw/zybo_gemv_dma/zybo_gemv_dma.xpr
+- logs/hw_dma_address_map.txt
+
+Checklist
+---------
+1. create_zybo_gemv_dma_hw.tcl exists
+   PASS.
+
+2. AXI DMA IP is added to the BD
+   PASS.
+   Evidence: scripts/create_zybo_gemv_dma_hw.tcl creates axi_dma_0 with
+   xilinx.com:ip:axi_dma.
+
+3. PS S_AXI_HP0 is enabled
+   PASS.
+   Evidence: CONFIG.PCW_USE_S_AXI_HP0 {1}.
+
+4. DMA MM2S -> FIFO -> GEMV stream input exists
+   PASS.
+   Evidence:
+   - axi_dma_0/M_AXIS_MM2S -> mm2s_axis_fifo/S_AXIS
+   - mm2s_axis_fifo/M_AXIS -> gemv_q8_0_dma_top_0/S_AXIS
+
+5. GEMV stream output -> FIFO -> DMA S2MM exists
+   PASS.
+   Evidence:
+   - gemv_q8_0_dma_top_0/M_AXIS -> s2mm_axis_fifo/S_AXIS
+   - s2mm_axis_fifo/M_AXIS -> axi_dma_0/S_AXIS_S2MM
+
+6. AXI-Lite is control/status only
+   PASS.
+   Evidence:
+   - gemv_q8_0_ctrl_axi_lite.v exposes VERSION, CONTROL, STATUS, ERROR_CODE,
+     MODE, SCALE_SHIFT, IN_FEATURES, OUT_FEATURES, INPUT_BRAM_BASE,
+     WEIGHT_STREAM_LENGTH, RESULT_LENGTH, START, DONE, and DEBUG registers.
+   - gemv_q8_0_dma_top.v carries bulk data only through input BRAM and AXIS.
+
+7. Removed bulk-data register keywords are not in active final datapath files
+   PASS.
+   Command:
+   rg -n "REG_STREAM_DATA|REG_INPUT_DATA|REG_RESULT_DATA|STREAM_DATA|INPUT_DATA|RESULT_DATA" \
+       vivado_ip scripts docs \
+       --glob '!docs/deprecated/**' \
+       --glob '!docs/smollm2_zybo_5day_dma_agent_guide_v4_20260629.md'
+   Result:
+   no matches
+
+8. PL clock starts at 50 MHz
+   PASS.
+   Evidence:
+   - CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ {50.000000}
+   - new X_INTERFACE_PARAMETER frequency values use FREQ_HZ 50000000.
+
+9. Stream core function and mode=0/mode=1 are preserved
+   PASS.
+   Evidence:
+   - gemv_q8_0_stream_core.v still has mode-controlled ST_EMIT_ROW and
+     ST_EMIT_BLOCK paths.
+   - mode=0 scale path was split into ST_SCALE_MUL, ST_SCALE_SHIFT, and
+     ST_SCALE_ACCUM while preserving behavior.
+   - Vivado/XSim fake_gemv simulation passed:
+     [PASS] mode=0 scaled outputs matched golden/fake_gemv
+     [PASS] mode=1 block-acc outputs matched golden/fake_gemv
+
+Additional checks
+-----------------
+PASS. xvlog parsed:
+- gemv_q8_0_stream_core.v
+- gemv_q8_0_ctrl_axi_lite.v
+- gemv_q8_0_dma_top.v
+
+PASS. Vivado block design generation completed:
+- S01_DMA_BD_CREATED=1
+- PROJECT_DIR=/home/pjs/Desktop/smollm2-zybo/hw/zybo_gemv_dma
+- ADDRESS_REPORT=/home/pjs/Desktop/smollm2-zybo/logs/hw_dma_address_map.txt
+
+Generated address map:
+- GEMV control: 0x43C00000, 4K
+- AXI DMA: 0x40400000, 64K
+- Input BRAM: 0x42000000, 64K
+- DMA MM2S/S2MM DDR window through PS S_AXI_HP0: 0x00000000, 1G
+
+Vivado warning notes:
+- XilinxTclStore is not writable in the host user area; Vivado falls back to the
+  installation Tcl store. This does not change the generated BD.
+- The Digilent/Zynq PS board preset emits negative DDR DQS skew critical
+  warnings, also seen in prior bring-up logs. This is a board-preset warning,
+  not an S01 DMA-path connectivity failure.
+- The BRAM generator reports lower-bit address connection from the AXI BRAM
+  Controller. The selected address map remains 64K and the generated wrapper is
+  valid for S01.
+
+S01 final verdict
+-----------------
+PASS for S01 architecture. AXI DMA MM2S/S2MM paths are present in the BD Tcl,
+the Vivado BD was generated and validated, control/status AXI-Lite RTL is
+separated from bulk data movement, input vector storage is BRAM-based, and
+stream core behavior is verified against fake_gemv.

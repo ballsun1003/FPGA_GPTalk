@@ -7,7 +7,7 @@
 터미널 또는 애플리케이션 메뉴에서 Vivado 2024.2를 실행한다.
 
 ```bash
-/tools/Xilinx/Vivado/2024.2/bin/vivado
+vivado
 ```
 
 ## 2. Open Project
@@ -115,7 +115,7 @@ GUI 대신 재현성용 Tcl을 사용할 수 있다.
 BD 생성/갱신:
 
 ```bash
-/tools/Xilinx/Vivado/2024.2/bin/vivado -mode batch \
+vivado -mode batch \
   -source scripts/create_or_update_gptalk_dma_bd.tcl \
   > logs/gptalk_dma_bd_update.log 2>&1
 ```
@@ -123,7 +123,7 @@ BD 생성/갱신:
 S02 bitstream/XSA build:
 
 ```bash
-nohup /tools/Xilinx/Vivado/2024.2/bin/vivado -mode batch \
+nohup vivado -mode batch \
   -source scripts/build_gptalk_dma_bitstream.tcl \
   > logs/gptalk_dma_build.log 2>&1 &
 ```

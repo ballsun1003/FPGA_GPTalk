@@ -13,3 +13,6 @@ target_compile_options(gemv_q8_0_ref PRIVATE -Wall -Wextra -Wpedantic)
 add_executable(gemv_q8_0_test gemv_q8_0_test.c)
 target_link_libraries(gemv_q8_0_test PRIVATE gemv_q8_0_ref m)
 target_compile_options(gemv_q8_0_test PRIVATE -Wall -Wextra -Wpedantic)
+
+add_executable(gemv_hw_test gemv_hw_test.c)
+target_compile_options(gemv_hw_test PRIVATE -Wall -Wextra -Wpedantic)

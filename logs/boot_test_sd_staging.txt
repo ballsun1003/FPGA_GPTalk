@@ -1,0 +1,37 @@
+GPTalk S03 boot recovery test SD staging
+Date: 2026-06-30 KST
+
+Current staged test:
+- test name: test_b_s03_fsbl_no_bit
+- Folder: artifacts/boot_tests/test_b_s03_fsbl_no_bit
+- MANIFEST: artifacts/boot_tests/test_b_s03_fsbl_no_bit/MANIFEST.txt
+
+Configuration:
+- FSBL: artifacts/boot_tests/test_b_s03_fsbl_no_bit/fsbl_known_good_s03.elf
+- FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+- bitstream: NONE
+- U-Boot: artifacts/boot_tests/test_b_s03_fsbl_no_bit/u-boot.elf
+- U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+- BIF: artifacts/boot_tests/test_b_s03_fsbl_no_bit/boot.bif
+- BOOT.BIN: artifacts/boot_tests/test_b_s03_fsbl_no_bit/BOOT.BIN
+- BOOT.BIN sha256: 4a08988b7f6a6ee36e6750373b3536421c4059477f2c889516c4706c6628ce9d
+
+SD staging:
+- SD device: /dev/sdc
+- boot partition: /dev/sdc1
+- active SD BOOT.BIN hash after copy: 4a08988b7f6a6ee36e6750373b3536421c4059477f2c889516c4706c6628ce9d
+- previous active BOOT backup: BOOT_BEFORE_TEST_B_S03_NOBIT_20260630.BIN
+- image.ub/rootfs/device tree: unchanged and not part of this test judgment
+- fsck.vfat -n after unmount: clean
+
+Expected board result:
+- DONE LED may remain off because no bitstream is present.
+- Success criterion is UART FSBL/U-Boot output on /dev/ttyUSB1 at 115200.
+
+Actual board result:
+- UART byte count: /dev/ttyUSB0 = 0, /dev/ttyUSB1 = 25849
+- UART log: logs/serial_test_b_s03_fsbl_no_bit_ttyUSB1_20260630_113716.log
+- U-Boot: reached
+- Linux: reached root prompt
+- DONE LED: off, expected/acceptable for no-bitstream BOOT
+- Judgment: PASS. The custom/recovery FSBL failure is isolated away from U-Boot, SD, serial, boot mode, and recovery image.ub.

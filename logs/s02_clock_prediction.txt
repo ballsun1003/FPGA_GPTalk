@@ -1,0 +1,9 @@
+S02 predicted clock application
+Active Vivado project: /home/pjs/Desktop/smollm2-zybo/hw/vivado_project/GPTalk.xpr
+Applied PL clock target: 75.000 MHz
+Applied PL clock actual FREQ_HZ: 76923080
+Source data:
+- 50 MHz run: setup WNS 1.427 ns, TNS 0.000 ns, hold WHS 0.016 ns, THS 0.000 ns
+- 75 nominal run: actual clk_fpga_0 76.929 MHz, setup WNS 0.000 ns, TNS 0.000 ns, hold WHS 0.025 ns, THS 0.000 ns
+Prediction: 76.929 MHz is the highest no-violation clock supported by the available timing data.
+Action: BD/XCI frequency metadata restored to 76923080 Hz; no synthesis/implementation was run in this apply-only pass.

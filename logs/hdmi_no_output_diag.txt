@@ -1,0 +1,49 @@
+GPTalk HDMI no-output diagnostic
+Date: 2026-06-30 KST
+
+Context:
+- S03 boot recovery is PASS.
+- Do not restart PetaLinux rebuild or boot recovery because of HDMI no-output.
+- S04 GEMV register/DMA smoke can continue over serial console.
+
+Serial diagnostic log:
+- logs/serial_hdmi_diag_20260630_120956.log
+
+/proc/cmdline:
+- console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait
+
+fb device:
+- /dev/fb*: absent
+
+dri device:
+- /dev/dri: absent
+- /dev/dri/card0: absent
+
+/sys/class/graphics:
+- only fbcon exists: /sys/devices/virtual/graphics/fbcon
+
+active console:
+- ttyPS0
+
+HDMI/VTC/VDMA/dynclk binding:
+- hdmi_vdma is UIO only: /sys/class/uio/uio2 name=hdmi_vdma, device=/sys/devices/soc0/amba_pl/43010000.hdmi_vdma
+- hdmi_vtc is UIO only: /sys/class/uio/uio3 name=hdmi_vtc, device=/sys/devices/soc0/amba_pl/43c10000.hdmi_vtc
+- hdmi_dynclk is UIO only: /sys/class/uio/uio4 name=hdmi_dynclk, device=/sys/devices/soc0/amba_pl/43c20000.hdmi_dynclk
+- No framebuffer/DRM binding was observed.
+
+dmesg core:
+- Kernel command line uses ttyPS0 serial console.
+- FPGA manager framework and fpga-region probed.
+- No drm/fb/framebuffer HDMI console driver probe lines observed.
+- No old ov5640/mipi/xilinx_drm panic path observed in this diagnostic.
+
+HDMI no-output cause:
+- Expected with the current Linux image.
+- HDMI IP exists in PL and is exposed through UIO, but Linux has no /dev/fb0 or /dev/dri/card0.
+- Therefore Linux console has no framebuffer/DRM target and nothing initializes/draws the HDMI output.
+- HDMI should be handled later with a userspace HDMI init/draw path or a proper framebuffer/DRM device-tree/driver path.
+
+S04 continuation:
+- PASS/YES. Continue S04/S05/S06 over serial console.
+- HDMI no-output is deferred to S07 final demo work.
+

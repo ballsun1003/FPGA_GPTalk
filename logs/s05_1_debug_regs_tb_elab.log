@@ -1,0 +1,14 @@
+Vivado Simulator v2024.2.2
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab tb_gemv_q8_0_stream_core -s tb_gemv_q8_0_stream_core_debug 
+Multi-threading is on. Using 14 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+Completed static elaboration
+Starting simulation data flow analysis
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module work.gemv_q8_0_stream_core_default
+Compiling module work.tb_gemv_q8_0_stream_core
+Built simulation snapshot tb_gemv_q8_0_stream_core_debug

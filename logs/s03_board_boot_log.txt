@@ -1,0 +1,29 @@
+S03 board boot log
+Date: 2026-06-29 KST
+
+Status: not captured.
+
+Reason:
+- The user requested stopping at SD writing before manual board boot.
+- SD bootfs writing is complete and hash-verified.
+- S04 board boot, UART capture, and runtime smoke tests were not executed.
+
+Ready for manual boot:
+- BOOT.BIN and image.ub are present on SD bootfs.
+- smollm2_zybo/hw/GPTalk_dma.bit is present on SD bootfs.
+- smollm2_zybo/hw/GPTalk_dma.xsa is present on SD bootfs.
+- smollm2_zybo/hw/hw_dma_hdmi_address_map.txt is present on SD bootfs.
+
+Clock/timing summary:
+- GEMV/DMA clock: 74.000 MHz.
+- setup WNS: 0.033 ns.
+- hold WHS: 0.013 ns.
+- timing pass: 1.
+
+Rootfs note:
+- During copy, /dev/sdb2 was mounted read-only with errors=remount-ro.
+- No rootfs payload was modified for S03.
+
+Post-copy unmount:
+- /dev/sdb1 unmounted successfully.
+- /dev/sdb2 unmounted successfully.

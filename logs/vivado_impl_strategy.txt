@@ -1,0 +1,17 @@
+GPTalk DMA Vivado build strategy
+Project: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.xpr
+Control/dynclk clock target: 100.000 MHz
+Control/dynclk actual FREQ_HZ: 100000000
+PL clock target: 74.000 MHz
+PL clock actual FREQ_HZ: 74000000
+Vivado jobs: 8
+synth_1 strategy: Flow_PerfOptimized_high
+impl_1 strategy: Performance_ExplorePostRoutePhysOpt
+opt_design directive: Explore
+place_design directive: ExtraNetDelay_high
+phys_opt_design directive: AggressiveExplore
+route_design directive: AggressiveExplore
+post_route_phys_opt_design directive: AggressiveExplore
+
+Fallback notes:
+- none

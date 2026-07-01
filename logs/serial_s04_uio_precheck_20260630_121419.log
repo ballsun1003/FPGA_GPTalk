@@ -1,0 +1,76 @@
+echo __S04_PRECHECK_START__; pwd; id; uname -a; echo __UIO__;  for d in /sys/class/uio/uio*; do echo UIO=$(basename "$d") name=$(cat "$d/name"  2>/dev/null); for m in "$d"/maps/map*; do [ -e "$m" ] && echo map=$(basename "$ m") addr=$(cat "$m/addr") size=$(cat "$m/size"); done; done; echo __DEV__; ls -l  /dev/uio* /dev/mem 2>&1 || true; echo __TOOLS__; command -v gcc || true; comman d -v cc || true; command -v python3 || true; command -v python || true; command  -v devmem || true; command -v hexdump || true; command -v od || true; command -v  dd || true; echo __DMESG_BEFORE__; dmesg | tail -40; echo __S04_PRECHECK_END__
+__S04_PRECHECK_START__
+/home/root
+uid=0(root) gid=0(root) groups=0(root)
+Linux Zybo-Z7-20 4.9.0-xilinx-v2017.4 #1 SMP PREEMPT Thu Jun 25 08:31:10 UTC 2026 armv7l GNU/Linux
+__UIO__
+UIO=uio0 name=axi_dma
+map=map0 addr=0x40400000 size=0x00010000
+UIO=uio1 name=input_bram
+map=map0 addr=0x42000000 size=0x00010000
+UIO=uio2 name=hdmi_vdma
+map=map0 addr=0x43010000 size=0x00010000
+UIO=uio3 name=hdmi_vtc
+map=map0 addr=0x43c10000 size=0x00010000
+UIO=uio4 name=hdmi_dynclk
+map=map0 addr=0x43c20000 size=0x00010000
+UIO=uio5 name=gemv_ctrl
+map=map0 addr=0x43ca0000 size=0x00001000
+__DEV__
+crw-r-----    1 root     kmem        1,   1 Jan  1  1970 /dev/mem
+crw-------    1 root     root      246,   0 Jan  1  1970 /dev/uio0
+crw-------    1 root     root      246,   1 Jan  1  1970 /dev/uio1
+crw-------    1 root     root      246,   2 Jan  1  1970 /dev/uio2
+crw-------    1 root     root      246,   3 Jan  1  1970 /dev/uio3
+crw-------    1 root     root      246,   4 Jan  1  1970 /dev/uio4
+crw-------    1 root     root      246,   5 Jan  1  1970 /dev/uio5
+__TOOLS__
+/usr/bin/gcc
+/usr/bin/cc
+/sbin/devmem
+/usr/bin/hexdump
+/usr/bin/od
+/bin/dd
+__DMESG_BEFORE__
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+EDAC MC: ECC not enabled
+Xilinx Zynq CpuIdle Driver started
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+sdhci-pltfm: SDHCI platform and OF driver helper
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+ledtrig-cpu: registered to indicate activity on CPUs
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+NET: Registered protocol family 10
+Segment Routing with IPv6
+sit: IPv6, IPv4 and MPLS over IPv4 tunneling driver
+NET: Registered protocol family 17
+can: controller area network core (rev 20170425 abi 9)
+NET: Registered protocol family 29
+can: raw protocol (rev 20170425)
+can: broadcast manager protocol (rev 20170425 t)
+can: netlink gateway (rev 20170425) max_hops=1
+Registering SWP/SWPB emulation handler
+hctosys: unable to open rtc device (rtc0)
+of_cfs_init
+of_cfs_init: OK
+clk: Not disabling unused clocks
+Waiting for root device /dev/mmcblk0p2...
+mmc0: new high speed SDXC card at address 59b4
+mmcblk0: mmc0:59b4 SD64G 59.4 GiB 
+ mmcblk0: p1 p2
+EXT4-fs (mmcblk0p2): couldn't mount as ext3 due to feature incompatibilities
+EXT4-fs (mmcblk0p2): recovery complete
+EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 1024K
+udevd[731]: starting version 3.2
+udevd[732]: starting eudev-3.2
+FAT-fs (mmcblk0p1): Volume was not properly unmounted. Some data may be corrupt. Please run fsck.
+EXT4-fs (mmcblk0p2): re-mounted. Opts: data=ordered
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+__S04_PRECHECK_END__
+root@Zybo-Z7-20:~# 

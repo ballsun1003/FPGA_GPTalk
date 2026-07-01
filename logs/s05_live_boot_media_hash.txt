@@ -1,0 +1,49 @@
+root@Zybo-Z7-20:~# __S05_LIVE_HASH_START__
+root@Zybo-Z7-20:~# CMDLINE=console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+root@Zybo-Z7-20:~# UPTIME=440.00 871.12
+root@Zybo-Z7-20:~# MOUNTS
+/dev/mmcblk0p1 on /run/media/mmcblk0p1 type vfat (rw,relatime,gid=6,fmask=0007,dmask=0007,allow_utime=0020,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+root@Zybo-Z7-20:~# BOOTFS_LIST
+/boot:
+total 0
+
+/run/media/mmcblk0p1:
+total 26580
+-rwxrwx---    1 root     disk       4576624 Jun 30  2026 BOOT.BIN
+-rwxrwx---    1 root     disk       4576624 Jun 29  2026 BOOT_BEFORE_S04_NOBIT_20260630.BIN
+-rwxrwx---    1 root     disk        547440 Jun 30  2026 BOOT_BEFORE_TEST_B_S03_NOBIT_20260630.BIN
+-rwxrwx---    1 root     disk        531056 Jun 30  2026 BOOT_BEFORE_TEST_C_CANONICAL_20260630.BIN
+-rwxrwx---    1 root     disk       4593008 Jun 29  2026 BOOT_NEWFSBL_FAIL_20260630.BIN
+-rwxrwx---    1 root     disk       4576624 Jun 29  2026 BOOT_S03.BIN
+-rwxrwx---    1 root     disk       3910744 Jun 29  2026 IMAGE_S03.UB
+drwxrwx---    3 root     disk          2048 Jun 30  2026 backup
+-rwxrwx---    1 root     disk       3890704 Jun 29  2026 image.ub
+drwxrwx---    2 root     disk          2048 Jun 29  2026 s03_backup_20260629_121729
+drwxrwx---    7 root     disk          2048 Jun 29  2026 smollm2_zybo
+-rwxrwx---    1 root     disk           136 Jun 30  2026 uEnv.txt
+root@Zybo-Z7-20:~# SHA256
+03b92ed1440d22a3e8dd08e318cc5e9a1f4c2a0a477ab1d1d2e6e113bdb95030  /run/media/mmcblk0p1/BOOT.BIN
+e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715  /run/media/mmcblk0p1/image.ub
+369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76  /run/media/mmcblk0p1/uEnv.txt
+root@Zybo-Z7-20:~# UIO
+/sys/class/uio/uio0 axi_dma
+0x40400000
+0x00010000
+/sys/class/uio/uio1 input_bram
+0x42000000
+0x00010000
+/sys/class/uio/uio2 hdmi_vdma
+0x43010000
+0x00010000
+/sys/class/uio/uio3 hdmi_vtc
+0x43c10000
+0x00010000
+/sys/class/uio/uio4 hdmi_dynclk
+0x43c20000
+0x00010000
+/sys/class/uio/uio5 gemv_ctrl
+0x43ca0000
+0x00001000
+root@Zybo-Z7-20:~# GEMV_STATUS
+root@Zybo-Z7-20:~# __S05_LIVE_HASH_END__
+root@Zybo-Z7-20:~# 

@@ -1,0 +1,4 @@
+BOOT.BIN: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_5_axis128_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 3b61460c9f46a9f42ad19b904b5bd4a9ec1aeb89675bbd133bf39307ad8b33d6
+MANIFEST: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_5_axis128_74mhz_s03_fsbl_s03_uboot/MANIFEST.txt
+bootgen log: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/test_s05_5_axis128_74mhz_s03_fsbl_s03_uboot_bootgen.log

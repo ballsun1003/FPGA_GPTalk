@@ -1,0 +1,11 @@
+S05.5 GEMV module_ref parameter probe
+update_module_reference: 
+
+CONFIG.C_S_AXI_ADDR_WIDTH: 12
+CONFIG.C_S_AXI_DATA_WIDTH: 32
+CONFIG.Component_Name: design_1_gemv_q8_0_dma_top_0_0
+CONFIG.INPUT_ADDR_WIDTH: 16
+CONFIG.LANES: 16
+CONFIG.Q8_BLOCK_SIZE: 32
+CONFIG.VERSION: 0x000A0001
+VLNV: xilinx.com:module_ref:gemv_q8_0_dma_top:1.0

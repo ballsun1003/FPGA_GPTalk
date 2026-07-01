@@ -1,0 +1,11 @@
+test name: test_s05_5_axis128_input_capture_74mhz_s03_fsbl_s03_uboot
+time: 2026-07-01 14:56:10 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+SD BOOT.BIN sha256: ca281b642850a006cc2747f21ea2885e229664c8ab610fc05f2cd2d7ea0aa82b
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_5_AXIS128_INPUT_CAPTURE_74MHZ_S03_FSBL_S03_UBOOT_20260701_145607.BIN
+backup sha256: 3b61460c9f46a9f42ad19b904b5bd4a9ec1aeb89675bbd133bf39307ad8b33d6
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

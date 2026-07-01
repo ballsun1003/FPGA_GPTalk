@@ -1,6 +1,6 @@
 Tensor map generation report
-source csv: /home/user22/Desktop/smollm2-zybo/pycharm/reports/gguf_inspect/tensors.csv
-tensor map: /home/user22/Desktop/smollm2-zybo/pycharm/fpga_layout/tensor_map.json
+source csv: pycharm/reports/gguf_inspect/tensors.csv
+tensor map: pycharm/fpga_layout/tensor_map.json
 
 Summary:
 - total tensors: 272

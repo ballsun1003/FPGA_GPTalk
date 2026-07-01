@@ -2,6 +2,13 @@
 
 이 전역 지침은 프로젝트 전체에서 최우선으로 따른다. 단계별 프롬프트나 기존 문서가 이 지침과 충돌하면 이 전역 지침을 우선한다.
 
+현재 기준 문서:
+
+* 실행 가이드는 v6-R4를 기준으로 한다.
+* v6-R4의 핵심 순서는 S05.4 real workload model → S05.5 128-bit AXIS forensic/bring-up → S05.6 batching/persistent-job → S06 full runtime → S07 HDMI demo → S07.5 CPU-only vs HW-GEMV comparison → S08 release/presentation pack이다.
+* `docs/00_ACTIVE_KR.md`가 이 순서와 다르면 먼저 `docs/00_ACTIVE_KR.md`를 갱신한다.
+* S06은 S05.4~S05.6 성능 게이트 이후에만 시작한다.
+
 프로젝트 목표:
 
 * SmolLM2-135M-Instruct를 우선 대상으로 한다.
@@ -13,6 +20,8 @@
 * PS Linux가 tokenizer, 파일 IO, 전체 layer scheduling, RMSNorm, RoPE, SiLU/SwiGLU, softmax, sampling, KV cache, HDMI/USB console chat을 담당한다.
 * PL FPGA는 Transformer 내부 Linear/GEMV를 가속한다.
 * 최종 목표는 SmolLM2 runtime의 모든 Q8_0 GEMV/Linear 호출이 FPGA backend를 통과하는 것이다.
+* 발표 데모는 HDMI 화면과 USB 키보드를 사용하는 것이 필수 목표다. serial console은 디버그와 로그용이며, serial-only 성공을 최종 S07 PASS로 처리하지 않는다.
+* 발표용 비교 기능은 CPU-only와 HW-GEMV를 같은 prompt/token 수로 실행해 성능과 call count를 보여주는 S07.5 비교 데모를 포함한다.
 * 처음부터 Transformer 전체를 Verilog로 만들지 않는다.
 * 처음부터 custom AXI master를 직접 만들지 않는다.
 * 본편은 AXI-Lite control/status + AXI DMA + AXI-Stream GEMV IP 구조를 사용한다.
@@ -66,6 +75,8 @@ Active project / 파일 구조 정책:
 - docs/00_ACTIVE_KR.md에는 지금 active project, 현재 단계, 다음에 할 일, 생성된 bitstream/XSA 경로, 주요 실패 원인 요약만 적는다.
 - docs/00_ACTIVE_KR.md를 장문 설계 문서로 만들지 않는다.
 - "지금 해야 할 일"은 README.md가 아니라 docs/00_ACTIVE_KR.md 또는 prompts/현재단계.md에 둔다.
+- docs/00_ACTIVE_KR.md가 "다음 단계는 S06 runtime 연결"처럼 S05.4~S05.6을 건너뛰는 오래된 문구를 담고 있으면 즉시 수정한다.
+- docs/00_ACTIVE_KR.md의 다음 단계는 현재 v6-R4 기준으로 S05.4 → S05.5 → S05.6 → S06 순서여야 한다.
 
 - Codex용 긴 프롬프트와 작업 지시는 prompts/ 또는 docs/internal/AGENT_PROMPTS.md에 둔다.
 - 사람이 반드시 읽어야 하는 문서와 Codex가 읽는 문서를 섞지 않는다.
@@ -113,19 +124,25 @@ Q8_0 수치 정책:
 * input activation vector는 BRAM, DMA packet, 또는 명확한 burst 가능한 경로를 사용한다.
 * INPUT_DATA, STREAM_DATA, RESULT_DATA 같은 단일 AXI-Lite data register 반복 전송 방식은 deprecated/debug-only로만 허용한다.
 * smoke bitstream은 version/status register 확인용일 뿐, full GEMV datapath 성공으로 취급하지 않는다.
+* user-space AXI DMA에는 physical contiguous buffer가 필요하다. `malloc` virtual address를 DMA physical address처럼 사용하지 않는다.
+* 현재 MVP에서는 검증된 `mem=960M` + DDR 상단 carveout + `/dev/mem O_SYNC` 경로를 사용할 수 있으나, cache/coherency 문제가 생기면 udmabuf/dma-proxy/reserved-memory provider로 전환한다.
+* 32-bit AXIS는 16-lane을 4 beat에 걸쳐 먹이는 구조라 lane utilization이 낮다. 16-lane의 의미를 살리기 위해 128-bit AXIS MM2S 경로를 핵심 성능 게이트로 검토한다.
 
 하드웨어 구조 정책:
 
 * `vivado_ip/rtl/gemv_q8_0_stream_core.v` 같은 AXI-Stream 계산 core는 보존한다.
 * AXI-Lite data pump wrapper는 최종 구조에서 제거하거나 debug-only로 격리한다.
 * Vivado block design에는 AXI DMA, AXIS FIFO, PS HP DDR 경로가 있어야 한다.
-* GPTalk.xpr 내부 BD에 PS7 + AXI DMA + AXIS FIFO + GEMV DMA top + HP0 경로를 만든다.
-* FCLK_CLK0는 route/timing 안정화를 위해 처음에는 50 MHz로 둘 수 있다.
+* GPTalk.xpr 내부 BD에 PS7 + AXI DMA + AXIS FIFO + GEMV DMA top + PS HP DDR 경로를 만든다. HP0가 video VDMA에 사용 중이면 GEMV DMA는 HP1을 사용해도 되며, 실제 HP port와 clock domain을 문서화한다.
+* PL clock은 고정 요구사항이 아니라 timing, board regression, benchmark를 모두 통과하는 가장 높은 stable clock으로 선택한다.
+* 50 MHz는 timing/bring-up용 fallback 실험점이지 최종 도피처가 아니다.
+* 기능 실패를 클럭 하향으로 숨기지 않는다. timing PASS인데 board FAIL이면 packet/TKEEP/TLAST/DMA/RTL/BD/CDC 원인을 먼저 디버깅한다.
 * PL clock을 낮춰도 PS CPU clock을 낮추는 것은 아니다.
-* 50 MHz route 성공 후 75 MHz, 100 MHz 순서로 올린다.
 * 기능 축소로 timing을 해결하지 않는다.
 * q_proj 하나만 처리하는 fake accelerator, fake_gemv 하드코딩 IP, scale 제거, mode 제거, CPU scale fallback은 금지한다.
 * 모든 GEMV를 FPGA backend로 보내는 목표는 유지하되, 내부 구현은 하나의 16-lane GEMV engine을 row-by-row 또는 tile-by-tile로 시간분할 재사용해도 된다.
+* S05.5의 128-bit AXIS는 쉽게 abandon할 수 없는 핵심 성능 게이트다. 128-bit 실패는 PACKET_LAYOUT, TLAST/TKEEP, DMA_LENGTH, AXIS_WIDTH_CONVERTER, RTL_UNPACK, SCALE_HEADER, OUTPUT_EMIT, OOC_STALE, TIMING, CDC_RESET, BD_WIDTH_MISMATCH, BUFFER_ALIGNMENT 등으로 분류해 원인을 찾아야 한다.
+* 128-bit가 실패했을 때 64-bit 또는 32-bit를 임시 mainline으로 유지할 수는 있으나, 실패 원인과 성능 리스크를 문서화해야 한다.
 
 RTL 코딩 원칙:
 
@@ -158,7 +175,20 @@ RTL 코딩 원칙:
 * RTL smoke는 fake_gemv 기준 mode=0 scaled output과 mode=1 block_acc debug를 확인한다.
 * 보드 smoke는 gemv_hw_test가 FPGA full GEMV datapath를 호출해 fake_gemv golden과 비교해야 한다.
 * version/status register만 읽는 smoke는 보드 접근 확인일 뿐 GEMV 성공으로 인정하지 않는다.
+* fake_gemv는 protocol/correctness smoke이지 최종 성능 workload가 아니다. fake_gemv timing만 보고 SmolLM2 성능을 판단하지 않는다.
 * 최종 demo는 `smollm2_chat --backend fpga --require-fpga`에서 `total_gemv_calls == fpga_gemv_calls`, `cpu_gemv_fallbacks == 0`이어야 한다.
+* S06 진입 전에는 S05.4 real SmolLM2 workload throughput model, S05.5 128-bit AXIS 결과 판정, S05.6 batching/persistent-job overhead reduction을 완료해야 한다.
+* S05.3에서 확인된 verbose debug/status read 및 serial logging artifact는 hot path에 넣지 않는다. `--full-debug-status`는 디버그용으로만 사용한다.
+
+
+S05 성능 게이트 정책:
+
+* S05.4는 실제 SmolLM2-135M Q8_0 GGUF의 Linear/GEMV tensor shape를 기준으로 workload model을 만든다.
+* S05.4는 q_proj, k_proj, v_proj, o_proj, gate_proj, up_proj, down_proj, lm_head 등 실제 대상 tensor의 in_features, out_features, packet bytes, output bytes, 32-bit/128-bit beat count를 계산한다.
+* S05.5는 128-bit AXIS MM2S forensic + bring-up 단계다. 74MHz 실패를 바로 50MHz로 덮지 않고 기능 실패와 timing 실패를 분리한다.
+* S05.5에서 최종 clock은 timing + board regression + benchmark를 통과하는 가장 높은 clock으로 선택한다.
+* S05.6은 batching/persistent-job overhead reduction 단계다. reset/config/DMA setup/polling을 매 GEMV마다 반복하는 구조를 줄이고, packet preload, reset reuse, config cache, batch size별 per-job latency를 측정한다.
+* S05.6 결과 없이 S06 runtime에 붙이지 않는다.
 
 Vivado/PetaLinux/SD/보드 작업 원칙:
 
@@ -167,6 +197,20 @@ Vivado/PetaLinux/SD/보드 작업 원칙:
 * 단, SD 카드 전체 포맷, dd, 파티션 삭제, 디스크 overwrite 같은 파괴적 작업은 실행 전 대상 디스크와 명령을 명확히 보여주고 사용자 확인을 받아야 한다.
 * 사용자가 SD카드를 보드에 꽂고 전원을 넣으면, agent는 USB serial terminal 또는 SSH/console을 통해 보드 작업을 이어갈 수 있다고 가정한다.
 * 최종 목표는 보드 HDMI 디스플레이와 USB 키보드로 Linux console demo app을 보여줄 수 있는 상태까지 만드는 것이다.
+
+
+S06/S07/S08 정책:
+
+* S06은 가장 복잡한 단계이며, 단순히 `gemv_hw_test`를 runtime에 붙이는 작업이 아니다.
+* S06은 하위 단계로 나눈다: S06.0 runtime freeze, S06.1 GGUF metadata/load, S06.2 tokenizer+CPU-only smoke, S06.3 backend interface, S06.4 FPGA driver integration, S06.5 all-GEMV require-fpga, S06.6 KV cache/memory policy, S06.7 generation stability, S06.8 compare hooks.
+* CPU-only smoke는 runtime 경로 확인용이지 최종 성공이 아니다.
+* 모든 Q8_0 2D GEMV/Linear는 `gemv_backend_run()`을 통과해야 하며, `--require-fpga` 모드에서 fallback이 발생하면 실패로 처리한다.
+* KV cache는 S06에서 반드시 설계한다. GGUF metadata에서 n_layer, n_head_kv, head_dim을 읽고 ctx-size 128/256/512/1024 후보를 실제 free memory, mem=960M, DMA carveout 64MiB, HDMI/framebuffer, model buffer와 함께 계산한다.
+* 발표 데모 안정성을 위해 ctx-size는 먼저 128 또는 256부터 시작하고, 메모리 여유가 확인될 때 확장한다.
+* S07은 HDMI mandatory다. serial-only 성공은 S07 PASS가 아니다. serial은 로그/복구/디버그용이다.
+* S07은 HDMI 화면에 prompt, assistant output, backend status, total_gemv_calls, fpga_gemv_calls, cpu_gemv_fallbacks를 표시해야 한다.
+* S07.5는 CPU-only vs HW-GEMV 비교 데모다. F-key 또는 화면 메뉴로 CPU-only, HW-GEMV, compare mode를 선택할 수 있게 한다.
+* S08은 단순 freeze가 아니라 release pack + 발표자료 취합 단계다. 어려웠던 점, 문제 원인, 해결 과정, 성능 비교, 한계, 최종 데모 절차를 정리한다.
 
 Vivado project 통합 원칙:
 
@@ -186,7 +230,7 @@ Vivado project 통합 원칙:
 Vivado implementation timing/performance 최적화 정책:
 
 * full GEMV datapath bitstream을 만들 때 Vivado implementation run을 기본값 그대로 두지 않는다.
-* 첫 목표 clock은 PL 50 MHz로 두되, implementation은 timing/performance-oriented strategy/directive를 사용한다.
+* 초기 bring-up clock은 50 MHz로 둘 수 있으나, 최종 clock은 가능한 가장 높은 stable clock을 선택한다. 50 MHz는 도피처가 아니다.
 * 현재 Vivado 2024.2.2에서 지원되는 strategy/directive를 먼저 확인한다.
 * 가능한 경우 implementation strategy를 Performance_Explore 또는 timing closure에 유리한 strategy로 설정한다.
 * opt_design, place_design, phys_opt_design, route_design에는 Explore/AggressiveExplore 계열 directive를 우선 시도한다.
@@ -196,7 +240,7 @@ Vivado implementation timing/performance 최적화 정책:
 * directive fallback이 발생하면 어떤 directive가 실패했고 무엇으로 대체했는지 문서화한다.
 * timing/performance directive 사용은 필수지만, 기능 축소로 성공 처리하면 안 된다.
 * lane 수 축소, scale 제거, mode 제거, fake_gemv 하드코딩, AXI-Lite 데이터펌프 유지 같은 방식으로 timing을 맞추면 실패로 본다.
-* timing 실패 시 WNS/TNS, top failing paths, congestion report를 보고 RTL pipeline/BRAM/stream 구조를 수정한다.
+* timing 실패 시 WNS/TNS, top failing paths, congestion report를 보고 RTL pipeline/BRAM/stream 구조를 수정한다. 기능 실패는 clock 하향이 아니라 기능 디버깅으로 해결한다.
 
 권장 Tcl 방향:
 
@@ -209,6 +253,14 @@ set_property STEPS.PHYS_OPT_DESIGN.IS_ENABLED true [get_runs impl_1]
 set_property STEPS.PHYS_OPT_DESIGN.ARGS.DIRECTIVE AggressiveExplore [get_runs impl_1]
 set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
 ```
+
+
+Snapshot / git 안전 정책:
+
+* `.git/index: index file smaller than expected` 같은 git index 손상이 보고되면 Codex가 임의로 복구하지 않는다. 먼저 snapshot과 로그를 남기고 사용자 승인 후 복구한다.
+* S05.5 128-bit branch나 S06 full runtime처럼 큰 작업 전에는 `snapshots/` 아래에 tarball/hash snapshot을 만든다.
+* snapshot에는 RTL, runtime_c, scripts, docs/00_ACTIVE_KR.md, prompts/docs/internal, fpga_layout manifest, known-good BOOT/XSA/bitstream hash를 포함한다.
+* known-good BOOT/bitstream/XSA는 덮어쓰지 않는다. 새 실험 산출물은 별도 test folder와 manifest/hash를 가진다.
 
 장시간 작업 원칙:
 
@@ -232,3 +284,4 @@ set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
 * 낡은 문서나 충돌하는 정책은 삭제하지 않더라도 맨 위에 DEPRECATED 표시를 붙인다.
 * active와 deprecated를 항상 구분한다.
 * 사용자가 다음에 열 파일/실행할 명령을 `docs/00_ACTIVE_KR.md`에 남긴다.
+* 새 가이드/패치/리포트 산출물을 만들 때 기존 파일명으로 덮어쓰지 않는다. 버전과 날짜를 포함한 다른 파일명으로 저장한다. 단, 파일명은 필요 이상으로 난잡하게 길게 만들지 않는다.

@@ -1,0 +1,14 @@
+S05.4 real workload throughput model PASS
+modeled_tensors=211
+fixed_overhead_us=246.000
+total_packet_bytes=151289856
+total_beats_32=37822464
+total_beats_128=9455616
+theoretical_128_vs_32_speedup=4.000000
+largest_tensor=token_embd.weight
+largest_target=lm_head
+largest_packet_bytes=31850496
+csv=reports/s05_4_real_workload_throughput_model.csv
+doc=docs/s05_4_real_workload_throughput_model.md
+s05_5_started=no
+s06_started=no

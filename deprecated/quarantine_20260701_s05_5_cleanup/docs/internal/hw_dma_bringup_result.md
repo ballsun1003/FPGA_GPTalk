@@ -1,0 +1,22 @@
+# S02 GPTalk DMA build result
+
+- Active Vivado project: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.xpr`
+- PL clock target: 74.000 MHz
+- PL clock actual FREQ_HZ: `74000000`
+- Full GEMV DMA datapath: yes, not smoke-only
+- Bitstream: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit`
+- Latest bitstream alias: `SKIPPED_BY_GPTALK_UPDATE_LATEST=0`
+- XSA: `/run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.xsa`
+- Latest XSA alias: `SKIPPED_BY_GPTALK_UPDATE_LATEST=0`
+- GEMV control base: `0x43CA0000`
+- AXI DMA base: `0x40400000`
+- Input BRAM base: `0x42000000`
+- Setup WNS(ns): `0.389`
+- Setup TNS approx(ns): `0.000`
+- Hold WHS(ns): `0.018`
+- Hold THS approx(ns): `0.000`
+- Timing pass: `1`
+- Strategy log: `/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/vivado_impl_strategy.txt`
+- Timing report: `/run/media/pjs/6A43-DC8A/smollm2-zybo/reports/gptalk_dma_74mhz_timing_summary.rpt`
+- Utilization report: `/run/media/pjs/6A43-DC8A/smollm2-zybo/reports/gptalk_dma_74mhz_util_hier.rpt`
+- Route status report: `/run/media/pjs/6A43-DC8A/smollm2-zybo/reports/gptalk_dma_74mhz_route_status.rpt`

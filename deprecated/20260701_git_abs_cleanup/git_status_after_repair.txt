@@ -1,0 +1,300 @@
+ M .gitignore
+ D artifacts/boot_tests/test_a_recovery_fsbl_no_bit/BOOT.BIN
+ D artifacts/boot_tests/test_a_recovery_fsbl_no_bit/MANIFEST.txt
+ D artifacts/boot_tests/test_a_recovery_fsbl_no_bit/boot.bif
+ D artifacts/boot_tests/test_a_recovery_fsbl_no_bit/bootgen_log.txt
+ D artifacts/boot_tests/test_a_recovery_fsbl_no_bit/fsbl_recovery.elf
+ D artifacts/boot_tests/test_a_recovery_fsbl_no_bit/u-boot.elf
+ D artifacts/boot_tests/test_b_s03_fsbl_no_bit/BOOT.BIN
+ D artifacts/boot_tests/test_b_s03_fsbl_no_bit/MANIFEST.txt
+ D artifacts/boot_tests/test_b_s03_fsbl_no_bit/boot.bif
+ D artifacts/boot_tests/test_b_s03_fsbl_no_bit/bootgen_log.txt
+ D artifacts/boot_tests/test_b_s03_fsbl_no_bit/fsbl_known_good_s03.elf
+ D artifacts/boot_tests/test_b_s03_fsbl_no_bit/u-boot.elf
+ D artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+ D artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/MANIFEST.txt
+ D artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/boot.bif
+ D artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/bootgen_log.txt
+ D artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/fsbl_known_good_s03.elf
+ D artifacts/boot_tests/test_c_s03_fsbl_active_bit_s03_uboot/u-boot.elf
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/BOOT.BIN
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/DO_NOT_USE.txt
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/MANIFEST.txt
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/boot.bif
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/bootgen_log.txt
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/fsbl_known_good_s03.elf
+ D artifacts/boot_tests/test_c_s03_fsbl_with_bit/u-boot.elf
+ D artifacts/boot_tests/test_d_recovery_fsbl_with_bit/BOOT.BIN
+ D artifacts/boot_tests/test_d_recovery_fsbl_with_bit/MANIFEST.txt
+ D artifacts/boot_tests/test_d_recovery_fsbl_with_bit/boot.bif
+ D artifacts/boot_tests/test_d_recovery_fsbl_with_bit/bootgen_log.txt
+ D artifacts/boot_tests/test_d_recovery_fsbl_with_bit/fsbl_recovery.elf
+ D artifacts/boot_tests/test_d_recovery_fsbl_with_bit/u-boot.elf
+ D artifacts/hdf_2019_extract/board/zybo-z7-20/board.xml
+ D artifacts/hdf_2019_extract/board/zybo-z7-20/part0_pins.xml
+ D artifacts/hdf_2019_extract/board/zybo-z7-20/preset.xml
+ D artifacts/hdf_2019_extract/drivers/PWM_v1_0/data/PWM.mdd
+ D artifacts/hdf_2019_extract/drivers/PWM_v1_0/data/PWM.tcl
+ D artifacts/hdf_2019_extract/drivers/PWM_v1_0/src/Makefile
+ D artifacts/hdf_2019_extract/drivers/PWM_v1_0/src/PWM.c
+ D artifacts/hdf_2019_extract/drivers/PWM_v1_0/src/PWM.h
+ D artifacts/hdf_2019_extract/drivers/PWM_v1_0/src/PWM_selftest.c
+ D artifacts/hdf_2019_extract/ps7_init.c
+ D artifacts/hdf_2019_extract/ps7_init.h
+ D artifacts/hdf_2019_extract/ps7_init.html
+ D artifacts/hdf_2019_extract/ps7_init.tcl
+ D artifacts/hdf_2019_extract/ps7_init_gpl.c
+ D artifacts/hdf_2019_extract/ps7_init_gpl.h
+ D artifacts/hdf_2019_extract/sysdef.xml
+ D artifacts/hdf_2019_extract/system.hwh
+ D artifacts/hdf_2019_extract/system_bd.tcl
+ D artifacts/hdf_2019_extract/system_mipi_csi2_rx_subsystem_0_1.hwh
+ D artifacts/hdf_2019_extract/system_mipi_csi2_rx_subsystem_0_1_bd.tcl
+ D artifacts/hw_preflight_boot/BOOT_S03_NOBIT.BIN
+ D artifacts/hw_preflight_boot/BOOT_S04_NOBIT.BIN
+ D artifacts/hw_preflight_boot/bootgen_log.txt
+ D artifacts/hw_preflight_boot/s03_no_bitstream.bif
+ D artifacts/hw_preflight_boot/s04_no_bitstream.bif
+ D artifacts/vivado_axi_cc_props/vivado_axi_cc_props.srcs/sources_1/bd/probe/probe.bd
+ D artifacts/vivado_axi_cc_props/vivado_axi_cc_props.xpr
+ D artifacts/vivado_catalog_check_runtime/vivado_catalog_check_runtime.xpr
+ D artifacts/vivado_clock_converter_probe/vivado_clock_converter_probe.srcs/sources_1/bd/probe/probe.bd
+ D artifacts/vivado_clock_converter_probe/vivado_clock_converter_probe.xpr
+ D artifacts/vivado_hdmi_port_probe/vivado_hdmi_port_probe.srcs/sources_1/bd/probe/probe.bd
+ D artifacts/vivado_hdmi_port_probe/vivado_hdmi_port_probe.xpr
+ D artifacts/vivado_ip_repo_check/vivado_ip_repo_check.xpr
+ D artifacts/vivado_rgb2dvi_props_probe/vivado_rgb2dvi_props_probe.srcs/sources_1/bd/probe/probe.bd
+ D artifacts/vivado_rgb2dvi_props_probe/vivado_rgb2dvi_props_probe.xpr
+ D artifacts/vivado_vidout_props_probe/vivado_vidout_props_probe.srcs/sources_1/bd/probe/probe.bd
+ D artifacts/vivado_vidout_props_probe/vivado_vidout_props_probe.xpr
+ D artifacts/xsa_dma_extract/GPTalk_dma_75MHz.mmi
+ D artifacts/xsa_dma_extract/design_1.bda
+ D artifacts/xsa_dma_extract/design_1.hwh
+ D artifacts/xsa_dma_extract/design_1_axi_ctrl_smc_0.hwh
+ D artifacts/xsa_dma_extract/design_1_axi_hp0_smc_0.hwh
+ D artifacts/xsa_dma_extract/ps7_init.c
+ D artifacts/xsa_dma_extract/ps7_init.h
+ D artifacts/xsa_dma_extract/ps7_init.html
+ D artifacts/xsa_dma_extract/ps7_init.tcl
+ D artifacts/xsa_dma_extract/ps7_init_gpl.c
+ D artifacts/xsa_dma_extract/ps7_init_gpl.h
+ D artifacts/xsa_dma_extract/sysdef.xml
+ D artifacts/xsa_dma_extract/xsa.json
+ D artifacts/xsa_dma_extract/xsa.xml
+ M codex.txt
+ M docs/00_ACTIVE_KR.md
+ D docs/internal/deprecated/deprecated_axi_lite_data_path.md
+ D docs/internal/deprecated/hw_bringup_result.md
+ D docs/internal/deprecated/interface_contract.md
+ D docs/internal/deprecated/rtl_next_step.md
+ D docs/internal/deprecated/rtl_next_step_s00_deprecated_stub.md
+ D docs/internal/deprecated/rtl_sim_howto.md
+ D docs/internal/deprecated/smollm2_zybo_project_guide_v9_FULL_AUDIT_20260626.md
+ D docs/internal/deprecated/smollm2_zybo_project_guide_v9_FULL_AUDIT_20260626.pdf
+ D docs/internal/hw_dma_bringup_result.md
+ M docs/internal/interface_contract_dma.md
+ D docs/s03_boot_verify.md
+ D docs/s03_recovery_handoff.md
+ D docs/sd_boot_packaging_result.md
+ M fpga_layout/mapping_report.txt
+ M fpga_layout/q8_0_lane16/layout_report.txt
+ M fpga_layout/q8_0_lane16/manifest.json
+ M fpga_layout/tensor_map.json
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bda
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_ctrl_smc_0/design_1_axi_ctrl_smc_0.xci
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xci
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_gemv_hp1_smc_0/design_1_axi_gemv_hp1_smc_0.xci
+ D hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_0/design_1_gemv_q8_0_dma_top_0_0.xci
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_input_vector_bram_0/design_1_input_vector_bram_0.xci
+ M hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_mm2s_axis_fifo_0/design_1_mm2s_axis_fifo_0.xci
+ M hw/vivado_project/GPTalk.xpr
+ D prompts/prompt09_freeze_report.md
+ D prompts/smollm2_zybo_5day_dma_agent_guide_v5.md
+ D prompts/smollm2_zybo_5day_dma_agent_guide_v5.pdf
+ M runtime_c/CMakeLists.txt
+ M scripts/build_gptalk_dma_bitstream.tcl
+ M vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v
+ M vivado_ip/rtl/gemv_q8_0_dma_top.v
+ M vivado_ip/rtl/gemv_q8_0_stream_core.v
+ M vivado_ip/tb/tb_gemv_q8_0_stream_core.sv
+?? artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/
+?? artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/
+?? artifacts/s03_bootgen/GPTalk_dma.bit
+?? artifacts/s03_bootgen/GPTalk_dma.xsa
+?? artifacts/s03_sd_stage/bootfs/smollm2_zybo/hw/GPTalk_dma.bit
+?? artifacts/s03_sd_stage/bootfs/smollm2_zybo/hw/GPTalk_dma.xsa
+?? artifacts/s04_linux_dt/GPTalk_dma.bit
+?? artifacts/s05_3_known_good_backup_20260701_005442/
+?? artifacts/s05_3_validated_known_good_20260701_0102/
+?? artifacts/s05_3_validated_known_good_reexport_20260701_010926/
+?? artifacts/s05_5_axis128_prebuild_backup_20260701_124225/
+?? deprecated/20260701_git_abs_cleanup/
+?? deprecated/quarantine_20260701_s05_5_cleanup/
+?? docs/s05_3_control_polling_dma_latency.md
+?? docs/s05_4_real_workload_throughput_model.md
+?? docs/s05_5_128bit_axis_bringup.md
+?? docs/s05_fake_gemv_hw_pass_verify.md
+?? hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_1/
+?? hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_1_1/
+?? hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_gemv_q8_0_dma_top_0_2/
+?? hw/vivado_project/GPTalk.srcs/utils_1/
+?? hw/vivado_project/export/GPTalk_dma.bit
+?? hw/vivado_project/export/GPTalk_dma.xsa
+?? hw/vivado_project/export/GPTalk_dma_74MHz.bit
+?? hw/vivado_project/export/GPTalk_dma_74MHz.xsa
+?? hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit
+?? hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.xsa
+?? logs/axi_wrapper_check/
+?? logs/boot_test_sd_staging.txt
+?? logs/bootgen_bif.txt
+?? logs/bootgen_bif_s03.txt
+?? logs/bootgen_bif_s04.txt
+?? logs/docs_deprecated_relocation_20260629.txt
+?? logs/fsbl_compare.txt
+?? logs/gemv_sim_result.txt
+?? logs/gptalk_dma_build_50mhz.pid
+?? logs/hdmi_no_output_diag.txt
+?? logs/hw_address_map.txt
+?? logs/hw_bringup_log.txt
+?? logs/hw_direct_program_result.txt
+?? logs/hw_dma_address_map.txt
+?? logs/hw_dma_hdmi_address_map.txt
+?? logs/hw_preflight_clock_reset.txt
+?? logs/hw_preflight_result.txt
+?? logs/hw_preflight_summary.txt
+?? logs/hw_smoke_address_map.txt
+?? logs/no_bitstream_boot_result.txt
+?? logs/s00_deprecate_axi_lite_path.txt
+?? logs/s00_verify_deprecated_path.txt
+?? logs/s015_gptalk_project_cleanup_verify.txt
+?? logs/s01_dma_arch_verify.txt
+?? logs/s02_bitstream_xsa_verify.txt
+?? logs/s02_clock_prediction.txt
+?? logs/s03_board_boot_log.txt
+?? logs/s03_hdmi_vivado_build.pid
+?? logs/s03_petalinux_or_bootgen_log.txt
+?? logs/s03_sd_copy_log.txt
+?? logs/s04_5a_temp_mem_boot.txt
+?? logs/s04_5a_temp_mem_boot_attempt1_interrupted_not_booted.txt
+?? logs/s04_5a_temp_mem_boot_attempt2_kernelpanic_bad_bootargs.txt
+?? logs/s04_5b_boot_verify.txt
+?? logs/s04_5b_boot_verify_attempt1_mount_busy.txt
+?? logs/s04_5b_sd_bootargs_update.txt
+?? logs/s04_5c_dma_carveout_smoke.txt
+?? logs/s04_5c_dma_carveout_smoke_attempt1_upload_base64_missing.txt
+?? logs/s04_5c_dma_carveout_smoke_attempt2_compile_posix_macro.txt
+?? logs/s04_5c_dma_carveout_smoke_attempt3_prompt_race.txt
+?? logs/s04_5c_dma_carveout_smoke_attempt4_pass_false_bad_marker_scan.txt
+?? logs/s04_board_uio_register_dma_smoke.txt
+?? logs/s05_1_build_boot_summary.txt
+?? logs/s05_1_gcc_hostcheck.txt
+?? logs/s05_1_rtl_tlast_tb.txt
+?? logs/s05_1_sd_stage_debug_regs_boot.txt
+?? logs/s05_1_sd_stage_input_tlast_debug_boot.txt
+?? logs/s05_2_c_only_timing_known_good_pass.txt
+?? logs/s05_2_c_only_timing_known_good_pass_2.txt
+?? logs/s05_2_gcc_hostcheck.txt
+?? logs/s05_2_perf_counter_board_fail.txt
+?? logs/s05_2_reboot_to_known_good_serial.txt
+?? logs/s05_2_restore_known_good_boot_serial.txt
+?? logs/s05_3_reexport_xsa_cold_boot_pass_20260701_010926.txt
+?? logs/s05_3_repeated_benchmark.txt
+?? logs/s05_3_repeated_benchmark_busy_reset_every.txt
+?? logs/s05_3_repeated_benchmark_busy_reset_once_reuse.txt
+?? logs/s05_3_repeated_benchmark_sleep1000_reset_once_reuse.txt
+?? logs/s05_3_timeline_full_sleep1000.txt
+?? logs/s05_3_timeline_mode0.txt
+?? logs/s05_3_timeline_mode1.txt
+?? logs/s05_3_variant_a_busy_reset_every.txt
+?? logs/s05_3_variant_b_usleep1_reset_every.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_detail.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_gemv_detail.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_light_done.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_light_status.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_no_debug_read.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_once.txt
+?? logs/s05_3_variant_d_busy_reset_once_reuse_sampled_done.txt
+?? logs/s05_4_real_workload_throughput_model.txt
+?? logs/s05_5_axis128_bd_apply.txt
+?? logs/s05_5_axis128_board_bram_readback.txt
+?? logs/s05_5_axis128_board_full_debug.txt
+?? logs/s05_5_axis128_board_single.txt
+?? logs/s05_5_axis128_bram_scalar_board_full_debug.txt
+?? logs/s05_5_axis128_bram_scalar_board_quiet_100.txt
+?? logs/s05_5_axis128_input_capture_board_full_debug.txt
+?? logs/s05_5_bd_width_audit.txt
+?? logs/s05_5_clock_sweep_summary.csv
+?? logs/s05_5_gcc_hostcheck.txt
+?? logs/s05_5_gemv_param_probe.txt
+?? logs/s05_5_known_good_freeze.txt
+?? logs/s05_5_packet_contract_128.txt
+?? logs/s05_5_packet_contract_32.txt
+?? logs/s05_5_rtl_sim_128.txt
+?? logs/s05_5_rtl_sim_32.txt
+?? logs/s05_gemv_hw_test.txt
+?? logs/s05_gemv_hw_test_before_bram_wait_rerun.txt
+?? logs/s05_gemv_hw_test_before_current_boot_rerun.txt
+?? logs/s05_gemv_hw_test_before_debug_regs_rerun.txt
+?? logs/s05_gemv_hw_test_before_hex_debug_rerun.txt
+?? logs/s05_gemv_hw_test_before_input_tlast_debug_rerun.txt
+?? logs/s05_gemv_hw_test_before_row_out_rerun.txt
+?? logs/s05_gemv_hw_test_before_scalar_scale_rerun.txt
+?? logs/s05_gemv_hw_test_before_scale_debug_rerun.txt
+?? logs/s05_gemv_hw_test_before_valid_emit_rerun.txt
+?? logs/s05_gemv_hw_test_bram_wait_partial_mismatch.txt
+?? logs/s05_gemv_hw_test_first_s05_1_fail_stale_ooc.txt
+?? logs/s05_gemv_hw_test_ooc_rebuilt_result_mismatch.txt
+?? logs/s05_gemv_hw_test_power_cycle_pass_20260630_1952.txt
+?? logs/s05_gemv_hw_test_row_out_rerun_1.txt
+?? logs/s05_gemv_hw_test_valid_emit_pass_1.txt
+?? logs/s05_gemv_hw_test_valid_emit_pass_2.txt
+?? logs/s05_live_boot_media_hash.txt
+?? logs/s05_packet_summary.txt
+?? logs/s05_packet_words.txt
+?? logs/s05_reset_capture.txt
+?? logs/smoke_wrapper_check/
+?? logs/test_c_s03_fsbl_active_bit_s03_uboot_result.txt
+?? logs/vivado_impl_strategy.txt
+?? logs/xsim_gcc_redirect.c
+?? logs/xsim_gcc_redirect.so
+?? prompts/deprecated/
+?? prompts/smollm2_zybo_guide_v6r3_20260701.md
+?? prompts/smollm2_zybo_guide_v6r3_20260701.pdf
+?? reports/full_gemv_congestion.rpt
+?? reports/full_gemv_qor_suggestions.rpt
+?? reports/full_gemv_route_status.rpt
+?? reports/full_gemv_timing_summary.rpt
+?? reports/full_gemv_util_hier.rpt
+?? reports/gptalk_dma_50mhz_check_timing.rpt
+?? reports/gptalk_dma_50mhz_congestion.rpt
+?? reports/gptalk_dma_50mhz_qor_suggestions.rpt
+?? reports/gptalk_dma_50mhz_route_status.rpt
+?? reports/gptalk_dma_50mhz_timing_summary.rpt
+?? reports/gptalk_dma_50mhz_util_hier.rpt
+?? reports/gptalk_dma_74mhz_check_timing.rpt
+?? reports/gptalk_dma_74mhz_congestion.rpt
+?? reports/gptalk_dma_74mhz_qor_suggestions.rpt
+?? reports/gptalk_dma_74mhz_route_status.rpt
+?? reports/gptalk_dma_74mhz_timing_summary.rpt
+?? reports/gptalk_dma_74mhz_util_hier.rpt
+?? reports/gptalk_dma_75mhz_check_timing.rpt
+?? reports/gptalk_dma_75mhz_congestion.rpt
+?? reports/gptalk_dma_75mhz_qor_suggestions.rpt
+?? reports/gptalk_dma_75mhz_route_status.rpt
+?? reports/gptalk_dma_75mhz_timing_summary.rpt
+?? reports/gptalk_dma_75mhz_util_hier.rpt
+?? reports/s05_4_real_workload_throughput_model.csv
+?? reports/s05_5_timing_74MHz.rpt
+?? runtime_c/gemv_hw_test.c
+?? scripts/package_gptalk_boot.py
+?? scripts/run_s05_5_rtl_sim.sh
+?? scripts/s05_4_real_workload_model.py
+?? scripts/s05_5_apply_axis128_bd.tcl
+?? scripts/s05_5_bd_width_audit.tcl
+?? scripts/s05_5_packet_contract.py
+?? scripts/s05_5_probe_gemv_params.tcl
+?? scripts/s05_gemv_hw_test.py
+?? scripts/s05_packet_dump.py
+?? vivado_ip/rtl/gemv_q8_0_dma_top_axis128.v
+?? vivado_ip/tb/tb_gemv_q8_0_stream_core_axis_width.sv

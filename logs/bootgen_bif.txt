@@ -1,0 +1,44 @@
+GPTalk BOOT.BIN packaging preflight
+Date: 2026-06-30 KST
+
+Active hardware artifacts:
+- Project: hw/vivado_project/GPTalk.xpr
+- Bitstream: hw/vivado_project/export/GPTalk_dma.bit
+- XSA: hw/vivado_project/export/GPTalk_dma.xsa
+- XSA contains: GPTalk_dma_74MHz.bit, design_1.hwh, ps7_init.*, sysdef.xml
+- XSA bit hash matches active bitstream:
+  0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+
+Custom recovery BOOT that failed DONE LED:
+- BOOT.BIN: artifacts/s04_linux_dt/bootfs/BOOT.BIN
+- BIF: artifacts/s04_linux_dt/gptalk_dma_s04_boot.bif
+- Components:
+  [bootloader] artifacts/s04_linux_dt/zynq_fsbl_gptalk_2024.2.elf
+  artifacts/s04_linux_dt/GPTalk_dma.bit
+  artifacts/s04_linux_dt/u-boot.elf
+- Hashes:
+  BOOT.BIN 7e9e3766d6dbb0e52bb29814ecc1c689edff27033d4ec03dffe3c0db70f2205c
+  FSBL     ab8076eec9c40b434d01a3486c8aa6f21b20b9e282d53898d54410f31b188b43
+  bit      0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+  U-Boot   79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+- Observed board result: DONE LED did not turn on.
+- Classification: BOOT.BIN/FSBL/bitstream packaging path is not proven.
+
+Previous S03 BOOT that turns DONE LED on:
+- BOOT.BIN: artifacts/s03_bootgen/BOOT.BIN
+- BIF: artifacts/s03_bootgen/gptalk_dma_boot.bif
+- Components:
+  [bootloader] artifacts/s03_bootgen/zynq_fsbl.elf
+  artifacts/s03_bootgen/GPTalk_dma.bit
+  artifacts/s03_bootgen/u-boot.elf
+- Hashes:
+  BOOT.BIN 846ef51ea488bbe85be1753e6e4023eb3916dab22c03dd83339ba3a0814950e8
+  FSBL     610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+  bit      0053cee7664da6932bd7b70aef091de1b0569c055b200a188f6bbc2a6b59d681
+  U-Boot   79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+- Observed board result: DONE LED turns on, but old image.ub path reached kernel panic.
+
+Preflight conclusion:
+- The two BOOT images contain the same bitstream hash and same U-Boot hash.
+- The DONE LED difference correlates with FSBL/BOOT packaging, not with image.ub.
+- Do not treat the custom recovery BOOT as valid until direct PL programming or corrected FSBL packaging proves DONE.

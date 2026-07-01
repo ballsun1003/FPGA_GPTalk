@@ -1,0 +1,23 @@
+
+****** xsim v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Tue Jun 30 18:13:21 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/tb_gemv_q8_0_stream_core_debug/xsim_script.tcl
+# xsim {tb_gemv_q8_0_stream_core_debug} -testplusarg GOLDEN_DIR=/run/media/pjs/6A43-DC8A/smollm2-zybo/pycharm/golden/fake_gemv -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[PASS] mode=0 scaled outputs matched golden/fake_gemv
+[PASS] mode=1 block-acc outputs matched golden/fake_gemv
+[PASS] normal packet TLAST at word 143 matched golden/fake_gemv in both modes
+[PASS] early TLAST at word 142 produced ERR_TLAST debug_row=0 debug_block=0 debug_lane=8
+[PASS] missing TLAST produced ERR_TLAST debug_row=0 debug_block=0 debug_lane=12
+[PASS] extra beat late TLAST at word 144 produced ERR_TLAST debug_row=0 debug_block=0 debug_lane=12
+[PASS] tb_gemv_q8_0_stream_core completed
+$finish called at time : 34535 ns : File "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core.sv" Line 583
+exit
+INFO: [Common 17-206] Exiting xsim at Tue Jun 30 18:13:23 2026...

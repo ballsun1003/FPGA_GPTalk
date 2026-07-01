@@ -1,0 +1,50 @@
+name: s05_3_validated_known_good_reexport_20260701_010926
+status: VALIDATED KNOWN-GOOD
+created: 2026-07-01 01:09:26 KST
+
+Validation basis:
+- SD BOOT.BIN was staged from the PC, not through the live board.
+- Board was cold-booted from that SD card.
+- User reported DONE LED on and RX LED activity.
+- S05 fake_gemv was rerun after the cold boot.
+- mode=0 scaled PASS: [-48, 19, -6]
+- mode=1 block_acc PASS: [-193, 38, -50]
+- AXI DMA MM2S/S2MM used: yes
+- input BRAM used: yes
+- AXI-Lite bulk data path used: no
+- timeout/error/fallback observed: no
+
+Canonical active sources:
+- Vivado project: hw/vivado_project/GPTalk.xpr
+- RTL: vivado_ip/rtl/gemv_q8_0_stream_core.v
+- RTL: vivado_ip/rtl/gemv_q8_0_dma_top.v
+- RTL: vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v
+- bitstream alias: hw/vivado_project/export/GPTalk_dma.bit
+- XSA alias: hw/vivado_project/export/GPTalk_dma.xsa
+- BOOT: artifacts/boot_tests/test_s05_3_reexport_xsa_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+
+Important hashes:
+- BOOT.BIN: 17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42
+- GPTalk_dma.bit: 158ba9de633fc8ea4a8b4822d0589fad427ec25502ff67cc8d44ef604696acb0
+- GPTalk_dma.xsa: f6ef5281f7558d21435127cc6858e72d312089e1f7a26bed34ce4206ae9a1d7d
+- GPTalk_dma_74MHz.bit: 158ba9de633fc8ea4a8b4822d0589fad427ec25502ff67cc8d44ef604696acb0
+- GPTalk_dma_74MHz.xsa: f6ef5281f7558d21435127cc6858e72d312089e1f7a26bed34ce4206ae9a1d7d
+- GEMV OOC DCP: 6826ab2bbeb37ef5548abd64e3214e382683e82b3838f0b96189ef1f361ae5e6
+- gemv_q8_0_stream_core.v: 9007ff6fb4c84dbe5adfe4b9b7cc716be44f7e79f70be5733d0d333dc8adf2c0
+- gemv_q8_0_dma_top.v: bbc92df7d0222d0391d0df58ebd2e520ff2833a30bdd3e2d1c830529e009e90a
+- gemv_q8_0_ctrl_axi_lite.v: 5baae1223ec0d09ce62f64bb4f57a086c607b29d447fd7ae0b438d39594875a6
+- cold-boot S05 log: d76db9a227d5fb0fdddd68a6bc50bd64e5b4bc9d4aafbed6487324fb590a050a
+
+Backup contents:
+- rtl/: validated RTL snapshot
+- export/: active bitstream and XSA aliases
+- dcp/: GEMV OOC DCP used by the active build
+- boot/: BOOT.BIN, BIF, and pre-cold-boot test manifest snapshot
+- logs/: Vivado build, bootgen, PC SD staging, and cold-boot S05 logs
+- docs/: documentation snapshots
+- SHA256SUMS.txt: hashes for every file in this backup folder
+
+Do not use:
+- artifacts/s05_2_failed_perf_counter/
+- hw/vivado_project/export/*s05_2_failed_counter_DO_NOT_USE.xsa
+- custom/recovery FSBL artifacts

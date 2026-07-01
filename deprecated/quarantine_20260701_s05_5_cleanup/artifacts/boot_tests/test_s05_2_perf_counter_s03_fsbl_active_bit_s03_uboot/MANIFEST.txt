@@ -1,0 +1,66 @@
+test name: test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot
+
+Purpose:
+- S05.2 performance counters and host timing instrumentation
+
+created: 2026-07-01 00:30:56
+
+FSBL path: artifacts/boot_tests/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma.bit
+bitstream sha256: 2c9b20b6f005d0386f5fa3b561b3d61341365e46584931bba5df3388d035f3e3
+
+XSA source: hw/vivado_project/export/GPTalk_dma.xsa
+XSA sha256: 793c3854b63d12b1628aaebab7ce3c42d29e5e69b646cc6519ba05b8b7c7ce28
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_0_synth_1/design_1_gemv_q8_0_dma_top_0_0.dcp
+GEMV OOC DCP sha256: d29d4d3c281153eac59afb1ff3fcca530b6899dbb4c3c3bb1ba69ff07b6488dd
+
+U-Boot path: artifacts/boot_tests/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 64f8bfb3abd6395748742051b611ab72908d7252bbc4a02513402d7a9f8814d7
+
+Bootgen:
+- log: logs/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sda1:/BOOT.BIN
+- SD BOOT.BIN sha256: 64f8bfb3abd6395748742051b611ab72908d7252bbc4a02513402d7a9f8814d7
+- previous BOOT backup: /dev/sda1:/BOOT_BEFORE_TEST_S05_2_PERF_COUNTER_S03_FSBL_ACTIVE_BIT_S03_UBOOT_20260701_003158.BIN
+- previous BOOT backup sha256: 17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_2_perf_counter_s03_fsbl_active_bit_s03_uboot_sd_stage_manual.log
+- unmount: done
+
+Board result:
+- actual result: FAIL, rejected
+- serial log: logs/s05_2_perf_counter_board_fail.txt
+- mode=0 scaled: FAIL, got [-112, 19, -6], expected [-48, 19, -6]
+- mode=1 block_acc: PASS, got [-193, 38, -50]
+- GEMV ERROR_CODE: 0
+- input stream count: 144
+- TLAST count: 143
+- AXI DMA MM2S/S2MM used: yes
+- input BRAM used: yes
+- AXI-Lite bulk path used: no
+- kernel panic/oops/bus error: no
+
+Recovery:
+- restored SD BOOT.BIN from previous BOOT backup on board
+- restored BOOT.BIN sha256: 17a771c5cc304143a07f4444b7baf87a44fb2609f66b9ed42b4cde3757836a42
+- restore log: logs/s05_2_restore_known_good_boot_serial.txt
+- follow-up C-only timing runs on restored known-good BOOT: PASS
+- follow-up logs:
+  - logs/s05_2_c_only_timing_known_good_pass.txt
+  - logs/s05_2_c_only_timing_known_good_pass_2.txt
