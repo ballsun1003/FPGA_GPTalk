@@ -1,0 +1,3 @@
+prompt,mode,act_shift,backend,top10_ids,top10_scores,first_token_id,generated_text,total_gemv_calls,fpga_gemv_calls,cpu_gemv_fallbacks,fpga_repair_jobs,fpga_mode1_blockacc_calls,cpu_scale_accum_ops,cpu_scale_accum_time_ms,s2mm_output_bytes,input_saturations,per_token_latency_ms,top5_overlap,top10_overlap,argmax_match,cpu_top1_in_fpga_top5
+Hi,raw,8,cpu,28 198 260 30 288 284 282 33 253 314,20.086777 19.813208 19.777750 19.398945 19.322023 19.160240 19.117498 19.003510 18.924814 18.688423,28,",",211,0,0,0,0,0,0.000,0,0,3310.012,2,3,no,yes
+Hi,raw,8,fpga,472 198 1000 448 28 8083 24 30 1004 107,35.152344 33.925781 33.839844 33.808594 32.722656 32.394531 32.121094 32.039062 31.640625 31.539062,472,,211,211,0,0,14952,4202496,812.303,16809984,6,7747.612,2,3,no,yes

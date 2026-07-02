@@ -3,6 +3,7 @@
 .vscode/
 .codex/
 .agents/
+password.txt
 
 # Python environments and caches
 .venv/

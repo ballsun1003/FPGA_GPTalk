@@ -1,0 +1,28 @@
+run,stage,time_ms,count,note
+raw_hello_8,total_fpga_gemv_driver,123010.361,2738,includes normal row-group jobs plus repair jobs; fine-grained driver timing not instrumented
+raw_hello_8,repair_jobs,,111011,extra FPGA row-duplicate jobs used to repair saturated INT32 outputs
+raw_hello_8,cpu_non_gemv_ops,360.058,,RMSNorm/RoPE/attention/SiLU/KV/token loop
+raw_hello_8,tokenization,0.102,,
+raw_hello_8,sampling,6.150,,
+raw_hello_16,total_fpga_gemv_driver,198732.169,4426,includes normal row-group jobs plus repair jobs; fine-grained driver timing not instrumented
+raw_hello_16,repair_jobs,,169970,extra FPGA row-duplicate jobs used to repair saturated INT32 outputs
+raw_hello_16,cpu_non_gemv_ops,635.608,,RMSNorm/RoPE/attention/SiLU/KV/token loop
+raw_hello_16,tokenization,0.103,,
+raw_hello_16,sampling,12.362,,
+chat_hello_4,total_fpga_gemv_driver,321339.732,8194,includes normal row-group jobs plus repair jobs; fine-grained driver timing not instrumented
+chat_hello_4,repair_jobs,,282777,extra FPGA row-duplicate jobs used to repair saturated INT32 outputs
+chat_hello_4,cpu_non_gemv_ops,1418.467,,RMSNorm/RoPE/attention/SiLU/KV/token loop
+chat_hello_4,tokenization,0.518,,
+chat_hello_4,sampling,3.095,,
+board_interactive_cpu_hi_1,total_cpu_gemv,3225.426,211,board CPU interactive smoke via /tmp/smollm2_chat_s06_5_interactive
+board_interactive_cpu_hi_1,cpu_non_gemv_ops,23.904,,RMSNorm/RoPE/attention/SiLU/KV/token loop
+board_interactive_cpu_hi_1,tokenization,0.040,,
+board_interactive_cpu_hi_1,sampling,0.777,,
+board_interactive_cpu_hi_1_role_q_proj,cpu_gemv,239.649,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_k_proj,cpu_gemv,80.424,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_v_proj,cpu_gemv,79.547,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_o_proj,cpu_gemv,238.283,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_gate_proj,cpu_gemv,636.415,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_up_proj,cpu_gemv,635.269,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_down_proj,cpu_gemv,636.691,30,role breakdown calls for board CPU smoke
+board_interactive_cpu_hi_1_role_lm_head,cpu_gemv,679.148,1,role breakdown calls for board CPU smoke

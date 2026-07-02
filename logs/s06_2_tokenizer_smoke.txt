@@ -1,0 +1,28 @@
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+tokenizer mode: raw
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+BOS policy: add_bos_token=false; no implicit BOS inserted
+EOS policy: chat turns use <|im_end|> id 2; eos_token_id metadata is 2
+
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+tokenizer mode: chat_template
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+What is 2+2?<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 37
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 1780 314 216 34 27 34 47 2 198 1 520 9531 198
+BOS policy: add_bos_token=false; no implicit BOS inserted
+EOS policy: chat turns use <|im_end|> id 2; eos_token_id metadata is 2

@@ -1,0 +1,66 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# __S06_PROBE_DONE__=0
+root@Zybo-Z7-20:~# __S06_BOARD_PROBE__
+Linux Zybo-Z7-20 4.9.0-xilinx-v2017.4 #1 SMP PREEMPT Thu Jun 25 08:31:10 UTC 2026 armv7l GNU/Linux
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+__DF__
+Filesystem                Size      Used Available Use% Mounted on
+/dev/root                 5.3G    436.2M      4.6G   8% /
+devtmpfs                406.8M      4.0K    406.8M   0% /dev
+tmpfs                   471.3M     88.0K    471.2M   0% /run
+tmpfs                   471.3M    224.0K    471.1M   0% /var/volatile
+/dev/mmcblk0p1          510.0M     27.2M    482.8M   5% /run/media/mmcblk0p1
+__MOUNTS__
+/dev/root on / type ext4 (rw,relatime,data=ordered)
+devtmpfs on /dev type devtmpfs (rw,relatime,size=416532k,nr_inodes=104133,mode=755)
+proc on /proc type proc (rw,relatime)
+sysfs on /sys type sysfs (rw,relatime)
+tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=755)
+tmpfs on /var/volatile type tmpfs (rw,relatime)
+/dev/mmcblk0p1 on /run/media/mmcblk0p1 type vfat (rw,relatime,gid=6,fmask=0007,dmask=0007,allow_utime=0020,codepage=437,iocharset=iso8859-1,shortname=mixed,errors=remount-ro)
+devpts on /dev/pts type devpts (rw,relatime,gid=5,mode=620,ptmxmode=000)
+__LS__
+lrwxrwxrwx    1 root     root           8 Jan  1  1970 /tmp -> /var/tmp
+
+/media:
+total 0
+
+/mnt:
+total 0
+
+/opt/smollm2_zybo:
+total 40
+-rw-r--r--    1 root     root        1.1K Jun 30  2026 SD_PAYLOAD_MANIFEST.txt
+drwxr-xr-x    2 root     root        4.0K Jun 30  2026 boot
+drwxr-xr-x    2 root     root        4.0K Jun 30  2026 docs
+drwxr-xr-x    3 root     root        4.0K Jun 30  2026 fpga_layout
+drwxr-xr-x    3 root     root        4.0K Jun 30  2026 golden
+drwxr-xr-x    2 root     root        4.0K Jun 30  2026 hw
+drwxr-xr-x    2 root     root        4.0K Jun 30  2026 logs
+drwxr-xr-x    2 1000     pulse       4.0K Jun 29  2026 model
+drwxr-xr-x    2 root     root        4.0K Jun 30  2026 recovery_dt
+drwxr-xr-x    2 1000     pulse       4.0K Jun 26  2026 runtime_c
+__GGUF__
+-rwxr-xr-x    1 1000     pulse     138.1M Jun 26  2026 /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+__NET__
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host 
+       valid_lft forever preferred_lft forever
+2: eth0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc pfifo_fast state DOWN group default qlen 1000
+    link/ether b2:c3:4d:32:25:a9 brd ff:ff:ff:ff:ff:ff
+3: sit0@NONE: <NOARP> mtu 1480 qdisc noop state DOWN group default qlen 1000
+    link/sit 0.0.0.0 brd 0.0.0.0
+__TOOLS__
+/usr/bin/gcc
+/usr/bin/sha256sum
+/usr/bin/nc
+/usr/bin/wget
+/usr/bin/scp
+root@Zybo-Z7-20:~# __S06_PROBE_DONE__=0
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# echo __S06_PROBE_DONE__=$?
+__S06_PROBE_DONE__=0
+root@Zybo-Z7-20:~# 

@@ -1,0 +1,25 @@
+S06.1 GGUF metadata and dispatch map
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+architecture: llama
+model name: Smollm2 135M 8k Lc100K Mix1 Ep2
+n_layer: 30
+n_embd: 576
+n_head: 9
+n_head_kv: 3
+vocab_size: 49152
+intermediate_size: 1536
+context_length: 8192
+rope.dimension_count: 64
+rope.freq_base: 100000.0
+tensor dtype counts: Q8_0=211 F32=61 total=272
+logical GEMV targets: 211 (layer linear 210 + tied lm_head 1)
+target_count.q_proj: 30
+target_count.k_proj: 30
+target_count.v_proj: 30
+target_count.o_proj: 30
+target_count.gate_proj: 30
+target_count.up_proj: 30
+target_count.down_proj: 30
+target_count.lm_head_tied_token_embd: 1
+tied lm_head policy: use token_embd.weight as lm_head; embedding lookup remains CPU, lm_head GEMV goes through backend
+dispatch map: reports/s06_1_tensor_dispatch_map.csv

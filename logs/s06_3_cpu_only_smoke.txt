@@ -1,0 +1,29 @@
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+generated_token_ids: 28
+generated_text: ,
+total_gemv_calls: 211
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 62.796
+cpu_non_gemv_time_ms: 0.337
+tokenization_time_ms: 0.001
+sampling_time_ms: 0.040
+per_token_latency_ms: 63.205
+first generated token/text: 28
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready

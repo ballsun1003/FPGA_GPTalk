@@ -1,0 +1,15 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# __S06_5_BOARD_BASELINE_START__
+Linux Zybo-Z7-20 4.9.0-xilinx-v2017.4 #1 SMP PREEMPT Thu Jun 25 08:31:10 UTC 2026 armv7l GNU/Linux
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+-rwxr-xr-x    1 root     root         46052 Jun 25 10:16 /tmp/smollm2_chat
+-rw-r--r--    1 root     root         66771 Jun 25 10:16 /tmp/smollm2_chat.c
+97ecfd1174ff402dcfd24015d4ec8c6e53016dd878911681b648dfbe16705c46  /tmp/smollm2_chat
+3e4efaf71c3489f78aa21a25eb3a38408f8643a6ffb5909f98057675fd621560  /tmp/smollm2_chat.c
+40f7094960b6ede829145d102ca79451b364b27d9d8694d4406e002024cff357  /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e  /run/media/mmcblk0p1/BOOT.BIN
+7e9e3766d6dbb0e52bb29814ecc1c689edff27033d4ec03dffe3c0db70f2205c  /opt/smollm2_zybo/boot/BOOT.BIN
+__S06_5_BOARD_BASELINE_END__
+root@Zybo-Z7-20:~# __S06_5_BOARD_BASELINE_DONE__=0
+root@Zybo-Z7-20:~# 

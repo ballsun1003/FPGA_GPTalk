@@ -1,0 +1,59 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# __S06_RUN_DONE_803928__=0
+root@Zybo-Z7-20:~# __S06_7_RUN_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+generated_token_ids: 841
+generated_text:  exam
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 2513
+fpga_time_ms: 8154.689
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 62.307
+tokenization_time_ms: 0.040
+sampling_time_ms: 0.769
+per_token_latency_ms: 8225.550
+first generated token/text: 841
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: ready
+__S06_7_RUN_RC__=0
+__S06_7_DMESG_CHECK__
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S06_7_RUN_END__
+root@Zybo-Z7-20:~# __S06_RUN_DONE_806070__=0
+root@Zybo-Z7-20:~# 212 /tmp/s06_4_gemv_call_audit.csv
+call_id,layer,role,tensor,backend,in_features,out_features,chunks,hw_jobs,fallback,input_saturations
+1,0,q_proj,blk.0.attn_q.weight,fpga,576,576,1,36,0,0
+2,0,k_proj,blk.0.attn_k.weight,fpga,576,192,1,12,0,0
+3,0,v_proj,blk.0.attn_v.weight,fpga,576,192,1,12,0,0
+4,0,o_proj,blk.0.attn_output.weight,fpga,576,576,1,36,0,315
+207,29,o_proj,blk.29.attn_output.weight,fpga,576,576,1,36,0,12
+208,29,gate_proj,blk.29.ffn_gate.weight,fpga,576,1536,1,96,0,0
+209,29,up_proj,blk.29.ffn_up.weight,fpga,576,1536,1,96,0,0
+210,29,down_proj,blk.29.ffn_down.weight,fpga,1536,576,3,108,0,45
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+root@Zybo-Z7-20:~# __S06_RUN_DONE_816802__=0
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# echo __S06_RUN_DONE_817016__=$?
+__S06_RUN_DONE_817016__=0
+root@Zybo-Z7-20:~# 

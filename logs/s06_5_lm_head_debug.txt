@@ -1,0 +1,26 @@
+S06.5 lm_head debug summary
+
+Unrepaired state:
+- lm_head logits showed saturated 8388608-class scores.
+- This was not isolated to lm_head; layer diff found the first catastrophic divergence at layer 0 q_proj_output.
+
+Repaired state:
+- lm_head still runs on FPGA using full tied token_embd.weight.
+- No vocab truncation or CPU lm_head fallback was used.
+- Raw Hi first-token CPU top10:
+  28 198 260 30 288 284 282 33 253 314
+- Raw Hi first-token repaired FPGA top10:
+  472 198 1000 448 28 8083 24 30 1004 107
+- CPU top1 token 28 appears in repaired FPGA top5.
+- top5 overlap: 2
+- top10 overlap: 3
+- argmax match: no
+
+Evidence:
+- logs/s06_5_logits_compare_repaired.txt
+- reports/s06_5_logits_compare_repaired.csv
+- reports/s06_5_lm_head_topk.csv
+
+Conclusion:
+- lm_head token-id ordering and full-vocab execution are functional enough to expose top-k overlap after the repair pass.
+- CPU/FPGA logits are still not numerically equivalent; S07 gate remains not ready.

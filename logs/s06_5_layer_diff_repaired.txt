@@ -1,0 +1,896 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_REPAIRED_LAYER_DIFF_RUN_START__; /tmp/smollm2_chat_s06_5_repaired --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --compare-backends --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-layer-
+__S06_5_REPAIRED_LAYER_DIFF_RUN_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+[compare] backend=cpu
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+layer_vector_stats: backend=cpu layer=-1 point=embedding_output len=576 min=-0.498031616 max=0.406225204 mean=0.00316934619 absmax=0.498031616 mean_abs=0.0812553614 checksum=1.8255434 hash=c2e5c2fbab4daf0c
+layer_vector_stats: backend=cpu layer=0 point=after_input_rmsnorm len=576 min=-0.510854781 max=0.576700091 mean=0.00180824286 absmax=0.576700091 mean_abs=0.0236572988 checksum=1.04154789 hash=a378961d9fec528f
+layer_vector_stats: backend=cpu layer=0 point=q_proj_output len=576 min=-7.39944601 max=4.43136311 mean=-0.0595192881 absmax=7.39944601 mean_abs=0.753640852 checksum=-34.28311 hash=09021a65d86413ff
+layer_vector_stats: backend=cpu layer=0 point=k_proj_output len=192 min=-6.89074278 max=4.10310507 mean=-0.144553689 absmax=6.89074278 mean_abs=0.869766848 checksum=-27.7543083 hash=78fb4032a70db9e2
+layer_vector_stats: backend=cpu layer=0 point=v_proj_output len=192 min=-0.241577595 max=0.299674392 mean=0.00339766106 absmax=0.299674392 mean_abs=0.0314082123 checksum=0.652350923 hash=a8d6523649157380
+layer_vector_stats: backend=cpu layer=0 point=attention_output len=576 min=-0.241577595 max=0.299674392 mean=0.00339766106 absmax=0.299674392 mean_abs=0.0314082123 checksum=1.95705277 hash=79001d6b4704cef0
+layer_vector_stats: backend=cpu layer=0 point=o_proj_output len=576 min=-2.08478808 max=0.42870605 mean=-0.00525497666 absmax=2.08478808 mean_abs=0.0707499873 checksum=-3.02686655 hash=e89ad6199b1daca3
+layer_vector_stats: backend=cpu layer=0 point=residual_after_attention len=576 min=-2.11966968 max=0.33394435 mean=-0.00208563049 absmax=2.11966968 mean_abs=0.092829088 checksum=-1.20132316 hash=25ceaed17b06c461
+layer_vector_stats: backend=cpu layer=0 point=after_post_attention_rmsnorm len=576 min=-1.10981786 max=0.303899974 mean=-0.00050002205 absmax=1.10981786 mean_abs=0.069769769 checksum=-0.288012701 hash=81d483f7bc4f6765
+layer_vector_stats: backend=cpu layer=0 point=gate_proj_output len=1536 min=-0.904022455 max=3.78825045 mean=0.348433045 absmax=3.78825045 mean_abs=0.41203533 checksum=535.193158 hash=ff91e7c91ade1caa
+layer_vector_stats: backend=cpu layer=0 point=up_proj_output len=1536 min=-1.33877969 max=2.08661485 mean=0.0197172969 absmax=2.08661485 mean_abs=0.282727444 checksum=30.285768 hash=83b8958aa2daf0c1
+layer_vector_stats: backend=cpu layer=0 point=silu_swiglu_output len=1536 min=-3.95345759 max=7.72965717 mean=0.0138406076 absmax=7.72965717 mean_abs=0.0877718167 checksum=21.2591733 hash=713d2dd4fcb3666a
+layer_vector_stats: backend=cpu layer=0 point=down_proj_output len=576 min=-26.1087303 max=18.5463619 mean=-0.122675978 absmax=26.1087303 mean_abs=1.93732094 checksum=-70.6613631 hash=0b3753ce92314f2d
+layer_vector_stats: backend=cpu layer=0 point=residual_after_mlp len=576 min=-25.9847851 max=18.7736435 mean=-0.124761607 absmax=25.9847851 mean_abs=1.94501991 checksum=-71.8626855 hash=dcdb9363c122314f
+layer_vector_stats: backend=cpu layer=1 point=after_input_rmsnorm len=576 min=-0.866513371 max=4.10411072 mean=0.0017573154 absmax=4.10411072 mean_abs=0.107298786 checksum=1.01221367 hash=8b1ff9e112090213
+layer_vector_stats: backend=cpu layer=1 point=q_proj_output len=576 min=-10.5721693 max=16.0031624 mean=0.00304319044 absmax=16.0031624 mean_abs=1.64863804 checksum=1.75287769 hash=0c7d35789ebe58c2
+layer_vector_stats: backend=cpu layer=1 point=k_proj_output len=192 min=-11.474865 max=12.5517015 mean=0.0123908446 absmax=12.5517015 mean_abs=1.49512808 checksum=2.37904216 hash=5e1dd2276ac88e17
+layer_vector_stats: backend=cpu layer=1 point=v_proj_output len=192 min=-0.958395839 max=3.05870032 mean=-0.00952964996 absmax=3.05870032 mean_abs=0.351422058 checksum=-1.82969279 hash=6c475e5e16052496
+layer_vector_stats: backend=cpu layer=1 point=attention_output len=576 min=-0.958395839 max=3.05870032 mean=-0.00952964996 absmax=3.05870032 mean_abs=0.351422058 checksum=-5.48907838 hash=3ecd314b96d762aa
+layer_vector_stats: backend=cpu layer=1 point=o_proj_output len=576 min=-22.9517155 max=28.382967 mean=-0.0388010065 absmax=28.382967 mean_abs=0.906581586 checksum=-22.3493797 hash=6254f4ddf504e983
+layer_vector_stats: backend=cpu layer=1 point=residual_after_attention len=576 min=-48.9365005 max=47.1566086 mean=-0.163562616 absmax=48.9365005 mean_abs=2.10153594 checksum=-94.2120671 hash=9bcb496bc3bdfe94
+layer_vector_stats: backend=cpu layer=1 point=after_post_attention_rmsnorm len=576 min=-0.363119632 max=0.504320204 mean=-0.00592336469 absmax=0.504320204 mean_abs=0.0812536431 checksum=-3.41185806 hash=dc06b0fa39dcce92
+layer_vector_stats: backend=cpu layer=1 point=gate_proj_output len=1536 min=-4.73721409 max=10.2254515 mean=-0.356597622 absmax=10.2254515 mean_abs=0.518775224 checksum=-547.733947 hash=baef4cd243d8d776
+layer_vector_stats: backend=cpu layer=1 point=up_proj_output len=1536 min=-4.14121914 max=3.47207808 mean=-0.0142194391 absmax=4.14121914 mean_abs=0.337037538 checksum=-21.8410585 hash=7ade67cf373ba60e
+layer_vector_stats: backend=cpu layer=1 point=silu_swiglu_output len=1536 min=-31.162262 max=8.47272301 mean=-0.00268250457 absmax=31.162262 mean_abs=0.0943994829 checksum=-4.12032702 hash=7381b988c76785e7
+layer_vector_stats: backend=cpu layer=1 point=down_proj_output len=576 min=-48.2733269 max=215.602951 mean=0.361148764 absmax=215.602951 mean_abs=3.4858502 checksum=208.021688 hash=024d46927d2c41f3
+layer_vector_stats: backend=cpu layer=1 point=residual_after_mlp len=576 min=-97.2098236 max=262.759552 mean=0.197586136 absmax=262.759552 mean_abs=4.2268914 checksum=113.809614 hash=fdedd111b8a15b38
+layer_vector_stats: backend=cpu layer=2 point=after_input_rmsnorm len=576 min=-0.855969429 max=4.57731199 mean=0.0070550374 absmax=4.57731199 mean_abs=0.0758244979 checksum=4.06370154 hash=6035fa29263daf89
+layer_vector_stats: backend=cpu layer=2 point=q_proj_output len=576 min=-6.48196316 max=6.78983068 mean=-0.0053353033 absmax=6.78983068 mean_abs=1.0519061 checksum=-3.0731347 hash=fd582676f026de0f
+layer_vector_stats: backend=cpu layer=2 point=k_proj_output len=192 min=-14.1584921 max=8.26633167 mean=-0.0779520985 absmax=14.1584921 mean_abs=1.13506108 checksum=-14.9668029 hash=03f80ea270d6f206
+layer_vector_stats: backend=cpu layer=2 point=v_proj_output len=192 min=-1.14423859 max=2.05153465 mean=0.0136614914 absmax=2.05153465 mean_abs=0.191161939 checksum=2.62300636 hash=a42b2dbb437c3127
+layer_vector_stats: backend=cpu layer=2 point=attention_output len=576 min=-1.14423859 max=2.05153465 mean=0.0136614914 absmax=2.05153465 mean_abs=0.191161939 checksum=7.86901907 hash=7f7c5a62a51d85bb
+layer_vector_stats: backend=cpu layer=2 point=o_proj_output len=576 min=-6.02161646 max=9.47265816 mean=0.0166706706 absmax=9.47265816 mean_abs=0.737787992 checksum=9.60230626 hash=29a81d6939647ae6
+layer_vector_stats: backend=cpu layer=2 point=residual_after_attention len=576 min=-87.7371674 max=259.301483 mean=0.214256811 absmax=259.301483 mean_abs=4.08268071 checksum=123.411923 hash=2e07a91958b9c857
+layer_vector_stats: backend=cpu layer=2 point=after_post_attention_rmsnorm len=576 min=-0.262245685 max=1.38625002 mean=0.00413881855 absmax=1.38625002 mean_abs=0.056448664 checksum=2.38395949 hash=9e47d5501b2cc9ba
+layer_vector_stats: backend=cpu layer=2 point=gate_proj_output len=1536 min=-1.75277185 max=12.6044683 mean=-0.22748834 absmax=12.6044683 mean_abs=0.397875455 checksum=-349.422091 hash=7f46af93e0496cb8
+layer_vector_stats: backend=cpu layer=2 point=up_proj_output len=1536 min=-4.94604063 max=5.42497301 mean=0.00370089871 absmax=5.42497301 mean_abs=0.297436467 checksum=5.68458042 hash=894c49ad17cebdbe
+layer_vector_stats: backend=cpu layer=2 point=silu_swiglu_output len=1536 min=-36.7629128 max=68.3786697 mean=0.0269818751 absmax=68.3786697 mean_abs=0.117793969 checksum=41.4441602 hash=c866d9567e75bb38
+layer_vector_stats: backend=cpu layer=2 point=down_proj_output len=576 min=-114.094261 max=548.912415 mean=0.572159406 absmax=548.912415 mean_abs=2.72174966 checksum=329.563818 hash=89f7217ad04650c0
+layer_vector_stats: backend=cpu layer=2 point=residual_after_mlp len=576 min=-150.294342 max=808.213867 mean=0.786416154 absmax=808.213867 mean_abs=5.90300617 checksum=452.975705 hash=6abf2dd956ceeee5
+layer_vector_stats: backend=cpu layer=3 point=after_input_rmsnorm len=576 min=-2.31040454 max=4.0591712 mean=0.00293732198 absmax=4.0591712 mean_abs=0.0441825498 checksum=1.69189746 hash=42662666d5c18bb7
+layer_vector_stats: backend=cpu layer=3 point=q_proj_output len=576 min=-6.48044682 max=4.52492523 mean=-0.0402908238 absmax=6.48044682 mean_abs=0.670329909 checksum=-23.2075145 hash=ca62d35e0a2e74d2
+layer_vector_stats: backend=cpu layer=3 point=k_proj_output len=192 min=-5.58782291 max=6.1512804 mean=-0.0676091219 absmax=6.1512804 mean_abs=0.506535532 checksum=-12.9809514 hash=83fa7e3c46ff1777
+layer_vector_stats: backend=cpu layer=3 point=v_proj_output len=192 min=-0.496400446 max=0.199272633 mean=-0.0113129661 absmax=0.496400446 mean_abs=0.063450302 checksum=-2.17208949 hash=0173a65d82d44a73
+layer_vector_stats: backend=cpu layer=3 point=attention_output len=576 min=-0.496400446 max=0.199272633 mean=-0.0113129661 absmax=0.496400446 mean_abs=0.063450302 checksum=-6.51626847 hash=99fb69e2b29b18fb
+layer_vector_stats: backend=cpu layer=3 point=o_proj_output len=576 min=-2.19913554 max=1.38404012 mean=-0.0141497823 absmax=2.19913554 mean_abs=0.212616001 checksum=-8.15027461 hash=df6a2b2a20a61daf
+layer_vector_stats: backend=cpu layer=3 point=residual_after_attention len=576 min=-148.910309 max=806.014709 mean=0.772266323 absmax=806.014709 mean_abs=5.88605833 checksum=444.825402 hash=a9558cdb87bebff6
+layer_vector_stats: backend=cpu layer=3 point=after_post_attention_rmsnorm len=576 min=-0.237475708 max=1.20577168 mean=0.00216546026 absmax=1.20577168 mean_abs=0.02350707 checksum=1.24730511 hash=704e5985661722fb
+layer_vector_stats: backend=cpu layer=3 point=gate_proj_output len=1536 min=-0.866625071 max=1.35614526 mean=-0.125418354 absmax=1.35614526 mean_abs=0.187506966 checksum=-192.642592 hash=71611d06f64fb73e
+layer_vector_stats: backend=cpu layer=3 point=up_proj_output len=1536 min=-0.858839512 max=1.10462475 mean=0.00229750189 absmax=1.10462475 mean_abs=0.133528906 checksum=3.52896291 hash=591dc158ee2eb308
+layer_vector_stats: backend=cpu layer=3 point=silu_swiglu_output len=1536 min=-0.169754058 max=0.560690403 mean=-0.000216740889 absmax=0.560690403 mean_abs=0.0113063286 checksum=-0.332914005 hash=66cb7d84cde52132
+layer_vector_stats: backend=cpu layer=3 point=down_proj_output len=576 min=-1.55970025 max=0.924284458 mean=-0.0144786629 absmax=1.55970025 mean_abs=0.151835916 checksum=-8.33970981 hash=04573097ced8ec32
+layer_vector_stats: backend=cpu layer=3 point=residual_after_mlp len=576 min=-147.986023 max=804.455017 mean=0.757787685 absmax=804.455017 mean_abs=5.83864097 checksum=436.485707 hash=88afc44537fe7478
+layer_vector_stats: backend=cpu layer=4 point=after_input_rmsnorm len=576 min=-2.08008337 max=3.45539761 mean=0.00204129581 absmax=3.45539761 mean_abs=0.0401686555 checksum=1.17578638 hash=5fa85dfa4cdd7051
+layer_vector_stats: backend=cpu layer=4 point=q_proj_output len=576 min=-5.28775978 max=4.81208372 mean=-0.0236069921 absmax=5.28775978 mean_abs=0.624460145 checksum=-13.5976274 hash=89fde917bfe4cfde
+layer_vector_stats: backend=cpu layer=4 point=k_proj_output len=192 min=-4.99051237 max=5.36946964 mean=-0.0851084321 absmax=5.36946964 mean_abs=0.493661176 checksum=-16.340819 hash=083d3516b06f4339
+layer_vector_stats: backend=cpu layer=4 point=v_proj_output len=192 min=-0.227808654 max=0.397887141 mean=-0.00378192743 absmax=0.397887141 mean_abs=0.0628984539 checksum=-0.726130066 hash=3804f90bbbf7f8a7
+layer_vector_stats: backend=cpu layer=4 point=attention_output len=576 min=-0.227808654 max=0.397887141 mean=-0.00378192743 absmax=0.397887141 mean_abs=0.0628984539 checksum=-2.1783902 hash=69c366ff76cdbd77
+layer_vector_stats: backend=cpu layer=4 point=o_proj_output len=576 min=-1.69669795 max=1.10504675 mean=0.00308155605 absmax=1.69669795 mean_abs=0.209553362 checksum=1.77497628 hash=6312c6a78937ebeb
+layer_vector_stats: backend=cpu layer=4 point=residual_after_attention len=576 min=-146.880981 max=802.758301 mean=0.760869213 absmax=802.758301 mean_abs=5.81778718 checksum=438.260667 hash=9b20061d3216bffa
+layer_vector_stats: backend=cpu layer=4 point=after_post_attention_rmsnorm len=576 min=-0.279136568 max=1.49255025 mean=0.00251425095 absmax=1.49255025 mean_abs=0.024726089 checksum=1.44820855 hash=10746aef551b9f30
+layer_vector_stats: backend=cpu layer=4 point=gate_proj_output len=1536 min=-1.10361636 max=1.35715866 mean=-0.216902343 absmax=1.35715866 mean_abs=0.247726087 checksum=-333.161998 hash=32ff27ec2328582a
+layer_vector_stats: backend=cpu layer=4 point=up_proj_output len=1536 min=-0.757252574 max=0.852321804 mean=0.00604314665 absmax=0.852321804 mean_abs=0.13433209 checksum=9.28227326 hash=57494ddc9a192ec9
+layer_vector_stats: backend=cpu layer=4 point=silu_swiglu_output len=1536 min=-0.104307711 max=0.136691734 mean=0.0011590266 absmax=0.136691734 mean_abs=0.0134336724 checksum=1.78026486 hash=fa62bd020d283683
+layer_vector_stats: backend=cpu layer=4 point=down_proj_output len=576 min=-2.17705846 max=1.31585431 mean=-0.0129698106 absmax=2.17705846 mean_abs=0.148000841 checksum=-7.47061089 hash=e00004706c5c4fe9
+layer_vector_stats: backend=cpu layer=4 point=residual_after_mlp len=576 min=-145.565125 max=800.581238 mean=0.747899405 absmax=800.581238 mean_abs=5.76705931 checksum=430.790057 hash=cfa90a2eaafd7d57
+layer_vector_stats: backend=cpu layer=5 point=after_input_rmsnorm len=576 min=-2.18894625 max=4.46794462 mean=0.00328813412 absmax=4.46794462 mean_abs=0.0407555352 checksum=1.89396525 hash=1a7eff0f0de319b2
+layer_vector_stats: backend=cpu layer=5 point=q_proj_output len=576 min=-7.10676527 max=3.89026713 mean=-0.0604106234 absmax=7.10676527 mean_abs=0.627460807 checksum=-34.7965191 hash=586df9329cc375d6
+layer_vector_stats: backend=cpu layer=5 point=k_proj_output len=192 min=-5.68943882 max=4.68797874 mean=0.00741477553 absmax=5.68943882 mean_abs=0.52385486 checksum=1.4236369 hash=ee92014f0c5ad4a3
+layer_vector_stats: backend=cpu layer=5 point=v_proj_output len=192 min=-0.192720458 max=0.793265998 mean=0.0071903196 absmax=0.793265998 mean_abs=0.0665313107 checksum=1.38054136 hash=0745b8d06a1d093e
+layer_vector_stats: backend=cpu layer=5 point=attention_output len=576 min=-0.192720458 max=0.793265998 mean=0.0071903196 absmax=0.793265998 mean_abs=0.0665313107 checksum=4.14162409 hash=21f065449d39f522
+layer_vector_stats: backend=cpu layer=5 point=o_proj_output len=576 min=-4.7176981 max=3.6034143 mean=0.00395849894 absmax=4.7176981 mean_abs=0.250823865 checksum=2.28009539 hash=f8e5ef5753338d49
+layer_vector_stats: backend=cpu layer=5 point=residual_after_attention len=576 min=-141.961716 max=795.863525 mean=0.751857871 absmax=795.863525 mean_abs=5.71497839 checksum=433.070134 hash=372e86af3b5b48b6
+layer_vector_stats: backend=cpu layer=5 point=after_post_attention_rmsnorm len=576 min=-0.368748009 max=1.74123573 mean=0.00272382949 absmax=1.74123573 mean_abs=0.0259556251 checksum=1.56892579 hash=062765dc97e04deb
+layer_vector_stats: backend=cpu layer=5 point=gate_proj_output len=1536 min=-1.71639907 max=0.992440701 mean=-0.274980854 absmax=1.71639907 mean_abs=0.299051028 checksum=-422.370592 hash=b5b3cf742081c15b
+layer_vector_stats: backend=cpu layer=5 point=up_proj_output len=1536 min=-0.587137401 max=1.18094885 mean=-0.00275828033 absmax=1.18094885 mean_abs=0.135438689 checksum=-4.23671858 hash=85ebc401b086e69e
+layer_vector_stats: backend=cpu layer=5 point=silu_swiglu_output len=1536 min=-0.238820508 max=0.156095788 mean=0.000536173412 absmax=0.238820508 mean_abs=0.0158349435 checksum=0.823562361 hash=f059551794fef658
+layer_vector_stats: backend=cpu layer=5 point=down_proj_output len=576 min=-2.62252235 max=1.73548615 mean=-0.0126710226 absmax=2.62252235 mean_abs=0.169502415 checksum=-7.29850904 hash=c62c443f0413c660
+layer_vector_stats: backend=cpu layer=5 point=residual_after_mlp len=576 min=-140.226227 max=793.241028 mean=0.739186907 absmax=793.241028 mean_abs=5.64248478 checksum=425.771659 hash=9c448d305f17cd9e
+layer_vector_stats: backend=cpu layer=6 point=after_input_rmsnorm len=576 min=-2.12036467 max=4.58581209 mean=0.00376692452 absmax=4.58581209 mean_abs=0.0392976399 checksum=2.16974852 hash=325b5e0671d69c6c
+layer_vector_stats: backend=cpu layer=6 point=q_proj_output len=576 min=-5.81887102 max=5.6671524 mean=0.0744979637 absmax=5.81887102 mean_abs=0.672923829 checksum=42.9108271 hash=8a7e24f9f06a9bb5
+layer_vector_stats: backend=cpu layer=6 point=k_proj_output len=192 min=-5.19774961 max=6.6592617 mean=-0.0205710377 absmax=6.6592617 mean_abs=0.579901695 checksum=-3.94963924 hash=dd61c04d1fd25f3d
+layer_vector_stats: backend=cpu layer=6 point=v_proj_output len=192 min=-0.186909065 max=0.63628912 mean=-0.00273763872 absmax=0.63628912 mean_abs=0.0698903028 checksum=-0.525626634 hash=8187498c941285f8
+layer_vector_stats: backend=cpu layer=6 point=attention_output len=576 min=-0.186909065 max=0.63628912 mean=-0.00273763872 absmax=0.63628912 mean_abs=0.0698903028 checksum=-1.5768799 hash=8944f79bc3dc277c
+layer_vector_stats: backend=cpu layer=6 point=o_proj_output len=576 min=-4.05476952 max=2.12748885 mean=0.00909792597 absmax=4.05476952 mean_abs=0.242401012 checksum=5.24040536 hash=3b13ad44a5ad6d6e
+layer_vector_stats: backend=cpu layer=6 point=residual_after_attention len=576 min=-138.09874 max=789.186279 mean=0.748284876 absmax=789.186279 mean_abs=5.61139878 checksum=431.012088 hash=4c9d01a694909a64
+layer_vector_stats: backend=cpu layer=6 point=after_post_attention_rmsnorm len=576 min=-0.49752599 max=1.60791945 mean=0.0020415742 absmax=1.60791945 mean_abs=0.024864392 checksum=1.17594674 hash=57d66743506ae074
+layer_vector_stats: backend=cpu layer=6 point=gate_proj_output len=1536 min=-1.08892155 max=1.00609493 mean=-0.150707074 absmax=1.08892155 mean_abs=0.20746044 checksum=-231.486066 hash=b9911a841c0e789d
+layer_vector_stats: backend=cpu layer=6 point=up_proj_output len=1536 min=-0.776901066 max=1.45571303 mean=-0.00272897116 absmax=1.45571303 mean_abs=0.138534304 checksum=-4.1916997 hash=8276de17d9721c4a
+layer_vector_stats: backend=cpu layer=6 point=silu_swiglu_output len=1536 min=-0.116667651 max=0.192648038 mean=0.000351525697 absmax=0.192648038 mean_abs=0.0127115305 checksum=0.539943471 hash=e8655875edba128e
+layer_vector_stats: backend=cpu layer=6 point=down_proj_output len=576 min=-3.01525187 max=1.7073735 mean=-0.00999763062 absmax=3.01525187 mean_abs=0.142437775 checksum=-5.75863524 hash=1ce9a056a9ed820e
+layer_vector_stats: backend=cpu layer=6 point=residual_after_mlp len=576 min=-136.963806 max=786.171021 mean=0.738287238 absmax=786.171021 mean_abs=5.56307014 checksum=425.253449 hash=4e3787768bd24eee
+layer_vector_stats: backend=cpu layer=7 point=after_input_rmsnorm len=576 min=-2.22608638 max=5.06159496 mean=0.00362448125 absmax=5.06159496 mean_abs=0.0469949693 checksum=2.0877012 hash=f757a72626986f70
+layer_vector_stats: backend=cpu layer=7 point=q_proj_output len=576 min=-5.92683935 max=2.90388393 mean=-0.0892806908 absmax=5.92683935 mean_abs=0.669834262 checksum=-51.4256779 hash=cc24130c0d4062f9
+layer_vector_stats: backend=cpu layer=7 point=k_proj_output len=192 min=-5.39559889 max=4.34561443 mean=-0.0105935609 absmax=5.39559889 mean_abs=0.570834553 checksum=-2.0339637 hash=0d9cb200058e80f6
+layer_vector_stats: backend=cpu layer=7 point=v_proj_output len=192 min=-0.322906733 max=0.389731884 mean=-0.01010822 absmax=0.389731884 mean_abs=0.082393099 checksum=-1.94077824 hash=956f8483c455e7a7
+layer_vector_stats: backend=cpu layer=7 point=attention_output len=576 min=-0.322906733 max=0.389731884 mean=-0.01010822 absmax=0.389731884 mean_abs=0.082393099 checksum=-5.82233473 hash=e9206f8dc1db0c6b
+layer_vector_stats: backend=cpu layer=7 point=o_proj_output len=576 min=-2.60998678 max=1.40985346 mean=-0.0071483945 absmax=2.60998678 mean_abs=0.234268276 checksum=-4.11747523 hash=825521ccb9068cb1
+layer_vector_stats: backend=cpu layer=7 point=residual_after_attention len=576 min=-136.087463 max=783.561035 mean=0.731138856 absmax=783.561035 mean_abs=5.53820888 checksum=421.135981 hash=75f1ce96c68890b3
+layer_vector_stats: backend=cpu layer=7 point=after_post_attention_rmsnorm len=576 min=-0.629139721 max=1.56372643 mean=0.00163106292 absmax=1.56372643 mean_abs=0.0255699397 checksum=0.93949224 hash=256f872e0ef88909
+layer_vector_stats: backend=cpu layer=7 point=gate_proj_output len=1536 min=-0.897698224 max=1.85407925 mean=-0.117451279 absmax=1.85407925 mean_abs=0.191156287 checksum=-180.405164 hash=609541767e58ff71
+layer_vector_stats: backend=cpu layer=7 point=up_proj_output len=1536 min=-1.47342634 max=2.256042 mean=-0.0012573867 absmax=2.256042 mean_abs=0.151259969 checksum=-1.93134598 hash=89bf6a3623f49802
+layer_vector_stats: backend=cpu layer=7 point=silu_swiglu_output len=1536 min=-0.190352798 max=1.87319458 mean=0.00313363418 absmax=1.87319458 mean_abs=0.0157435052 checksum=4.81326211 hash=0a7829f95743b550
+layer_vector_stats: backend=cpu layer=7 point=down_proj_output len=576 min=-9.23144245 max=4.56173038 mean=-0.00632926355 absmax=9.23144245 mean_abs=0.616642633 checksum=-3.6456558 hash=d6d753cd08f403c8
+layer_vector_stats: backend=cpu layer=7 point=residual_after_mlp len=576 min=-135.551346 max=774.32959 mean=0.724809602 absmax=774.32959 mean_abs=5.72731488 checksum=417.490331 hash=e4655b37cc50c280
+layer_vector_stats: backend=cpu layer=8 point=after_input_rmsnorm len=576 min=-2.32924986 max=5.70886898 mean=0.00459205097 absmax=5.70886898 mean_abs=0.0471082684 checksum=2.64502136 hash=3367eaad527b2566
+layer_vector_stats: backend=cpu layer=8 point=q_proj_output len=576 min=-5.76305008 max=4.78455544 mean=-0.0732908208 absmax=5.76305008 mean_abs=0.684055943 checksum=-42.2155128 hash=38d913dbf9dc34a6
+layer_vector_stats: backend=cpu layer=8 point=k_proj_output len=192 min=-5.60912132 max=6.47646999 mean=-0.065957376 absmax=6.47646999 mean_abs=0.420313595 checksum=-12.6638162 hash=d58b6e7987b8fcfc
+layer_vector_stats: backend=cpu layer=8 point=v_proj_output len=192 min=-0.440594733 max=1.06150889 mean=0.00780105777 absmax=1.06150889 mean_abs=0.0925682474 checksum=1.49780309 hash=91090e98c554f40f
+layer_vector_stats: backend=cpu layer=8 point=attention_output len=576 min=-0.440594733 max=1.06150889 mean=0.00780105777 absmax=1.06150889 mean_abs=0.0925682474 checksum=4.49340927 hash=ecf3f94361b62db7
+layer_vector_stats: backend=cpu layer=8 point=o_proj_output len=576 min=-1.58777511 max=1.25421929 mean=-0.0137068222 absmax=1.58777511 mean_abs=0.278099271 checksum=-7.89512957 hash=1eef89a4413fcfac
+layer_vector_stats: backend=cpu layer=8 point=residual_after_attention len=576 min=-134.297119 max=773.416992 mean=0.711102791 absmax=773.416992 mean_abs=5.7107987 checksum=409.595208 hash=630d27e74cec23f0
+layer_vector_stats: backend=cpu layer=8 point=after_post_attention_rmsnorm len=576 min=-1.20258152 max=2.04621959 mean=0.00130100851 absmax=2.04621959 mean_abs=0.0301366967 checksum=0.749380905 hash=f0abebde4608d467
+layer_vector_stats: backend=cpu layer=8 point=gate_proj_output len=1536 min=-0.848999619 max=4.3450098 mean=-0.00102208299 absmax=4.3450098 mean_abs=0.245416344 checksum=-1.56991948 hash=a5fafe9035e7b21c
+layer_vector_stats: backend=cpu layer=8 point=up_proj_output len=1536 min=-3.43487 max=3.98140717 mean=0.000756626891 absmax=3.98140717 mean_abs=0.252801268 checksum=1.16217891 hash=fd168066ccdfdc23
+layer_vector_stats: backend=cpu layer=8 point=silu_swiglu_output len=1536 min=-9.02573586 max=17.0777302 mean=0.00719342104 absmax=17.0777302 mean_abs=0.0596872635 checksum=11.0490947 hash=eed644afb727208b
+layer_vector_stats: backend=cpu layer=8 point=down_proj_output len=576 min=-118.400299 max=62.1708374 mean=-0.056848419 absmax=118.400299 mean_abs=2.19650171 checksum=-32.7446893 hash=656c59ec05df2e39
+layer_vector_stats: backend=cpu layer=8 point=residual_after_mlp len=576 min=-100.386322 max=655.016724 mean=0.654254417 absmax=655.016724 mean_abs=5.5123715 checksum=376.850544 hash=01e6c159b1ab8668
+layer_vector_stats: backend=cpu layer=9 point=after_input_rmsnorm len=576 min=-1.40522134 max=3.83924174 mean=0.00197595232 absmax=3.83924174 mean_abs=0.0454231429 checksum=1.13814854 hash=c6c68f898015975f
+layer_vector_stats: backend=cpu layer=9 point=q_proj_output len=576 min=-5.20926428 max=5.68103886 mean=0.00707550265 absmax=5.68103886 mean_abs=0.633618993 checksum=4.07548953 hash=9f2d83201f951f12
+layer_vector_stats: backend=cpu layer=9 point=k_proj_output len=192 min=-2.72332883 max=4.86353111 mean=0.0890632895 absmax=4.86353111 mean_abs=0.427860081 checksum=17.1001516 hash=ccc3c7aabf707837
+layer_vector_stats: backend=cpu layer=9 point=v_proj_output len=192 min=-0.719145298 max=0.77580601 mean=0.00518501826 absmax=0.77580601 mean_abs=0.0968811895 checksum=0.995523506 hash=f289609a5314a021
+layer_vector_stats: backend=cpu layer=9 point=attention_output len=576 min=-0.719145298 max=0.77580601 mean=0.00518501826 absmax=0.77580601 mean_abs=0.0968811895 checksum=2.98657052 hash=25deba3862fd044d
+layer_vector_stats: backend=cpu layer=9 point=o_proj_output len=576 min=-3.24196887 max=1.88035822 mean=-0.00294889306 absmax=3.24196887 mean_abs=0.374929847 checksum=-1.6985624 hash=28c115022e09a5b1
+layer_vector_stats: backend=cpu layer=9 point=residual_after_attention len=576 min=-99.7495651 max=653.380615 mean=0.651305489 absmax=653.380615 mean_abs=5.54191899 checksum=375.151961 hash=a15d7d57c2751b11
+layer_vector_stats: backend=cpu layer=9 point=after_post_attention_rmsnorm len=576 min=-2.08234572 max=2.45019627 mean=0.000841038038 absmax=2.45019627 mean_abs=0.0400001116 checksum=0.48443791 hash=5470533dc027a7fd
+layer_vector_stats: backend=cpu layer=9 point=gate_proj_output len=1536 min=-1.66526127 max=10.7568665 mean=-0.0159914625 absmax=10.7568665 mean_abs=0.357516916 checksum=-24.5628863 hash=d92fb95f6ece94f4
+layer_vector_stats: backend=cpu layer=9 point=up_proj_output len=1536 min=-9.11505795 max=4.48286867 mean=-0.00153314969 absmax=9.11505795 mean_abs=0.347852401 checksum=-2.35491792 hash=bf6de2fdf836d2ba
+layer_vector_stats: backend=cpu layer=9 point=silu_swiglu_output len=1536 min=-98.0473633 max=7.15036058 mean=-0.0629937258 absmax=98.0473633 mean_abs=0.141522839 checksum=-96.7583628 hash=04061ed0fc78692a
+layer_vector_stats: backend=cpu layer=9 point=down_proj_output len=576 min=-552.555908 max=92.5738907 mean=-0.620369493 absmax=552.555908 mean_abs=3.7158066 checksum=-357.332828 hash=887b9fc2a1e1be25
+layer_vector_stats: backend=cpu layer=9 point=residual_after_mlp len=576 min=-28.2646942 max=100.824707 mean=0.0309359904 absmax=100.824707 mean_abs=3.91514994 checksum=17.8191305 hash=784e8426d61a62a9
+layer_vector_stats: backend=cpu layer=10 point=after_input_rmsnorm len=576 min=-0.739546597 max=2.88348436 mean=0.00125812802 absmax=2.88348436 mean_abs=0.144606339 checksum=0.724681738 hash=37f91204bafdb873
+layer_vector_stats: backend=cpu layer=10 point=q_proj_output len=576 min=-7.20772648 max=8.0426054 mean=0.0166386666 absmax=8.0426054 mean_abs=1.35771174 checksum=9.58387198 hash=aa574c9b8bfd7e3e
+layer_vector_stats: backend=cpu layer=10 point=k_proj_output len=192 min=-9.25933361 max=7.63254786 mean=-0.0661729626 absmax=9.25933361 mean_abs=1.07690902 checksum=-12.7052088 hash=539869d9902e960d
+layer_vector_stats: backend=cpu layer=10 point=v_proj_output len=192 min=-1.6291821 max=2.04594851 mean=-0.00596219926 absmax=2.04594851 mean_abs=0.382605337 checksum=-1.14474226 hash=70a511779618c866
+layer_vector_stats: backend=cpu layer=10 point=attention_output len=576 min=-1.6291821 max=2.04594851 mean=-0.00596219926 absmax=2.04594851 mean_abs=0.382605337 checksum=-3.43422677 hash=30216a4a0b037f8a
+layer_vector_stats: backend=cpu layer=10 point=o_proj_output len=576 min=-5.18641233 max=8.67813206 mean=-0.0353614686 absmax=8.67813206 mean_abs=1.19404523 checksum=-20.3682059 hash=0ead8832f9d86559
+layer_vector_stats: backend=cpu layer=10 point=residual_after_attention len=576 min=-28.3566494 max=109.502838 mean=-0.0044254932 absmax=109.502838 mean_abs=3.95196986 checksum=-2.54908408 hash=c8f95c7637108c3b
+layer_vector_stats: backend=cpu layer=10 point=after_post_attention_rmsnorm len=576 min=-0.635204554 max=2.08756876 mean=-0.000575055417 absmax=2.08756876 mean_abs=0.126295129 checksum=-0.33123192 hash=3ea920fa891deb04
+layer_vector_stats: backend=cpu layer=10 point=gate_proj_output len=1536 min=-3.45337868 max=3.94727445 mean=-0.53929412 absmax=3.94727445 mean_abs=0.831997793 checksum=-828.355768 hash=8b52054431d119d0
+layer_vector_stats: backend=cpu layer=10 point=up_proj_output len=1536 min=-8.10222435 max=11.245615 mean=-0.00146442243 absmax=11.245615 mean_abs=0.747517865 checksum=-2.24935285 hash=e9fd9b64c507538f
+layer_vector_stats: backend=cpu layer=10 point=silu_swiglu_output len=1536 min=-15.0760221 max=2.60034609 mean=-0.0266204049 absmax=15.0760221 mean_abs=0.204326778 checksum=-40.888942 hash=28d7acc31912837c
+layer_vector_stats: backend=cpu layer=10 point=down_proj_output len=576 min=-76.1509705 max=22.4666309 mean=0.10104572 absmax=76.1509705 mean_abs=3.02612983 checksum=58.2023347 hash=4862dd9b5a7551e2
+layer_vector_stats: backend=cpu layer=10 point=residual_after_mlp len=576 min=-26.6376534 max=33.3518677 mean=0.0966202298 absmax=33.3518677 mean_abs=4.85776013 checksum=55.6532524 hash=cbb716981820e63d
+layer_vector_stats: backend=cpu layer=11 point=after_input_rmsnorm len=576 min=-0.887739182 max=1.67942965 mean=0.00832155485 absmax=1.67942965 mean_abs=0.186172083 checksum=4.79321559 hash=b8cbabc4a3c441ad
+layer_vector_stats: backend=cpu layer=11 point=q_proj_output len=576 min=-9.34282398 max=7.10442638 mean=-0.12785305 absmax=9.34282398 mean_abs=1.414052 checksum=-73.6433566 hash=bf0bd038dc071405
+layer_vector_stats: backend=cpu layer=11 point=k_proj_output len=192 min=-20.0727386 max=13.1039724 mean=-0.161011291 absmax=20.0727386 mean_abs=1.95522154 checksum=-30.9141679 hash=5a48f9c75b1963ac
+layer_vector_stats: backend=cpu layer=11 point=v_proj_output len=192 min=-4.96074247 max=2.87962461 mean=0.0262347501 absmax=4.96074247 mean_abs=0.534343271 checksum=5.03707201 hash=15a14ecc86ef7d8a
+layer_vector_stats: backend=cpu layer=11 point=attention_output len=576 min=-4.96074247 max=2.87962461 mean=0.0262347501 absmax=4.96074247 mean_abs=0.534343271 checksum=15.111216 hash=cb6da6da1a36f256
+layer_vector_stats: backend=cpu layer=11 point=o_proj_output len=576 min=-12.2091513 max=19.031601 mean=-0.197302833 absmax=19.031601 mean_abs=1.81766464 checksum=-113.646432 hash=4b1f7b9abca2e00b
+layer_vector_stats: backend=cpu layer=11 point=residual_after_attention len=576 min=-28.9110222 max=40.7367096 mean=-0.100682593 absmax=40.7367096 mean_abs=5.53612202 checksum=-57.9931735 hash=b9a24d60ff922bf7
+layer_vector_stats: backend=cpu layer=11 point=after_post_attention_rmsnorm len=576 min=-1.15132332 max=0.634213448 mean=-0.00083903308 absmax=1.15132332 mean_abs=0.176560889 checksum=-0.483283054 hash=68e50801567ee555
+layer_vector_stats: backend=cpu layer=11 point=gate_proj_output len=1536 min=-5.27604389 max=47.532505 mean=-0.726196519 absmax=47.532505 mean_abs=1.18917499 checksum=-1115.43785 hash=ed893001c589e2a4
+layer_vector_stats: backend=cpu layer=11 point=up_proj_output len=1536 min=-12.6602783 max=67.2799225 mean=0.101658626 absmax=67.2799225 mean_abs=0.987269514 checksum=156.147649 hash=7be5fa46d20a3daa
+layer_vector_stats: backend=cpu layer=11 point=silu_swiglu_output len=1536 min=-7.14621449 max=3197.98315 mean=2.80753407 absmax=3197.98315 mean_abs=3.09374891 checksum=4312.37232 hash=b424bb50f32b5f7b
+layer_vector_stats: backend=cpu layer=11 point=down_proj_output len=576 min=-794.492188 max=25855.5137 mean=47.9599849 absmax=25855.5137 mean_abs=83.7559124 checksum=27624.9513 hash=868856bb03e1ff10
+layer_vector_stats: backend=cpu layer=11 point=residual_after_mlp len=576 min=-821.874146 max=25896.25 mean=47.8593015 absmax=25896.25 mean_abs=82.5547686 checksum=27566.9577 hash=02c016336ed605f2
+layer_vector_stats: backend=cpu layer=12 point=after_input_rmsnorm len=576 min=-0.343188196 max=2.43535471 mean=0.00587790805 absmax=2.43535471 mean_abs=0.0156046915 checksum=3.38567504 hash=f3866f37798777a4
+layer_vector_stats: backend=cpu layer=12 point=q_proj_output len=576 min=-0.652215779 max=0.667456627 mean=-0.002294736 absmax=0.667456627 mean_abs=0.1281977 checksum=-1.32176793 hash=9c5ef3849eb78827
+layer_vector_stats: backend=cpu layer=12 point=k_proj_output len=192 min=-2.57771325 max=2.94664145 mean=0.0183573886 absmax=2.94664145 mean_abs=0.189680773 checksum=3.52461862 hash=722f8119a3091ce5
+layer_vector_stats: backend=cpu layer=12 point=v_proj_output len=192 min=-1.72102964 max=1.16307926 mean=-0.00790211371 absmax=1.72102964 mean_abs=0.0568342181 checksum=-1.51720583 hash=d21acf4066467215
+layer_vector_stats: backend=cpu layer=12 point=attention_output len=576 min=-1.72102964 max=1.16307926 mean=-0.00790211371 absmax=1.72102964 mean_abs=0.0568342181 checksum=-4.55161749 hash=2d9e1fdabbedd21d
+layer_vector_stats: backend=cpu layer=12 point=o_proj_output len=576 min=-8.62622166 max=6.76045847 mean=-0.00519815242 absmax=8.62622166 mean_abs=0.459926629 checksum=-2.99413579 hash=6ce6af23dc22708a
+layer_vector_stats: backend=cpu layer=12 point=residual_after_attention len=576 min=-826.882141 max=25887.623 mean=47.8541022 absmax=25887.623 mean_abs=82.5791452 checksum=27563.9629 hash=82f43fd01b11e1ae
+layer_vector_stats: backend=cpu layer=12 point=after_post_attention_rmsnorm len=576 min=-0.117021352 max=0.227666751 mean=0.000605824866 absmax=0.227666751 mean_abs=0.00721814699 checksum=0.348955123 hash=fc8ce8001526b74a
+layer_vector_stats: backend=cpu layer=12 point=gate_proj_output len=1536 min=-0.395755976 max=0.724139094 mean=0.10381091 absmax=0.724139094 mean_abs=0.132267959 checksum=159.453558 hash=351b2f133aade17d
+layer_vector_stats: backend=cpu layer=12 point=up_proj_output len=1536 min=-0.363160104 max=0.407041818 mean=0.000188271712 absmax=0.407041818 mean_abs=0.070466744 checksum=0.289185349 hash=988f07edc5afc3c9
+layer_vector_stats: backend=cpu layer=12 point=silu_swiglu_output len=1536 min=-0.113488272 max=0.0496779643 mean=-9.7615023e-05 absmax=0.113488272 mean_abs=0.00452494565 checksum=-0.149936675 hash=0b371f96f20814bc
+layer_vector_stats: backend=cpu layer=12 point=down_proj_output len=576 min=-1.579252 max=0.786401331 mean=-0.000946617732 absmax=1.579252 mean_abs=0.0620346235 checksum=-0.545251814 hash=2c9dd60a3967db73
+layer_vector_stats: backend=cpu layer=12 point=residual_after_mlp len=576 min=-826.868164 max=25886.043 mean=47.8531539 absmax=25886.043 mean_abs=82.6064597 checksum=27563.4166 hash=92d8bcc3936e9e26
+layer_vector_stats: backend=cpu layer=13 point=after_input_rmsnorm len=576 min=-0.138917699 max=2.51681209 mean=0.00608833156 absmax=2.51681209 mean_abs=0.014968986 checksum=3.50687898 hash=9393ac6a8902b5e1
+layer_vector_stats: backend=cpu layer=13 point=q_proj_output len=576 min=-0.577381432 max=0.625936329 mean=-0.000834402655 absmax=0.625936329 mean_abs=0.127441467 checksum=-0.480615929 hash=0189e3a69c47971a
+layer_vector_stats: backend=cpu layer=13 point=k_proj_output len=192 min=-2.9411242 max=4.59024239 mean=0.0229287058 absmax=4.59024239 mean_abs=0.144326732 checksum=4.40231151 hash=80bd5488f5a4a795
+layer_vector_stats: backend=cpu layer=13 point=v_proj_output len=192 min=-0.583335936 max=1.29328418 mean=0.00483348486 absmax=1.29328418 mean_abs=0.0522508045 checksum=0.928029093 hash=9d83e5e4b8ed5630
+layer_vector_stats: backend=cpu layer=13 point=attention_output len=576 min=-0.583335936 max=1.29328418 mean=0.00483348486 absmax=1.29328418 mean_abs=0.0522508045 checksum=2.78408728 hash=cdf24afbb8867650
+layer_vector_stats: backend=cpu layer=13 point=o_proj_output len=576 min=-11.8335142 max=8.63004398 mean=0.017180475 absmax=11.8335142 mean_abs=0.410762482 checksum=9.89595361 hash=84de6bb393eb5afa
+layer_vector_stats: backend=cpu layer=13 point=residual_after_attention len=576 min=-828.064758 max=25874.209 mean=47.8703335 absmax=25874.209 mean_abs=82.6922808 checksum=27573.3121 hash=ae6385a717e14d55
+layer_vector_stats: backend=cpu layer=13 point=after_post_attention_rmsnorm len=576 min=-0.115932569 max=0.265958369 mean=0.000619997064 absmax=0.265958369 mean_abs=0.00739814095 checksum=0.357118309 hash=f952e1be30aa356f
+layer_vector_stats: backend=cpu layer=13 point=gate_proj_output len=1536 min=-0.409936965 max=0.962646127 mean=0.127522196 absmax=0.962646127 mean_abs=0.155697209 checksum=195.874093 hash=4245e1696bfcb33e
+layer_vector_stats: backend=cpu layer=13 point=up_proj_output len=1536 min=-0.516377032 max=0.413003355 mean=0.000176361083 absmax=0.516377032 mean_abs=0.0603456451 checksum=0.270890624 hash=77d56cd9060fd937
+layer_vector_stats: backend=cpu layer=13 point=silu_swiglu_output len=1536 min=-0.100025222 max=0.198906526 mean=0.000222908326 absmax=0.198906526 mean_abs=0.00514183797 checksum=0.342387189 hash=5a995cdb605a765f
+layer_vector_stats: backend=cpu layer=13 point=down_proj_output len=576 min=-2.10767865 max=1.26726651 mean=-0.00126748985 absmax=2.10767865 mean_abs=0.0754322683 checksum=-0.730074155 hash=5f92df571cd28823
+layer_vector_stats: backend=cpu layer=13 point=residual_after_mlp len=576 min=-828.127686 max=25872.1016 mean=47.8690664 absmax=25872.1016 mean_abs=82.7193108 checksum=27572.5823 hash=6bc5645d28560486
+layer_vector_stats: backend=cpu layer=14 point=after_input_rmsnorm len=576 min=-0.302827299 max=2.24869585 mean=0.0051252275 absmax=2.24869585 mean_abs=0.0166844919 checksum=2.95213104 hash=731a93a9172ea2bd
+layer_vector_stats: backend=cpu layer=14 point=q_proj_output len=576 min=-0.602584004 max=0.434465319 mean=-0.00222175442 absmax=0.602584004 mean_abs=0.126178219 checksum=-1.27973055 hash=882873819eb848c5
+layer_vector_stats: backend=cpu layer=14 point=k_proj_output len=192 min=-2.19514179 max=4.42851114 mean=0.0404948112 absmax=4.42851114 mean_abs=0.192323592 checksum=7.77500376 hash=522d43210b84df6b
+layer_vector_stats: backend=cpu layer=14 point=v_proj_output len=192 min=-1.25936782 max=1.5075258 mean=0.00446179366 absmax=1.5075258 mean_abs=0.0474634899 checksum=0.856664382 hash=d7b204025b98a5a5
+layer_vector_stats: backend=cpu layer=14 point=attention_output len=576 min=-1.25936782 max=1.5075258 mean=0.00446179366 absmax=1.5075258 mean_abs=0.0474634899 checksum=2.56999315 hash=f75b506134eedce9
+layer_vector_stats: backend=cpu layer=14 point=o_proj_output len=576 min=-11.4303074 max=8.19112396 mean=-0.0135552881 absmax=11.4303074 mean_abs=0.390433464 checksum=-7.80784597 hash=ef39d98cad51caa9
+layer_vector_stats: backend=cpu layer=14 point=residual_after_attention len=576 min=-827.835266 max=25860.6719 mean=47.8555123 absmax=25860.6719 mean_abs=82.7179274 checksum=27564.7751 hash=560bbf9478629522
+layer_vector_stats: backend=cpu layer=14 point=after_post_attention_rmsnorm len=576 min=-0.110014662 max=0.257276207 mean=0.000593141981 absmax=0.257276207 mean_abs=0.00725661816 checksum=0.341649781 hash=0e46ff19a692abb5
+layer_vector_stats: backend=cpu layer=14 point=gate_proj_output len=1536 min=-0.460449696 max=0.970195591 mean=0.1004831 absmax=0.970195591 mean_abs=0.143205342 checksum=154.342041 hash=3e580f22e0ece63a
+layer_vector_stats: backend=cpu layer=14 point=up_proj_output len=1536 min=-0.538689554 max=0.801219642 mean=0.000656036379 absmax=0.801219642 mean_abs=0.0661964496 checksum=1.00767188 hash=489ca1c4525e0240
+layer_vector_stats: backend=cpu layer=14 point=silu_swiglu_output len=1536 min=-0.252066553 max=0.229736879 mean=5.22159082e-05 absmax=0.252066553 mean_abs=0.00548554834 checksum=0.080203635 hash=557f2f5d3398460d
+layer_vector_stats: backend=cpu layer=14 point=down_proj_output len=576 min=-2.32283473 max=0.990877151 mean=0.000238387563 absmax=2.32283473 mean_abs=0.0882298491 checksum=0.137311236 hash=cc6092c279f058db
+layer_vector_stats: backend=cpu layer=14 point=residual_after_mlp len=576 min=-827.894897 max=25858.3496 mean=47.8557517 absmax=25858.3496 mean_abs=82.7415004 checksum=27564.913 hash=539844fb72dc7d44
+layer_vector_stats: backend=cpu layer=15 point=after_input_rmsnorm len=576 min=-0.356603771 max=3.05249476 mean=0.00637761243 absmax=3.05249476 mean_abs=0.0175024731 checksum=3.67350476 hash=5f39ffabaf5bd9a0
+layer_vector_stats: backend=cpu layer=15 point=q_proj_output len=576 min=-2.40040731 max=1.77542186 mean=-0.0273677181 absmax=2.40040731 mean_abs=0.188228622 checksum=-15.7638056 hash=194a1bf78dc7586a
+layer_vector_stats: backend=cpu layer=15 point=k_proj_output len=192 min=-5.29734755 max=3.6848774 mean=0.00984473483 absmax=5.29734755 mean_abs=0.193466543 checksum=1.89018909 hash=46692b6ce29d716e
+layer_vector_stats: backend=cpu layer=15 point=v_proj_output len=192 min=-2.22172499 max=1.17825294 mean=0.0010848521 absmax=2.22172499 mean_abs=0.0835834351 checksum=0.208291603 hash=e028c3e9dfc09d36
+layer_vector_stats: backend=cpu layer=15 point=attention_output len=576 min=-2.22172499 max=1.17825294 mean=0.0010848521 absmax=2.22172499 mean_abs=0.0835834351 checksum=0.624874809 hash=cc2be39b3319e616
+layer_vector_stats: backend=cpu layer=15 point=o_proj_output len=576 min=-16.4194889 max=5.41889858 mean=-0.0224175484 absmax=16.4194889 mean_abs=0.59212581 checksum=-12.9125079 hash=e531f154977b6bb6
+layer_vector_stats: backend=cpu layer=15 point=residual_after_attention len=576 min=-827.704163 max=25841.9297 mean=47.8333334 absmax=25841.9297 mean_abs=82.7109385 checksum=27552.0001 hash=a8fe942c1a62e051
+layer_vector_stats: backend=cpu layer=15 point=after_post_attention_rmsnorm len=576 min=-0.114814818 max=0.23726213 mean=0.00066686984 absmax=0.23726213 mean_abs=0.00745978188 checksum=0.384117028 hash=ee7ed75c5ad4775c
+layer_vector_stats: backend=cpu layer=15 point=gate_proj_output len=1536 min=-0.436048478 max=0.871727109 mean=0.0868537726 absmax=0.871727109 mean_abs=0.143132529 checksum=133.407395 hash=0cf91b16e2e31b08
+layer_vector_stats: backend=cpu layer=15 point=up_proj_output len=1536 min=-0.847387254 max=0.879242778 mean=0.000273253865 absmax=0.879242778 mean_abs=0.0706790558 checksum=0.419717937 hash=151a4fdb6fcf40ac
+layer_vector_stats: backend=cpu layer=15 point=silu_swiglu_output len=1536 min=-0.0776415244 max=0.356741041 mean=0.000253860699 absmax=0.356741041 mean_abs=0.00520075216 checksum=0.389930034 hash=590ced58c4377551
+layer_vector_stats: backend=cpu layer=15 point=down_proj_output len=576 min=-1.27934599 max=0.673364103 mean=-0.0025841054 absmax=1.27934599 mean_abs=0.0690824582 checksum=-1.48844471 hash=20b08666be13f4ab
+layer_vector_stats: backend=cpu layer=15 point=residual_after_mlp len=576 min=-827.697327 max=25840.6504 mean=47.8307495 absmax=25840.6504 mean_abs=82.7325554 checksum=27550.5117 hash=1776e497d247ec1e
+layer_vector_stats: backend=cpu layer=16 point=after_input_rmsnorm len=576 min=-0.231370285 max=3.07575488 mean=0.0067933502 absmax=3.07575488 mean_abs=0.0161904437 checksum=3.91296971 hash=4725c4d1fa3ff2cb
+layer_vector_stats: backend=cpu layer=16 point=q_proj_output len=576 min=-1.29200125 max=3.01161432 mean=0.0135304242 absmax=3.01161432 mean_abs=0.206763431 checksum=7.79352434 hash=ab874b56c9c35705
+layer_vector_stats: backend=cpu layer=16 point=k_proj_output len=192 min=-4.27464437 max=4.62062645 mean=-0.00431661126 absmax=4.62062645 mean_abs=0.168020225 checksum=-0.828789362 hash=994665a419df0f97
+layer_vector_stats: backend=cpu layer=16 point=v_proj_output len=192 min=-1.36923134 max=1.27631235 mean=-0.00491788052 absmax=1.36923134 mean_abs=0.0856942367 checksum=-0.94423306 hash=7c692db509b55727
+layer_vector_stats: backend=cpu layer=16 point=attention_output len=576 min=-1.36923134 max=1.27631235 mean=-0.00491788052 absmax=1.36923134 mean_abs=0.0856942367 checksum=-2.83269918 hash=ad5f0c98b0783537
+layer_vector_stats: backend=cpu layer=16 point=o_proj_output len=576 min=-14.9744492 max=9.98852634 mean=-0.0351964796 absmax=14.9744492 mean_abs=0.606739133 checksum=-20.2731723 hash=110985c45cf47bd4
+layer_vector_stats: backend=cpu layer=16 point=residual_after_attention len=576 min=-830.419983 max=25825.6758 mean=47.7955528 absmax=25825.6758 mean_abs=82.7731994 checksum=27530.2384 hash=8b4996bc80994be7
+layer_vector_stats: backend=cpu layer=16 point=after_post_attention_rmsnorm len=576 min=-0.10348434 max=0.221691236 mean=0.000564383262 absmax=0.221691236 mean_abs=0.00696285294 checksum=0.325084759 hash=e68897f682ffb132
+layer_vector_stats: backend=cpu layer=16 point=gate_proj_output len=1536 min=-0.549843729 max=0.996223927 mean=0.0595472186 absmax=0.996223927 mean_abs=0.125198766 checksum=91.4645277 hash=f617e7d4fcb72590
+layer_vector_stats: backend=cpu layer=16 point=up_proj_output len=1536 min=-0.540983975 max=0.531149864 mean=-0.00173220192 absmax=0.540983975 mean_abs=0.0670208098 checksum=-2.66066216 hash=1d18dddf34cf706f
+layer_vector_stats: backend=cpu layer=16 point=silu_swiglu_output len=1536 min=-0.114020497 max=0.307335019 mean=0.000443416189 absmax=0.307335019 mean_abs=0.00477784543 checksum=0.681087266 hash=b3ab7d558c06877a
+layer_vector_stats: backend=cpu layer=16 point=down_proj_output len=576 min=-0.634754002 max=0.600676358 mean=-0.00259486355 absmax=0.634754002 mean_abs=0.0619122766 checksum=-1.49464141 hash=3646b217a4e11deb
+layer_vector_stats: backend=cpu layer=16 point=residual_after_mlp len=576 min=-830.470337 max=25825.041 mean=47.7929579 absmax=25825.041 mean_abs=82.7892817 checksum=27528.7438 hash=52f3a3c7226f221d
+layer_vector_stats: backend=cpu layer=17 point=after_input_rmsnorm len=576 min=-0.317688942 max=2.94743085 mean=0.00648764242 absmax=2.94743085 mean_abs=0.0184699126 checksum=3.73688203 hash=98349410df91ab7a
+layer_vector_stats: backend=cpu layer=17 point=q_proj_output len=576 min=-0.558451116 max=0.675000012 mean=-0.000750762126 absmax=0.675000012 mean_abs=0.130728243 checksum=-0.432438985 hash=b61cd5cea04a431a
+layer_vector_stats: backend=cpu layer=17 point=k_proj_output len=192 min=-3.97570062 max=0.632463813 mean=-0.098252184 absmax=3.97570062 mean_abs=0.154006127 checksum=-18.8644193 hash=f8836c420552ac1a
+layer_vector_stats: backend=cpu layer=17 point=v_proj_output len=192 min=-1.66523767 max=1.61369038 mean=0.0105240497 absmax=1.66523767 mean_abs=0.0788759457 checksum=2.02061754 hash=9f3d60cc6dbad3c6
+layer_vector_stats: backend=cpu layer=17 point=attention_output len=576 min=-1.66523767 max=1.61369038 mean=0.0105240497 absmax=1.66523767 mean_abs=0.0788759457 checksum=6.06185261 hash=a3fb690aadeee996
+layer_vector_stats: backend=cpu layer=17 point=o_proj_output len=576 min=-13.3823595 max=7.96619034 mean=-0.0179569022 absmax=13.3823595 mean_abs=0.503123455 checksum=-10.3431757 hash=ff41ff226e12137a
+layer_vector_stats: backend=cpu layer=17 point=residual_after_attention len=576 min=-830.254272 max=25811.6582 mean=47.7750002 absmax=25811.6582 mean_abs=82.8071217 checksum=27518.4001 hash=8f8b02a4344200db
+layer_vector_stats: backend=cpu layer=17 point=after_post_attention_rmsnorm len=576 min=-0.11146386 max=0.213380441 mean=0.000482227997 absmax=0.213380441 mean_abs=0.00672953812 checksum=0.277763326 hash=05340aa68f1e7f25
+layer_vector_stats: backend=cpu layer=17 point=gate_proj_output len=1536 min=-0.587729394 max=0.896012723 mean=0.0273359399 absmax=0.896012723 mean_abs=0.108776761 checksum=41.9880036 hash=11bc8f490fc6629d
+layer_vector_stats: backend=cpu layer=17 point=up_proj_output len=1536 min=-0.489973068 max=0.532838047 mean=-0.00138478832 absmax=0.532838047 mean_abs=0.0637300866 checksum=-2.12703486 hash=dd927bfab1292274
+layer_vector_stats: backend=cpu layer=17 point=silu_swiglu_output len=1536 min=-0.0862808749 max=0.0951472372 mean=0.000151426724 absmax=0.0951472372 mean_abs=0.00391386319 checksum=0.232591449 hash=e26cf0d80b69b487
+layer_vector_stats: backend=cpu layer=17 point=down_proj_output len=576 min=-1.35451341 max=0.684537053 mean=-0.000505940072 absmax=1.35451341 mean_abs=0.0649379259 checksum=-0.291421482 hash=3c11e99f5465d6c9
+layer_vector_stats: backend=cpu layer=17 point=residual_after_mlp len=576 min=-830.374695 max=25810.3027 mean=47.7744926 absmax=25810.3027 mean_abs=82.8236604 checksum=27518.1077 hash=d64fb3a2513b2044
+layer_vector_stats: backend=cpu layer=18 point=after_input_rmsnorm len=576 min=-0.277341962 max=2.50461698 mean=0.00573737913 absmax=2.50461698 mean_abs=0.0182874827 checksum=3.30473038 hash=611223d5b5a03029
+layer_vector_stats: backend=cpu layer=18 point=q_proj_output len=576 min=-0.60452348 max=0.693301082 mean=-0.00305439977 absmax=0.693301082 mean_abs=0.130508514 checksum=-1.75933427 hash=3d1c200cc5cfd4e2
+layer_vector_stats: backend=cpu layer=18 point=k_proj_output len=192 min=-4.07659864 max=3.44154644 mean=-0.00638417185 absmax=4.07659864 mean_abs=0.14031659 checksum=-1.22576099 hash=42b061a4d006af11
+layer_vector_stats: backend=cpu layer=18 point=v_proj_output len=192 min=-1.25399268 max=1.49636638 mean=-0.0017651953 absmax=1.49636638 mean_abs=0.0474273728 checksum=-0.338917498 hash=a516a5ee2bea8c84
+layer_vector_stats: backend=cpu layer=18 point=attention_output len=576 min=-1.25399268 max=1.49636638 mean=-0.0017651953 absmax=1.49636638 mean_abs=0.0474273728 checksum=-1.0167525 hash=9ec847007a676f30
+layer_vector_stats: backend=cpu layer=18 point=o_proj_output len=576 min=-8.19801617 max=4.93790483 mean=-0.037650076 absmax=8.19801617 mean_abs=0.453127477 checksum=-21.6864437 hash=a16cb9dae8f9a17b
+layer_vector_stats: backend=cpu layer=18 point=residual_after_attention len=576 min=-830.756592 max=25802.1055 mean=47.7368439 absmax=25802.1055 mean_abs=82.8533947 checksum=27496.4221 hash=1fbfa0279e999c8e
+layer_vector_stats: backend=cpu layer=18 point=after_post_attention_rmsnorm len=576 min=-0.123734601 max=0.24417688 mean=0.000689143685 absmax=0.24417688 mean_abs=0.00702837539 checksum=0.396946763 hash=61ad0d4b7f5b33f2
+layer_vector_stats: backend=cpu layer=18 point=gate_proj_output len=1536 min=-0.604695022 max=0.927998543 mean=0.017480819 absmax=0.927998543 mean_abs=0.133261836 checksum=26.850538 hash=43daf62ab86bd787
+layer_vector_stats: backend=cpu layer=18 point=up_proj_output len=1536 min=-0.277659744 max=0.505999863 mean=0.00119354737 absmax=0.505999863 mean_abs=0.0597156426 checksum=1.83328876 hash=2a17adda6993740c
+layer_vector_stats: backend=cpu layer=18 point=silu_swiglu_output len=1536 min=-0.115102038 max=0.152680114 mean=0.000330678745 absmax=0.152680114 mean_abs=0.00433439668 checksum=0.507922553 hash=418d0213d7d5174e
+layer_vector_stats: backend=cpu layer=18 point=down_proj_output len=576 min=-0.401752114 max=0.35621953 mean=-0.000129473265 absmax=0.401752114 mean_abs=0.0630917456 checksum=-0.0745766006 hash=8cb74a7e5a4824d4
+layer_vector_stats: backend=cpu layer=18 point=residual_after_mlp len=576 min=-830.869019 max=25801.7031 mean=47.7367134 absmax=25801.7031 mean_abs=82.8691161 checksum=27496.3469 hash=f3ad97b57c1f6583
+layer_vector_stats: backend=cpu layer=19 point=after_input_rmsnorm len=576 min=-0.327107459 max=3.40151691 mean=0.00759893911 absmax=3.40151691 mean_abs=0.0180633053 checksum=4.37698893 hash=cbdd13706285de6a
+layer_vector_stats: backend=cpu layer=19 point=q_proj_output len=576 min=-0.859243572 max=4.10385942 mean=0.0136663032 absmax=4.10385942 mean_abs=0.200256214 checksum=7.87179067 hash=5d54a9b2a1b59cd2
+layer_vector_stats: backend=cpu layer=19 point=k_proj_output len=192 min=-3.25984979 max=3.17361331 mean=-0.00885505264 absmax=3.25984979 mean_abs=0.138352044 checksum=-1.70017011 hash=f98fc4793b6fb6ca
+layer_vector_stats: backend=cpu layer=19 point=v_proj_output len=192 min=-0.954309106 max=1.67357993 mean=0.0171587535 absmax=1.67357993 mean_abs=0.113060388 checksum=3.29448068 hash=38510daa1f9bbefd
+layer_vector_stats: backend=cpu layer=19 point=attention_output len=576 min=-0.954309106 max=1.67357993 mean=0.0171587535 absmax=1.67357993 mean_abs=0.113060388 checksum=9.88344203 hash=466e20f9702e74c1
+layer_vector_stats: backend=cpu layer=19 point=o_proj_output len=576 min=-8.18292427 max=3.76470089 mean=-0.0402823369 absmax=8.18292427 mean_abs=0.59535065 checksum=-23.2026261 hash=939b0904e959667a
+layer_vector_stats: backend=cpu layer=19 point=residual_after_attention len=576 min=-829.807556 max=25793.5195 mean=47.6964298 absmax=25793.5195 mean_abs=82.9422117 checksum=27473.1436 hash=4c6df45fb2a2d1d9
+layer_vector_stats: backend=cpu layer=19 point=after_post_attention_rmsnorm len=576 min=-0.144448042 max=0.28614822 mean=0.000714816007 absmax=0.28614822 mean_abs=0.00754887649 checksum=0.41173402 hash=6c560c7f1ec011a6
+layer_vector_stats: backend=cpu layer=19 point=gate_proj_output len=1536 min=-0.715838432 max=0.875155807 mean=0.0493968222 absmax=0.875155807 mean_abs=0.146942649 checksum=75.8735189 hash=ea07c21e1d26e5fe
+layer_vector_stats: backend=cpu layer=19 point=up_proj_output len=1536 min=-0.541364491 max=0.438984722 mean=0.000769321582 absmax=0.541364491 mean_abs=0.0723070773 checksum=1.18167795 hash=b53988ae9d36a2e1
+layer_vector_stats: backend=cpu layer=19 point=silu_swiglu_output len=1536 min=-0.280945361 max=0.173306867 mean=-5.27857018e-05 absmax=0.280945361 mean_abs=0.00664534379 checksum=-0.0810788379 hash=2cfbb92f4e08c6e1
+layer_vector_stats: backend=cpu layer=19 point=down_proj_output len=576 min=-0.414449006 max=0.777305603 mean=-0.0034122128 absmax=0.777305603 mean_abs=0.102032058 checksum=-1.96543457 hash=e58a4aebce2bdfa4
+layer_vector_stats: backend=cpu layer=19 point=residual_after_mlp len=576 min=-829.878845 max=25794.2969 mean=47.6930176 absmax=25794.2969 mean_abs=82.9597736 checksum=27471.1781 hash=5e895078fafaa9a7
+layer_vector_stats: backend=cpu layer=20 point=after_input_rmsnorm len=576 min=-0.298318267 max=1.73564947 mean=0.00435031597 absmax=1.73564947 mean_abs=0.0161965334 checksum=2.505782 hash=e28346b056b7d80e
+layer_vector_stats: backend=cpu layer=20 point=q_proj_output len=576 min=-0.743682325 max=0.844276071 mean=0.00434538983 absmax=0.844276071 mean_abs=0.140970743 checksum=2.50294454 hash=76b88781a528ee69
+layer_vector_stats: backend=cpu layer=20 point=k_proj_output len=192 min=-3.13065028 max=2.96893144 mean=-0.0100635962 absmax=3.13065028 mean_abs=0.173953944 checksum=-1.93221048 hash=31c7a0630207850c
+layer_vector_stats: backend=cpu layer=20 point=v_proj_output len=192 min=-0.324198335 max=0.595123589 mean=-0.00290330395 absmax=0.595123589 mean_abs=0.0395957458 checksum=-0.557434358 hash=74765a0c32cd69fd
+layer_vector_stats: backend=cpu layer=20 point=attention_output len=576 min=-0.324198335 max=0.595123589 mean=-0.00290330395 absmax=0.595123589 mean_abs=0.0395957458 checksum=-1.67230307 hash=ed947fbdb41e7c11
+layer_vector_stats: backend=cpu layer=20 point=o_proj_output len=576 min=-2.42887449 max=1.5191412 mean=-0.0200696367 absmax=2.42887449 mean_abs=0.335089413 checksum=-11.5601107 hash=4318744efc959040
+layer_vector_stats: backend=cpu layer=20 point=residual_after_attention len=576 min=-829.92981 max=25791.8672 mean=47.6729467 absmax=25791.8672 mean_abs=82.9682131 checksum=27459.6173 hash=24eefa325da870f9
+layer_vector_stats: backend=cpu layer=20 point=after_post_attention_rmsnorm len=576 min=-0.157746285 max=0.310620397 mean=0.000735827312 absmax=0.310620397 mean_abs=0.00773215397 checksum=0.423836532 hash=3768e435fbb4e1dc
+layer_vector_stats: backend=cpu layer=20 point=gate_proj_output len=1536 min=-0.72925216 max=0.91934377 mean=0.0244293649 absmax=0.91934377 mean_abs=0.151317712 checksum=37.5235044 hash=e30764a6f7fda048
+layer_vector_stats: backend=cpu layer=20 point=up_proj_output len=1536 min=-0.689499378 max=0.537688911 mean=0.000551437051 absmax=0.689499378 mean_abs=0.0739216635 checksum=0.847007311 hash=fe5f9dc9a51e8aba
+layer_vector_stats: backend=cpu layer=20 point=silu_swiglu_output len=1536 min=-0.408524334 max=0.163311437 mean=-0.000449826448 absmax=0.408524334 mean_abs=0.0063007646 checksum=-0.690933424 hash=c16f78f2335d7886
+layer_vector_stats: backend=cpu layer=20 point=down_proj_output len=576 min=-0.600536585 max=0.800891995 mean=0.0105024973 absmax=0.800891995 mean_abs=0.113665117 checksum=6.04943843 hash=1ce27c90f5e8759a
+layer_vector_stats: backend=cpu layer=20 point=residual_after_mlp len=576 min=-830.07019 max=25792.3359 mean=47.6834504 absmax=25792.3359 mean_abs=82.9808295 checksum=27465.6674 hash=aaf5a0ee3d365176
+layer_vector_stats: backend=cpu layer=21 point=after_input_rmsnorm len=576 min=-0.389876485 max=2.97036457 mean=0.00640856399 absmax=2.97036457 mean_abs=0.0179752034 checksum=3.69133286 hash=976b111b54eac171
+layer_vector_stats: backend=cpu layer=21 point=q_proj_output len=576 min=-2.60650826 max=1.52163684 mean=0.0267003672 absmax=2.60650826 mean_abs=0.202280305 checksum=15.3794115 hash=3eeaf88503b96fb5
+layer_vector_stats: backend=cpu layer=21 point=k_proj_output len=192 min=-3.62767887 max=4.64098644 mean=0.0145848292 absmax=4.64098644 mean_abs=0.152290586 checksum=2.80028721 hash=84bb15919c55a98d
+layer_vector_stats: backend=cpu layer=21 point=v_proj_output len=192 min=-0.802565038 max=1.44214082 mean=0.0127939775 absmax=1.44214082 mean_abs=0.0875178988 checksum=2.45644369 hash=d3aae8f46c23beea
+layer_vector_stats: backend=cpu layer=21 point=attention_output len=576 min=-0.802565038 max=1.44214082 mean=0.0127939775 absmax=1.44214082 mean_abs=0.0875178988 checksum=7.36933106 hash=7cecbed2b229f042
+layer_vector_stats: backend=cpu layer=21 point=o_proj_output len=576 min=-9.93985748 max=7.24142694 mean=0.0531577986 absmax=9.93985748 mean_abs=0.841803298 checksum=30.618892 hash=03f44352ea813758
+layer_vector_stats: backend=cpu layer=21 point=residual_after_attention len=576 min=-827.056274 max=25799.5781 mean=47.7366095 absmax=25799.5781 mean_abs=82.9591012 checksum=27496.2871 hash=3d36305a4c8c40b1
+layer_vector_stats: backend=cpu layer=21 point=after_post_attention_rmsnorm len=576 min=-0.157382235 max=0.240363762 mean=0.000672828161 absmax=0.240363762 mean_abs=0.00807518714 checksum=0.387549021 hash=0a2975de65354941
+layer_vector_stats: backend=cpu layer=21 point=gate_proj_output len=1536 min=-0.640970707 max=0.903875113 mean=0.0738263049 absmax=0.903875113 mean_abs=0.135010735 checksum=113.397204 hash=81a2103899e3235b
+layer_vector_stats: backend=cpu layer=21 point=up_proj_output len=1536 min=-0.797272921 max=0.584625542 mean=-0.00110461823 absmax=0.797272921 mean_abs=0.0726469492 checksum=-1.6966936 hash=9a63137b7f189ced
+layer_vector_stats: backend=cpu layer=21 point=silu_swiglu_output len=1536 min=-0.504443645 max=0.376106411 mean=0.000202460876 absmax=0.504443645 mean_abs=0.00680488565 checksum=0.310979906 hash=afe8c52d46e0b01c
+layer_vector_stats: backend=cpu layer=21 point=down_proj_output len=576 min=-0.508939624 max=1.76194727 mean=0.00534051731 absmax=1.76194727 mean_abs=0.140064806 checksum=3.07613797 hash=7d5748062f79d4fa
+layer_vector_stats: backend=cpu layer=21 point=residual_after_mlp len=576 min=-827.047791 max=25801.0859 mean=47.7419515 absmax=25801.0859 mean_abs=82.9714029 checksum=27499.3641 hash=acbf233c9cdcc4b2
+layer_vector_stats: backend=cpu layer=22 point=after_input_rmsnorm len=576 min=-0.336064249 max=2.79575062 mean=0.00614734145 absmax=2.79575062 mean_abs=0.0175808269 checksum=3.54086868 hash=c749a49375df07fd
+layer_vector_stats: backend=cpu layer=22 point=q_proj_output len=576 min=-1.14231038 max=0.82349664 mean=0.00623535465 absmax=1.14231038 mean_abs=0.168913434 checksum=3.59156428 hash=9a30c9f919c72ff6
+layer_vector_stats: backend=cpu layer=22 point=k_proj_output len=192 min=-5.1545949 max=3.92913151 mean=-0.0624477673 absmax=5.1545949 mean_abs=0.169299457 checksum=-11.9899713 hash=09f1e5f9fa50d198
+layer_vector_stats: backend=cpu layer=22 point=v_proj_output len=192 min=-0.982441723 max=1.35972333 mean=-0.00165846667 absmax=1.35972333 mean_abs=0.0711837822 checksum=-0.318425601 hash=72f34b38f0af4ebf
+layer_vector_stats: backend=cpu layer=22 point=attention_output len=576 min=-0.982441723 max=1.35972333 mean=-0.00165846667 absmax=1.35972333 mean_abs=0.0711837822 checksum=-0.955276802 hash=7293458d055e3373
+layer_vector_stats: backend=cpu layer=22 point=o_proj_output len=576 min=-6.32193708 max=2.60380936 mean=0.0335779111 absmax=6.32193708 mean_abs=0.604643717 checksum=19.3408768 hash=1ba4c0acac7bdab1
+layer_vector_stats: backend=cpu layer=22 point=residual_after_attention len=576 min=-827.706665 max=25794.7637 mean=47.7755289 absmax=25794.7637 mean_abs=83.0760697 checksum=27518.7046 hash=7ef26a1a042807aa
+layer_vector_stats: backend=cpu layer=22 point=after_post_attention_rmsnorm len=576 min=-0.172278181 max=0.317518622 mean=0.000795321633 absmax=0.317518622 mean_abs=0.00838065454 checksum=0.45810526 hash=4a9f86a7251cda1c
+layer_vector_stats: backend=cpu layer=22 point=gate_proj_output len=1536 min=-0.976650715 max=0.741783082 mean=0.0523511232 absmax=0.976650715 mean_abs=0.147730291 checksum=80.4113253 hash=60e1d28dec540eb3
+layer_vector_stats: backend=cpu layer=22 point=up_proj_output len=1536 min=-0.665208399 max=0.620529234 mean=-0.0019685506 absmax=0.665208399 mean_abs=0.0807984329 checksum=-3.02369372 hash=87533adeb00f00f0
+layer_vector_stats: backend=cpu layer=22 point=silu_swiglu_output len=1536 min=-0.323169559 max=0.243294641 mean=-0.000504838668 absmax=0.323169559 mean_abs=0.00765695203 checksum=-0.775432194 hash=6e8a78e898fa61b9
+layer_vector_stats: backend=cpu layer=22 point=down_proj_output len=576 min=-0.619756222 max=2.13123798 mean=0.0248573798 absmax=2.13123798 mean_abs=0.149326354 checksum=14.3178508 hash=bf169c9d80dc2ec2
+layer_vector_stats: backend=cpu layer=22 point=residual_after_mlp len=576 min=-827.840027 max=25796.3262 mean=47.8003854 absmax=25796.3262 mean_abs=83.0975958 checksum=27533.022 hash=60a62dddab3029b0
+layer_vector_stats: backend=cpu layer=23 point=after_input_rmsnorm len=576 min=-0.412703723 max=2.44624543 mean=0.00555576867 absmax=2.44624543 mean_abs=0.0185202322 checksum=3.20012275 hash=38c42291e966b189
+layer_vector_stats: backend=cpu layer=23 point=q_proj_output len=576 min=-0.618218005 max=0.726925492 mean=-0.00488950765 absmax=0.726925492 mean_abs=0.169543842 checksum=-2.81635641 hash=885df3c1ae06abf3
+layer_vector_stats: backend=cpu layer=23 point=k_proj_output len=192 min=-3.32025337 max=3.97992301 mean=-0.0484105779 absmax=3.97992301 mean_abs=0.166978927 checksum=-9.29483096 hash=e34ce522ce31f7eb
+layer_vector_stats: backend=cpu layer=23 point=v_proj_output len=192 min=-1.34286833 max=0.140007511 mean=-0.012340286 absmax=1.34286833 mean_abs=0.0463325004 checksum=-2.36933491 hash=d667f8dc9099869b
+layer_vector_stats: backend=cpu layer=23 point=attention_output len=576 min=-1.34286833 max=0.140007511 mean=-0.012340286 absmax=1.34286833 mean_abs=0.0463325004 checksum=-7.10800473 hash=bba1349009b6693b
+layer_vector_stats: backend=cpu layer=23 point=o_proj_output len=576 min=-2.57613969 max=3.00374341 mean=0.00420164922 absmax=3.00374341 mean_abs=0.485540746 checksum=2.42014995 hash=f693e99a3d7cd487
+layer_vector_stats: backend=cpu layer=23 point=residual_after_attention len=576 min=-827.153992 max=25793.75 mean=47.8045869 absmax=25793.75 mean_abs=83.137061 checksum=27535.4421 hash=37907e6c04b6032d
+layer_vector_stats: backend=cpu layer=23 point=after_post_attention_rmsnorm len=576 min=-0.159488499 max=0.326254755 mean=0.000977628561 absmax=0.326254755 mean_abs=0.00875045597 checksum=0.563114051 hash=92ac8cc6fb3d18ec
+layer_vector_stats: backend=cpu layer=23 point=gate_proj_output len=1536 min=-1.25659585 max=0.924557149 mean=0.0963989084 absmax=1.25659585 mean_abs=0.173579557 checksum=148.068723 hash=d16fa94c57cef233
+layer_vector_stats: backend=cpu layer=23 point=up_proj_output len=1536 min=-0.798433185 max=0.90733701 mean=-0.00169281754 absmax=0.90733701 mean_abs=0.0890552064 checksum=-2.60016775 hash=43c1e630e1fac23c
+layer_vector_stats: backend=cpu layer=23 point=silu_swiglu_output len=1536 min=-0.256130576 max=0.284146845 mean=0.000248387714 absmax=0.284146845 mean_abs=0.0107715796 checksum=0.381523528 hash=52c897d765a5dc79
+layer_vector_stats: backend=cpu layer=23 point=down_proj_output len=576 min=-0.673990786 max=3.84241247 mean=0.0246242247 absmax=3.84241247 mean_abs=0.195825201 checksum=14.1835534 hash=898f5da300524eb9
+layer_vector_stats: backend=cpu layer=23 point=residual_after_mlp len=576 min=-827.253174 max=25796.3496 mean=47.8292097 absmax=25796.3496 mean_abs=83.1599673 checksum=27549.6248 hash=29cc9c07a1ba7b97
+layer_vector_stats: backend=cpu layer=24 point=after_input_rmsnorm len=576 min=-0.442290068 max=4.07702446 mean=0.00873978482 absmax=4.07702446 mean_abs=0.0216101371 checksum=5.03411606 hash=2929a64ca8cf38bc
+layer_vector_stats: backend=cpu layer=24 point=q_proj_output len=576 min=-1.70907927 max=1.53054047 mean=0.0169826626 absmax=1.70907927 mean_abs=0.260854064 checksum=9.78201366 hash=0404440642daaab0
+layer_vector_stats: backend=cpu layer=24 point=k_proj_output len=192 min=-3.33845425 max=2.78136563 mean=-0.0357151842 absmax=3.33845425 mean_abs=0.180693052 checksum=-6.85731537 hash=598309dabe44f84c
+layer_vector_stats: backend=cpu layer=24 point=v_proj_output len=192 min=-1.46435583 max=1.06610692 mean=-0.00430691136 absmax=1.46435583 mean_abs=0.182504774 checksum=-0.826926982 hash=c10c4361226aa432
+layer_vector_stats: backend=cpu layer=24 point=attention_output len=576 min=-1.46435583 max=1.06610692 mean=-0.00430691136 absmax=1.46435583 mean_abs=0.182504774 checksum=-2.48078095 hash=18a65297e48d916a
+layer_vector_stats: backend=cpu layer=24 point=o_proj_output len=576 min=-37.5153732 max=171.274582 mean=0.2439379 absmax=171.274582 mean_abs=1.56584168 checksum=140.50823 hash=c107e6f2904c25cb
+layer_vector_stats: backend=cpu layer=24 point=residual_after_attention len=576 min=-829.252563 max=25758.834 mean=48.0731471 absmax=25758.834 mean_abs=83.5306955 checksum=27690.1328 hash=dd7185675a57a255
+layer_vector_stats: backend=cpu layer=24 point=after_post_attention_rmsnorm len=576 min=-0.160868183 max=0.29751721 mean=0.000871483498 absmax=0.29751721 mean_abs=0.00939135358 checksum=0.501974495 hash=347f9f34deb38c56
+layer_vector_stats: backend=cpu layer=24 point=gate_proj_output len=1536 min=-1.0655539 max=0.994039476 mean=0.0551673138 absmax=1.0655539 mean_abs=0.143488036 checksum=84.736994 hash=5121d33908aa4639
+layer_vector_stats: backend=cpu layer=24 point=up_proj_output len=1536 min=-0.696673632 max=0.746400535 mean=0.000773524604 absmax=0.746400535 mean_abs=0.0863349209 checksum=1.18813379 hash=6f242dac7c794455
+layer_vector_stats: backend=cpu layer=24 point=silu_swiglu_output len=1536 min=-0.1927775 max=0.529256284 mean=0.000333328302 absmax=0.529256284 mean_abs=0.008071474 checksum=0.511992272 hash=414493610249f74e
+layer_vector_stats: backend=cpu layer=24 point=down_proj_output len=576 min=-1.1650672 max=2.42154574 mean=0.00118190311 absmax=2.42154574 mean_abs=0.169779426 checksum=0.680776193 hash=642a057df88a2a61
+layer_vector_stats: backend=cpu layer=24 point=residual_after_mlp len=576 min=-829.346741 max=25757.668 mean=48.0743274 absmax=25757.668 mean_abs=83.5515797 checksum=27690.8126 hash=34137673ef7e9509
+layer_vector_stats: backend=cpu layer=25 point=after_input_rmsnorm len=576 min=-0.32545808 max=2.64345288 mean=0.00631448004 absmax=2.64345288 mean_abs=0.0186417295 checksum=3.6371405 hash=02a5530c20c223f5
+layer_vector_stats: backend=cpu layer=25 point=q_proj_output len=576 min=-1.02709424 max=1.02478492 mean=0.00931074528 absmax=1.02709424 mean_abs=0.263159412 checksum=5.36298928 hash=7222949d9bb7e50a
+layer_vector_stats: backend=cpu layer=25 point=k_proj_output len=192 min=-3.88466311 max=4.67676592 mean=-0.0261276536 absmax=4.67676592 mean_abs=0.122018766 checksum=-5.01650949 hash=03dff65edd3db553
+layer_vector_stats: backend=cpu layer=25 point=v_proj_output len=192 min=-0.872328937 max=1.00826716 mean=-0.00725455747 absmax=1.00826716 mean_abs=0.0676895762 checksum=-1.39287503 hash=3057cfd797fc2e5b
+layer_vector_stats: backend=cpu layer=25 point=attention_output len=576 min=-0.872328937 max=1.00826716 mean=-0.00725455747 absmax=1.00826716 mean_abs=0.0676895762 checksum=-4.1786251 hash=c9ec2279c4e5d313
+layer_vector_stats: backend=cpu layer=25 point=o_proj_output len=576 min=-3.8690443 max=23.1509857 mean=0.0332121737 absmax=23.1509857 mean_abs=0.547361294 checksum=19.130212 hash=9966771cfce840d1
+layer_vector_stats: backend=cpu layer=25 point=residual_after_attention len=576 min=-832.304688 max=25759.623 mean=48.1075382 absmax=25759.623 mean_abs=83.6654983 checksum=27709.942 hash=075b672ed346b217
+layer_vector_stats: backend=cpu layer=25 point=after_post_attention_rmsnorm len=576 min=-0.17017886 max=0.342425227 mean=0.000851137179 absmax=0.342425227 mean_abs=0.00989451223 checksum=0.490255015 hash=5c9b42701c78f021
+layer_vector_stats: backend=cpu layer=25 point=gate_proj_output len=1536 min=-0.828571677 max=1.03222346 mean=0.0757932294 absmax=1.03222346 mean_abs=0.121535924 checksum=116.4184 hash=73342147d339cd4b
+layer_vector_stats: backend=cpu layer=25 point=up_proj_output len=1536 min=-0.756395936 max=1.09500885 mean=-0.00306222482 absmax=1.09500885 mean_abs=0.0930237489 checksum=-4.70357732 hash=c88b59dbda15b82f
+layer_vector_stats: backend=cpu layer=25 point=silu_swiglu_output len=1536 min=-0.295168549 max=0.655144691 mean=0.000144398651 absmax=0.655144691 mean_abs=0.00849791412 checksum=0.221796328 hash=e09b59deb3235045
+layer_vector_stats: backend=cpu layer=25 point=down_proj_output len=576 min=-0.687609375 max=2.20448852 mean=0.00224247627 absmax=2.20448852 mean_abs=0.193529867 checksum=1.29166633 hash=93e6bbef3456f141
+layer_vector_stats: backend=cpu layer=25 point=residual_after_mlp len=576 min=-832.296448 max=25759.3203 mean=48.1097802 absmax=25759.3203 mean_abs=83.6676834 checksum=27711.2334 hash=b6e1f84ef4f67322
+layer_vector_stats: backend=cpu layer=26 point=after_input_rmsnorm len=576 min=-0.469554365 max=2.852947 mean=0.00641736014 absmax=2.852947 mean_abs=0.0204277778 checksum=3.69639944 hash=ec4183ac48b3e367
+layer_vector_stats: backend=cpu layer=26 point=q_proj_output len=576 min=-1.63394141 max=1.80314827 mean=-0.0212067181 absmax=1.80314827 mean_abs=0.294955246 checksum=-12.2150696 hash=c66913e4105f3917
+layer_vector_stats: backend=cpu layer=26 point=k_proj_output len=192 min=-3.7261858 max=4.34701014 mean=0.0476934774 absmax=4.34701014 mean_abs=0.156427766 checksum=9.15714767 hash=0c9bae58dbf6c5c8
+layer_vector_stats: backend=cpu layer=26 point=v_proj_output len=192 min=-0.235516131 max=0.695616603 mean=0.00805456892 absmax=0.695616603 mean_abs=0.0523625188 checksum=1.54647723 hash=88c0734b496a9d41
+layer_vector_stats: backend=cpu layer=26 point=attention_output len=576 min=-0.235516131 max=0.695616603 mean=0.00805456892 absmax=0.695616603 mean_abs=0.0523625188 checksum=4.6394317 hash=b4e17dc42aaa3271
+layer_vector_stats: backend=cpu layer=26 point=o_proj_output len=576 min=-5.85959005 max=4.3025732 mean=-0.0246159055 absmax=5.85959005 mean_abs=0.370681889 checksum=-14.1787616 hash=b1746d8908afec70
+layer_vector_stats: backend=cpu layer=26 point=residual_after_attention len=576 min=-832.887878 max=25753.4609 mean=48.0851648 absmax=25753.4609 mean_abs=83.7202386 checksum=27697.0549 hash=294d69e59ec1da33
+layer_vector_stats: backend=cpu layer=26 point=after_post_attention_rmsnorm len=576 min=-0.178668275 max=0.41391021 mean=0.00105693285 absmax=0.41391021 mean_abs=0.0106414045 checksum=0.608793324 hash=ec436a4d5043aa41
+layer_vector_stats: backend=cpu layer=26 point=gate_proj_output len=1536 min=-0.710035443 max=1.30081749 mean=0.0673817446 absmax=1.30081749 mean_abs=0.125237873 checksum=103.49836 hash=828529ac5f9018b1
+layer_vector_stats: backend=cpu layer=26 point=up_proj_output len=1536 min=-0.815211415 max=1.03777647 mean=0.0030300538 absmax=1.03777647 mean_abs=0.109386294 checksum=4.65416263 hash=9d52b5f3fcd042cf
+layer_vector_stats: backend=cpu layer=26 point=silu_swiglu_output len=1536 min=-0.833477736 max=0.873280585 mean=0.000444783112 absmax=0.873280585 mean_abs=0.0109309854 checksum=0.683186861 hash=348c926b483bf85a
+layer_vector_stats: backend=cpu layer=26 point=down_proj_output len=576 min=-1.71359456 max=4.12404633 mean=0.0217559596 absmax=4.12404633 mean_abs=0.262651139 checksum=12.5314327 hash=e0fbbf41568b5e31
+layer_vector_stats: backend=cpu layer=26 point=residual_after_mlp len=576 min=-833.144531 max=25751.748 mean=48.106922 absmax=25751.748 mean_abs=83.7472104 checksum=27709.5871 hash=5bba3bffe5943237
+layer_vector_stats: backend=cpu layer=27 point=after_input_rmsnorm len=576 min=-0.473171234 max=4.5645833 mean=0.00952649428 absmax=4.5645833 mean_abs=0.0236049686 checksum=5.4872607 hash=b8cd33b5f34e0dca
+layer_vector_stats: backend=cpu layer=27 point=q_proj_output len=576 min=-5.32719612 max=4.71701288 mean=-0.00907200043 absmax=5.32719612 mean_abs=0.571568777 checksum=-5.22547225 hash=e8dddecd70a02916
+layer_vector_stats: backend=cpu layer=27 point=k_proj_output len=192 min=-5.49799299 max=4.54420662 mean=0.00559013297 absmax=5.49799299 mean_abs=0.187027706 checksum=1.07330553 hash=5d25c50bf361153c
+layer_vector_stats: backend=cpu layer=27 point=v_proj_output len=192 min=-1.94812179 max=0.364094228 mean=-0.028333785 absmax=1.94812179 mean_abs=0.13263921 checksum=-5.44008672 hash=958299d3f0ab5410
+layer_vector_stats: backend=cpu layer=27 point=attention_output len=576 min=-1.94812179 max=0.364094228 mean=-0.028333785 absmax=1.94812179 mean_abs=0.13263921 checksum=-16.3202602 hash=20aaf033b959f5ac
+layer_vector_stats: backend=cpu layer=27 point=o_proj_output len=576 min=-18.2191734 max=47.0776939 mean=0.060708874 absmax=47.0776939 mean_abs=1.00073754 checksum=34.9683114 hash=4e305f8bbf30e262
+layer_vector_stats: backend=cpu layer=27 point=residual_after_attention len=576 min=-836.672729 max=25733.5293 mean=48.1676315 absmax=25733.5293 mean_abs=83.9305045 checksum=27744.5558 hash=81ca72eb6b68bc42
+layer_vector_stats: backend=cpu layer=27 point=after_post_attention_rmsnorm len=576 min=-0.196108222 max=3.21360302 mean=0.00677087062 absmax=3.21360302 mean_abs=0.0167948902 checksum=3.90002148 hash=34b2a26b4b56c96a
+layer_vector_stats: backend=cpu layer=27 point=gate_proj_output len=1536 min=-1.75133145 max=31.1394653 mean=0.117254508 absmax=31.1394653 mean_abs=0.297929469 checksum=180.102925 hash=8accc36731c2c7e0
+layer_vector_stats: backend=cpu layer=27 point=up_proj_output len=1536 min=-2.74524784 max=3.06096888 mean=0.00320145692 absmax=3.06096888 mean_abs=0.296876882 checksum=4.91743782 hash=cf7d62c90ac0558e
+layer_vector_stats: backend=cpu layer=27 point=silu_swiglu_output len=1536 min=-61.7158051 max=10.2511559 mean=-0.0366025001 absmax=61.7158051 mean_abs=0.115502329 checksum=-56.2214402 hash=0be1dcd2229fd919
+layer_vector_stats: backend=cpu layer=27 point=down_proj_output len=576 min=-175.630402 max=173.800354 mean=1.13922748 absmax=175.630402 mean_abs=18.3640886 checksum=656.195026 hash=4d80ccdfd95be332
+layer_vector_stats: backend=cpu layer=27 point=residual_after_mlp len=576 min=-858.540527 max=25557.8984 mean=49.3068582 absmax=25557.8984 mean_abs=88.4426652 checksum=28400.7503 hash=1652633bebd1060b
+layer_vector_stats: backend=cpu layer=28 point=after_input_rmsnorm len=576 min=-0.694411755 max=4.28337669 mean=0.00920492338 absmax=4.28337669 mean_abs=0.0255278986 checksum=5.30203587 hash=9b5d81fc93b46cd7
+layer_vector_stats: backend=cpu layer=28 point=q_proj_output len=576 min=-4.70516968 max=6.53475714 mean=0.0316954241 absmax=6.53475714 mean_abs=0.680776156 checksum=18.2565643 hash=00e941d712fb66ee
+layer_vector_stats: backend=cpu layer=28 point=k_proj_output len=192 min=-2.60622644 max=6.38325882 mean=0.0661321322 absmax=6.38325882 mean_abs=0.256455737 checksum=12.6973694 hash=4e1ba267e6d89323
+layer_vector_stats: backend=cpu layer=28 point=v_proj_output len=192 min=-0.918190241 max=0.650430858 mean=-0.0221648387 absmax=0.918190241 mean_abs=0.127080096 checksum=-4.25564903 hash=b146912527a902d4
+layer_vector_stats: backend=cpu layer=28 point=attention_output len=576 min=-0.918190241 max=0.650430858 mean=-0.0221648387 absmax=0.918190241 mean_abs=0.127080096 checksum=-12.7669471 hash=ab1aac327b136ccc
+layer_vector_stats: backend=cpu layer=28 point=o_proj_output len=576 min=-55.1581039 max=39.8381844 mean=-0.0902906077 absmax=55.1581039 mean_abs=1.34108083 checksum=-52.00739 hash=2f66865b634297de
+layer_vector_stats: backend=cpu layer=28 point=residual_after_attention len=576 min=-859.099548 max=25502.7402 mean=49.2165674 absmax=25502.7402 mean_abs=88.3980174 checksum=28348.7428 hash=a4fdd7a6cdf70443
+layer_vector_stats: backend=cpu layer=28 point=after_post_attention_rmsnorm len=576 min=-0.183778837 max=14.059824 mean=0.0264538989 absmax=14.059824 mean_abs=0.0374801178 checksum=15.2374458 hash=8971dfd189236a08
+layer_vector_stats: backend=cpu layer=28 point=gate_proj_output len=1536 min=-3.11710238 max=48.6934776 mean=0.207102762 absmax=48.6934776 mean_abs=0.583774206 checksum=318.109842 hash=904559f129a59d5f
+layer_vector_stats: backend=cpu layer=28 point=up_proj_output len=1536 min=-9.69265938 max=52.9566994 mean=0.0291905589 absmax=52.9566994 mean_abs=0.689081267 checksum=44.8366985 hash=f861d9ab131d74dc
+layer_vector_stats: backend=cpu layer=28 point=silu_swiglu_output len=1536 min=-90.915451 max=2578.64575 mean=1.71606187 absmax=2578.64575 mean_abs=2.10806693 checksum=2635.87104 hash=956284f329825b92
+layer_vector_stats: backend=cpu layer=28 point=down_proj_output len=576 min=-15451.0244 max=1294.06311 mean=-25.8993845 absmax=15451.0244 mean_abs=63.8402569 checksum=-14918.0455 hash=f68bb44173615c29
+layer_vector_stats: backend=cpu layer=28 point=residual_after_mlp len=576 min=-378.65094 max=10051.7158 mean=23.3171829 absmax=10051.7158 mean_abs=59.8980108 checksum=13430.6973 hash=39c1898d1e8c7bfb
+layer_vector_stats: backend=cpu layer=29 point=after_input_rmsnorm len=576 min=-0.694869995 max=6.31529236 mean=0.0163654582 absmax=6.31529236 mean_abs=0.0529698265 checksum=9.42650391 hash=7c40375365fbdc27
+layer_vector_stats: backend=cpu layer=29 point=q_proj_output len=576 min=-12.1007299 max=11.6217117 mean=-0.306546077 absmax=12.1007299 mean_abs=2.06316601 checksum=-176.57054 hash=6f7ccda53d561331
+layer_vector_stats: backend=cpu layer=29 point=k_proj_output len=192 min=-4.89164305 max=6.2081461 mean=0.0628624439 absmax=6.2081461 mean_abs=0.297250375 checksum=12.0695892 hash=4810263cd85ce75d
+layer_vector_stats: backend=cpu layer=29 point=v_proj_output len=192 min=-1.89378428 max=2.7008996 mean=0.00401006279 absmax=2.7008996 mean_abs=0.160903797 checksum=0.769932055 hash=471f7c77f04588d8
+layer_vector_stats: backend=cpu layer=29 point=attention_output len=576 min=-1.89378428 max=2.7008996 mean=0.00401006279 absmax=2.7008996 mean_abs=0.160903797 checksum=2.30979617 hash=dd417d42eccd8b84
+layer_vector_stats: backend=cpu layer=29 point=o_proj_output len=576 min=-11.0241175 max=13.8104944 mean=0.0512044109 absmax=13.8104944 mean_abs=1.04241811 checksum=29.4937407 hash=3c2725719d819445
+layer_vector_stats: backend=cpu layer=29 point=residual_after_attention len=576 min=-386.742798 max=10047.9727 mean=23.3683876 absmax=10047.9727 mean_abs=59.9967756 checksum=13460.1913 hash=48d12dfdf453dd9c
+layer_vector_stats: backend=cpu layer=29 point=after_post_attention_rmsnorm len=576 min=-0.35762012 max=31.9723701 mean=0.0621441926 absmax=31.9723701 mean_abs=0.0927937647 checksum=35.7950549 hash=8d105788a3bf8aae
+layer_vector_stats: backend=cpu layer=29 point=gate_proj_output len=1536 min=-8.05187798 max=49.9437103 mean=1.77768725 absmax=49.9437103 mean_abs=2.87323186 checksum=2730.52762 hash=03e6cd771cbb7826
+layer_vector_stats: backend=cpu layer=29 point=up_proj_output len=1536 min=-51.1789589 max=78.5330582 mean=0.285820137 absmax=78.5330582 mean_abs=2.84095964 checksum=439.01973 hash=20dba84c71c5bac8
+layer_vector_stats: backend=cpu layer=29 point=silu_swiglu_output len=1536 min=-255.544617 max=518.760437 mean=0.293493088 absmax=518.760437 mean_abs=5.26043722 checksum=450.805383 hash=db466ac33d1e9edc
+layer_vector_stats: backend=cpu layer=29 point=down_proj_output len=576 min=-5613.37305 max=1539.02478 mean=-5.98765462 absmax=5613.37305 mean_abs=68.8386442 checksum=-3448.88906 hash=1cc72a448e008f82
+layer_vector_stats: backend=cpu layer=29 point=residual_after_mlp len=576 min=-799.4599 max=4434.59961 mean=17.3807332 absmax=4434.59961 mean_abs=83.1030019 checksum=10011.3023 hash=7b4da860a19694ac
+layer_vector_stats: backend=cpu layer=-1 point=final_rmsnorm len=576 min=-9.80682373 max=23.0592575 mean=0.0488648648 absmax=23.0592575 mean_abs=0.623726455 checksum=28.1461621 hash=58b5b35eb052bc8b
+first_token_lm_head_input_hidden_stats: len=576 min=-9.80682373 max=23.0592575 mean=0.0488648648 absmax=23.0592575 mean_abs=0.623726455 checksum=28.1461621 hash=58b5b35eb052bc8b
+first_token_logits_stats: len=49152 min=-3.9106617 max=20.0867767 mean=9.16080333 absmax=20.0867767 mean_abs=9.16347172 checksum=450271.805 hash=ff91570bc6c8fc73
+first_token_top3_ids: 28 198 260
+first_token_top3_scores: 20.086777 19.813208 19.777750
+first_token_top3_rank_01: id=28 score=20.086777 text=,
+first_token_top3_rank_02: id=198 score=19.813208 text=\n
+first_token_top3_rank_03: id=260 score=19.777750 text= the
+generated_token_ids: 28
+generated_text: ,
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 2c
+stop_reason: max_new_tokens
+first_generated_token_text: ,
+total_gemv_calls: 211
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+fpga_repair_jobs: 0
+fpga_saturated_outputs_repaired: 0
+fpga_saturated_outputs_unrepaired: 0
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3280.782
+cpu_non_gemv_time_ms: 3714.118
+tokenization_time_ms: 0.046
+sampling_time_ms: 0.753
+per_token_latency_ms: 7704.442
+[compare] backend=fpga
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+layer_vector_stats: backend=fpga layer=-1 point=embedding_output len=576 min=-0.498031616 max=0.406225204 mean=0.00316934619 absmax=0.498031616 mean_abs=0.0812553614 checksum=1.8255434 hash=c2e5c2fbab4daf0c
+layer_vector_stats: backend=fpga layer=0 point=after_input_rmsnorm len=576 min=-0.510854781 max=0.576700091 mean=0.00180824286 absmax=0.576700091 mean_abs=0.0236572988 checksum=1.04154789 hash=a378961d9fec528f
+layer_vector_stats: backend=fpga layer=0 point=q_proj_output len=576 min=-7.4296875 max=4.453125 mean=-0.060011122 absmax=7.4296875 mean_abs=0.755377875 checksum=-34.5664062 hash=b596eac8a202df5a
+layer_vector_stats: backend=fpga layer=0 point=k_proj_output len=192 min=-6.91015625 max=4.07421875 mean=-0.144856771 absmax=6.91015625 mean_abs=0.87121582 checksum=-27.8125 hash=517ae77108838fc2
+layer_vector_stats: backend=fpga layer=0 point=v_proj_output len=192 min=-0.23828125 max=0.296875 mean=0.00351969401 absmax=0.296875 mean_abs=0.0317993164 checksum=0.67578125 hash=a82f2c487f154b95
+layer_vector_stats: backend=fpga layer=0 point=attention_output len=576 min=-0.23828125 max=0.296875 mean=0.00351969401 absmax=0.296875 mean_abs=0.0317993164 checksum=2.02734375 hash=c997e97eabdcde45
+layer_vector_stats: backend=fpga layer=0 point=o_proj_output len=576 min=-2.07421875 max=0.43359375 mean=-0.00524224175 absmax=2.07421875 mean_abs=0.0712822808 checksum=-3.01953125 hash=75220412aa1c87e2
+layer_vector_stats: backend=fpga layer=0 point=residual_after_attention len=576 min=-2.10910034 max=0.340194702 mean=-0.00207289557 absmax=2.10910034 mean_abs=0.0931243483 checksum=-1.19398785 hash=ab5e86e4d5709566
+layer_vector_stats: backend=fpga layer=0 point=after_post_attention_rmsnorm len=576 min=-1.10275698 max=0.313129276 mean=-0.000439250745 absmax=1.10275698 mean_abs=0.0699347686 checksum=-0.253008429 hash=dc4e8aa6a4aaa3b6
+layer_vector_stats: backend=fpga layer=0 point=gate_proj_output len=1536 min=-0.9453125 max=3.87890625 mean=0.337732951 absmax=3.87890625 mean_abs=0.405532837 checksum=518.757812 hash=278fa698c8836af2
+layer_vector_stats: backend=fpga layer=0 point=up_proj_output len=1536 min=-1.359375 max=2.12890625 mean=0.0202585856 absmax=2.12890625 mean_abs=0.282048543 checksum=31.1171875 hash=d15e4b66b427f20e
+layer_vector_stats: backend=fpga layer=0 point=silu_swiglu_output len=1536 min=-4.09227276 max=8.09056854 mean=0.013875013 absmax=8.09056854 mean_abs=0.0864098144 checksum=21.31202 hash=e7e4240ef2b6ae72
+layer_vector_stats: backend=fpga layer=0 point=down_proj_output len=576 min=-26.8007812 max=18.6328125 mean=-0.119879829 absmax=26.8007812 mean_abs=1.95496284 checksum=-69.0507812 hash=dfa9bc19b31f4132
+layer_vector_stats: backend=fpga layer=0 point=residual_after_mlp len=576 min=-26.6679859 max=18.8604584 mean=-0.121952724 absmax=26.6679859 mean_abs=1.96248196 checksum=-70.2447691 hash=95080df2ee2a4c30
+layer_vector_stats: backend=fpga layer=1 point=after_input_rmsnorm len=576 min=-0.884474218 max=4.07874346 mean=0.00202605161 absmax=4.07874346 mean_abs=0.10754185 checksum=1.16700573 hash=d056bb8781ee2d07
+layer_vector_stats: backend=fpga layer=1 point=q_proj_output len=576 min=-10.8671875 max=16.4375 mean=0.00591362847 absmax=16.4375 mean_abs=1.67419434 checksum=3.40625 hash=a2d67fd48185a199
+layer_vector_stats: backend=fpga layer=1 point=k_proj_output len=192 min=-11.3359375 max=12.3710938 mean=0.0149739583 absmax=12.3710938 mean_abs=1.47949219 checksum=2.875 hash=f82cdfaada3d3747
+layer_vector_stats: backend=fpga layer=1 point=v_proj_output len=192 min=-0.9453125 max=3.12109375 mean=-0.00793457031 absmax=3.12109375 mean_abs=0.351196289 checksum=-1.5234375 hash=14ef4ce47c076125
+layer_vector_stats: backend=fpga layer=1 point=attention_output len=576 min=-0.9453125 max=3.12109375 mean=-0.00793457031 absmax=3.12109375 mean_abs=0.351196289 checksum=-4.5703125 hash=d4c8ec9d9e43bc11
+layer_vector_stats: backend=fpga layer=1 point=o_proj_output len=576 min=-23.0820312 max=28.7148438 mean=-0.0420803494 absmax=28.7148438 mean_abs=0.912875705 checksum=-24.2382812 hash=742309a8f7842cea
+layer_vector_stats: backend=fpga layer=1 point=residual_after_attention len=576 min=-49.7500153 max=47.5753021 mean=-0.16403307 absmax=49.7500153 mean_abs=2.11995381 checksum=-94.4830484 hash=cd7f7fe36110120e
+layer_vector_stats: backend=fpga layer=1 point=after_post_attention_rmsnorm len=576 min=-0.371660024 max=0.513144612 mean=-0.0058270409 absmax=0.513144612 mean_abs=0.0816551849 checksum=-3.35637556 hash=a63b3893e95da566
+layer_vector_stats: backend=fpga layer=1 point=gate_proj_output len=1536 min=-4.67578125 max=10.578125 mean=-0.358184814 absmax=10.578125 mean_abs=0.52208964 checksum=-550.171875 hash=2d19b9b0d221ccaa
+layer_vector_stats: backend=fpga layer=1 point=up_proj_output len=1536 min=-4.2578125 max=3.53125 mean=-0.0144704183 absmax=4.2578125 mean_abs=0.33803304 checksum=-22.2265625 hash=3137bdfb21185745
+layer_vector_stats: backend=fpga layer=1 point=silu_swiglu_output len=1536 min=-32.5186386 max=9.10284519 mean=-0.00247841651 absmax=32.5186386 mean_abs=0.0969459605 checksum=-3.80684776 hash=97394431598aff23
+layer_vector_stats: backend=fpga layer=1 point=down_proj_output len=576 min=-50.1445312 max=226.265625 mean=0.378044976 absmax=226.265625 mean_abs=3.64064535 checksum=217.753906 hash=e0532076d140711b
+layer_vector_stats: backend=fpga layer=1 point=residual_after_mlp len=576 min=-99.8945465 max=273.840942 mean=0.214011932 absmax=273.840942 mean_abs=4.35002451 checksum=123.270873 hash=1ea44c23ff5e748f
+layer_vector_stats: backend=fpga layer=2 point=after_input_rmsnorm len=576 min=-0.88738054 max=4.59021711 mean=0.00715812384 absmax=4.59021711 mean_abs=0.0752843663 checksum=4.12307933 hash=4f603a82f7593bc0
+layer_vector_stats: backend=fpga layer=2 point=q_proj_output len=576 min=-6.4609375 max=6.7578125 mean=-0.00469970703 absmax=6.7578125 mean_abs=1.04940457 checksum=-2.70703125 hash=374cc074d9eff3b1
+layer_vector_stats: backend=fpga layer=2 point=k_proj_output len=192 min=-14.1328125 max=8.2578125 mean=-0.0778605143 absmax=14.1328125 mean_abs=1.13104248 checksum=-14.9492188 hash=fde6f77be54bf8c0
+layer_vector_stats: backend=fpga layer=2 point=v_proj_output len=192 min=-1.1640625 max=2.05078125 mean=0.0124715169 absmax=2.05078125 mean_abs=0.190246582 checksum=2.39453125 hash=d481b96163d2f22c
+layer_vector_stats: backend=fpga layer=2 point=attention_output len=576 min=-1.1640625 max=2.05078125 mean=0.0124715169 absmax=2.05078125 mean_abs=0.190246582 checksum=7.18359375 hash=1b94f5d7955e9c24
+layer_vector_stats: backend=fpga layer=2 point=o_proj_output len=576 min=-6.04296875 max=9.45703125 mean=0.0159437391 absmax=9.45703125 mean_abs=0.739183214 checksum=9.18359375 hash=b3bec6ba306e8437
+layer_vector_stats: backend=fpga layer=2 point=residual_after_attention len=576 min=-90.4375153 max=270.430786 mean=0.229955672 absmax=270.430786 mean_abs=4.20157916 checksum=132.454467 hash=c11fbf4eeeb20448
+layer_vector_stats: backend=fpga layer=2 point=after_post_attention_rmsnorm len=576 min=-0.27367413 max=1.40440762 mean=0.00424717926 absmax=1.40440762 mean_abs=0.0560295698 checksum=2.44637526 hash=9d908c75d7fce071
+layer_vector_stats: backend=fpga layer=2 point=gate_proj_output len=1536 min=-1.75390625 max=12.6796875 mean=-0.22631073 absmax=12.6796875 mean_abs=0.397824605 checksum=-347.613281 hash=ec3c7d0d5e2871bc
+layer_vector_stats: backend=fpga layer=2 point=up_proj_output len=1536 min=-4.9609375 max=5.33984375 mean=0.00373586019 absmax=5.33984375 mean_abs=0.297065735 checksum=5.73828125 hash=89d33902a7cb5711
+layer_vector_stats: backend=fpga layer=2 point=silu_swiglu_output len=1536 min=-37.1670151 max=67.7073441 mean=0.0261946029 absmax=67.7073441 mean_abs=0.117408862 checksum=40.23491 hash=f618042c2dc5c587
+layer_vector_stats: backend=fpga layer=2 point=down_proj_output len=576 min=-113.589844 max=546.9375 mean=0.573031955 absmax=546.9375 mean_abs=2.70001221 checksum=330.066406 hash=dc79ddd19c3a3f31
+layer_vector_stats: backend=fpga layer=2 point=residual_after_mlp len=576 min=-152.29689 max=817.368286 mean=0.802987627 absmax=817.368286 mean_abs=6.00470203 checksum=462.520873 hash=24d14f18f5da5f9a
+layer_vector_stats: backend=fpga layer=3 point=after_input_rmsnorm len=576 min=-2.31375194 max=4.05802631 mean=0.0030113842 absmax=4.05802631 mean_abs=0.0445303962 checksum=1.7345573 hash=4a4169876916a79d
+layer_vector_stats: backend=fpga layer=3 point=q_proj_output len=576 min=-6.48046875 max=4.5078125 mean=-0.039855957 absmax=6.48046875 mean_abs=0.670701769 checksum=-22.9570312 hash=54cae3eb7d132b70
+layer_vector_stats: backend=fpga layer=3 point=k_proj_output len=192 min=-5.6015625 max=6.171875 mean=-0.0674031576 absmax=6.171875 mean_abs=0.507303874 checksum=-12.9414062 hash=46e23a53640a1863
+layer_vector_stats: backend=fpga layer=3 point=v_proj_output len=192 min=-0.5078125 max=0.1953125 mean=-0.0119425456 absmax=0.5078125 mean_abs=0.0649617513 checksum=-2.29296875 hash=7a5c5ff4b9fbb061
+layer_vector_stats: backend=fpga layer=3 point=attention_output len=576 min=-0.5078125 max=0.1953125 mean=-0.0119425456 absmax=0.5078125 mean_abs=0.0649617513 checksum=-6.87890625 hash=90c8904408b838f5
+layer_vector_stats: backend=fpga layer=3 point=o_proj_output len=576 min=-2.2578125 max=1.44140625 mean=-0.0133260091 absmax=2.2578125 mean_abs=0.215243869 checksum=-7.67578125 hash=d2cc5086b1848a6b
+layer_vector_stats: backend=fpga layer=3 point=residual_after_attention len=576 min=-150.855484 max=815.110474 mean=0.789661618 absmax=815.110474 mean_abs=5.98620347 checksum=454.845092 hash=612fe893030144aa
+layer_vector_stats: backend=fpga layer=3 point=after_post_attention_rmsnorm len=576 min=-0.237834051 max=1.20544195 mean=0.00222914683 absmax=1.20544195 mean_abs=0.0237508467 checksum=1.28398857 hash=13af7b817988f15d
+layer_vector_stats: backend=fpga layer=3 point=gate_proj_output len=1536 min=-0.875 max=1.3671875 mean=-0.124738057 absmax=1.3671875 mean_abs=0.188265483 checksum=-191.597656 hash=483857c4ef857bf7
+layer_vector_stats: backend=fpga layer=3 point=up_proj_output len=1536 min=-0.859375 max=1.11328125 mean=0.00206756592 absmax=1.11328125 mean_abs=0.135190328 checksum=3.17578125 hash=5b05f80d9a98c270
+layer_vector_stats: backend=fpga layer=3 point=silu_swiglu_output len=1536 min=-0.175372228 max=0.57030946 mean=-0.000153954084 absmax=0.57030946 mean_abs=0.0115331051 checksum=-0.236473474 hash=725d6e885954b559
+layer_vector_stats: backend=fpga layer=3 point=down_proj_output len=576 min=-1.60546875 max=0.9296875 mean=-0.0150689019 absmax=1.60546875 mean_abs=0.155843099 checksum=-8.6796875 hash=64df444e02195a24
+layer_vector_stats: backend=fpga layer=3 point=residual_after_mlp len=576 min=-149.925797 max=813.505005 mean=0.774592716 absmax=813.505005 mean_abs=5.93768203 checksum=446.165404 hash=e75de849d5e908a7
+layer_vector_stats: backend=fpga layer=4 point=after_input_rmsnorm len=576 min=-2.08330011 max=3.45445085 mean=0.00211654231 absmax=3.45445085 mean_abs=0.0404751454 checksum=1.21912837 hash=fa88fbe9f0b37594
+layer_vector_stats: backend=fpga layer=4 point=q_proj_output len=576 min=-5.28125 max=4.796875 mean=-0.0229492188 absmax=5.28125 mean_abs=0.624647352 checksum=-13.21875 hash=4089b3307ff8e493
+layer_vector_stats: backend=fpga layer=4 point=k_proj_output len=192 min=-4.99609375 max=5.3671875 mean=-0.0846557617 absmax=5.3671875 mean_abs=0.495218913 checksum=-16.2539062 hash=0c38ccb30c8931da
+layer_vector_stats: backend=fpga layer=4 point=v_proj_output len=192 min=-0.2265625 max=0.3984375 mean=-0.0038655599 absmax=0.3984375 mean_abs=0.0637613932 checksum=-0.7421875 hash=d21a40c94c9fa1da
+layer_vector_stats: backend=fpga layer=4 point=attention_output len=576 min=-0.2265625 max=0.3984375 mean=-0.0038655599 absmax=0.3984375 mean_abs=0.0637613932 checksum=-2.2265625 hash=b19c9542e552dbe2
+layer_vector_stats: backend=fpga layer=4 point=o_proj_output len=576 min=-1.6796875 max=1.11328125 mean=0.00304497613 absmax=1.6796875 mean_abs=0.210523817 checksum=1.75390625 hash=45e71dc0b859a438
+layer_vector_stats: backend=fpga layer=4 point=residual_after_attention len=576 min=-148.812515 max=811.825317 mean=0.777637692 absmax=811.825317 mean_abs=5.9158137 checksum=447.919311 hash=2eb1e41087cfa099
+layer_vector_stats: backend=fpga layer=4 point=after_post_attention_rmsnorm len=576 min=-0.279586166 max=1.49214447 mean=0.00257836624 absmax=1.49214447 mean_abs=0.0249673198 checksum=1.48513896 hash=6a8b27d6143ff977
+layer_vector_stats: backend=fpga layer=4 point=gate_proj_output len=1536 min=-1.09375 max=1.3671875 mean=-0.216321309 absmax=1.3671875 mean_abs=0.248120626 checksum=-332.269531 hash=c6b7da98413e740b
+layer_vector_stats: backend=fpga layer=4 point=up_proj_output len=1536 min=-0.765625 max=0.84765625 mean=0.00628916423 absmax=0.84765625 mean_abs=0.13634491 checksum=9.66015625 hash=3f8bb326f26d8a47
+layer_vector_stats: backend=fpga layer=4 point=silu_swiglu_output len=1536 min=-0.10438823 max=0.140362427 mean=0.00114915288 absmax=0.140362427 mean_abs=0.0137195687 checksum=1.76509882 hash=14ea1829c5c82cb3
+layer_vector_stats: backend=fpga layer=4 point=down_proj_output len=576 min=-2.21875 max=1.33984375 mean=-0.0135837131 absmax=2.21875 mean_abs=0.151197645 checksum=-7.82421875 hash=2d04222efcb6a608
+layer_vector_stats: backend=fpga layer=4 point=residual_after_mlp len=576 min=-147.472672 max=809.606567 mean=0.764053979 absmax=809.606567 mean_abs=5.86478043 checksum=440.095092 hash=bb238233fe0551c1
+layer_vector_stats: backend=fpga layer=5 point=after_input_rmsnorm len=576 min=-2.1926353 max=4.46674442 mean=0.00335115288 absmax=4.46674442 mean_abs=0.0410417268 checksum=1.93026406 hash=4379b71e8a5fb163
+layer_vector_stats: backend=fpga layer=5 point=q_proj_output len=576 min=-7.08984375 max=3.86328125 mean=-0.0603298611 absmax=7.08984375 mean_abs=0.627509223 checksum=-34.75 hash=4ab7daf8f4eabe3e
+layer_vector_stats: backend=fpga layer=5 point=k_proj_output len=192 min=-5.67578125 max=4.703125 mean=0.00787353516 absmax=5.67578125 mean_abs=0.523742676 checksum=1.51171875 hash=b8cb875c25b39749
+layer_vector_stats: backend=fpga layer=5 point=v_proj_output len=192 min=-0.1875 max=0.79296875 mean=0.00724283854 absmax=0.79296875 mean_abs=0.0677490234 checksum=1.390625 hash=2be53904775b9566
+layer_vector_stats: backend=fpga layer=5 point=attention_output len=576 min=-0.1875 max=0.79296875 mean=0.00724283854 absmax=0.79296875 mean_abs=0.0677490234 checksum=4.171875 hash=a82d597ae8e6386a
+layer_vector_stats: backend=fpga layer=5 point=o_proj_output len=576 min=-4.796875 max=3.62890625 mean=0.00554063585 absmax=4.796875 mean_abs=0.254102919 checksum=3.19140625 hash=df3618dcd117520a
+layer_vector_stats: backend=fpga layer=5 point=residual_after_attention len=576 min=-143.843765 max=804.809692 mean=0.769594615 absmax=804.809692 mean_abs=5.81113906 checksum=443.286498 hash=c42f90e239f1711c
+layer_vector_stats: backend=fpga layer=5 point=after_post_attention_rmsnorm len=576 min=-0.36933133 max=1.7407614 mean=0.00280061396 absmax=1.7407614 mean_abs=0.0262076126 checksum=1.61315364 hash=5b6a40a7c6177174
+layer_vector_stats: backend=fpga layer=5 point=gate_proj_output len=1536 min=-1.71484375 max=1 mean=-0.273668925 absmax=1.71484375 mean_abs=0.298439026 checksum=-420.355469 hash=4a12fbcf6572dc27
+layer_vector_stats: backend=fpga layer=5 point=up_proj_output len=1536 min=-0.60546875 max=1.17578125 mean=-0.00289154053 absmax=1.17578125 mean_abs=0.136767069 checksum=-4.44140625 hash=fae3664e3d80403e
+layer_vector_stats: backend=fpga layer=5 point=silu_swiglu_output len=1536 min=-0.243645847 max=0.163689524 mean=0.000622696327 absmax=0.243645847 mean_abs=0.0160286893 checksum=0.956461559 hash=65e1d90c152ea650
+layer_vector_stats: backend=fpga layer=5 point=down_proj_output len=576 min=-2.62109375 max=1.73046875 mean=-0.0136990017 absmax=2.62109375 mean_abs=0.172634549 checksum=-7.890625 hash=fbf5dffc46055427
+layer_vector_stats: backend=fpga layer=5 point=residual_after_mlp len=576 min=-142.113297 max=802.188599 mean=0.755895613 absmax=802.188599 mean_abs=5.73720966 checksum=435.395873 hash=08e9b01582a5a3ba
+layer_vector_stats: backend=fpga layer=6 point=after_input_rmsnorm len=576 min=-2.1236186 max=4.58458948 mean=0.00384153473 absmax=4.58458948 mean_abs=0.0395745355 checksum=2.212724 hash=d3ec59b5cf45e2eb
+layer_vector_stats: backend=fpga layer=6 point=q_proj_output len=576 min=-5.80078125 max=5.65625 mean=0.0737169054 absmax=5.80078125 mean_abs=0.673678928 checksum=42.4609375 hash=c0cefcc77ea35b8a
+layer_vector_stats: backend=fpga layer=6 point=k_proj_output len=192 min=-5.1875 max=6.671875 mean=-0.0200805664 absmax=6.671875 mean_abs=0.580790202 checksum=-3.85546875 hash=6b4a4f23e57441d9
+layer_vector_stats: backend=fpga layer=6 point=v_proj_output len=192 min=-0.19921875 max=0.64453125 mean=-0.00325520833 absmax=0.64453125 mean_abs=0.0705973307 checksum=-0.625 hash=751b51e87c65bd2c
+layer_vector_stats: backend=fpga layer=6 point=attention_output len=576 min=-0.19921875 max=0.64453125 mean=-0.00325520833 absmax=0.64453125 mean_abs=0.0705973307 checksum=-1.875 hash=1fa04e0ee3b525bc
+layer_vector_stats: backend=fpga layer=6 point=o_proj_output len=576 min=-4.0859375 max=2.19921875 mean=0.00978597005 absmax=4.0859375 mean_abs=0.245856391 checksum=5.63671875 hash=d64d72db4c97a8bb
+layer_vector_stats: backend=fpga layer=6 point=residual_after_attention len=576 min=-139.914078 max=798.102661 mean=0.765681583 absmax=798.102661 mean_abs=5.70555026 checksum=441.032592 hash=629da14e7c9b8ffe
+layer_vector_stats: backend=fpga layer=6 point=after_post_attention_rmsnorm len=576 min=-0.498275787 max=1.60750115 mean=0.00210661785 absmax=1.60750115 mean_abs=0.0250922257 checksum=1.21341188 hash=ffbc45ef94c4baba
+layer_vector_stats: backend=fpga layer=6 point=gate_proj_output len=1536 min=-1.08203125 max=1.0078125 mean=-0.150133769 absmax=1.08203125 mean_abs=0.207903544 checksum=-230.605469 hash=fc191e4701a8cf9c
+layer_vector_stats: backend=fpga layer=6 point=up_proj_output len=1536 min=-0.77734375 max=1.45703125 mean=-0.00247701009 absmax=1.45703125 mean_abs=0.139907837 checksum=-3.8046875 hash=fa49b97020a4fab4
+layer_vector_stats: backend=fpga layer=6 point=silu_swiglu_output len=1536 min=-0.120917536 max=0.194109932 mean=0.0003570149 absmax=0.194109932 mean_abs=0.0128803048 checksum=0.548374886 hash=5f6f21e2fc55edb0
+layer_vector_stats: backend=fpga layer=6 point=down_proj_output len=576 min=-3.03125 max=1.71484375 mean=-0.00894504123 absmax=3.03125 mean_abs=0.144117567 checksum=-5.15234375 hash=ec367e6e13a06130
+layer_vector_stats: backend=fpga layer=6 point=residual_after_mlp len=576 min=-138.769257 max=795.071411 mean=0.756736542 absmax=795.071411 mean_abs=5.65698293 checksum=435.880248 hash=9521e8a32efb45ec
+layer_vector_stats: backend=fpga layer=7 point=after_input_rmsnorm len=576 min=-2.22959423 max=5.06026077 mean=0.00371353038 absmax=5.06026077 mean_abs=0.0472908919 checksum=2.1389935 hash=313181ef211d5011
+layer_vector_stats: backend=fpga layer=7 point=q_proj_output len=576 min=-5.9140625 max=2.90625 mean=-0.0896063911 absmax=5.9140625 mean_abs=0.670145671 checksum=-51.6132812 hash=ad27efde25087b84
+layer_vector_stats: backend=fpga layer=7 point=k_proj_output len=192 min=-5.40625 max=4.34765625 mean=-0.0104166667 absmax=5.40625 mean_abs=0.571166992 checksum=-2 hash=88497f4c4e444851
+layer_vector_stats: backend=fpga layer=7 point=v_proj_output len=192 min=-0.33203125 max=0.38671875 mean=-0.0112915039 absmax=0.38671875 mean_abs=0.0837605794 checksum=-2.16796875 hash=7ca0b7a72b47ebaf
+layer_vector_stats: backend=fpga layer=7 point=attention_output len=576 min=-0.33203125 max=0.38671875 mean=-0.0112915039 absmax=0.38671875 mean_abs=0.0837605794 checksum=-6.50390625 hash=fd0a37171d15d8a7
+layer_vector_stats: backend=fpga layer=7 point=o_proj_output len=576 min=-2.70703125 max=1.4375 mean=-0.00672064887 absmax=2.70703125 mean_abs=0.238274468 checksum=-3.87109375 hash=5a137ebfb0248e08
+layer_vector_stats: backend=fpga layer=7 point=residual_after_attention len=576 min=-137.8591 max=792.36438 mean=0.750015893 absmax=792.36438 mean_abs=5.63101306 checksum=432.009154 hash=a9434f7a72c0c1a8
+layer_vector_stats: backend=fpga layer=7 point=after_post_attention_rmsnorm len=576 min=-0.630085826 max=1.56332099 mean=0.00171395598 absmax=1.56332099 mean_abs=0.0258080134 checksum=0.987238643 hash=17e44d121cc1e47c
+layer_vector_stats: backend=fpga layer=7 point=gate_proj_output len=1536 min=-0.8984375 max=1.85546875 mean=-0.116612752 absmax=1.85546875 mean_abs=0.19199117 checksum=-179.117188 hash=685fec0232fe12e1
+layer_vector_stats: backend=fpga layer=7 point=up_proj_output len=1536 min=-1.4609375 max=2.28125 mean=-0.000844319661 absmax=2.28125 mean_abs=0.152730306 checksum=-1.296875 hash=0109f489fc897010
+layer_vector_stats: backend=fpga layer=7 point=silu_swiglu_output len=1536 min=-0.186609939 max=1.9116708 mean=0.00316342054 absmax=1.9116708 mean_abs=0.0160000815 checksum=4.85901395 hash=50c5a6b278823977
+layer_vector_stats: backend=fpga layer=7 point=down_proj_output len=576 min=-9.29296875 max=4.55078125 mean=-0.00697835286 absmax=9.29296875 mean_abs=0.626024034 checksum=-4.01953125 hash=01f3ed9bbc01a138
+layer_vector_stats: backend=fpga layer=7 point=residual_after_mlp len=576 min=-137.3591 max=783.071411 mean=0.74303754 absmax=783.071411 mean_abs=5.82070595 checksum=427.989623 hash=ebbeb483c7239c30
+layer_vector_stats: backend=fpga layer=8 point=after_input_rmsnorm len=576 min=-2.33326268 max=5.7071538 mean=0.00467498428 absmax=5.7071538 mean_abs=0.0473559374 checksum=2.69279094 hash=b48cc81c3a2b3710
+layer_vector_stats: backend=fpga layer=8 point=q_proj_output len=576 min=-5.765625 max=4.78515625 mean=-0.0734727648 absmax=5.765625 mean_abs=0.683783637 checksum=-42.3203125 hash=2ca2a88a5e2cbb36
+layer_vector_stats: backend=fpga layer=8 point=k_proj_output len=192 min=-5.6171875 max=6.4765625 mean=-0.0649007161 absmax=6.4765625 mean_abs=0.421020508 checksum=-12.4609375 hash=d6594734ba5ef5c6
+layer_vector_stats: backend=fpga layer=8 point=v_proj_output len=192 min=-0.4453125 max=1.05078125 mean=0.00779215495 absmax=1.05078125 mean_abs=0.0943400065 checksum=1.49609375 hash=9e179b42d48cd329
+layer_vector_stats: backend=fpga layer=8 point=attention_output len=576 min=-0.4453125 max=1.05078125 mean=0.00779215495 absmax=1.05078125 mean_abs=0.0943400065 checksum=4.48828125 hash=8685fbc1f98cc469
+layer_vector_stats: backend=fpga layer=8 point=o_proj_output len=576 min=-1.609375 max=1.24609375 mean=-0.0117730035 absmax=1.609375 mean_abs=0.282023112 checksum=-6.78125 hash=82a23261897b5ebe
+layer_vector_stats: backend=fpga layer=8 point=residual_after_attention len=576 min=-136.113007 max=782.157349 mean=0.731264537 absmax=782.157349 mean_abs=5.80263311 checksum=421.208373 hash=5b3c8436e24a75a3
+layer_vector_stats: backend=fpga layer=8 point=after_post_attention_rmsnorm len=576 min=-1.20486295 max=2.04560995 mean=0.00139698038 absmax=2.04560995 mean_abs=0.0303621387 checksum=0.8046607 hash=1ea1dc68c57b6563
+layer_vector_stats: backend=fpga layer=8 point=gate_proj_output len=1536 min=-0.84765625 max=4.3671875 mean=0.00025177002 absmax=4.3671875 mean_abs=0.246635437 checksum=0.38671875 hash=f711db3c07a5dbb4
+layer_vector_stats: backend=fpga layer=8 point=up_proj_output len=1536 min=-3.4921875 max=4.02734375 mean=0.000699361165 absmax=4.02734375 mean_abs=0.254610697 checksum=1.07421875 hash=777554ea1ed87ff3
+layer_vector_stats: backend=fpga layer=8 point=silu_swiglu_output len=1536 min=-9.26535034 max=17.3678226 mean=0.00735626276 absmax=17.3678226 mean_abs=0.0605558883 checksum=11.2992196 hash=1d4718d45662d3a0
+layer_vector_stats: backend=fpga layer=8 point=down_proj_output len=576 min=-120.164062 max=63.0898438 mean=-0.0566202799 absmax=120.164062 mean_abs=2.24041748 checksum=-32.6132812 hash=38adc7145f18132d
+layer_vector_stats: backend=fpga layer=8 point=residual_after_mlp len=576 min=-101.730194 max=661.993286 mean=0.674644257 absmax=661.993286 mean_abs=5.59625957 checksum=388.595092 hash=79db43d116517fb4
+layer_vector_stats: backend=fpga layer=9 point=after_input_rmsnorm len=576 min=-1.40857935 max=3.83802581 mean=0.0021065305 absmax=3.83802581 mean_abs=0.0456670923 checksum=1.21336157 hash=e656af89091841d5
+layer_vector_stats: backend=fpga layer=9 point=q_proj_output len=576 min=-5.22265625 max=5.68359375 mean=0.00664605035 absmax=5.68359375 mean_abs=0.634819878 checksum=3.828125 hash=74b17d6982d3e2d1
+layer_vector_stats: backend=fpga layer=9 point=k_proj_output len=192 min=-2.73046875 max=4.8671875 mean=0.0891520182 absmax=4.8671875 mean_abs=0.429117839 checksum=17.1171875 hash=aac628ff77240bdc
+layer_vector_stats: backend=fpga layer=9 point=v_proj_output len=192 min=-0.72265625 max=0.7734375 mean=0.00478108724 absmax=0.7734375 mean_abs=0.0980021159 checksum=0.91796875 hash=48d45d98ca49e251
+layer_vector_stats: backend=fpga layer=9 point=attention_output len=576 min=-0.72265625 max=0.7734375 mean=0.00478108724 absmax=0.7734375 mean_abs=0.0980021159 checksum=2.75390625 hash=a32a4d2b5bf07d95
+layer_vector_stats: backend=fpga layer=9 point=o_proj_output len=576 min=-3.296875 max=1.9140625 mean=-0.00343153212 absmax=3.296875 mean_abs=0.375895182 checksum=-1.9765625 hash=528829ea1c1a6f0e
+layer_vector_stats: backend=fpga layer=9 point=residual_after_attention len=576 min=-101.113007 max=660.48938 mean=0.671212725 absmax=660.48938 mean_abs=5.62328275 checksum=386.618529 hash=1c72d13f402c686d
+layer_vector_stats: backend=fpga layer=9 point=after_post_attention_rmsnorm len=576 min=-2.08747149 max=2.44947028 mean=0.000970731461 absmax=2.44947028 mean_abs=0.0402544094 checksum=0.559141321 hash=d9ce61acbf9790e5
+layer_vector_stats: backend=fpga layer=9 point=gate_proj_output len=1536 min=-1.6953125 max=10.8007812 mean=-0.0155029297 absmax=10.8007812 mean_abs=0.358668009 checksum=-23.8125 hash=aa6cced1c0031c31
+layer_vector_stats: backend=fpga layer=9 point=up_proj_output len=1536 min=-9.1875 max=4.51171875 mean=-0.00156148275 absmax=9.1875 mean_abs=0.349563599 checksum=-2.3984375 hash=651d134f2e0c404c
+layer_vector_stats: backend=fpga layer=9 point=silu_swiglu_output len=1536 min=-99.2301559 max=7.20063877 mean=-0.0638078031 absmax=99.2301559 mean_abs=0.142959532 checksum=-98.0087856 hash=8986e000ced9be9a
+layer_vector_stats: backend=fpga layer=9 point=down_proj_output len=576 min=-558.875 max=93.5195312 mean=-0.624511719 absmax=558.875 mean_abs=3.76204427 checksum=-359.71875 hash=56db384e63ad1be6
+layer_vector_stats: backend=fpga layer=9 point=residual_after_mlp len=576 min=-28.2973328 max=101.61438 mean=0.0467010058 absmax=101.61438 mean_abs=3.96494178 checksum=26.8997793 hash=181aceafb1480b17
+layer_vector_stats: backend=fpga layer=10 point=after_input_rmsnorm len=576 min=-0.731896222 max=2.87268877 mean=0.00195621132 absmax=2.87268877 mean_abs=0.145065832 checksum=1.12677772 hash=b43b4fa4c0683735
+layer_vector_stats: backend=fpga layer=10 point=q_proj_output len=576 min=-7.16796875 max=8.0703125 mean=0.0163845486 absmax=8.0703125 mean_abs=1.36644151 checksum=9.4375 hash=0b63b731e6d8481a
+layer_vector_stats: backend=fpga layer=10 point=k_proj_output len=192 min=-9.32421875 max=7.59375 mean=-0.0648803711 absmax=9.32421875 mean_abs=1.08180745 checksum=-12.4570312 hash=a37ecd835a9ac4a0
+layer_vector_stats: backend=fpga layer=10 point=v_proj_output len=192 min=-1.6328125 max=2.09375 mean=-0.0078531901 absmax=2.09375 mean_abs=0.388387044 checksum=-1.5078125 hash=5a566bf598e7f971
+layer_vector_stats: backend=fpga layer=10 point=attention_output len=576 min=-1.6328125 max=2.09375 mean=-0.0078531901 absmax=2.09375 mean_abs=0.388387044 checksum=-4.5234375 hash=4895237ca49a23dd
+layer_vector_stats: backend=fpga layer=10 point=o_proj_output len=576 min=-5.14453125 max=8.5703125 mean=-0.0359632704 absmax=8.5703125 mean_abs=1.20698378 checksum=-20.7148438 hash=c6a3f9c196232a3c
+layer_vector_stats: backend=fpga layer=10 point=residual_after_attention len=576 min=-28.3363953 max=110.184692 mean=0.0107377354 absmax=110.184692 mean_abs=3.99352217 checksum=6.18493557 hash=4b6f6c54c33fb846
+layer_vector_stats: backend=fpga layer=10 point=after_post_attention_rmsnorm len=576 min=-0.638668954 max=2.08111167 mean=6.00966379e-05 absmax=2.08111167 mean_abs=0.126765456 checksum=0.0346156634 hash=f3acc997c4174d8d
+layer_vector_stats: backend=fpga layer=10 point=gate_proj_output len=1536 min=-3.48046875 max=3.984375 mean=-0.539822896 absmax=3.984375 mean_abs=0.835370382 checksum=-829.167969 hash=1e120c6c52a78e1f
+layer_vector_stats: backend=fpga layer=10 point=up_proj_output len=1536 min=-8.19140625 max=11.3554688 mean=-0.00181070964 absmax=11.3554688 mean_abs=0.753570557 checksum=-2.78125 hash=5fefe5efc053f77c
+layer_vector_stats: backend=fpga layer=10 point=silu_swiglu_output len=1536 min=-16.2164536 max=2.6454649 mean=-0.0281361298 absmax=16.2164536 mean_abs=0.206886939 checksum=-43.2170954 hash=fb6f90b71107b57b
+layer_vector_stats: backend=fpga layer=10 point=down_proj_output len=576 min=-76.9414062 max=24.4921875 mean=0.121832954 absmax=76.9414062 mean_abs=3.1561754 checksum=70.1757812 hash=7f0c360fec23cc1b
+layer_vector_stats: backend=fpga layer=10 point=residual_after_mlp len=576 min=-26.473114 max=33.2432861 mean=0.132570689 absmax=33.2432861 mean_abs=5.00060313 checksum=76.3607168 hash=a9ac0fbd54f5fe78
+layer_vector_stats: backend=fpga layer=11 point=after_input_rmsnorm len=576 min=-0.917650938 max=1.65157437 mean=0.00981233687 absmax=1.65157437 mean_abs=0.187340908 checksum=5.65190604 hash=b56600e746846bfd
+layer_vector_stats: backend=fpga layer=11 point=q_proj_output len=576 min=-9.46875 max=7.13671875 mean=-0.131625705 absmax=9.46875 mean_abs=1.41645643 checksum=-75.8164062 hash=22c8a35475bd3802
+layer_vector_stats: backend=fpga layer=11 point=k_proj_output len=192 min=-19.9140625 max=12.9609375 mean=-0.162740072 absmax=19.9140625 mean_abs=1.94582113 checksum=-31.2460938 hash=9609bb789729cd1d
+layer_vector_stats: backend=fpga layer=11 point=v_proj_output len=192 min=-4.99609375 max=2.921875 mean=0.0275675456 absmax=4.99609375 mean_abs=0.546366374 checksum=5.29296875 hash=3f5e3abcee7cc8f0
+layer_vector_stats: backend=fpga layer=11 point=attention_output len=576 min=-4.99609375 max=2.921875 mean=0.0275675456 absmax=4.99609375 mean_abs=0.546366374 checksum=15.8789062 hash=9193ef411d257f80
+layer_vector_stats: backend=fpga layer=11 point=o_proj_output len=576 min=-12.4492188 max=18.6523438 mean=-0.204942491 absmax=18.6523438 mean_abs=1.86037869 checksum=-118.046875 hash=19c355bfc06c74e2
+layer_vector_stats: backend=fpga layer=11 point=residual_after_attention len=576 min=-28.9926453 max=42.1378174 mean=-0.0723718024 absmax=42.1378174 mean_abs=5.64445551 checksum=-41.6861582 hash=7c40732d35279a9c
+layer_vector_stats: backend=fpga layer=11 point=after_post_attention_rmsnorm len=576 min=-1.25665355 max=0.63505882 mean=0.000234161016 absmax=1.25665355 mean_abs=0.176810464 checksum=0.134876745 hash=0c666eec9e45a62c
+layer_vector_stats: backend=fpga layer=11 point=gate_proj_output len=1536 min=-5.37890625 max=48.0585938 mean=-0.741757711 absmax=48.0585938 mean_abs=1.20662689 checksum=-1139.33984 hash=55ea2407e3b11042
+layer_vector_stats: backend=fpga layer=11 point=up_proj_output len=1536 min=-12.7929688 max=67.1640625 mean=0.101951599 absmax=67.1640625 mean_abs=0.992134094 checksum=156.597656 hash=2e6cd09240e0229d
+layer_vector_stats: backend=fpga layer=11 point=silu_swiglu_output len=1536 min=-7.35900211 max=3227.8103 mean=2.83691079 absmax=3227.8103 mean_abs=3.12590857 checksum=4357.49498 hash=9833528356756503
+layer_vector_stats: backend=fpga layer=11 point=down_proj_output len=576 min=-84.6289062 max=1613.44922 mean=2.84837511 absmax=1613.44922 mean_abs=7.71812609 checksum=1640.66406 hash=6c81f1e95a810d04
+layer_vector_stats: backend=fpga layer=11 point=residual_after_mlp len=576 min=-113.166626 max=1655.58704 mean=2.77600332 absmax=1655.58704 mean_abs=9.38008491 checksum=1598.97791 hash=70ae394349b9205c
+layer_vector_stats: backend=fpga layer=12 point=after_input_rmsnorm len=576 min=-0.734062076 max=2.4186039 mean=0.00538344561 absmax=2.4186039 mean_abs=0.0311145627 checksum=3.10086467 hash=efd14d8242372bd6
+layer_vector_stats: backend=fpga layer=12 point=q_proj_output len=576 min=-0.984375 max=2.2890625 mean=0.0102064345 absmax=2.2890625 mean_abs=0.212381999 checksum=5.87890625 hash=fbf6e2eb2abe3897
+layer_vector_stats: backend=fpga layer=12 point=k_proj_output len=192 min=-2.75390625 max=3.046875 mean=0.0595703125 absmax=3.046875 mean_abs=0.317911784 checksum=11.4375 hash=b68a3b415041ae18
+layer_vector_stats: backend=fpga layer=12 point=v_proj_output len=192 min=-1.6171875 max=1.0625 mean=-0.00899251302 absmax=1.6171875 mean_abs=0.106445312 checksum=-1.7265625 hash=02fb88c5b30ae5d4
+layer_vector_stats: backend=fpga layer=12 point=attention_output len=576 min=-1.6171875 max=1.0625 mean=-0.00899251302 absmax=1.6171875 mean_abs=0.106445312 checksum=-5.1796875 hash=6651b034c995a028
+layer_vector_stats: backend=fpga layer=12 point=o_proj_output len=576 min=-10.1953125 max=6.26953125 mean=-0.0261162652 absmax=10.1953125 mean_abs=0.483907064 checksum=-15.0429688 hash=68ce6e4d956679d1
+layer_vector_stats: backend=fpga layer=12 point=residual_after_attention len=576 min=-123.361938 max=1647.6925 mean=2.74988705 absmax=1647.6925 mean_abs=9.44796084 checksum=1583.93494 hash=f78513c06050d483
+layer_vector_stats: backend=fpga layer=12 point=after_post_attention_rmsnorm len=576 min=-0.371664822 max=0.251827091 mean=0.000124903774 absmax=0.371664822 mean_abs=0.0202508997 checksum=0.0719445738 hash=92b885f97ab39e01
+layer_vector_stats: backend=fpga layer=12 point=gate_proj_output len=1536 min=-0.38671875 max=0.62109375 mean=0.0161488851 absmax=0.62109375 mean_abs=0.098449707 checksum=24.8046875 hash=5df38460e9dd7571
+layer_vector_stats: backend=fpga layer=12 point=up_proj_output len=1536 min=-0.53515625 max=0.5078125 mean=-0.00161234538 absmax=0.53515625 mean_abs=0.107920329 checksum=-2.4765625 hash=5bcc348b960366b4
+layer_vector_stats: backend=fpga layer=12 point=silu_swiglu_output len=1536 min=-0.209891215 max=0.0800162032 mean=-0.000324819362 absmax=0.209891215 mean_abs=0.00557578464 checksum=-0.49892254 hash=97af9d2118316e94
+layer_vector_stats: backend=fpga layer=12 point=down_proj_output len=576 min=-0.484375 max=0.7578125 mean=-0.000630696615 absmax=0.7578125 mean_abs=0.0756768121 checksum=-0.36328125 hash=62af58db75bcb212
+layer_vector_stats: backend=fpga layer=12 point=residual_after_mlp len=576 min=-123.31897 max=1648.45032 mean=2.74925635 absmax=1648.45032 mean_abs=9.46750818 checksum=1583.57166 hash=7974600d269ca550
+layer_vector_stats: backend=fpga layer=13 point=after_input_rmsnorm len=576 min=-0.295798123 max=2.49729013 mean=0.00607467899 absmax=2.49729013 mean_abs=0.0309316691 checksum=3.4990151 hash=fef2ddc2ef5be262
+layer_vector_stats: backend=fpga layer=13 point=q_proj_output len=576 min=-1.37109375 max=1.546875 mean=0.0109727648 absmax=1.546875 mean_abs=0.204969618 checksum=6.3203125 hash=ab59b057b64b3c32
+layer_vector_stats: backend=fpga layer=13 point=k_proj_output len=192 min=-2.9296875 max=4.3046875 mean=0.0387573242 absmax=4.3046875 mean_abs=0.267191569 checksum=7.44140625 hash=2d2666d1b6de9620
+layer_vector_stats: backend=fpga layer=13 point=v_proj_output len=192 min=-0.46484375 max=1.2578125 mean=-0.00427246094 absmax=1.2578125 mean_abs=0.0983479818 checksum=-0.8203125 hash=4346c9a4aee6cbe2
+layer_vector_stats: backend=fpga layer=13 point=attention_output len=576 min=-0.46484375 max=1.2578125 mean=-0.00427246094 absmax=1.2578125 mean_abs=0.0983479818 checksum=-2.4609375 hash=b5cbb470f5b0550a
+layer_vector_stats: backend=fpga layer=13 point=o_proj_output len=576 min=-10.9648438 max=7.1171875 mean=0.00604926215 absmax=10.9648438 mean_abs=0.437920464 checksum=3.484375 hash=ea576b6e43904bb3
+layer_vector_stats: backend=fpga layer=13 point=residual_after_attention len=576 min=-124.436157 max=1637.48547 mean=2.75530562 absmax=1637.48547 mean_abs=9.52421095 checksum=1587.05604 hash=8d2925fa9d70ce3d
+layer_vector_stats: backend=fpga layer=13 point=after_post_attention_rmsnorm len=576 min=-0.375380844 max=0.308971524 mean=0.000248004393 absmax=0.375380844 mean_abs=0.0211498113 checksum=0.142850531 hash=f00b5976a52c8014
+layer_vector_stats: backend=fpga layer=13 point=gate_proj_output len=1536 min=-0.484375 max=0.6796875 mean=0.04637146 absmax=0.6796875 mean_abs=0.116511027 checksum=71.2265625 hash=d1f2b9c77d0a6723
+layer_vector_stats: backend=fpga layer=13 point=up_proj_output len=1536 min=-0.484375 max=0.58984375 mean=0.000317891439 absmax=0.58984375 mean_abs=0.113685608 checksum=0.48828125 hash=11464ab7920af1fb
+layer_vector_stats: backend=fpga layer=13 point=silu_swiglu_output len=1536 min=-0.123187974 max=0.150419965 mean=-0.000519817916 absmax=0.150419965 mean_abs=0.00726550201 checksum=-0.798440318 hash=fa376f6e7ddf4415
+layer_vector_stats: backend=fpga layer=13 point=down_proj_output len=576 min=-0.640625 max=0.58984375 mean=-0.00877549913 absmax=0.640625 mean_abs=0.0858154297 checksum=-5.0546875 hash=c5e11c785ef730a1
+layer_vector_stats: backend=fpga layer=13 point=residual_after_mlp len=576 min=-124.436157 max=1638.07532 mean=2.74653012 absmax=1638.07532 mean_abs=9.55305934 checksum=1582.00135 hash=0a7c70f45a2e3710
+layer_vector_stats: backend=fpga layer=14 point=after_input_rmsnorm len=576 min=-0.712640703 max=2.22976542 mean=0.00499199833 absmax=2.22976542 mean_abs=0.0369630591 checksum=2.87539104 hash=bc9ddb83fd3c59b3
+layer_vector_stats: backend=fpga layer=14 point=q_proj_output len=576 min=-1.38671875 max=1.25390625 mean=0.00130886502 absmax=1.38671875 mean_abs=0.208462185 checksum=0.75390625 hash=a4a87836e60425c2
+layer_vector_stats: backend=fpga layer=14 point=k_proj_output len=192 min=-2.59375 max=4.60546875 mean=0.0491536458 absmax=4.60546875 mean_abs=0.29691569 checksum=9.4375 hash=f2d4899bb6fc24e2
+layer_vector_stats: backend=fpga layer=14 point=v_proj_output len=192 min=-1.3359375 max=1.21875 mean=0.0024210612 absmax=1.3359375 mean_abs=0.135559082 checksum=0.46484375 hash=9a3d934ae384193f
+layer_vector_stats: backend=fpga layer=14 point=attention_output len=576 min=-1.3359375 max=1.21875 mean=0.0024210612 absmax=1.3359375 mean_abs=0.135559082 checksum=1.39453125 hash=0eb98b9f90a3f79b
+layer_vector_stats: backend=fpga layer=14 point=o_proj_output len=576 min=-9.49609375 max=7.5390625 mean=0.00474717882 absmax=9.49609375 mean_abs=0.53898112 checksum=2.734375 hash=d6f22c78e52e7c3d
+layer_vector_stats: backend=fpga layer=14 point=residual_after_attention len=576 min=-124.342407 max=1628.57922 mean=2.7512773 absmax=1628.57922 mean_abs=9.6828378 checksum=1584.73572 hash=4f959f5aa68f84ad
+layer_vector_stats: backend=fpga layer=14 point=after_post_attention_rmsnorm len=576 min=-0.386561811 max=0.313889205 mean=0.000157249605 absmax=0.386561811 mean_abs=0.0213451057 checksum=0.0905757727 hash=3773b9fb7f4b9ead
+layer_vector_stats: backend=fpga layer=14 point=gate_proj_output len=1536 min=-0.3984375 max=1.578125 mean=0.0318400065 absmax=1.578125 mean_abs=0.110677083 checksum=48.90625 hash=6f14ac62c09bddb8
+layer_vector_stats: backend=fpga layer=14 point=up_proj_output len=1536 min=-0.8046875 max=0.70703125 mean=-0.000816345215 absmax=0.8046875 mean_abs=0.111620585 checksum=-1.25390625 hash=554a108bfda04a97
+layer_vector_stats: backend=fpga layer=14 point=silu_swiglu_output len=1536 min=-0.119696058 max=0.10481894 mean=-0.000235873835 absmax=0.119696058 mean_abs=0.00705296123 checksum=-0.362302211 hash=8ed47991658e7b97
+layer_vector_stats: backend=fpga layer=14 point=down_proj_output len=576 min=-0.41796875 max=0.66796875 mean=0.00306532118 absmax=0.66796875 mean_abs=0.0935736762 checksum=1.765625 hash=f0b11ab9fcf6a109
+layer_vector_stats: backend=fpga layer=14 point=residual_after_mlp len=576 min=-124.401001 max=1629.24719 mean=2.75434262 absmax=1629.24719 mean_abs=9.70240538 checksum=1586.50135 hash=859b2d2588dc2e06
+layer_vector_stats: backend=fpga layer=15 point=after_input_rmsnorm len=576 min=-0.842640698 max=3.02446747 mean=0.00607093877 absmax=3.02446747 mean_abs=0.0382898512 checksum=3.49686073 hash=797210495158ce48
+layer_vector_stats: backend=fpga layer=15 point=q_proj_output len=576 min=-3.21875 max=2.40625 mean=-0.0509236654 absmax=3.21875 mean_abs=0.28467475 checksum=-29.3320312 hash=b6fcb187ae819e54
+layer_vector_stats: backend=fpga layer=15 point=k_proj_output len=192 min=-5.5703125 max=3.25 mean=-0.0314941406 absmax=5.5703125 mean_abs=0.322916667 checksum=-6.046875 hash=c4576375dbf6b9bc
+layer_vector_stats: backend=fpga layer=15 point=v_proj_output len=192 min=-2.03125 max=1.09765625 mean=0.00846354167 absmax=2.03125 mean_abs=0.162394206 checksum=1.625 hash=7d019f658ec05f92
+layer_vector_stats: backend=fpga layer=15 point=attention_output len=576 min=-2.03125 max=1.09765625 mean=0.00846354167 absmax=2.03125 mean_abs=0.162394206 checksum=4.875 hash=131bdd1cb8eca05e
+layer_vector_stats: backend=fpga layer=15 point=o_proj_output len=576 min=-15.3398438 max=4.2265625 mean=-0.0214572483 absmax=15.3398438 mean_abs=0.666490343 checksum=-12.359375 hash=93dce8de62f93023
+layer_vector_stats: backend=fpga layer=15 point=residual_after_attention len=576 min=-125.541626 max=1613.90735 mean=2.73288537 absmax=1613.90735 mean_abs=9.80259361 checksum=1574.14197 hash=203493e07c16174e
+layer_vector_stats: backend=fpga layer=15 point=after_post_attention_rmsnorm len=576 min=-0.381000251 max=0.286077917 mean=0.000218526138 absmax=0.381000251 mean_abs=0.0224781058 checksum=0.125871056 hash=97fba3bed17b7825
+layer_vector_stats: backend=fpga layer=15 point=gate_proj_output len=1536 min=-0.57421875 max=0.80859375 mean=0.0212656657 absmax=0.80859375 mean_abs=0.127772013 checksum=32.6640625 hash=1ea145fffdb7f991
+layer_vector_stats: backend=fpga layer=15 point=up_proj_output len=1536 min=-0.65625 max=0.609375 mean=0.00514729818 absmax=0.65625 mean_abs=0.124328613 checksum=7.90625 hash=52625ce1025eeee1
+layer_vector_stats: backend=fpga layer=15 point=silu_swiglu_output len=1536 min=-0.128922611 max=0.0976589546 mean=-0.000191145497 absmax=0.128922611 mean_abs=0.00859601968 checksum=-0.293599484 hash=c97d5a25db61fb96
+layer_vector_stats: backend=fpga layer=15 point=down_proj_output len=576 min=-0.77734375 max=1.390625 mean=-0.0048828125 absmax=1.390625 mean_abs=0.0934787326 checksum=-2.8125 hash=171169f6ce8193fe
+layer_vector_stats: backend=fpga layer=15 point=residual_after_mlp len=576 min=-125.526001 max=1615.29797 mean=2.72800256 absmax=1615.29797 mean_abs=9.82298394 checksum=1571.32947 hash=5a97db4637cc3352
+layer_vector_stats: backend=fpga layer=16 point=after_input_rmsnorm len=576 min=-0.555956125 max=3.04629326 mean=0.00680170251 absmax=3.04629326 mean_abs=0.0348319539 checksum=3.91778065 hash=91d8ee1a894c11b4
+layer_vector_stats: backend=fpga layer=16 point=q_proj_output len=576 min=-1.890625 max=4.44140625 mean=0.0275200738 absmax=4.44140625 mean_abs=0.299275716 checksum=15.8515625 hash=aaceaec10de0dc65
+layer_vector_stats: backend=fpga layer=16 point=k_proj_output len=192 min=-4.1015625 max=4.828125 mean=-0.0342407227 absmax=4.828125 mean_abs=0.318827311 checksum=-6.57421875 hash=cfdd3128aa55436f
+layer_vector_stats: backend=fpga layer=16 point=v_proj_output len=192 min=-1.61328125 max=1.3828125 mean=0.00699869792 absmax=1.61328125 mean_abs=0.147216797 checksum=1.34375 hash=09363ca2ca2c182e
+layer_vector_stats: backend=fpga layer=16 point=attention_output len=576 min=-1.61328125 max=1.3828125 mean=0.00699869792 absmax=1.61328125 mean_abs=0.147216797 checksum=4.03125 hash=c28b0dd13d9eee02
+layer_vector_stats: backend=fpga layer=16 point=o_proj_output len=576 min=-14.5078125 max=8.5625 mean=-0.0571424696 absmax=14.5078125 mean_abs=0.720486111 checksum=-32.9140625 hash=f3461cca053e259c
+layer_vector_stats: backend=fpga layer=16 point=residual_after_attention len=576 min=-131.940063 max=1600.79016 mean=2.67086008 absmax=1600.79016 mean_abs=9.93437201 checksum=1538.41541 hash=6805499b46f7c795
+layer_vector_stats: backend=fpga layer=16 point=after_post_attention_rmsnorm len=576 min=-0.346087903 max=0.282022208 mean=-1.85129212e-05 absmax=0.346087903 mean_abs=0.0217974058 checksum=-0.0106634426 hash=ca5c80f7d0031c6e
+layer_vector_stats: backend=fpga layer=16 point=gate_proj_output len=1536 min=-0.7578125 max=0.92578125 mean=0.0232874552 absmax=0.92578125 mean_abs=0.118309021 checksum=35.7695312 hash=5bc999ad9e14bf72
+layer_vector_stats: backend=fpga layer=16 point=up_proj_output len=1536 min=-0.484375 max=0.56640625 mean=-0.00117492676 absmax=0.56640625 mean_abs=0.115743001 checksum=-1.8046875 hash=bc8db89fb8bdd875
+layer_vector_stats: backend=fpga layer=16 point=silu_swiglu_output len=1536 min=-0.0855479687 max=0.110814109 mean=0.000276741546 absmax=0.110814109 mean_abs=0.00702270013 checksum=0.425075014 hash=cbd2cbe9f6a1f141
+layer_vector_stats: backend=fpga layer=16 point=down_proj_output len=576 min=-0.33203125 max=0.2578125 mean=-0.00189208984 absmax=0.33203125 mean_abs=0.0776570638 checksum=-1.08984375 hash=ddfaa7520ccd4c85
+layer_vector_stats: backend=fpga layer=16 point=residual_after_mlp len=576 min=-131.963501 max=1600.93469 mean=2.66896799 absmax=1600.93469 mean_abs=9.94324296 checksum=1537.32556 hash=2a722b271e5c22ac
+layer_vector_stats: backend=fpga layer=17 point=after_input_rmsnorm len=576 min=-0.805411816 max=2.91516042 mean=0.00647900021 absmax=2.91516042 mean_abs=0.0429693479 checksum=3.73190412 hash=eeaf131b2a5254c8
+layer_vector_stats: backend=fpga layer=17 point=q_proj_output len=576 min=-0.94921875 max=1.2421875 mean=-0.00235324436 absmax=1.2421875 mean_abs=0.213670519 checksum=-1.35546875 hash=677fd59b31a38ff6
+layer_vector_stats: backend=fpga layer=17 point=k_proj_output len=192 min=-4.24609375 max=1.23828125 mean=-0.0968424479 absmax=4.24609375 mean_abs=0.274251302 checksum=-18.59375 hash=521d22405272955c
+layer_vector_stats: backend=fpga layer=17 point=v_proj_output len=192 min=-1.84765625 max=1.74609375 mean=0.0162963867 absmax=1.84765625 mean_abs=0.168640137 checksum=3.12890625 hash=893a278913b71892
+layer_vector_stats: backend=fpga layer=17 point=attention_output len=576 min=-1.84765625 max=1.74609375 mean=0.0162963867 absmax=1.84765625 mean_abs=0.168640137 checksum=9.38671875 hash=740ce2f23e4cc2a6
+layer_vector_stats: backend=fpga layer=17 point=o_proj_output len=576 min=-13.375 max=6.90625 mean=-0.031636556 absmax=13.375 mean_abs=0.613450792 checksum=-18.2226562 hash=322cf92f1f6c92c2
+layer_vector_stats: backend=fpga layer=17 point=residual_after_attention len=576 min=-132.397095 max=1587.55969 mean=2.63733144 absmax=1587.55969 mean_abs=10.0091467 checksum=1519.10291 hash=a033343e3ac57974
+layer_vector_stats: backend=fpga layer=17 point=after_post_attention_rmsnorm len=576 min=-0.31102258 max=0.284946144 mean=-0.000223729643 absmax=0.31102258 mean_abs=0.0213287459 checksum=-0.128868274 hash=9df1eca8c1a64720
+layer_vector_stats: backend=fpga layer=17 point=gate_proj_output len=1536 min=-0.53515625 max=0.7578125 mean=0.0126571655 absmax=0.7578125 mean_abs=0.118980408 checksum=19.4414062 hash=c6639ecaee274073
+layer_vector_stats: backend=fpga layer=17 point=up_proj_output len=1536 min=-0.6484375 max=0.68359375 mean=0.00520070394 absmax=0.68359375 mean_abs=0.11635081 checksum=7.98828125 hash=78441ff2762bc358
+layer_vector_stats: backend=fpga layer=17 point=silu_swiglu_output len=1536 min=-0.115368225 max=0.111667961 mean=-0.000172783482 absmax=0.115368225 mean_abs=0.00742097199 checksum=-0.265395428 hash=e8d60fa13d53a0fd
+layer_vector_stats: backend=fpga layer=17 point=down_proj_output len=576 min=-0.4609375 max=0.4765625 mean=0.00048828125 absmax=0.4765625 mean_abs=0.100531684 checksum=0.28125 hash=74bcc33be55821ec
+layer_vector_stats: backend=fpga layer=17 point=residual_after_mlp len=576 min=-132.66272 max=1587.24329 mean=2.63781972 absmax=1587.24329 mean_abs=10.030263 checksum=1519.38416 hash=73d4da52c86a4a3f
+layer_vector_stats: backend=fpga layer=18 point=after_input_rmsnorm len=576 min=-0.711850643 max=2.47451568 mean=0.00561757857 absmax=2.47451568 mean_abs=0.0452405733 checksum=3.23572525 hash=b305727d682b441b
+layer_vector_stats: backend=fpga layer=18 point=q_proj_output len=576 min=-1.0078125 max=1.30078125 mean=0.000610351562 absmax=1.30078125 mean_abs=0.213582357 checksum=0.3515625 hash=18f1759b53bb93db
+layer_vector_stats: backend=fpga layer=18 point=k_proj_output len=192 min=-4.37109375 max=3.890625 mean=-0.00331624349 absmax=4.37109375 mean_abs=0.265726725 checksum=-0.63671875 hash=625663434a4c7d18
+layer_vector_stats: backend=fpga layer=18 point=v_proj_output len=192 min=-1.34375 max=1.703125 mean=6.10351562e-05 absmax=1.703125 mean_abs=0.156636556 checksum=0.01171875 hash=59355f0263ca1b09
+layer_vector_stats: backend=fpga layer=18 point=attention_output len=576 min=-1.34375 max=1.703125 mean=6.10351562e-05 absmax=1.703125 mean_abs=0.156636556 checksum=0.03515625 hash=9a5e0fc5dc5bc8c1
+layer_vector_stats: backend=fpga layer=18 point=o_proj_output len=576 min=-6.6875 max=5.03125 mean=-0.00431993273 absmax=6.6875 mean_abs=0.798699273 checksum=-2.48828125 hash=433c74a93f4f5dad
+layer_vector_stats: backend=fpga layer=18 point=residual_after_attention len=576 min=-133.022095 max=1580.55579 mean=2.63349978 absmax=1580.55579 mean_abs=10.2158462 checksum=1516.89587 hash=574266905f34d36f
+layer_vector_stats: backend=fpga layer=18 point=after_post_attention_rmsnorm len=576 min=-0.310472697 max=0.33750242 mean=-9.81138718e-05 absmax=0.33750242 mean_abs=0.0224209904 checksum=-0.0565135902 hash=13f28b76af0e47b1
+layer_vector_stats: backend=fpga layer=18 point=gate_proj_output len=1536 min=-0.75 max=0.8203125 mean=-0.00297546387 absmax=0.8203125 mean_abs=0.128957113 checksum=-4.5703125 hash=dc8bb1ee34f88870
+layer_vector_stats: backend=fpga layer=18 point=up_proj_output len=1536 min=-0.48046875 max=0.51953125 mean=-0.00182596842 absmax=0.51953125 mean_abs=0.114593506 checksum=-2.8046875 hash=142c9c722e19bb2a
+layer_vector_stats: backend=fpga layer=18 point=silu_swiglu_output len=1536 min=-0.0870155841 max=0.115134344 mean=0.000716895667 absmax=0.115134344 mean_abs=0.00773235138 checksum=1.10115174 hash=0266d9a05b5bf71c
+layer_vector_stats: backend=fpga layer=18 point=down_proj_output len=576 min=-0.48046875 max=0.41015625 mean=0.000495062934 absmax=0.48046875 mean_abs=0.0824856228 checksum=0.28515625 hash=9b4f4d1c8adfdb1c
+layer_vector_stats: backend=fpga layer=18 point=residual_after_mlp len=576 min=-133.127563 max=1580.07532 mean=2.63399485 absmax=1580.07532 mean_abs=10.2323122 checksum=1517.18103 hash=0f4bf8189a30321e
+layer_vector_stats: backend=fpga layer=19 point=after_input_rmsnorm len=576 min=-0.84477824 max=3.35752225 mean=0.00721715038 absmax=3.35752225 mean_abs=0.0407473836 checksum=4.15707862 hash=092a2234d176a62a
+layer_vector_stats: backend=fpga layer=19 point=q_proj_output len=576 min=-2.734375 max=4.82421875 mean=0.0161946615 absmax=4.82421875 mean_abs=0.268961589 checksum=9.328125 hash=ae58c090f5e74cef
+layer_vector_stats: backend=fpga layer=19 point=k_proj_output len=192 min=-3.33203125 max=3.39453125 mean=-0.0224812826 absmax=3.39453125 mean_abs=0.259256999 checksum=-4.31640625 hash=ddda5c6c16904d85
+layer_vector_stats: backend=fpga layer=19 point=v_proj_output len=192 min=-0.91796875 max=1.84765625 mean=0.00419108073 absmax=1.84765625 mean_abs=0.20690918 checksum=0.8046875 hash=703c8aacde8e641a
+layer_vector_stats: backend=fpga layer=19 point=attention_output len=576 min=-0.91796875 max=1.84765625 mean=0.00419108073 absmax=1.84765625 mean_abs=0.20690918 checksum=2.4140625 hash=72cf61ac89e324a2
+layer_vector_stats: backend=fpga layer=19 point=o_proj_output len=576 min=-9.12890625 max=5.5390625 mean=-0.0782131619 absmax=9.12890625 mean_abs=0.986199273 checksum=-45.0507812 hash=ce3932f7aae8bff9
+layer_vector_stats: backend=fpga layer=19 point=residual_after_attention len=576 min=-137.572876 max=1570.94641 mean=2.55578168 absmax=1570.94641 mean_abs=10.4552072 checksum=1472.13025 hash=9d779e2f20872d7d
+layer_vector_stats: backend=fpga layer=19 point=after_post_attention_rmsnorm len=576 min=-0.279681176 max=0.406702936 mean=-0.000250497407 absmax=0.406702936 mean_abs=0.0247245204 checksum=-0.144286507 hash=9cf0fc7855dfddc5
+layer_vector_stats: backend=fpga layer=19 point=gate_proj_output len=1536 min=-0.5703125 max=1.64453125 mean=0.0448455811 absmax=1.64453125 mean_abs=0.162867228 checksum=68.8828125 hash=ba7afa5f389be225
+layer_vector_stats: backend=fpga layer=19 point=up_proj_output len=1536 min=-0.5 max=0.78125 mean=-0.00145467122 absmax=0.78125 mean_abs=0.125696818 checksum=-2.234375 hash=e96d8c7e0c6d4b5a
+layer_vector_stats: backend=fpga layer=19 point=silu_swiglu_output len=1536 min=-0.662261188 max=0.17285037 mean=-0.000428199476 absmax=0.662261188 mean_abs=0.0118705233 checksum=-0.657714395 hash=bb879056be52566e
+layer_vector_stats: backend=fpga layer=19 point=down_proj_output len=576 min=-0.68359375 max=0.8515625 mean=0.00312635634 absmax=0.8515625 mean_abs=0.15677219 checksum=1.80078125 hash=5c4a5e66ead60abc
+layer_vector_stats: backend=fpga layer=19 point=residual_after_mlp len=576 min=-137.959595 max=1571.01282 mean=2.55890804 absmax=1571.01282 mean_abs=10.4824899 checksum=1473.93103 hash=82740c1a96c11d66
+layer_vector_stats: backend=fpga layer=20 point=after_input_rmsnorm len=576 min=-0.802594006 max=1.71079087 mean=0.00343734322 absmax=1.71079087 mean_abs=0.0440848512 checksum=1.97990969 hash=0ad04f5761f94803
+layer_vector_stats: backend=fpga layer=20 point=q_proj_output len=576 min=-1.2265625 max=1.06640625 mean=-0.0147637261 absmax=1.2265625 mean_abs=0.248365614 checksum=-8.50390625 hash=267f2e54fa6cd356
+layer_vector_stats: backend=fpga layer=20 point=k_proj_output len=192 min=-3.171875 max=3.4453125 mean=-0.0372924805 absmax=3.4453125 mean_abs=0.309224447 checksum=-7.16015625 hash=0017f39ab44a1c8a
+layer_vector_stats: backend=fpga layer=20 point=v_proj_output len=192 min=-0.59375 max=0.6015625 mean=-0.0147094727 absmax=0.6015625 mean_abs=0.154520671 checksum=-2.82421875 hash=65821eaaf1cf21e4
+layer_vector_stats: backend=fpga layer=20 point=attention_output len=576 min=-0.59375 max=0.6015625 mean=-0.0147094727 absmax=0.6015625 mean_abs=0.154520671 checksum=-8.47265625 hash=d8a20e53153d7348
+layer_vector_stats: backend=fpga layer=20 point=o_proj_output len=576 min=-5.0234375 max=4.03515625 mean=-0.00170220269 absmax=5.0234375 mean_abs=0.864671495 checksum=-0.98046875 hash=232b5f173411ef3d
+layer_vector_stats: backend=fpga layer=20 point=residual_after_attention len=576 min=-138.514282 max=1568.64563 mean=2.55720584 absmax=1568.64563 mean_abs=10.6220163 checksum=1472.95056 hash=f7d4d226f0fb5c10
+layer_vector_stats: backend=fpga layer=20 point=after_post_attention_rmsnorm len=576 min=-0.283106059 max=0.445349991 mean=-0.000459125658 absmax=0.445349991 mean_abs=0.0255886037 checksum=-0.264456379 hash=33243f1e1e7eef20
+layer_vector_stats: backend=fpga layer=20 point=gate_proj_output len=1536 min=-0.6640625 max=0.9609375 mean=0.0133056641 absmax=0.9609375 mean_abs=0.160476685 checksum=20.4375 hash=a5285a1baeb0db8e
+layer_vector_stats: backend=fpga layer=20 point=up_proj_output len=1536 min=-0.546875 max=0.6484375 mean=0.00581614176 absmax=0.6484375 mean_abs=0.134025574 checksum=8.93359375 hash=19de9f07d53f2910
+layer_vector_stats: backend=fpga layer=20 point=silu_swiglu_output len=1536 min=-0.192104712 max=0.150165111 mean=-0.000729446086 absmax=0.192104712 mean_abs=0.011217939 checksum=-1.12042919 hash=65847d6dbf4577f3
+layer_vector_stats: backend=fpga layer=20 point=down_proj_output len=576 min=-0.421875 max=0.74609375 mean=-0.00250244141 absmax=0.74609375 mean_abs=0.127678765 checksum=-1.44140625 hash=c110d2ec051a3f33
+layer_vector_stats: backend=fpga layer=20 point=residual_after_mlp len=576 min=-138.861938 max=1568.22375 mean=2.5547034 absmax=1568.22375 mean_abs=10.6484475 checksum=1471.50916 hash=4f0eec0318f309b8
+layer_vector_stats: backend=fpga layer=21 point=after_input_rmsnorm len=576 min=-1.0566715 max=2.925982 mean=0.00474028785 absmax=2.925982 mean_abs=0.0456174636 checksum=2.7304058 hash=e448ae77a272bb5d
+layer_vector_stats: backend=fpga layer=21 point=q_proj_output len=576 min=-3.8828125 max=2.765625 mean=0.0154147678 absmax=3.8828125 mean_abs=0.296868218 checksum=8.87890625 hash=3224c54b63fb9b13
+layer_vector_stats: backend=fpga layer=21 point=k_proj_output len=192 min=-3.8515625 max=5.625 mean=0.0103352865 absmax=5.625 mean_abs=0.309488932 checksum=1.984375 hash=183eb77249fb18d1
+layer_vector_stats: backend=fpga layer=21 point=v_proj_output len=192 min=-1.16796875 max=1.98046875 mean=0.018737793 absmax=1.98046875 mean_abs=0.157979329 checksum=3.59765625 hash=cb1a6aa8f4fe3bec
+layer_vector_stats: backend=fpga layer=21 point=attention_output len=576 min=-1.16796875 max=1.98046875 mean=0.018737793 absmax=1.98046875 mean_abs=0.157979329 checksum=10.7929688 hash=4a9ca66b8dc635ac
+layer_vector_stats: backend=fpga layer=21 point=o_proj_output len=576 min=-9.79296875 max=6.98828125 mean=0.0541585286 absmax=9.79296875 mean_abs=0.978651259 checksum=31.1953125 hash=f29ca893c2b01348
+layer_vector_stats: backend=fpga layer=21 point=residual_after_attention len=576 min=-138.690063 max=1575.21204 mean=2.60886192 absmax=1575.21204 mean_abs=10.8563833 checksum=1502.70447 hash=0a87757ecedd9325
+layer_vector_stats: backend=fpga layer=21 point=after_post_attention_rmsnorm len=576 min=-0.297378033 max=0.326518565 mean=-0.000443114578 absmax=0.326518565 mean_abs=0.0288047645 checksum=-0.255233997 hash=154a9a556234990f
+layer_vector_stats: backend=fpga layer=21 point=gate_proj_output len=1536 min=-0.578125 max=1.0625 mean=0.0356623332 absmax=1.0625 mean_abs=0.152468363 checksum=54.7773438 hash=c63a221a4ec7cfc7
+layer_vector_stats: backend=fpga layer=21 point=up_proj_output len=1536 min=-0.671875 max=0.546875 mean=0.00281524658 absmax=0.671875 mean_abs=0.14268748 checksum=4.32421875 hash=6e902615d087f895
+layer_vector_stats: backend=fpga layer=21 point=silu_swiglu_output len=1536 min=-0.287207067 max=0.165040895 mean=0.000250457337 absmax=0.287207067 mean_abs=0.0121453156 checksum=0.384702469 hash=9286f70da67ae55a
+layer_vector_stats: backend=fpga layer=21 point=down_proj_output len=576 min=-0.65625 max=0.6171875 mean=-0.00378417969 absmax=0.65625 mean_abs=0.148464627 checksum=-2.1796875 hash=73d5304c02ae7069
+layer_vector_stats: backend=fpga layer=21 point=residual_after_mlp len=576 min=-138.705688 max=1575.82922 mean=2.60507775 absmax=1575.82922 mean_abs=10.8527793 checksum=1500.52478 hash=5aab17de5cd4bfdc
+layer_vector_stats: backend=fpga layer=22 point=after_input_rmsnorm len=576 min=-0.909212053 max=2.75453806 mean=0.00480422317 absmax=2.75453806 mean_abs=0.0458089054 checksum=2.76723254 hash=293df3ff505a6dfd
+layer_vector_stats: backend=fpga layer=22 point=q_proj_output len=576 min=-2.01171875 max=1.4609375 mean=0.014831543 absmax=2.01171875 mean_abs=0.27005344 checksum=8.54296875 hash=7e32a21ff37c290d
+layer_vector_stats: backend=fpga layer=22 point=k_proj_output len=192 min=-5.9140625 max=4.64453125 mean=-0.0494995117 absmax=5.9140625 mean_abs=0.321919759 checksum=-9.50390625 hash=a88e5bd3d4e2b8f4
+layer_vector_stats: backend=fpga layer=22 point=v_proj_output len=192 min=-0.73828125 max=1.82421875 mean=-0.00118001302 absmax=1.82421875 mean_abs=0.172566732 checksum=-0.2265625 hash=907202878911a128
+layer_vector_stats: backend=fpga layer=22 point=attention_output len=576 min=-0.73828125 max=1.82421875 mean=-0.00118001302 absmax=1.82421875 mean_abs=0.172566732 checksum=-0.6796875 hash=709fa5392edd1ce8
+layer_vector_stats: backend=fpga layer=22 point=o_proj_output len=576 min=-4.14453125 max=4.1953125 mean=-0.0105048286 absmax=4.1953125 mean_abs=0.822665744 checksum=-6.05078125 hash=b45ef9510de35da7
+layer_vector_stats: backend=fpga layer=22 point=residual_after_attention len=576 min=-140.404907 max=1571.68469 mean=2.59457292 absmax=1571.68469 mean_abs=10.9743928 checksum=1494.474 hash=26c0a6a351a71b46
+layer_vector_stats: backend=fpga layer=22 point=after_post_attention_rmsnorm len=576 min=-0.271132827 max=0.43373403 mean=-0.000223518462 absmax=0.43373403 mean_abs=0.029583879 checksum=-0.128746634 hash=c0afdcd652ef954c
+layer_vector_stats: backend=fpga layer=22 point=gate_proj_output len=1536 min=-0.8046875 max=0.984375 mean=0.0324503581 absmax=0.984375 mean_abs=0.161351522 checksum=49.84375 hash=09c2d786896ec880
+layer_vector_stats: backend=fpga layer=22 point=up_proj_output len=1536 min=-0.5859375 max=0.8125 mean=-0.000144958496 absmax=0.8125 mean_abs=0.149045308 checksum=-0.22265625 hash=edf009232a8b8b5f
+layer_vector_stats: backend=fpga layer=22 point=silu_swiglu_output len=1536 min=-0.231377721 max=0.178531036 mean=0.000161229086 absmax=0.231377721 mean_abs=0.0133492996 checksum=0.247647877 hash=da1bbcad407b890b
+layer_vector_stats: backend=fpga layer=22 point=down_proj_output len=576 min=-0.578125 max=1 mean=0.0177747938 absmax=1 mean_abs=0.154588487 checksum=10.2382812 hash=e4d8f9b535bedea9
+layer_vector_stats: backend=fpga layer=22 point=residual_after_mlp len=576 min=-140.709595 max=1572.30579 mean=2.61234771 absmax=1572.30579 mean_abs=10.9964278 checksum=1504.71228 hash=33cc30469b076a23
+layer_vector_stats: backend=fpga layer=23 point=after_input_rmsnorm len=576 min=-1.13315582 max=2.4085362 mean=0.00336837197 absmax=2.4085362 mean_abs=0.0534213331 checksum=1.94018225 hash=2087c8a2794ed717
+layer_vector_stats: backend=fpga layer=23 point=q_proj_output len=576 min=-1.57421875 max=1.375 mean=-0.0235527886 absmax=1.57421875 mean_abs=0.299648709 checksum=-13.5664062 hash=70700c5bff00665d
+layer_vector_stats: backend=fpga layer=23 point=k_proj_output len=192 min=-4.36328125 max=4.78125 mean=-0.0292358398 absmax=4.78125 mean_abs=0.331766764 checksum=-5.61328125 hash=cbf0bd511d939f54
+layer_vector_stats: backend=fpga layer=23 point=v_proj_output len=192 min=-1.0546875 max=0.83984375 mean=-0.0202840169 absmax=1.0546875 mean_abs=0.236836751 checksum=-3.89453125 hash=453496ebf40e27ac
+layer_vector_stats: backend=fpga layer=23 point=attention_output len=576 min=-1.0546875 max=0.83984375 mean=-0.0202840169 absmax=1.0546875 mean_abs=0.236836751 checksum=-11.6835938 hash=5d919b412b98c51c
+layer_vector_stats: backend=fpga layer=23 point=o_proj_output len=576 min=-5.48828125 max=5.86328125 mean=0.00364854601 absmax=5.86328125 mean_abs=1.44238281 checksum=2.1015625 hash=caec21033236615b
+layer_vector_stats: backend=fpga layer=23 point=residual_after_attention len=576 min=-139.174438 max=1567.7511 mean=2.61599626 absmax=1567.7511 mean_abs=11.0491702 checksum=1506.81385 hash=2e0d9cf0f0bf9675
+layer_vector_stats: backend=fpga layer=23 point=after_post_attention_rmsnorm len=576 min=-0.308319688 max=0.453414142 mean=-0.000250872669 absmax=0.453414142 mean_abs=0.0310795171 checksum=-0.144502657 hash=462a6ce4c8c271c2
+layer_vector_stats: backend=fpga layer=23 point=gate_proj_output len=1536 min=-1.0703125 max=1.015625 mean=0.0025990804 absmax=1.0703125 mean_abs=0.168690999 checksum=3.9921875 hash=a601ce728fac4533
+layer_vector_stats: backend=fpga layer=23 point=up_proj_output len=1536 min=-0.74609375 max=0.7265625 mean=-0.00605773926 absmax=0.74609375 mean_abs=0.153945923 checksum=-9.3046875 hash=9921a27469385f6c
+layer_vector_stats: backend=fpga layer=23 point=silu_swiglu_output len=1536 min=-0.338506252 max=0.238741785 mean=-0.000834035021 absmax=0.338506252 mean_abs=0.0138192683 checksum=-1.28107779 hash=1d75d7de520afda0
+layer_vector_stats: backend=fpga layer=23 point=down_proj_output len=576 min=-0.828125 max=1 mean=0.00654432509 absmax=1 mean_abs=0.171732585 checksum=3.76953125 hash=b9e5c40582e8975e
+layer_vector_stats: backend=fpga layer=23 point=residual_after_mlp len=576 min=-139.209595 max=1567.0675 mean=2.62254058 absmax=1567.0675 mean_abs=11.0724457 checksum=1510.58338 hash=98ac2abefd0d4d39
+layer_vector_stats: backend=fpga layer=24 point=after_input_rmsnorm len=576 min=-1.20572996 max=4.01222181 mean=0.00633214247 absmax=4.01222181 mean_abs=0.0541812116 checksum=3.64731406 hash=b0f075281ec2fa3b
+layer_vector_stats: backend=fpga layer=24 point=q_proj_output len=576 min=-2.41796875 max=2.4609375 mean=0.0544162326 absmax=2.4609375 mean_abs=0.3566352 checksum=31.34375 hash=01da7194b64d1ede
+layer_vector_stats: backend=fpga layer=24 point=k_proj_output len=192 min=-4.09765625 max=3.1953125 mean=-0.0197550456 absmax=4.09765625 mean_abs=0.315612793 checksum=-3.79296875 hash=e45495032a02dfcc
+layer_vector_stats: backend=fpga layer=24 point=v_proj_output len=192 min=-1.95703125 max=1.26171875 mean=-0.0213216146 absmax=1.95703125 mean_abs=0.318277995 checksum=-4.09375 hash=72207645cafc7f2b
+layer_vector_stats: backend=fpga layer=24 point=attention_output len=576 min=-1.95703125 max=1.26171875 mean=-0.0213216146 absmax=1.95703125 mean_abs=0.318277995 checksum=-12.28125 hash=4f3217eae51190af
+layer_vector_stats: backend=fpga layer=24 point=o_proj_output len=576 min=-30.6132812 max=162.425781 mean=0.245985243 absmax=162.425781 mean_abs=1.86174859 checksum=141.6875 hash=c3a3744538ea93ea
+layer_vector_stats: backend=fpga layer=24 point=residual_after_attention len=576 min=-141.307251 max=1536.45422 mean=2.86852583 absmax=1536.45422 mean_abs=11.4909422 checksum=1652.27088 hash=ce6cd93d0174cb41
+layer_vector_stats: backend=fpga layer=24 point=after_post_attention_rmsnorm len=576 min=-0.348184228 max=0.53338027 mean=-0.000191665884 absmax=0.53338027 mean_abs=0.0350169934 checksum=-0.110399549 hash=059975d8eaa3d4c0
+layer_vector_stats: backend=fpga layer=24 point=gate_proj_output len=1536 min=-0.70703125 max=1.19140625 mean=-0.00487009684 absmax=1.19140625 mean_abs=0.15948232 checksum=-7.48046875 hash=30934b7abfd8d84e
+layer_vector_stats: backend=fpga layer=24 point=up_proj_output len=1536 min=-0.73828125 max=1.51171875 mean=0.00211334229 absmax=1.51171875 mean_abs=0.172920227 checksum=3.24609375 hash=ec8e7fa502e3861e
+layer_vector_stats: backend=fpga layer=24 point=silu_swiglu_output len=1536 min=-0.164150327 max=1.10515499 mean=0.00109771753 absmax=1.10515499 mean_abs=0.0145503246 checksum=1.68609413 hash=97fe44ce02c5e4a8
+layer_vector_stats: backend=fpga layer=24 point=down_proj_output len=576 min=-0.9609375 max=1.43359375 mean=-0.00906032986 absmax=1.43359375 mean_abs=0.245578342 checksum=-5.21875 hash=f6a2aea2ed6ee86b
+layer_vector_stats: backend=fpga layer=24 point=residual_after_mlp len=576 min=-141.291626 max=1537.85657 mean=2.8594655 absmax=1537.85657 mean_abs=11.5096131 checksum=1647.05213 hash=cfd7fb51c3b40aa4
+layer_vector_stats: backend=fpga layer=25 point=after_input_rmsnorm len=576 min=-0.902390659 max=2.56862164 mean=0.00616169593 absmax=2.56862164 mean_abs=0.0532827343 checksum=3.54913685 hash=0284f942c14810e9
+layer_vector_stats: backend=fpga layer=25 point=q_proj_output len=576 min=-2.6953125 max=1.66796875 mean=0.00864664714 absmax=2.6953125 mean_abs=0.349873861 checksum=4.98046875 hash=4bd1872af5fd6cd0
+layer_vector_stats: backend=fpga layer=25 point=k_proj_output len=192 min=-4.52734375 max=5.15625 mean=-0.0166625977 absmax=5.15625 mean_abs=0.300720215 checksum=-3.19921875 hash=37c93ac09243d161
+layer_vector_stats: backend=fpga layer=25 point=v_proj_output len=192 min=-1.578125 max=0.84765625 mean=-0.00408935547 absmax=1.578125 mean_abs=0.215474447 checksum=-0.78515625 hash=af5e003ee121bea2
+layer_vector_stats: backend=fpga layer=25 point=attention_output len=576 min=-1.578125 max=0.84765625 mean=-0.00408935547 absmax=1.578125 mean_abs=0.215474447 checksum=-2.35546875 hash=8105300f44cd803a
+layer_vector_stats: backend=fpga layer=25 point=o_proj_output len=576 min=-4.796875 max=23.3554688 mean=-0.0580512153 absmax=23.3554688 mean_abs=1.09136285 checksum=-33.4375 hash=0e264cd3cee77502
+layer_vector_stats: backend=fpga layer=25 point=residual_after_attention len=576 min=-143.854126 max=1542.46594 mean=2.80141428 absmax=1542.46594 mean_abs=11.8518432 checksum=1613.61463 hash=e435de3c281e2f6b
+layer_vector_stats: backend=fpga layer=25 point=after_post_attention_rmsnorm len=576 min=-0.336109817 max=0.61514163 mean=-0.000477821987 absmax=0.61514163 mean_abs=0.0382828696 checksum=-0.275225465 hash=640ff4424b3a6650
+layer_vector_stats: backend=fpga layer=25 point=gate_proj_output len=1536 min=-0.8515625 max=1.47265625 mean=0.0406417847 absmax=1.47265625 mean_abs=0.175310771 checksum=62.4257812 hash=b23466b22a5e84ca
+layer_vector_stats: backend=fpga layer=25 point=up_proj_output len=1536 min=-0.78515625 max=0.890625 mean=-0.000785827637 absmax=0.890625 mean_abs=0.194063822 checksum=-1.20703125 hash=86eb533410aa2ef6
+layer_vector_stats: backend=fpga layer=25 point=silu_swiglu_output len=1536 min=-0.14015305 max=0.381284714 mean=-0.000282299438 absmax=0.381284714 mean_abs=0.0179346323 checksum=-0.433611937 hash=c402e25537a212ff
+layer_vector_stats: backend=fpga layer=25 point=down_proj_output len=576 min=-0.6171875 max=1.65625 mean=0.00103081597 absmax=1.65625 mean_abs=0.194335938 checksum=0.59375 hash=01c27f9bf8c96ee4
+layer_vector_stats: backend=fpga layer=25 point=residual_after_mlp len=576 min=-143.588501 max=1543.17297 mean=2.8024451 absmax=1543.17297 mean_abs=11.848468 checksum=1614.20838 hash=ac6829141be6810e
+layer_vector_stats: backend=fpga layer=26 point=after_input_rmsnorm len=576 min=-1.31022072 max=2.76433635 mean=0.0051444261 absmax=2.76433635 mean_abs=0.0597232422 checksum=2.96318944 hash=ef428b3f5643683a
+layer_vector_stats: backend=fpga layer=26 point=q_proj_output len=576 min=-3.35546875 max=3.26953125 mean=-0.00716824002 absmax=3.35546875 mean_abs=0.419413249 checksum=-4.12890625 hash=329b9add2d190dfe
+layer_vector_stats: backend=fpga layer=26 point=k_proj_output len=192 min=-4.6015625 max=4.91796875 mean=0.0538736979 absmax=4.91796875 mean_abs=0.377034505 checksum=10.34375 hash=e75070ce435e341b
+layer_vector_stats: backend=fpga layer=26 point=v_proj_output len=192 min=-0.95703125 max=0.90625 mean=0.00966389974 absmax=0.95703125 mean_abs=0.248474121 checksum=1.85546875 hash=443bff9bcd874b47
+layer_vector_stats: backend=fpga layer=26 point=attention_output len=576 min=-0.95703125 max=0.90625 mean=0.00966389974 absmax=0.95703125 mean_abs=0.248474121 checksum=5.56640625 hash=dfacd7aa730e8827
+layer_vector_stats: backend=fpga layer=26 point=o_proj_output len=576 min=-5.58203125 max=8.921875 mean=-0.114895291 absmax=8.921875 mean_abs=1.41345215 checksum=-66.1796875 hash=3c05c409bdb2a7d8
+layer_vector_stats: backend=fpga layer=26 point=residual_after_attention len=576 min=-144.447876 max=1537.59094 mean=2.6875498 absmax=1537.59094 mean_abs=12.3053366 checksum=1548.02869 hash=ac56b21a8edf30e9
+layer_vector_stats: backend=fpga layer=26 point=after_post_attention_rmsnorm len=576 min=-0.340854228 max=0.755891502 mean=-0.000567556291 absmax=0.755891502 mean_abs=0.0419281176 checksum=-0.326912423 hash=c5c43daede1589af
+layer_vector_stats: backend=fpga layer=26 point=gate_proj_output len=1536 min=-0.90625 max=1.578125 mean=0.045850118 absmax=1.578125 mean_abs=0.195025126 checksum=70.4257812 hash=6c3b3932179193f1
+layer_vector_stats: backend=fpga layer=26 point=up_proj_output len=1536 min=-1.01953125 max=1.234375 mean=-0.00495402018 absmax=1.234375 mean_abs=0.219370524 checksum=-7.609375 hash=51ccf428dfa33847
+layer_vector_stats: backend=fpga layer=26 point=silu_swiglu_output len=1536 min=-0.643803537 max=0.871230066 mean=0.00140133518 absmax=0.871230066 mean_abs=0.0231754885 checksum=2.15245084 hash=ee3764dc9076d8af
+layer_vector_stats: backend=fpga layer=26 point=down_proj_output len=576 min=-1.0546875 max=3.71484375 mean=0.00660536024 absmax=3.71484375 mean_abs=0.314832899 checksum=3.8046875 hash=527ad49d4d85690a
+layer_vector_stats: backend=fpga layer=26 point=residual_after_mlp len=576 min=-144.397095 max=1538.11047 mean=2.69415516 absmax=1538.11047 mean_abs=12.3001203 checksum=1551.83337 hash=b44758cf01b2408d
+layer_vector_stats: backend=fpga layer=27 point=after_input_rmsnorm len=576 min=-1.32637048 max=4.40951014 mean=0.0081778943 absmax=4.40951014 mean_abs=0.0637587865 checksum=4.71046712 hash=b47d26b524b3e5f6
+layer_vector_stats: backend=fpga layer=27 point=q_proj_output len=576 min=-7.671875 max=6.66015625 mean=0.00283474392 absmax=7.671875 mean_abs=0.685641819 checksum=1.6328125 hash=782104b36b2ac960
+layer_vector_stats: backend=fpga layer=27 point=k_proj_output len=192 min=-6.55078125 max=5.15234375 mean=0.0272623698 absmax=6.55078125 mean_abs=0.430013021 checksum=5.234375 hash=fe718e63fb01cc23
+layer_vector_stats: backend=fpga layer=27 point=v_proj_output len=192 min=-2.3203125 max=1.3203125 mean=-0.0394897461 absmax=2.3203125 mean_abs=0.324239095 checksum=-7.58203125 hash=ab9225112be4a5cb
+layer_vector_stats: backend=fpga layer=27 point=attention_output len=576 min=-2.3203125 max=1.3203125 mean=-0.0394897461 absmax=2.3203125 mean_abs=0.324239095 checksum=-22.7460938 hash=8c0940edf58b3eaf
+layer_vector_stats: backend=fpga layer=27 point=o_proj_output len=576 min=-12.3320312 max=64.6796875 mean=0.0342814128 absmax=64.6796875 mean_abs=2.03851318 checksum=19.7460938 hash=c25077b6c22a6fb2
+layer_vector_stats: backend=fpga layer=27 point=residual_after_attention len=576 min=-147.97522 max=1525.77844 mean=2.72843658 absmax=1525.77844 mean_abs=13.4501983 checksum=1571.57947 hash=6374e9e74cf1e2f5
+layer_vector_stats: backend=fpga layer=27 point=after_post_attention_rmsnorm len=576 min=-0.430946529 max=3.06659627 mean=0.00439964532 absmax=3.06659627 mean_abs=0.0528327004 checksum=2.53419571 hash=fd9a20b876ba0a7c
+layer_vector_stats: backend=fpga layer=27 point=gate_proj_output len=1536 min=-3.0234375 max=33.9101562 mean=0.129267375 absmax=33.9101562 mean_abs=0.394480387 checksum=198.554688 hash=010e65e8e7f572c4
+layer_vector_stats: backend=fpga layer=27 point=up_proj_output len=1536 min=-2.953125 max=3.13671875 mean=0.00485738118 absmax=3.13671875 mean_abs=0.404337565 checksum=7.4609375 hash=8ec988abac694fdc
+layer_vector_stats: backend=fpga layer=27 point=silu_swiglu_output len=1536 min=-97.7566223 max=8.63719273 mean=-0.0642478084 absmax=97.7566223 mean_abs=0.177474064 checksum=-98.6846337 hash=0c2571dd33f802c3
+layer_vector_stats: backend=fpga layer=27 point=down_proj_output len=576 min=-239.921875 max=272.46875 mean=1.85402425 absmax=272.46875 mean_abs=29.016866 checksum=1067.91797 hash=d99c2786ca3f9077
+layer_vector_stats: backend=fpga layer=27 point=residual_after_mlp len=576 min=-181.440063 max=1285.85657 mean=4.58246088 absmax=1285.85657 mean_abs=33.9570875 checksum=2639.49747 hash=72e0f9dd07155ab1
+layer_vector_stats: backend=fpga layer=28 point=after_input_rmsnorm len=576 min=-2.23736858 max=3.28550196 mean=0.0152202974 absmax=3.28550196 mean_abs=0.184580873 checksum=8.76689132 hash=90a66d648cce0701
+layer_vector_stats: backend=fpga layer=28 point=q_proj_output len=576 min=-8.546875 max=9.55078125 mean=0.094780816 absmax=9.55078125 mean_abs=1.11027018 checksum=54.59375 hash=ce4be3a403006243
+layer_vector_stats: backend=fpga layer=28 point=k_proj_output len=192 min=-3.5078125 max=6.38671875 mean=0.137858073 absmax=6.38671875 mean_abs=0.584025065 checksum=26.46875 hash=80bf3ca0ec24a775
+layer_vector_stats: backend=fpga layer=28 point=v_proj_output len=192 min=-1.796875 max=1.94140625 mean=-0.0115356445 absmax=1.94140625 mean_abs=0.50990804 checksum=-2.21484375 hash=d44ff2ad332a88e2
+layer_vector_stats: backend=fpga layer=28 point=attention_output len=576 min=-1.796875 max=1.94140625 mean=-0.0115356445 absmax=1.94140625 mean_abs=0.50990804 checksum=-6.64453125 hash=1a46115a0f10bbc2
+layer_vector_stats: backend=fpga layer=28 point=o_proj_output len=576 min=-37.2578125 max=36.265625 mean=0.214525011 absmax=37.2578125 mean_abs=2.74361844 checksum=123.566406 hash=942529bd43bca48f
+layer_vector_stats: backend=fpga layer=28 point=residual_after_attention len=576 min=-185.252563 max=1248.59875 mean=4.7969859 absmax=1248.59875 mean_abs=34.6106549 checksum=2763.06388 hash=0312c7550a4d79d9
+layer_vector_stats: backend=fpga layer=28 point=after_post_attention_rmsnorm len=576 min=-1.17084086 max=10.5317659 mean=0.0296139647 absmax=10.5317659 mean_abs=0.160916147 checksum=17.0576436 hash=4666baf158a83945
+layer_vector_stats: backend=fpga layer=28 point=gate_proj_output len=1536 min=-6.1640625 max=20.7148438 mean=0.118970235 absmax=20.7148438 mean_abs=0.809781392 checksum=182.738281 hash=05eb83209ea0529e
+layer_vector_stats: backend=fpga layer=28 point=up_proj_output len=1536 min=-8.484375 max=20.984375 mean=-0.0153706868 absmax=20.984375 mean_abs=0.929906209 checksum=-23.609375 hash=2655dc74b414eece
+layer_vector_stats: backend=fpga layer=28 point=silu_swiglu_output len=1536 min=-65.9972992 max=434.688049 mean=0.267982028 absmax=434.688049 mean_abs=0.852414264 checksum=411.620395 hash=3aebc2ac3e397e16
+layer_vector_stats: backend=fpga layer=28 point=down_proj_output len=576 min=-1121.75781 max=216.859375 mean=-1.52566189 absmax=1121.75781 mean_abs=8.73505317 checksum=-878.78125 hash=3240aa00d85d599e
+layer_vector_stats: backend=fpga layer=28 point=residual_after_mlp len=576 min=-187.269257 max=627.693359 mean=3.271324 absmax=627.693359 mean_abs=32.9815194 checksum=1884.28262 hash=68973f8c82edf46c
+layer_vector_stats: backend=fpga layer=29 point=after_input_rmsnorm len=576 min=-2.68522787 max=4.35754633 mean=0.021930469 absmax=4.35754633 mean_abs=0.269259296 checksum=12.6319501 hash=1d9c08723326caef
+layer_vector_stats: backend=fpga layer=29 point=q_proj_output len=576 min=-6.6015625 max=8.9296875 mean=-0.083706326 absmax=8.9296875 mean_abs=1.29115804 checksum=-48.2148438 hash=c5d0259525779c7e
+layer_vector_stats: backend=fpga layer=29 point=k_proj_output len=192 min=-4.4609375 max=7.3125 mean=0.136027018 absmax=7.3125 mean_abs=0.807210286 checksum=26.1171875 hash=196dd39726608dcc
+layer_vector_stats: backend=fpga layer=29 point=v_proj_output len=192 min=-3.796875 max=5.66796875 mean=0.0710449219 absmax=5.66796875 mean_abs=0.822835286 checksum=13.640625 hash=67e245992a410f75
+layer_vector_stats: backend=fpga layer=29 point=attention_output len=576 min=-3.796875 max=5.66796875 mean=0.0710449219 absmax=5.66796875 mean_abs=0.822835286 checksum=40.921875 hash=1b913f50c53dd9ad
+layer_vector_stats: backend=fpga layer=29 point=o_proj_output len=576 min=-21.1640625 max=145.660156 mean=0.386352539 absmax=145.660156 mean_abs=3.34609646 checksum=222.539062 hash=614fa304898769a4
+layer_vector_stats: backend=fpga layer=29 point=residual_after_attention len=576 min=-182.863007 max=650.896484 mean=3.65767654 absmax=650.896484 mean_abs=33.3608381 checksum=2106.82169 hash=42cf10a71bcd6f68
+layer_vector_stats: backend=fpga layer=29 point=after_post_attention_rmsnorm len=576 min=-2.7273972 max=4.86355209 mean=0.0342845587 absmax=4.86355209 mean_abs=0.239948676 checksum=19.7479058 hash=53b6e51afd00d16a
+layer_vector_stats: backend=fpga layer=29 point=gate_proj_output len=1536 min=-18.8828125 max=19.7148438 mean=0.453661601 absmax=19.7148438 mean_abs=1.55277761 checksum=696.824219 hash=4c6646a5b6ad2222
+layer_vector_stats: backend=fpga layer=29 point=up_proj_output len=1536 min=-19.4453125 max=18.3085938 mean=0.0258585612 absmax=19.4453125 mean_abs=1.45361837 checksum=39.71875 hash=4a0e1cdf4bfa004a
+layer_vector_stats: backend=fpga layer=29 point=silu_swiglu_output len=1536 min=-148.535217 max=165.74707 mean=-0.238258396 absmax=165.74707 mean_abs=2.34551327 checksum=-365.964896 hash=f80845d82921df11
+layer_vector_stats: backend=fpga layer=29 point=down_proj_output len=576 min=-1199.61328 max=560.527344 mean=-0.848849826 absmax=1199.61328 mean_abs=33.0261637 checksum=-488.9375 hash=83316a585a810d8a
+layer_vector_stats: backend=fpga layer=29 point=residual_after_mlp len=576 min=-548.716797 max=930.519531 mean=2.80882678 absmax=930.519531 mean_abs=35.8734729 checksum=1617.88422 hash=f9e3117ed786f3d7
+layer_vector_stats: backend=fpga layer=-1 point=final_rmsnorm len=576 min=-13.0005703 max=39.7997398 mean=0.131185928 absmax=39.7997398 mean_abs=1.04145054 checksum=75.5630946 hash=3f6a9c83343cdcda
+first_token_lm_head_input_hidden_stats: len=576 min=-13.0005703 max=39.7997398 mean=0.131185928 absmax=39.7997398 mean_abs=1.04145054 checksum=75.5630946 hash=3f6a9c83343cdcda
+first_token_logits_stats: len=49152 min=0.96484375 max=35.1523438 mean=18.7120786 absmax=35.1523438 mean_abs=18.7120786 checksum=919736.086 hash=60ac3042dec0a154
+first_token_top3_ids: 472 198 1000
+first_token_top3_scores: 35.152344 33.925781 33.839844
+first_token_top3_rank_01: id=472 score=35.152344 text=\n   
+first_token_top3_rank_02: id=198 score=33.925781 text=\n
+first_token_top3_rank_03: id=1000 score=33.839844 text=()
+generated_token_ids: 472
+generated_text: 
+   
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 0a 20 20 20
+stop_reason: max_new_tokens
+first_generated_token_text: 
+   
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+fpga_repair_jobs: 23993
+fpga_saturated_outputs_repaired: 23993
+fpga_saturated_outputs_unrepaired: 0
+input_saturations: 6
+fpga_time_ms: 16589.549
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 46.709
+tokenization_time_ms: 0.021
+sampling_time_ms: 0.754
+per_token_latency_ms: 16679.421
+compare_cpu_first_token: 28
+compare_fpga_first_token: 472
+compare_cpu_per_token_ms: 7704.442
+compare_fpga_per_token_ms: 16679.421
+CPU vs HW comparison available: yes
+__S06_5_REPAIRED_LAYER_DIFF_RUN_RC__=0
+__S06_5_REPAIRED_LAYER_DIFF_DMESG_CHECK__
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S06_5_REPAIRED_LAYER_DIFF_RUN_END__
+root@Zybo-Z7-20:~# __S06_5_REPAIRED_LAYER_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S06_5_REPAIRED_LAYER_CMD_DONE_2__=$?
+__S06_5_REPAIRED_LAYER_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 

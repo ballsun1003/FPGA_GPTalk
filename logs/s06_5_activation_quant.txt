@@ -1,0 +1,30 @@
+S06.5 activation quant/dequant policy
+
+Policy:
+  CPU activation dtype before GEMV: float32
+  FPGA input dtype: int16
+  ACT_SHIFT: 8
+  quantization: round(float32 * 2^ACT_SHIFT), clamp to int16
+  FPGA output dtype: int32
+  dequantization: float32 = output_i32 / 2^ACT_SHIFT
+
+1-token FPGA smoke:
+  total_gemv_calls: 211
+  fpga_gemv_calls: 211
+  cpu_gemv_fallbacks: 0
+  input_saturations: 2513
+  generated_token_ids: 841
+  generated_text_first_token: " exam"
+  NaN/Inf observed: no
+
+8-token FPGA smoke:
+  total_gemv_calls: 1688
+  fpga_gemv_calls: 1688
+  cpu_gemv_fallbacks: 0
+  input_saturations: 20331
+  generated_token_ids: 266 125 267 205 70 27 111 61
+  NaN/Inf observed: no
+
+Notes:
+  ACT_SHIFT 8 is functional for S06 PASS. Token quality is not used as a gate.
+  Saturation is logged per run and per call in reports/s06_4_gemv_call_audit.csv.

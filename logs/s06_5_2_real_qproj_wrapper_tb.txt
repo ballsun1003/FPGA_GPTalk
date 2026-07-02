@@ -1,0 +1,46 @@
+S06.5.2 real q_proj wrapper TB preparation
+status: PASS
+simulation_status: PREPARED_NOT_SIMULATED
+vivado_build: not_run
+bitstream_boot_xsa_modified: no
+runtime_source: /run/media/pjs/6A43-DC8A/smollm2-zybo/runtime_c/smollm2_chat.c
+runtime_source_sha256: 54e21f1e1cd8bbd868c7ee015ebae481ae0649a11fe09b1d9262426ccab51027
+tb_source: /run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_dma_top_multiblock.sv
+tb_source_sha256: 0f60082df9dbfa9b3c7d65c55d84558b99b78d6b2cb3f45c34c3afcb7d30eef3
+fixture_dir: /run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s06_5_2_real_qproj_wrapper_tb
+fixture_case_count: 32
+affected_rows: 54
+report_csv: /run/media/pjs/6A43-DC8A/smollm2-zybo/reports/s06_5_2_real_qproj_wrapper_tb.csv
+packet_equivalence_result: PASS
+mode1_blockacc_result: PASS
+onehot_result: PASS
+root_rtl_suspicion: ST_SCALE_ACCUM/ST_SCALE_SAT/ST_AFTER_SCALE/ST_EMIT_ROW row_acc emit_lane pipeline
+
+compile_command: gcc -std=c11 -Wall -Wextra -Wpedantic -O2 /run/media/pjs/6A43-DC8A/smollm2-zybo/runtime_c/smollm2_chat.c -lm -o /run/media/pjs/6A43-DC8A/smollm2-zybo/runtime_c/build/smollm2_chat.s06_5_2_fixture
+compile_returncode: 0
+
+
+dump_command: /run/media/pjs/6A43-DC8A/smollm2-zybo/runtime_c/build/smollm2_chat.s06_5_2_fixture --model /run/media/pjs/6A43-DC8A/smollm2-zybo/quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf --prompt-raw Hi --act-shift 8 --dump-real-qproj-wrapper-fixture /run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s06_5_2_real_qproj_wrapper_tb
+dump_returncode: 0
+model path: /run/media/pjs/6A43-DC8A/smollm2-zybo/quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+real_qproj_fixture_dump: layer=0 role=q_proj tensor=blk.0.attn_q.weight
+raw_prompt: Hi
+chat_template_applied: false
+prompt_token_count: 1
+probe_token: 26843
+probe_act_shift: 8
+identity_scale_q: 256
+probe_input_saturations: 0
+tensor_rows: 576
+tensor_cols: 576
+in_features: 576
+q8_blocks: 18
+affected_rows: 54
+fixture_affected_row_groups: 32
+fixture_dir: /run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s06_5_2_real_qproj_wrapper_tb
+fixture_status: PREPARED_NOT_SIMULATED
+fixture_quantized_input_i16_stats: len=576 min=-131 max=148 mean=0.473958333 absmax=148 mean_abs=6.046875 checksum=273

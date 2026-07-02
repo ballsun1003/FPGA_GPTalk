@@ -1,0 +1,711 @@
+# S06.5 CPU Semantic Baseline
+backend=cpu ctx-size=256 deterministic=greedy temperature=0
+
+## prompt_index=1 mode=raw max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-raw' 'Hello, how are you?'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hello, how are you?
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hello, how are you?
+prompt_token_count: 6
+prompt_token_ids: 19556 28 638 359 346 47
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 339 3826 346 2316 2567 876 30 339 3543 719 3039 563 260 1391 284 339
+generated_text:  I hope you're doing well. I've been thinking about the project and I
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 20 49 20 68 6f 70 65 20 79 6f 75 27 72 65 20 64 6f 69 6e 67 20 77 65 6c 6c 2e 20 49 27 76 65 20 62 65 65 6e 20 74 68 69 6e 6b 69 6e 67 20 61 62 6f 75 74 20 74 68 65 20 70 72 6f 6a 65 63 74 20 61 6e 64 20 49
+stop_reason: max_new_tokens
+first_generated_token_text:  I
+total_gemv_calls: 4426
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 1255.633
+cpu_non_gemv_time_ms: 9.410
+tokenization_time_ms: 0.004
+sampling_time_ms: 0.644
+per_token_latency_ms: 79.139
+first generated token/text: 339
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 1.286
+
+## prompt_index=1 mode=raw max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-raw' 'Hello, how are you?'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hello, how are you?
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hello, how are you?
+prompt_token_count: 6
+prompt_token_ids: 19556 28 638 359 346 47
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 339 3826 346 2316 2567 876 30 339 3543 719 3039 563 260 1391 284 339 1510 339 3543 1135 634 1123 2894 30 339 3543 719 1891 335 260 940 2318
+generated_text:  I hope you're doing well. I've been thinking about the project and I think I've made some good progress. I've been working on the data analysis
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 20 49 20 68 6f 70 65 20 79 6f 75 27 72 65 20 64 6f 69 6e 67 20 77 65 6c 6c 2e 20 49 27 76 65 20 62 65 65 6e 20 74 68 69 6e 6b 69 6e 67 20 61 62 6f 75 74 20 74 68 65 20 70 72 6f 6a 65 63 74 20 61 6e 64 20 49 20 74 68 69 6e 6b 20 49 27 76 65 20 6d 61 64 65 20 73 6f 6d 65 20 67 6f 6f 64 20 70 72 6f 67 72 65 73 73 2e 20 49 27 76 65 20 62 65 65 6e 20 77 6f 72 6b 69 6e 67 20 6f 6e 20 74 68 65 20 64 61 74 61 20 61 6e 61 6c 79 73 69 73
+stop_reason: max_new_tokens
+first_generated_token_text:  I
+total_gemv_calls: 7802
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 2093.011
+cpu_non_gemv_time_ms: 18.217
+tokenization_time_ms: 0.004
+sampling_time_ms: 1.230
+per_token_latency_ms: 66.035
+first generated token/text: 339
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 2.134
+
+## prompt_index=1 mode=chat max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-chat' 'Hello, how are you?'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hello, how are you?
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+Hello, how are you?<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 36
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 19556 28 638 359 346 47 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 57 5248 2567 1109 17 1073 416 339 724 346 1834 47 2
+generated_text: I'm doing great! How can I help you today?
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 1
+generated_byte_hex: 49 27 6d 20 64 6f 69 6e 67 20 67 72 65 61 74 21 20 48 6f 77 20 63 61 6e 20 49 20 68 65 6c 70 20 79 6f 75 20 74 6f 64 61 79 3f
+stop_reason: eos
+first_generated_token_text: I
+total_gemv_calls: 10093
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 2475.048
+cpu_non_gemv_time_ms: 27.560
+tokenization_time_ms: 0.016
+sampling_time_ms: 0.504
+per_token_latency_ms: 192.633
+first generated token/text: 57
+max-new-tokens achieved: 13
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 2.519
+
+## prompt_index=1 mode=chat max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-chat' 'Hello, how are you?'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hello, how are you?
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+Hello, how are you?<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 36
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 19556 28 638 359 346 47 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 57 5248 2567 1109 17 1073 416 339 724 346 1834 47 2
+generated_text: I'm doing great! How can I help you today?
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 1
+generated_byte_hex: 49 27 6d 20 64 6f 69 6e 67 20 67 72 65 61 74 21 20 48 6f 77 20 63 61 6e 20 49 20 68 65 6c 70 20 79 6f 75 20 74 6f 64 61 79 3f
+stop_reason: eos
+first_generated_token_text: I
+total_gemv_calls: 10093
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 2408.087
+cpu_non_gemv_time_ms: 26.851
+tokenization_time_ms: 0.017
+sampling_time_ms: 0.493
+per_token_latency_ms: 187.422
+first generated token/text: 57
+max-new-tokens achieved: 13
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 2.452
+
+## prompt_index=2 mode=raw max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-raw' '한 문장으로 자기소개해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 한 문장으로 자기소개해줘.
+chat_template_applied: false
+chat_template_source: none
+prompt_text: 한 문장으로 자기소개해줘.
+prompt_token_count: 32
+prompt_token_ids: 33085 246 25947 122 133 183 248 115 183 246 137 182 111 246 18601 248 234 181 133 125 183 224 230 181 125 246 33085 129 183 114 242 30
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 198 198 183 246 222 26638 242 18601 242 226 183 250 246 182 115 137
+generated_text: 
+
+위의 예제를
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 0a 0a ec 9c 84 ec 9d 98 20 ec 98 88 ec a0 9c eb a5 bc
+stop_reason: max_new_tokens
+first_generated_token_text: 
+
+total_gemv_calls: 9886
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 2587.160
+cpu_non_gemv_time_ms: 28.022
+tokenization_time_ms: 0.007
+sampling_time_ms: 0.660
+per_token_latency_ms: 163.561
+first generated token/text: 198
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 2.633
+
+## prompt_index=2 mode=raw max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-raw' '한 문장으로 자기소개해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 한 문장으로 자기소개해줘.
+chat_template_applied: false
+chat_template_source: none
+prompt_text: 한 문장으로 자기소개해줘.
+prompt_token_count: 32
+prompt_token_ids: 33085 246 25947 122 133 183 248 115 183 246 137 182 111 246 18601 248 234 181 133 125 183 224 230 181 125 246 33085 129 183 114 242 30
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 198 198 183 246 222 26638 242 18601 242 226 183 250 246 182 115 137 18601 229 114 184 240 227 33085 242 182 250 114 182 119 129 28 18601
+generated_text: 
+
+위의 예제를 실행하려면, �
+generated_text_utf8_replacements: 1
+generated_special_tokens_skipped: 0
+generated_byte_hex: 0a 0a ec 9c 84 ec 9d 98 20 ec 98 88 ec a0 9c eb a5 bc 20 ec 8b a4 ed 96 89 ed 95 98 eb a0 a4 eb a9 b4 2c 20 ec
+stop_reason: max_new_tokens
+first_generated_token_text: 
+
+total_gemv_calls: 13262
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3515.923
+cpu_non_gemv_time_ms: 42.435
+tokenization_time_ms: 0.007
+sampling_time_ms: 1.279
+per_token_latency_ms: 111.282
+first generated token/text: 198
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 3.578
+
+## prompt_index=2 mode=chat max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-chat' '한 문장으로 자기소개해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 한 문장으로 자기소개해줘.
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+한 문장으로 자기소개해줘.<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 62
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 33085 246 25947 122 133 183 248 115 183 246 137 182 111 246 18601 248 234 181 133 125 183 224 230 181 125 246 33085 129 183 114 242 30 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 183 239 222 182 248 242 26638 242 25947 122 133 183 248 115 183 246
+generated_text: 아래의 문장��
+generated_text_utf8_replacements: 2
+generated_special_tokens_skipped: 0
+generated_byte_hex: ec 95 84 eb 9e 98 ec 9d 98 20 eb ac b8 ec 9e a5 ec 9c
+stop_reason: max_new_tokens
+first_generated_token_text: �
+total_gemv_calls: 16186
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3864.522
+cpu_non_gemv_time_ms: 56.054
+tokenization_time_ms: 0.024
+sampling_time_ms: 0.676
+per_token_latency_ms: 245.182
+first generated token/text: 183
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 3.939
+
+## prompt_index=2 mode=chat max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-chat' '한 문장으로 자기소개해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 한 문장으로 자기소개해줘.
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+한 문장으로 자기소개해줘.<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 62
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 33085 246 25947 122 133 183 248 115 183 246 137 182 111 246 18601 248 234 181 133 125 183 224 230 181 125 246 33085 129 183 114 242 30 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 183 239 222 182 248 242 26638 242 25947 122 133 183 248 115 183 246 137 182 111 246 18601 248 234 181 133 125 183 224 230 181 125 246
+generated_text: 아래의 문장으로 자기소개
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: ec 95 84 eb 9e 98 ec 9d 98 20 eb ac b8 ec 9e a5 ec 9c bc eb a1 9c 20 ec 9e 90 ea b8 b0 ec 86 8c ea b0 9c
+stop_reason: max_new_tokens
+first_generated_token_text: �
+total_gemv_calls: 19562
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 4611.063
+cpu_non_gemv_time_ms: 71.223
+tokenization_time_ms: 0.037
+sampling_time_ms: 1.204
+per_token_latency_ms: 146.413
+first generated token/text: 183
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 4.702
+
+## prompt_index=3 mode=raw max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-raw' 'FPGA가 무엇인지 아주 짧게 설명해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: FPGA가 무엇인지 아주 짧게 설명해줘.
+chat_template_applied: false
+chat_template_source: none
+prompt_text: FPGA가 무엇인지 아주 짧게 설명해줘.
+prompt_token_count: 40
+prompt_token_ids: 14528 14234 181 125 218 25947 122 129 183 241 225 26638 133 183 117 218 18601 239 222 183 113 137 18601 117 117 181 127 230 18601 222 114 182 120 223 33085 129 183 114 242 30
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 25947 229 114 183 229 246 18601 247 129 182 115 137 18601 247 129 183
+generated_text:  다시 이를 이�
+generated_text_utf8_replacements: 1
+generated_special_tokens_skipped: 0
+generated_byte_hex: 20 eb 8b a4 ec 8b 9c 20 ec 9d b4 eb a5 bc 20 ec 9d b4 ec
+stop_reason: max_new_tokens
+first_generated_token_text:  �
+total_gemv_calls: 11566
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 2716.393
+cpu_non_gemv_time_ms: 31.786
+tokenization_time_ms: 0.007
+sampling_time_ms: 0.596
+per_token_latency_ms: 171.864
+first generated token/text: 25947
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 2.765
+
+## prompt_index=3 mode=raw max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-raw' 'FPGA가 무엇인지 아주 짧게 설명해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: FPGA가 무엇인지 아주 짧게 설명해줘.
+chat_template_applied: false
+chat_template_source: none
+prompt_text: FPGA가 무엇인지 아주 짧게 설명해줘.
+prompt_token_count: 40
+prompt_token_ids: 14528 14234 181 125 218 25947 122 129 183 241 225 26638 133 183 117 218 18601 239 222 183 113 137 18601 117 117 181 127 230 18601 222 114 182 120 223 33085 129 183 114 242 30
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 25947 229 114 183 229 246 18601 247 129 182 115 137 18601 247 129 183 244 119 33085 242 183 241 122 18601 239 226 182 220 242 183 242 114
+generated_text:  다시 이를 이용하여 안나오
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 20 eb 8b a4 ec 8b 9c 20 ec 9d b4 eb a5 bc 20 ec 9d b4 ec 9a a9 ed 95 98 ec 97 ac 20 ec 95 88 eb 82 98 ec 98 a4
+stop_reason: max_new_tokens
+first_generated_token_text:  �
+total_gemv_calls: 14942
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3609.425
+cpu_non_gemv_time_ms: 46.686
+tokenization_time_ms: 0.007
+sampling_time_ms: 1.204
+per_token_latency_ms: 114.333
+first generated token/text: 25947
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 3.675
+
+## prompt_index=3 mode=chat max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-chat' 'FPGA가 무엇인지 아주 짧게 설명해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: FPGA가 무엇인지 아주 짧게 설명해줘.
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+FPGA가 무엇인지 아주 짧게 설명해줘.<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 70
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 14528 14234 181 125 218 25947 122 129 183 241 225 26638 133 183 117 218 18601 239 222 183 113 137 18601 117 117 181 127 230 18601 222 114 182 120 223 33085 129 183 114 242 30 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 14528 14234 314 253 1564 282 2514 34524 338 359 2724 288 325 804 281 10717
+generated_text: FPGA is a family of microprocessors that are designed to be used in embedded
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 46 50 47 41 20 69 73 20 61 20 66 61 6d 69 6c 79 20 6f 66 20 6d 69 63 72 6f 70 72 6f 63 65 73 73 6f 72 73 20 74 68 61 74 20 61 72 65 20 64 65 73 69 67 6e 65 64 20 74 6f 20 62 65 20 75 73 65 64 20 69 6e 20 65 6d 62 65 64 64 65 64
+stop_reason: max_new_tokens
+first_generated_token_text: FP
+total_gemv_calls: 17866
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 4059.649
+cpu_non_gemv_time_ms: 62.279
+tokenization_time_ms: 0.021
+sampling_time_ms: 0.628
+per_token_latency_ms: 257.758
+first generated token/text: 14528
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 4.140
+
+## prompt_index=3 mode=chat max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-chat' 'FPGA가 무엇인지 아주 짧게 설명해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: FPGA가 무엇인지 아주 짧게 설명해줘.
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+FPGA가 무엇인지 아주 짧게 설명해줘.<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 70
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 14528 14234 181 125 218 25947 122 129 183 241 225 26638 133 183 117 218 18601 239 222 183 113 137 18601 117 117 181 127 230 18601 222 114 182 120 223 33085 129 183 114 242 30 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 14528 14234 314 253 1564 282 2514 34524 338 359 2724 288 325 804 281 10717 1734 28 715 347 11104 28 19299 28 284 550 4674 3813 30 1069 359 1129
+generated_text: FPGA is a family of microprocessors that are designed to be used in embedded systems, such as robots, drones, and other industrial equipment. They are often
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 46 50 47 41 20 69 73 20 61 20 66 61 6d 69 6c 79 20 6f 66 20 6d 69 63 72 6f 70 72 6f 63 65 73 73 6f 72 73 20 74 68 61 74 20 61 72 65 20 64 65 73 69 67 6e 65 64 20 74 6f 20 62 65 20 75 73 65 64 20 69 6e 20 65 6d 62 65 64 64 65 64 20 73 79 73 74 65 6d 73 2c 20 73 75 63 68 20 61 73 20 72 6f 62 6f 74 73 2c 20 64 72 6f 6e 65 73 2c 20 61 6e 64 20 6f 74 68 65 72 20 69 6e 64 75 73 74 72 69 61 6c 20 65 71 75 69 70 6d 65 6e 74 2e 20 54 68 65 79 20 61 72 65 20 6f 66 74 65 6e
+stop_reason: max_new_tokens
+first_generated_token_text: FP
+total_gemv_calls: 21242
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 5120.482
+cpu_non_gemv_time_ms: 84.414
+tokenization_time_ms: 0.020
+sampling_time_ms: 1.208
+per_token_latency_ms: 162.752
+first generated token/text: 14528
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 5.224
+
+## prompt_index=4 mode=raw max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-raw' '오늘 프로젝트가 성공했다고 축하해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 오늘 프로젝트가 성공했다고 축하해줘.
+chat_template_applied: false
+chat_template_source: none
+prompt_text: 오늘 프로젝트가 성공했다고 축하해줘.
+prompt_token_count: 46
+prompt_token_ids: 183 242 114 182 228 242 48138 238 222 182 111 246 183 250 247 184 228 133 181 125 218 18601 222 126 181 128 130 184 240 226 41259 114 181 128 250 18601 131 239 33085 242 33085 129 183 114 242 30
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 198 198 183 246 222 183 241 234 183 222 246 182 228 238 18601 239
+generated_text: 
+
+위에서는 ��
+generated_text_utf8_replacements: 2
+generated_special_tokens_skipped: 0
+generated_byte_hex: 0a 0a ec 9c 84 ec 97 90 ec 84 9c eb 8a 94 20 ec 95
+stop_reason: max_new_tokens
+first_generated_token_text: 
+
+total_gemv_calls: 12826
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3017.041
+cpu_non_gemv_time_ms: 37.369
+tokenization_time_ms: 0.008
+sampling_time_ms: 0.616
+per_token_latency_ms: 191.007
+first generated token/text: 198
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 3.075
+
+## prompt_index=4 mode=raw max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-raw' '오늘 프로젝트가 성공했다고 축하해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 오늘 프로젝트가 성공했다고 축하해줘.
+chat_template_applied: false
+chat_template_source: none
+prompt_text: 오늘 프로젝트가 성공했다고 축하해줘.
+prompt_token_count: 46
+prompt_token_ids: 183 242 114 182 228 242 48138 238 222 182 111 246 183 250 247 184 228 133 181 125 218 18601 222 126 181 128 130 184 240 226 41259 114 181 128 250 18601 131 239 33085 242 33085 129 183 114 242 30
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 198 198 183 246 222 183 241 234 183 222 246 182 228 238 18601 239 222 182 248 242 183 243 218 35792 125 243 26638 218 25947 125 119 182
+generated_text: 
+
+위에서는 아래와 같은 방�
+generated_text_utf8_replacements: 1
+generated_special_tokens_skipped: 0
+generated_byte_hex: 0a 0a ec 9c 84 ec 97 90 ec 84 9c eb 8a 94 20 ec 95 84 eb 9e 98 ec 99 80 20 ea b0 99 ec 9d 80 20 eb b0 a9 eb
+stop_reason: max_new_tokens
+first_generated_token_text: 
+
+total_gemv_calls: 16202
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 4150.881
+cpu_non_gemv_time_ms: 56.511
+tokenization_time_ms: 0.010
+sampling_time_ms: 1.194
+per_token_latency_ms: 131.568
+first generated token/text: 198
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 4.230
+
+## prompt_index=4 mode=chat max_new_tokens=16
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '16' '--prompt-chat' '오늘 프로젝트가 성공했다고 축하해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 오늘 프로젝트가 성공했다고 축하해줘.
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+오늘 프로젝트가 성공했다고 축하해줘.<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 76
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 183 242 114 182 228 242 48138 238 222 182 111 246 183 250 247 184 228 133 181 125 218 18601 222 126 181 128 130 184 240 226 41259 114 181 128 250 18601 131 239 33085 242 33085 129 183 114 242 30 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 183 242 114 182 228 242 48138 238 222 182 111 246 183 250 247 184
+generated_text: 오늘 프로젝�
+generated_text_utf8_replacements: 1
+generated_special_tokens_skipped: 0
+generated_byte_hex: ec 98 a4 eb 8a 98 20 ed 94 84 eb a1 9c ec a0 9d ed
+stop_reason: max_new_tokens
+first_generated_token_text: �
+total_gemv_calls: 19126
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 4372.982
+cpu_non_gemv_time_ms: 70.286
+tokenization_time_ms: 0.024
+sampling_time_ms: 0.597
+per_token_latency_ms: 277.858
+first generated token/text: 183
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 4.465
+
+## prompt_index=4 mode=chat max_new_tokens=32
+command: './runtime_c/build/smollm2_chat' '--model' 'quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf' '--backend' 'cpu' '--ctx-size' '256' '--max-new-tokens' '32' '--prompt-chat' '오늘 프로젝트가 성공했다고 축하해줘.'
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: 오늘 프로젝트가 성공했다고 축하해줘.
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+오늘 프로젝트가 성공했다고 축하해줘.<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 76
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 183 242 114 182 228 242 48138 238 222 182 111 246 183 250 247 184 228 133 181 125 218 18601 222 126 181 128 130 184 240 226 41259 114 181 128 250 18601 131 239 33085 242 33085 129 183 114 242 30 2 198 1 520 9531 198
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 183 242 114 182 228 242 48138 238 222 182 111 246 183 250 247 184 228 133 181 125 218 18601 222 126 181 128 130 184 240 226 41259 114
+generated_text: 오늘 프로젝트가 성공했다
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: ec 98 a4 eb 8a 98 20 ed 94 84 eb a1 9c ec a0 9d ed 8a b8 ea b0 80 20 ec 84 b1 ea b3 b5 ed 96 88 eb 8b a4
+stop_reason: max_new_tokens
+first_generated_token_text: �
+total_gemv_calls: 22502
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 5264.718
+cpu_non_gemv_time_ms: 89.753
+tokenization_time_ms: 0.023
+sampling_time_ms: 1.195
+per_token_latency_ms: 167.422
+first generated token/text: 183
+max-new-tokens achieved: 32
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+host_elapsed_s: 5.374
+

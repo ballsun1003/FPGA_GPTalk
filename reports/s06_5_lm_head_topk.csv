@@ -1,0 +1,21 @@
+run,backend,rank,token_id,score,note
+repaired_raw_hi_first_token,cpu,1,28,20.086777,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,2,198,19.813208,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,3,260,19.777750,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,4,30,19.398945,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,5,288,19.322023,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,6,284,19.160240,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,7,282,19.117498,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,8,33,19.003510,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,9,253,18.924814,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,cpu,10,314,18.688423,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,1,472,35.152344,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,2,198,33.925781,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,3,1000,33.839844,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,4,448,33.808594,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,5,28,32.722656,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,6,8083,32.394531,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,7,24,32.121094,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,8,30,32.039062,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,9,1004,31.640625,lm_head uses full tied token_embd.weight on selected backend
+repaired_raw_hi_first_token,fpga,10,107,31.539062,lm_head uses full tied token_embd.weight on selected backend

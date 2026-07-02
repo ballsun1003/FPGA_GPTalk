@@ -1,0 +1,306 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/smollm2_chat_s06_5_1.c /tmp/smollm2_chat_s06_5_1 /tmp/s06_5_1_identity_scale_mixed_row.txt /tmp/s06_5_1_identity_scale_mixed_row.csv
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/smollm2_chat_s06_5_1.c <<'__S06_5_1_ID_C_SOURCE_EOF__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <math.h>
+#include <stdint.h>
+#inc
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 156349 /tmp/smollm2_chat_s06_5_1.c
+eac41e9ea558320df49193cba081f6342f706ba8ae06916990c1d3e8a591e556  /tmp/smollm2_chat_s06_5_1.c
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c11 -o /tmp/smollm2_chat_s06_5_1 /tmp/smollm2_chat_s06_5_1.c -lm; rc=$?; echo __S06_5_1_ID_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/smollm2_chat_s06_5_1 && sha256sum /tmp/smollm2_chat_s06_5_1
+__S06_5_1_ID_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         87928 Jun 25 12:29 /tmp/smollm2_chat_s06_5_1
+fa90da3a8bcc00c45a9a95886d31e49251bd0a49c8e2d16b574a853a813e625e  /tmp/smollm2_chat_s06_5_1
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: /tmp/smollm2_chat_s06_5_1 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --prompt-raw Hi --act-shift 8 --compare-identity-scale --identity-scale-csv /tmp/s06_5_1_identity_scale_mixed_row.csv > /tmp/s06_5_1_identity_scale_mi
+__S06_5_1_IDENTITY_RUN_RC__=0
+identity_scale_row: 5,2,82,6,6,6,6,1,1,1,16
+identity_scale_row: 5,13,93,-2,2147483647,-2,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=5 lane=13 row=93 cpu=-2 mixed=2147483647 duplicate_same_lane=-2 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 5,14,94,8,2147483647,8,8,0,1,0,16
+identity_scale_mismatch: row_group=5 lane=14 row=94 cpu=8 mixed=2147483647 duplicate_same_lane=8 duplicate_lane0=8 duplicate_good_lanes=16
+identity_scale_row: 6,3,99,0,2147483647,0,0,0,1,0,16
+identity_scale_mismatch: row_group=6 lane=3 row=99 cpu=0 mixed=2147483647 duplicate_same_lane=0 duplicate_lane0=0 duplicate_good_lanes=16
+identity_scale_row: 6,6,102,-8,2147483647,-8,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=6 lane=6 row=102 cpu=-8 mixed=2147483647 duplicate_same_lane=-8 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 6,7,103,-10,-10,-10,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=6 lane=7 row=103 cpu=-10 mixed=-10 duplicate_same_lane=-10 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 6,10,106,-7,2147483647,-7,-7,0,1,0,16
+identity_scale_mismatch: row_group=6 lane=10 row=106 cpu=-7 mixed=2147483647 duplicate_same_lane=-7 duplicate_lane0=-7 duplicate_good_lanes=16
+identity_scale_row: 7,7,119,8,8,8,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=7 lane=7 row=119 cpu=8 mixed=8 duplicate_same_lane=8 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 7,10,122,-6,2147483647,-6,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=7 lane=10 row=122 cpu=-6 mixed=2147483647 duplicate_same_lane=-6 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 8,3,131,3,2147483647,3,3,0,1,0,16
+identity_scale_mismatch: row_group=8 lane=3 row=131 cpu=3 mixed=2147483647 duplicate_same_lane=3 duplicate_lane0=3 duplicate_good_lanes=16
+identity_scale_row: 8,15,143,2,2147483647,2,2,0,1,0,16
+identity_scale_mismatch: row_group=8 lane=15 row=143 cpu=2 mixed=2147483647 duplicate_same_lane=2 duplicate_lane0=2 duplicate_good_lanes=16
+identity_scale_row: 9,0,144,5,2147483647,2147483647,2147483647,0,0,1,15
+identity_scale_mismatch: row_group=9 lane=0 row=144 cpu=5 mixed=2147483647 duplicate_same_lane=2147483647 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 10,11,171,12,2147483647,12,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=10 lane=11 row=171 cpu=12 mixed=2147483647 duplicate_same_lane=12 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 10,15,175,4,2147483647,4,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=10 lane=15 row=175 cpu=4 mixed=2147483647 duplicate_same_lane=4 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 11,0,176,2,2147483647,2147483647,2147483647,0,0,1,15
+identity_scale_mismatch: row_group=11 lane=0 row=176 cpu=2 mixed=2147483647 duplicate_same_lane=2147483647 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 11,4,180,-4,2147483647,-4,-4,0,1,0,16
+identity_scale_mismatch: row_group=11 lane=4 row=180 cpu=-4 mixed=2147483647 duplicate_same_lane=-4 duplicate_lane0=-4 duplicate_good_lanes=16
+identity_scale_row: 11,9,185,1,2147483647,1,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=11 lane=9 row=185 cpu=1 mixed=2147483647 duplicate_same_lane=1 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 12,3,195,-6,2147483647,-6,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=12 lane=3 row=195 cpu=-6 mixed=2147483647 duplicate_same_lane=-6 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 13,6,214,-9,-9,-9,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=13 lane=6 row=214 cpu=-9 mixed=-9 duplicate_same_lane=-9 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 14,6,230,6,2147483647,6,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=14 lane=6 row=230 cpu=6 mixed=2147483647 duplicate_same_lane=6 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 14,8,232,3,2147483647,3,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=14 lane=8 row=232 cpu=3 mixed=2147483647 duplicate_same_lane=3 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 15,15,255,-7,2147483647,-7,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=15 lane=15 row=255 cpu=-7 mixed=2147483647 duplicate_same_lane=-7 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 17,4,276,9,9,9,9,1,1,1,16
+identity_scale_row: 17,10,282,11,2147483647,11,11,0,1,0,16
+identity_scale_mismatch: row_group=17 lane=10 row=282 cpu=11 mixed=2147483647 duplicate_same_lane=11 duplicate_lane0=11 duplicate_good_lanes=16
+identity_scale_row: 18,9,297,-1,2147483647,-1,-1,0,1,0,16
+identity_scale_mismatch: row_group=18 lane=9 row=297 cpu=-1 mixed=2147483647 duplicate_same_lane=-1 duplicate_lane0=-1 duplicate_good_lanes=16
+identity_scale_row: 18,12,300,-4,2147483647,-4,-4,0,1,0,16
+identity_scale_mismatch: row_group=18 lane=12 row=300 cpu=-4 mixed=2147483647 duplicate_same_lane=-4 duplicate_lane0=-4 duplicate_good_lanes=16
+identity_scale_row: 20,12,332,-3,2147483647,-3,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=20 lane=12 row=332 cpu=-3 mixed=2147483647 duplicate_same_lane=-3 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 21,1,337,8,2147483647,8,2147483647,0,1,0,15
+identity_scale_row: 21,8,344,-3,2147483647,-3,2147483647,0,1,0,15
+identity_scale_row: 22,4,356,2,2147483647,2,2147483647,0,1,0,15
+identity_scale_row: 22,11,363,11,2147483647,11,2147483647,0,1,0,15
+identity_scale_row: 23,13,381,-13,2147483647,-13,2147483647,0,1,0,15
+identity_scale_row: 24,1,385,-2,2147483647,-2,-2,0,1,0,16
+identity_scale_row: 25,2,402,6,2147483647,6,6,0,1,0,16
+identity_scale_row: 25,11,411,-15,2147483647,-15,2147483647,0,1,0,15
+identity_scale_row: 25,13,413,3,2147483647,3,2147483647,0,1,0,15
+identity_scale_row: 26,11,427,14,2147483647,14,2147483647,0,1,0,15
+identity_scale_row: 27,15,447,0,2147483647,0,0,0,1,0,16
+identity_scale_row: 28,9,457,-12,2147483647,-12,-12,0,1,0,16
+identity_scale_row: 30,0,480,12,2147483647,12,12,0,1,0,16
+identity_scale_row: 31,6,502,2,2147483647,2,2147483647,0,1,0,15
+identity_scale_row: 31,14,510,-2,2147483647,-2,2147483647,0,1,0,15
+identity_scale_row: 32,3,515,-16,2147483647,-16,2147483647,0,1,0,15
+identity_scale_row: 33,1,529,11,2147483647,11,11,0,1,0,16
+identity_scale_row: 33,12,540,-14,-14,-14,-14,1,1,1,16
+identity_scale_row: 34,8,552,4,2147483647,4,2147483647,0,1,0,15
+identity_scale_row: 35,7,567,-8,2147483647,-8,-8,0,1,0,16
+identity_scale_rows_checked: 54
+identity_scale_mixed_cpu_mismatches: 47
+identity_scale_duplicate_cpu_mismatches: 2
+identity_scale_mixed_duplicate_mismatches: 45
+identity_scale_duplicate_uniform_mismatches: 31
+identity_scale_csv: /tmp/s06_5_1_identity_scale_mixed_row.csv
+identity_scale_result: FAIL
+classification: IDENTITY_SCALE_COMMON_OR_DUPLICATE_FAIL
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __IDENTITY_TXT_START__; cat /tmp/s06_5_1_identity_scale_mixed_row.txt; echo __IDENTITY_TXT_END__
+__IDENTITY_TXT_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+identity_scale_compare: layer=0 role=q_proj tensor=blk.0.attn_q.weight
+hardware_execution: yes
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_token_count: 1
+prompt_token_ids: 26843
+probe_token: 26843
+probe_act_shift: 8
+identity_scale_q: 256
+probe_input_saturations: 0
+tensor_rows: 576
+tensor_cols: 576
+in_features: 576
+q8_blocks: 18
+affected_rows: 54
+identity_scale_quantized_input_i16_stats: len=576 min=-131 max=148 mean=0.473958333 absmax=148 mean_abs=6.046875 checksum=273
+identity_scale_row_header: row_group,lane,row,cpu_identity_i32,mixed_i32,duplicate_same_lane_i32,duplicate_lane0_i32,mixed_vs_cpu,duplicate_same_lane_vs_cpu,mixed_vs_duplicate,duplicate_good_lanes
+identity_scale_row: 0,9,9,8,2147483647,8,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=0 lane=9 row=9 cpu=8 mixed=2147483647 duplicate_same_lane=8 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 1,6,22,3,3,3,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=1 lane=6 row=22 cpu=3 mixed=3 duplicate_same_lane=3 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 1,13,29,1,2147483647,1,1,0,1,0,16
+identity_scale_mismatch: row_group=1 lane=13 row=29 cpu=1 mixed=2147483647 duplicate_same_lane=1 duplicate_lane0=1 duplicate_good_lanes=16
+identity_scale_row: 1,15,31,11,2147483647,11,11,0,1,0,16
+identity_scale_mismatch: row_group=1 lane=15 row=31 cpu=11 mixed=2147483647 duplicate_same_lane=11 duplicate_lane0=11 duplicate_good_lanes=16
+identity_scale_row: 3,0,48,-2,2147483647,-2,-2,0,1,0,16
+identity_scale_mismatch: row_group=3 lane=0 row=48 cpu=-2 mixed=2147483647 duplicate_same_lane=-2 duplicate_lane0=-2 duplicate_good_lanes=16
+identity_scale_row: 3,11,59,1,2147483647,1,1,0,1,0,16
+identity_scale_mismatch: row_group=3 lane=11 row=59 cpu=1 mixed=2147483647 duplicate_same_lane=1 duplicate_lane0=1 duplicate_good_lanes=16
+identity_scale_row: 4,1,65,-4,2147483647,-4,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=4 lane=1 row=65 cpu=-4 mixed=2147483647 duplicate_same_lane=-4 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 5,2,82,6,6,6,6,1,1,1,16
+identity_scale_row: 5,13,93,-2,2147483647,-2,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=5 lane=13 row=93 cpu=-2 mixed=2147483647 duplicate_same_lane=-2 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 5,14,94,8,2147483647,8,8,0,1,0,16
+identity_scale_mismatch: row_group=5 lane=14 row=94 cpu=8 mixed=2147483647 duplicate_same_lane=8 duplicate_lane0=8 duplicate_good_lanes=16
+identity_scale_row: 6,3,99,0,2147483647,0,0,0,1,0,16
+identity_scale_mismatch: row_group=6 lane=3 row=99 cpu=0 mixed=2147483647 duplicate_same_lane=0 duplicate_lane0=0 duplicate_good_lanes=16
+identity_scale_row: 6,6,102,-8,2147483647,-8,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=6 lane=6 row=102 cpu=-8 mixed=2147483647 duplicate_same_lane=-8 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 6,7,103,-10,-10,-10,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=6 lane=7 row=103 cpu=-10 mixed=-10 duplicate_same_lane=-10 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 6,10,106,-7,2147483647,-7,-7,0,1,0,16
+identity_scale_mismatch: row_group=6 lane=10 row=106 cpu=-7 mixed=2147483647 duplicate_same_lane=-7 duplicate_lane0=-7 duplicate_good_lanes=16
+identity_scale_row: 7,7,119,8,8,8,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=7 lane=7 row=119 cpu=8 mixed=8 duplicate_same_lane=8 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 7,10,122,-6,2147483647,-6,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=7 lane=10 row=122 cpu=-6 mixed=2147483647 duplicate_same_lane=-6 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 8,3,131,3,2147483647,3,3,0,1,0,16
+identity_scale_mismatch: row_group=8 lane=3 row=131 cpu=3 mixed=2147483647 duplicate_same_lane=3 duplicate_lane0=3 duplicate_good_lanes=16
+identity_scale_row: 8,15,143,2,2147483647,2,2,0,1,0,16
+identity_scale_mismatch: row_group=8 lane=15 row=143 cpu=2 mixed=2147483647 duplicate_same_lane=2 duplicate_lane0=2 duplicate_good_lanes=16
+identity_scale_row: 9,0,144,5,2147483647,2147483647,2147483647,0,0,1,15
+identity_scale_mismatch: row_group=9 lane=0 row=144 cpu=5 mixed=2147483647 duplicate_same_lane=2147483647 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 10,11,171,12,2147483647,12,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=10 lane=11 row=171 cpu=12 mixed=2147483647 duplicate_same_lane=12 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 10,15,175,4,2147483647,4,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=10 lane=15 row=175 cpu=4 mixed=2147483647 duplicate_same_lane=4 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 11,0,176,2,2147483647,2147483647,2147483647,0,0,1,15
+identity_scale_mismatch: row_group=11 lane=0 row=176 cpu=2 mixed=2147483647 duplicate_same_lane=2147483647 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 11,4,180,-4,2147483647,-4,-4,0,1,0,16
+identity_scale_mismatch: row_group=11 lane=4 row=180 cpu=-4 mixed=2147483647 duplicate_same_lane=-4 duplicate_lane0=-4 duplicate_good_lanes=16
+identity_scale_row: 11,9,185,1,2147483647,1,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=11 lane=9 row=185 cpu=1 mixed=2147483647 duplicate_same_lane=1 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 12,3,195,-6,2147483647,-6,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=12 lane=3 row=195 cpu=-6 mixed=2147483647 duplicate_same_lane=-6 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 13,6,214,-9,-9,-9,2147483647,1,1,1,15
+identity_scale_mismatch: row_group=13 lane=6 row=214 cpu=-9 mixed=-9 duplicate_same_lane=-9 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 14,6,230,6,2147483647,6,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=14 lane=6 row=230 cpu=6 mixed=2147483647 duplicate_same_lane=6 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 14,8,232,3,2147483647,3,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=14 lane=8 row=232 cpu=3 mixed=2147483647 duplicate_same_lane=3 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 15,15,255,-7,2147483647,-7,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=15 lane=15 row=255 cpu=-7 mixed=2147483647 duplicate_same_lane=-7 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 17,4,276,9,9,9,9,1,1,1,16
+identity_scale_row: 17,10,282,11,2147483647,11,11,0,1,0,16
+identity_scale_mismatch: row_group=17 lane=10 row=282 cpu=11 mixed=2147483647 duplicate_same_lane=11 duplicate_lane0=11 duplicate_good_lanes=16
+identity_scale_row: 18,9,297,-1,2147483647,-1,-1,0,1,0,16
+identity_scale_mismatch: row_group=18 lane=9 row=297 cpu=-1 mixed=2147483647 duplicate_same_lane=-1 duplicate_lane0=-1 duplicate_good_lanes=16
+identity_scale_row: 18,12,300,-4,2147483647,-4,-4,0,1,0,16
+identity_scale_mismatch: row_group=18 lane=12 row=300 cpu=-4 mixed=2147483647 duplicate_same_lane=-4 duplicate_lane0=-4 duplicate_good_lanes=16
+identity_scale_row: 20,12,332,-3,2147483647,-3,2147483647,0,1,0,15
+identity_scale_mismatch: row_group=20 lane=12 row=332 cpu=-3 mixed=2147483647 duplicate_same_lane=-3 duplicate_lane0=2147483647 duplicate_good_lanes=15
+identity_scale_row: 21,1,337,8,2147483647,8,2147483647,0,1,0,15
+identity_scale_row: 21,8,344,-3,2147483647,-3,2147483647,0,1,0,15
+identity_scale_row: 22,4,356,2,2147483647,2,2147483647,0,1,0,15
+identity_scale_row: 22,11,363,11,2147483647,11,2147483647,0,1,0,15
+identity_scale_row: 23,13,381,-13,2147483647,-13,2147483647,0,1,0,15
+identity_scale_row: 24,1,385,-2,2147483647,-2,-2,0,1,0,16
+identity_scale_row: 25,2,402,6,2147483647,6,6,0,1,0,16
+identity_scale_row: 25,11,411,-15,2147483647,-15,2147483647,0,1,0,15
+identity_scale_row: 25,13,413,3,2147483647,3,2147483647,0,1,0,15
+identity_scale_row: 26,11,427,14,2147483647,14,2147483647,0,1,0,15
+identity_scale_row: 27,15,447,0,2147483647,0,0,0,1,0,16
+identity_scale_row: 28,9,457,-12,2147483647,-12,-12,0,1,0,16
+identity_scale_row: 30,0,480,12,2147483647,12,12,0,1,0,16
+identity_scale_row: 31,6,502,2,2147483647,2,2147483647,0,1,0,15
+identity_scale_row: 31,14,510,-2,2147483647,-2,2147483647,0,1,0,15
+identity_scale_row: 32,3,515,-16,2147483647,-16,2147483647,0,1,0,15
+identity_scale_row: 33,1,529,11,2147483647,11,11,0,1,0,16
+identity_scale_row: 33,12,540,-14,-14,-14,-14,1,1,1,16
+identity_scale_row: 34,8,552,4,2147483647,4,2147483647,0,1,0,15
+identity_scale_row: 35,7,567,-8,2147483647,-8,-8,0,1,0,16
+identity_scale_rows_checked: 54
+identity_scale_mixed_cpu_mismatches: 47
+identity_scale_duplicate_cpu_mismatches: 2
+identity_scale_mixed_duplicate_mismatches: 45
+identity_scale_duplicate_uniform_mismatches: 31
+identity_scale_csv: /tmp/s06_5_1_identity_scale_mixed_row.csv
+identity_scale_result: FAIL
+classification: IDENTITY_SCALE_COMMON_OR_DUPLICATE_FAIL
+__IDENTITY_TXT_END__
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_5__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __IDENTITY_CSV_START__; cat /tmp/s06_5_1_identity_scale_mixed_row.csv; echo __IDENTITY_CSV_END__
+__IDENTITY_CSV_START__
+row_group,lane,row,cpu_identity_i32,mixed_i32,duplicate_same_lane_i32,duplicate_lane0_i32,mixed_vs_cpu,duplicate_same_lane_vs_cpu,mixed_vs_duplicate,duplicate_good_lanes
+0,9,9,8,2147483647,8,2147483647,0,1,0,15
+1,6,22,3,3,3,2147483647,1,1,1,15
+1,13,29,1,2147483647,1,1,0,1,0,16
+1,15,31,11,2147483647,11,11,0,1,0,16
+3,0,48,-2,2147483647,-2,-2,0,1,0,16
+3,11,59,1,2147483647,1,1,0,1,0,16
+4,1,65,-4,2147483647,-4,2147483647,0,1,0,15
+5,2,82,6,6,6,6,1,1,1,16
+5,13,93,-2,2147483647,-2,2147483647,0,1,0,15
+5,14,94,8,2147483647,8,8,0,1,0,16
+6,3,99,0,2147483647,0,0,0,1,0,16
+6,6,102,-8,2147483647,-8,2147483647,0,1,0,15
+6,7,103,-10,-10,-10,2147483647,1,1,1,15
+6,10,106,-7,2147483647,-7,-7,0,1,0,16
+7,7,119,8,8,8,2147483647,1,1,1,15
+7,10,122,-6,2147483647,-6,2147483647,0,1,0,15
+8,3,131,3,2147483647,3,3,0,1,0,16
+8,15,143,2,2147483647,2,2,0,1,0,16
+9,0,144,5,2147483647,2147483647,2147483647,0,0,1,15
+10,11,171,12,2147483647,12,2147483647,0,1,0,15
+10,15,175,4,2147483647,4,2147483647,0,1,0,15
+11,0,176,2,2147483647,2147483647,2147483647,0,0,1,15
+11,4,180,-4,2147483647,-4,-4,0,1,0,16
+11,9,185,1,2147483647,1,2147483647,0,1,0,15
+12,3,195,-6,2147483647,-6,2147483647,0,1,0,15
+13,6,214,-9,-9,-9,2147483647,1,1,1,15
+14,6,230,6,2147483647,6,2147483647,0,1,0,15
+14,8,232,3,2147483647,3,2147483647,0,1,0,15
+15,15,255,-7,2147483647,-7,2147483647,0,1,0,15
+17,4,276,9,9,9,9,1,1,1,16
+17,10,282,11,2147483647,11,11,0,1,0,16
+18,9,297,-1,2147483647,-1,-1,0,1,0,16
+18,12,300,-4,2147483647,-4,-4,0,1,0,16
+20,12,332,-3,2147483647,-3,2147483647,0,1,0,15
+21,1,337,8,2147483647,8,2147483647,0,1,0,15
+21,8,344,-3,2147483647,-3,2147483647,0,1,0,15
+22,4,356,2,2147483647,2,2147483647,0,1,0,15
+22,11,363,11,2147483647,11,2147483647,0,1,0,15
+23,13,381,-13,2147483647,-13,2147483647,0,1,0,15
+24,1,385,-2,2147483647,-2,-2,0,1,0,16
+25,2,402,6,2147483647,6,6,0,1,0,16
+25,11,411,-15,2147483647,-15,2147483647,0,1,0,15
+25,13,413,3,2147483647,3,2147483647,0,1,0,15
+26,11,427,14,2147483647,14,2147483647,0,1,0,15
+27,15,447,0,2147483647,0,0,0,1,0,16
+28,9,457,-12,2147483647,-12,-12,0,1,0,16
+30,0,480,12,2147483647,12,12,0,1,0,16
+31,6,502,2,2147483647,2,2147483647,0,1,0,15
+31,14,510,-2,2147483647,-2,2147483647,0,1,0,15
+32,3,515,-16,2147483647,-16,2147483647,0,1,0,15
+33,1,529,11,2147483647,11,11,0,1,0,16
+33,12,540,-14,-14,-14,-14,1,1,1,16
+34,8,552,4,2147483647,4,2147483647,0,1,0,15
+35,7,567,-8,2147483647,-8,-8,0,1,0,16
+__IDENTITY_CSV_END__
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_6__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: dmesg | tail -80 | grep -Ei "panic|oops|bug:|bus error|external abort|imprecise|segfault|devmem|DMA|uio" || true
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+root@Zybo-Z7-20:~# __S06_5_1_ID_CMD_DONE_7__=0
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# 

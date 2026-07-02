@@ -1,0 +1,21 @@
+name: qproj_rg22
+source: S06.5.2 real layer0 q_proj raw Hi identity-scale fixture
+prompt_mode: raw
+raw_prompt: Hi
+prompt_token_count: 1
+probe_token: 26843
+act_shift: 8
+identity_scale_q: 256
+input_saturations: 0
+row_group: 22
+row_base: 352
+affected_lanes: 4|11
+affected_rows: 356|363
+in_features: 576
+out_features: 16
+blocks_per_row: 18
+packet_bytes: 10368
+axis_width_bits: 128
+expected_tlast_beat: 647
+mode0_output_order: lane
+mode1_output_order: block,lane

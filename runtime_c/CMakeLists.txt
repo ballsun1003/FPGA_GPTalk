@@ -22,3 +22,7 @@ target_compile_options(gemv_batch_bench PRIVATE -Wall -Wextra -Wpedantic)
 
 add_executable(gemv_multiblock_test gemv_multiblock_test.c)
 target_compile_options(gemv_multiblock_test PRIVATE -Wall -Wextra -Wpedantic)
+
+add_executable(smollm2_chat smollm2_chat.c)
+target_link_libraries(smollm2_chat PRIVATE m)
+target_compile_options(smollm2_chat PRIVATE -Wall -Wextra -Wpedantic)

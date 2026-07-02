@@ -1,0 +1,29 @@
+S06.6 KV cache / memory plan
+
+Board memory policy:
+  Linux bootarg: mem=960M
+  DMA carveout: 0x3c000000-0x3fffffff, 64 MiB
+  KV cache location: CPU DDR/RAM
+  KV cache PL transfer: no
+  KV dtype: float32
+
+Model values:
+  n_layer: 30
+  n_ctx default: 128
+  n_kv_head: 3
+  head_dim: 64
+  bytes_per_elem: 4
+
+Formula:
+  KV bytes = n_layer x 2(K,V) x n_ctx x n_kv_head x head_dim x bytes_per_elem
+
+ctx-size 128:
+  KV bytes = 30 x 2 x 128 x 3 x 64 x 4 = 5898240
+  allocation: PASS
+  OOM: no
+
+Future ctx-size estimates:
+  ctx-size 256: 11796480 bytes
+  ctx-size 512: 23592960 bytes
+
+S06 smoke used ctx-size 128.

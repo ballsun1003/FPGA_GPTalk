@@ -1,0 +1,81 @@
+__S06_5_2_CHAT16_START__
+board_command: /tmp/smollm2_chat_s06_5_2 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --fpga-output-mode mode1_cpu_scale --ctx-size 256 --max-new-tokens 16 --prompt-chat 'Hello, how are you?' --act-shift 8 --ignore-eos
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hello, how are you?
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+Hello, how are you?<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 36
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 19556 28 638 359 346 47 2 198 1 520 9531 198
+backend: fpga
+act_shift: 8
+fpga_output_mode: mode1_cpu_scale
+fpga_repair_mode: duplicate
+sampling_temperature: 0
+sampling_top_k: 0
+sampling_top_p: 1
+sampling_mode: greedy
+ctx-size: 256
+KV cache bytes: 11796480
+generated_token_ids: 57 5248 22657 327 260 9563 28 564 347 253 1789 1743 28 339 1326 982
+tokens_generated: 16
+ctx_used: 52
+ctx_max: 256
+ctx used / ctx max: 52 / 256
+generated_text: I'm sorry for the confusion, but as a language model, I don't
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 49 27 6d 20 73 6f 72 72 79 20 66 6f 72 20 74 68 65 20 63 6f 6e 66 75 73 69 6f 6e 2c 20 62 75 74 20 61 73 20 61 20 6c 61 6e 67 75 61 67 65 20 6d 6f 64 65 6c 2c 20 49 20 64 6f 6e 27 74
+stop_reason: max_new_tokens
+first_generated_token_text: I
+total_gemv_calls: 10726
+fpga_gemv_calls: 10726
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+fpga_repair_jobs: 0
+fpga_mode1_blockacc_calls: 655032
+s2mm_output_bytes: 733446144
+fpga_saturated_outputs_repaired: 0
+fpga_saturated_outputs_unrepaired: 0
+input_saturations: 8
+fpga_time_ms: 334088.002
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 2075.442
+cpu_scale_accum_ops: 183361536
+cpu_scale_accum_time_ms: 35379.914
+tokenization_time_ms: 0.520
+sampling_time_ms: 12.458
+per_token_latency_ms: 21013.831
+gemv_role_breakdown_header: role,calls,fpga_calls,cpu_fallbacks,fpga_rowgroup_jobs,fpga_chunk_jobs,fpga_repair_jobs,fpga_mode1_blockacc_calls,s2mm_output_bytes,input_saturations,fpga_time_ms,cpu_gemv_time_ms,cpu_scale_accum_ops,cpu_scale_accum_time_ms
+gemv_role_breakdown: q_proj,1530,1530,0,55080,55080,0,55080,63452160,0,28907.451,0.000,15863040,2999.991
+gemv_role_breakdown: k_proj,1530,1530,0,18360,18360,0,18360,21150720,0,9855.859,0.000,5287680,999.819
+gemv_role_breakdown: v_proj,1530,1530,0,18360,18360,0,18360,21150720,0,9853.789,0.000,5287680,1000.094
+gemv_role_breakdown: o_proj,1530,1530,0,55080,55080,0,55080,63452160,0,28910.184,0.000,15863040,3003.043
+gemv_role_breakdown: gate_proj,1530,1530,0,146880,146880,0,146880,169205760,0,76532.263,0.000,42301440,8014.568
+gemv_role_breakdown: up_proj,1530,1530,0,146880,146880,0,146880,169205760,0,76528.069,0.000,42301440,8000.805
+gemv_role_breakdown: down_proj,1530,1530,0,165240,165240,0,165240,169205760,8,78025.531,0.000,42301440,8711.857
+gemv_role_breakdown: lm_head,16,16,0,49152,49152,0,49152,56623104,0,25474.857,0.000,14155776,2649.737
+first generated token/text: 57
+max-new-tokens achieved: 16
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_2_CHAT16_RC__=0
+__S06_5_2_CHAT16_DMESG_CHECK__
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S06_5_2_CHAT16_END__

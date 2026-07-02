@@ -1,0 +1,199 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_TOKENIZER_BOARD_START__; uname -a; command -v gcc; command -v sha256sum; echo __S06_5_TOKENIZER_BOARD_PRECHECK_DONE__
+__S06_5_TOKENIZER_BOARD_START__
+Linux Zybo-Z7-20 4.9.0-xilinx-v2017.4 #1 SMP PREEMPT Thu Jun 25 08:31:10 UTC 2026 armv7l GNU/Linux
+/usr/bin/gcc
+/usr/bin/sha256sum
+__S06_5_TOKENIZER_BOARD_PRECHECK_DONE__
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_5285__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/smollm2_chat_s06_5.c /tmp/smollm2_chat_s06_5
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_5452__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/smollm2_chat_s06_5.c <<'__S06_5_SMOLLM2_CHAT_C__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <math.h>
+#include 
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 75603 /tmp/smollm2_chat_s06_5.c
+a0d2a2dcf6b293c0ee52a538dda292ffc387f0c370e419d4bdb927c9bf39aa8f  /tmp/smollm2_chat_s06_5.c
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_5560__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/smollm2_chat_s06_5 /tmp/smollm2_chat_s06_5.c -lm; rc=$?; echo __S06_5_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/smollm2_chat_s06_5 && sha256sum /tmp/smollm2_chat_s06_5
+__S06_5_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         48824 Jun 25 10:54 /tmp/smollm2_chat_s06_5
+09381da8bc04c90cc6516bc635f604be253fd523c624befa2a2d8701abc67484  /tmp/smollm2_chat_s06_5
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_19141__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_DECODE_IDS_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --decode-ids '443 521 28 73 43 447 380 131'; echo __S06_5_DECODE_IDS_END__
+__S06_5_DECODE_IDS_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+decode_ids: 443 521 28 73 43 447 380 131
+decode_default_skip_special: true
+decoded_text:  sh imp,Y;outiv�
+decoded_utf8_replacements: 1
+decoded_special_tokens_skipped: 0
+decoded_byte_hex: 20 73 68 20 69 6d 70 2c 59 3b 6f 75 74 69 76 b6
+decoded_text_with_specials:  sh imp,Y;outiv�
+decoded_with_specials_utf8_replacements: 1
+decoded_with_specials_byte_hex: 20 73 68 20 69 6d 70 2c 59 3b 6f 75 74 69 76 b6
+__S06_5_DECODE_IDS_END__
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_30134__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_SPECIAL_DECODE_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --decode-ids '1 4093 198 19556 28 638 359 346 47 2'; echo __S06_5_SPECIAL_DECODE_END__
+__S06_5_SPECIAL_DECODE_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+decode_ids: 1 4093 198 19556 28 638 359 346 47 2
+decode_default_skip_special: true
+decoded_text: user
+Hello, how are you?
+decoded_utf8_replacements: 0
+decoded_special_tokens_skipped: 2
+decoded_byte_hex: 75 73 65 72 0a 48 65 6c 6c 6f 2c 20 68 6f 77 20 61 72 65 20 79 6f 75 3f
+decoded_text_with_specials: <|im_start|>user
+Hello, how are you?<|im_end|>
+decoded_with_specials_utf8_replacements: 0
+decoded_with_specials_byte_hex: 3c 7c 69 6d 5f 73 74 61 72 74 7c 3e 75 73 65 72 0a 48 65 6c 6c 6f 2c 20 68 6f 77 20 61 72 65 20 79 6f 75 3f 3c 7c 69 6d 5f 65 6e 64 7c 3e
+__S06_5_SPECIAL_DECODE_END__
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_32583__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_TOKENIZE_RAW_CHAT_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --prompt-raw 'Hello, how are you?' --tokenize-only; /tmp/smollm2_chat_s06_5 --model /opt/smo
+__S06_5_TOKENIZE_RAW_CHAT_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+tokenizer mode: raw
+raw_prompt: Hello, how are you?
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hello, how are you?
+prompt_token_count: 6
+prompt_token_ids: 19556 28 638 359 346 47
+BOS policy: add_bos_token=false; no implicit BOS inserted
+EOS policy: chat turns use <|im_end|> id 2; eos_token_id metadata is 2
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+tokenizer mode: chat_template
+raw_prompt: Hello, how are you?
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+Hello, how are you?<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 36
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 19556 28 638 359 346 47 2 198 1 520 9531 198
+BOS policy: add_bos_token=false; no implicit BOS inserted
+EOS policy: chat turns use <|im_end|> id 2; eos_token_id metadata is 2
+__S06_5_TOKENIZE_RAW_CHAT_END__
+root@Zybo-Z7-20:~# __S06_5_CMD_DONE_33047__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S06_5_CMD_DONE_33744__=$?
+__S06_5_CMD_DONE_33744__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_DECODE_COMPARE_START
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+decode_ids: 443 521 28 73 43 447 380 131
+decode_default_skip_special: true
+decoded_text:  sh imp,Y;outiv�
+decoded_utf8_replacements: 1
+decoded_special_tokens_skipped: 0
+decoded_byte_hex: 20 73 68 20 69 6d 70 2c 59 3b 6f 75 74 69 76 b6
+decoded_text_with_specials:  sh imp,Y;outiv�
+decoded_with_specials_utf8_replacements: 1
+decoded_with_specials_byte_hex: 20 73 68 20 69 6d 70 2c 59 3b 6f 75 74 69 76 b6
+
+### HOST_SPECIAL_DECODE_COMPARE_START
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+decode_ids: 1 4093 198 19556 28 638 359 346 47 2
+decode_default_skip_special: true
+decoded_text: user
+Hello, how are you?
+decoded_utf8_replacements: 0
+decoded_special_tokens_skipped: 2
+decoded_byte_hex: 75 73 65 72 0a 48 65 6c 6c 6f 2c 20 68 6f 77 20 61 72 65 20 79 6f 75 3f
+decoded_text_with_specials: <|im_start|>user
+Hello, how are you?<|im_end|>
+decoded_with_specials_utf8_replacements: 0
+decoded_with_specials_byte_hex: 3c 7c 69 6d 5f 73 74 61 72 74 7c 3e 75 73 65 72 0a 48 65 6c 6c 6f 2c 20 68 6f 77 20 61 72 65 20 79 6f 75 3f 3c 7c 69 6d 5f 65 6e 64 7c 3e
+
+### HOST_TOKENIZE_RAW_CHAT_COMPARE_START
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+tokenizer mode: raw
+raw_prompt: Hello, how are you?
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hello, how are you?
+prompt_token_count: 6
+prompt_token_ids: 19556 28 638 359 346 47
+BOS policy: add_bos_token=false; no implicit BOS inserted
+EOS policy: chat turns use <|im_end|> id 2; eos_token_id metadata is 2
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+tokenizer mode: chat_template
+raw_prompt: Hello, how are you?
+chat_template_applied: true
+chat_template_source: gguf_chatml
+prompt_text: <|im_start|>system
+You are a helpful AI assistant named SmolLM, trained by Hugging Face<|im_end|>
+<|im_start|>user
+Hello, how are you?<|im_end|>
+<|im_start|>assistant
+
+prompt_token_count: 36
+prompt_token_ids: 1 9690 198 2683 359 253 5356 5646 11173 3365 3511 308 34519 28 7018 411 407 19712 8182 2 198 1 4093 198 19556 28 638 359 346 47 2 198 1 520 9531 198
+BOS policy: add_bos_token=false; no implicit BOS inserted
+EOS policy: chat turns use <|im_end|> id 2; eos_token_id metadata is 2
+
+### TOKENIZER_DECODE_SUMMARY
+board decoded_text == host decoded_text for ids 443 521 28 73 43 447 380 131: yes
+board decoded_byte_hex == host decoded_byte_hex: yes
+replacement source: raw byte 0xb6 at end of decoded byte stream; this is actual generated token output, not a tokenizer table bug.
+special token skip check: ids 1 and 2 are skipped by default; --no-skip-special / with-special path keeps <|im_start|> and <|im_end|>.

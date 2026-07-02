@@ -1,0 +1,5 @@
+run,backend,fpga_output_mode,prompt_mode,prompt,ctx_size,max_new_tokens_requested,generated_text,generated_token_ids,achieved_tokens,stop_reason,per_token_latency_ms,total_gemv_calls,fpga_gemv_calls,cpu_gemv_fallbacks,fpga_repair_jobs,fpga_mode1_blockacc_calls,cpu_scale_accum_ops,cpu_scale_accum_time_ms,s2mm_output_bytes,input_saturations,fpga_time_ms,cpu_non_gemv_time_ms,kernel_oops_panic,status
+raw_hello_16,fpga,mode1_cpu_scale,raw,"Hello, how are you?",128,16,"I hope you're doing well.
+
+I'm looking forward to seeing you",339 3826 346 2316 2567 876 30 198 198 57 5248 3012 3703 288 6268 346,16,max_new_tokens,9575.483,4426,4426,0,0,298632,83828736,16099.175,335314944,6,152539.129,637.370,no,pass
+chat_hello_16,fpga,mode1_cpu_scale,chat,"Hello, how are you?",256,16,"I'm sorry for the confusion, but as a language model, I don't",57 5248 22657 327 260 9563 28 564 347 253 1789 1743 28 339 1326 982,16,max_new_tokens,21013.831,10726,10726,0,0,655032,183361536,35379.914,733446144,8,334088.002,2075.442,no,pass

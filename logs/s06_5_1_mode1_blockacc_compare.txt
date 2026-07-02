@@ -1,0 +1,86 @@
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+mode1_blockacc_compare: layer=0 role=q_proj tensor=blk.0.attn_q.weight
+hardware_execution: yes
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_token_count: 1
+prompt_token_ids: 26843
+probe_token: 26843
+probe_act_shift: 8
+probe_input_saturations: 0
+tensor_rows: 576
+tensor_cols: 576
+in_features: 576
+q8_blocks: 18
+mode1_result_words: 288
+mode1_result_bytes: 1152
+affected_rows: 54
+mode1_quantized_input_i16_stats: len=576 min=-131 max=148 mean=0.473958333 absmax=148 mean_abs=6.046875 checksum=273
+mode1_blockacc_row_header: row_group,lane,row,fixed_i32,blocks,mixed_cpu_mismatches,duplicate_cpu_mismatches,mixed_duplicate_mismatches,duplicate_uniform_mismatches
+mode1_blockacc_row: 0,9,9,169,18,0,0,0,0
+mode1_blockacc_row: 1,6,22,-4,18,0,0,0,0
+mode1_blockacc_row: 1,13,29,-8,18,0,0,0,0
+mode1_blockacc_row: 1,15,31,151,18,0,0,0,0
+mode1_blockacc_row: 3,0,48,-3,18,0,0,0,0
+mode1_blockacc_row: 3,11,59,-45,18,0,0,0,0
+mode1_blockacc_row: 4,1,65,-79,18,0,0,0,0
+mode1_blockacc_row: 5,2,82,154,18,0,0,0,0
+mode1_blockacc_row: 5,13,93,2,18,0,0,0,0
+mode1_blockacc_row: 5,14,94,123,18,0,0,0,0
+mode1_blockacc_row: 6,3,99,-15,18,0,0,0,0
+mode1_blockacc_row: 6,6,102,-115,18,0,0,0,0
+mode1_blockacc_row: 6,7,103,-95,18,0,0,0,0
+mode1_blockacc_row: 6,10,106,-255,18,0,0,0,0
+mode1_blockacc_row: 7,7,119,191,18,0,0,0,0
+mode1_blockacc_row: 7,10,122,-136,18,0,0,0,0
+mode1_blockacc_row: 8,3,131,71,18,0,0,0,0
+mode1_blockacc_row: 8,15,143,36,18,0,0,0,0
+mode1_blockacc_row: 9,0,144,50,18,0,0,0,0
+mode1_blockacc_row: 10,11,171,177,18,0,0,0,0
+mode1_blockacc_row: 10,15,175,126,18,0,0,0,0
+mode1_blockacc_row: 11,0,176,50,18,0,0,0,0
+mode1_blockacc_row: 11,4,180,-70,18,0,0,0,0
+mode1_blockacc_row: 11,9,185,42,18,0,0,0,0
+mode1_blockacc_row: 12,3,195,-238,18,0,0,0,0
+mode1_blockacc_row: 13,6,214,-294,18,0,0,0,0
+mode1_blockacc_row: 14,6,230,75,18,0,0,0,0
+mode1_blockacc_row: 14,8,232,92,18,0,0,0,0
+mode1_blockacc_row: 15,15,255,-153,18,0,0,0,0
+mode1_blockacc_row: 17,4,276,243,18,0,0,0,0
+mode1_blockacc_row: 17,10,282,301,18,0,0,0,0
+mode1_blockacc_row: 18,9,297,-22,18,0,0,0,0
+mode1_blockacc_row: 18,12,300,-87,18,0,0,0,0
+mode1_blockacc_row: 20,12,332,-73,18,0,0,0,0
+mode1_blockacc_row: 21,1,337,163,18,0,0,0,0
+mode1_blockacc_row: 21,8,344,-97,18,0,0,0,0
+mode1_blockacc_row: 22,4,356,43,18,0,0,0,0
+mode1_blockacc_row: 22,11,363,261,18,0,0,0,0
+mode1_blockacc_row: 23,13,381,-240,18,0,0,0,0
+mode1_blockacc_row: 24,1,385,-66,18,0,0,0,0
+mode1_blockacc_row: 25,2,402,94,18,0,0,0,0
+mode1_blockacc_row: 25,11,411,-348,18,0,0,0,0
+mode1_blockacc_row: 25,13,413,35,18,0,0,0,0
+mode1_blockacc_row: 26,11,427,578,18,0,0,0,0
+mode1_blockacc_row: 27,15,447,-14,18,0,0,0,0
+mode1_blockacc_row: 28,9,457,-279,18,0,0,0,0
+mode1_blockacc_row: 30,0,480,347,18,0,0,0,0
+mode1_blockacc_row: 31,6,502,37,18,0,0,0,0
+mode1_blockacc_row: 31,14,510,-37,18,0,0,0,0
+mode1_blockacc_row: 32,3,515,-205,18,0,0,0,0
+mode1_blockacc_row: 33,1,529,149,18,0,0,0,0
+mode1_blockacc_row: 33,12,540,-226,18,0,0,0,0
+mode1_blockacc_row: 34,8,552,43,18,0,0,0,0
+mode1_blockacc_row: 35,7,567,-149,18,0,0,0,0
+mode1_blockacc_total_blocks: 972
+mode1_blockacc_mixed_cpu_mismatches: 0
+mode1_blockacc_duplicate_cpu_mismatches: 0
+mode1_blockacc_mixed_duplicate_mismatches: 0
+mode1_blockacc_duplicate_uniform_mismatches: 0
+mode1_blockacc_csv: /tmp/s06_5_1_mode1_blockacc_compare.csv
+mode1_blockacc_result: PASS
+classification: MODE1_PASS_NEXT_MODE0_SCALE_PATH

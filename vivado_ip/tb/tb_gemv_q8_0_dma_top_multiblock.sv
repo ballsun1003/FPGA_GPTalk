@@ -103,6 +103,7 @@ module tb_gemv_q8_0_dma_top_multiblock;
     integer ready_cycle;
     integer no_backpressure;
     integer bram_latency_i;
+    integer focus_lane_i;
     integer lane;
     integer block;
     integer cycle;
@@ -202,15 +203,31 @@ module tb_gemv_q8_0_dma_top_multiblock;
         integer i;
         begin
             case_name = "B_64x16_P0";
+            void'($value$plusargs("CASE_NAME=%s", case_name));
             if (!$value$plusargs("CASE_DIR=%s", case_dir)) begin
                 case_dir = "golden/s05_6_1_multiblock/B_64x16_P0";
             end
             in_features_i = 64;
             out_features_i = 16;
             packet_bytes_i = 1152;
+            void'($value$plusargs("IN_FEATURES=%d", in_features_i));
+            void'($value$plusargs("OUT_FEATURES=%d", out_features_i));
+            void'($value$plusargs("PACKET_BYTES=%d", packet_bytes_i));
+            if (out_features_i != LANES) begin
+                $fatal(1, "[FAIL] this wrapper TB expects one row-group, OUT_FEATURES must be %0d, got %0d",
+                       LANES, out_features_i);
+            end
             blocks_per_row_i = in_features_i / Q8_BLOCK_SIZE;
             expected_beats_i = packet_bytes_i / TKEEP_WIDTH;
             expected_tlast_beat_i = expected_beats_i - 1;
+            if ((in_features_i % Q8_BLOCK_SIZE) != 0) begin
+                $fatal(1, "[FAIL] IN_FEATURES must be divisible by %0d, got %0d",
+                       Q8_BLOCK_SIZE, in_features_i);
+            end
+            if ((packet_bytes_i % TKEEP_WIDTH) != 0) begin
+                $fatal(1, "[FAIL] PACKET_BYTES must be aligned to %0d, got %0d",
+                       TKEEP_WIDTH, packet_bytes_i);
+            end
 
             path = {case_dir, "/input_i16.hex"};
             $readmemh(path, input_mem);
@@ -418,7 +435,7 @@ module tb_gemv_q8_0_dma_top_multiblock;
                              case_name, mode1_enabled, output_count, expected_block, expected_lane,
                              $signed(m_axis_tdata), expected);
                 end
-                if (expected_lane == 4 || expected_lane == 12) begin
+                if (expected_lane == focus_lane_i || expected_lane == 4 || expected_lane == 12) begin
                     $display("LANE_FOCUS,%0s,mode%0d,block=%0d,lane=%0d,got=%0d,expected=%0d,tlast=%0b",
                              case_name, mode1_enabled, expected_block, expected_lane,
                              $signed(m_axis_tdata), expected, m_axis_tlast);
@@ -530,10 +547,12 @@ module tb_gemv_q8_0_dma_top_multiblock;
     initial begin
         no_backpressure = 0;
         bram_latency_i = 2;
+        focus_lane_i = -1;
         if ($test$plusargs("NO_BACKPRESSURE")) begin
             no_backpressure = 1;
         end
         void'($value$plusargs("BRAM_LATENCY=%d", bram_latency_i));
+        void'($value$plusargs("FOCUS_LANE=%d", focus_lane_i));
         if (bram_latency_i < 0 || bram_latency_i > 3) begin
             $fatal(1, "[FAIL] BRAM_LATENCY must be 0..3, got %0d", bram_latency_i);
         end

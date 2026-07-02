@@ -1,0 +1,165 @@
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_SPARSE_PRECHECK_START__;cat /proc/cmdline;command -v gcc;for d in /sys/class/uio/uio*; do echo UIO=$(basename "$d") name=$(cat "$d/name" 2>/dev/null); done;echo __S06_5_SPARSE_PRECHECK_END__
+__S06_5_SPARSE_PRECHECK_START__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+/usr/bin/gcc
+UIO=uio0 name=axi_dma
+UIO=uio1 name=input_bram
+UIO=uio2 name=hdmi_vdma
+UIO=uio3 name=hdmi_vtc
+UIO=uio4 name=hdmi_dynclk
+UIO=uio5 name=gemv_ctrl
+__S06_5_SPARSE_PRECHECK_END__
+root@Zybo-Z7-20:~# __S06_5_SPARSE_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/smollm2_chat_s06_5_sparse_probe.c /tmp/smollm2_chat_s06_5_sparse_probe
+root@Zybo-Z7-20:~# __S06_5_SPARSE_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/smollm2_chat_s06_5_sparse_probe.c <<'__S06_5_SPARSE_REPAIR_PROBE_C_EOF_20260702__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <math
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 6fe4c7106afb5e9eaf7c3e10e41f74dc66becb9410b1a7bbb7e075e8032ac9bc  /tmp/smollm2_chat_s06_5_sparse_probe.c
+117763 /tmp/smollm2_chat_s06_5_sparse_probe.c
+root@Zybo-Z7-20:~# __S06_5_SPARSE_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/smollm2_chat_s06_5_sparse_probe /tmp/smollm2_chat_s06_5_sparse_probe.c -lm; rc=$?; echo __S06_5_SPARSE_COMPILE_RC__=$rc; [ $rc -eq 0 ] && sha256sum /tmp/smollm2_chat_s06_5_sparse_probe && ls -l /tmp/sm
+__S06_5_SPARSE_COMPILE_RC__=0
+cf78a67e8dd7d8f4c854e17b7ff07398317677997bde97a3e63f9dbf8750cd08  /tmp/smollm2_chat_s06_5_sparse_probe
+-rwxr-xr-x    1 root     root         69764 Jun 25 12:00 /tmp/smollm2_chat_s06_5_sparse_probe
+root@Zybo-Z7-20:~# __S06_5_SPARSE_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_SPARSE_RUN_START__;/tmp/smollm2_chat_s06_5_sparse_probe --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --prompt-raw Hi --act-shift 8 --probe-first-gemv; rc=$?; echo __S06_5_SPARSE_RUN_RC__=$rc; dmesg | tail -80
+__S06_5_SPARSE_RUN_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+probe_first_gemv: layer=0 role=q_proj tensor=blk.0.attn_q.weight row_group=0 token=26843
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_token_count: 1
+prompt_token_ids: 26843
+probe_act_shift: 8
+probe_in_features: 576
+probe_out_lanes: 16
+probe_packet_bytes: 10368
+probe_input_saturations: 0
+probe_embedding_output_stats: len=576 min=-0.498031616 max=0.406225204 mean=0.00316934619 absmax=0.498031616 mean_abs=0.0812553614 checksum=1.8255434 hash=c2e5c2fbab4daf0c
+probe_after_input_rmsnorm_stats: len=576 min=-0.510854781 max=0.576700091 mean=0.00180824286 absmax=0.576700091 mean_abs=0.0236572988 checksum=1.04154789 hash=a378961d9fec528f
+probe_quantized_input_i16_stats: len=576 min=-131 max=148 mean=0.473958333 absmax=148 mean_abs=6.046875 checksum=273
+probe_scale_q_stats: count=288 min=2386 max=11096 mean=5914.95833 checksum=1703508
+probe_packet_first64_hex: c8 25 00 00 64 12 00 00 10 29 00 00 a4 11 00 00 7c 1e 00 00 d8 1c 00 00 24 12 00 00 7c 1e 00 00 88 13 00 00 a8 14 00 00 cc 16 00 00 3a 0d 00 00 b4 1a 00 00 00 10 00 00 58 1b 00 00 8a 0c 00 00
+probe_cpu_float_first16: -0.928551674 -0.100769721 -0.875838578 -1.13540018 -0.402974248 0.626686037 -0.783254862 0.224745944 0.728187621 0.662478328 -0.675962925 -0.025043793 0.561234057 0.0223929547 0.540800452 -0.0519334339
+probe_fixed_ref_i32_first16: -239 -26 -223 -292 -104 162 -203 60 185 169 -174 -7 147 6 140 -13
+probe_fixed_ref_float_first16: -0.93359375 -0.1015625 -0.87109375 -1.140625 -0.40625 0.6328125 -0.79296875 0.234375 0.72265625 0.66015625 -0.6796875 -0.02734375 0.57421875 0.0234375 0.546875 -0.05078125
+probe_fpga_i32_first16: -239 -26 -223 -292 -104 162 -203 60 185 2147483647 -174 -7 147 6 140 -13
+probe_fpga_float_first16: -0.93359375 -0.1015625 -0.87109375 -1.140625 -0.40625 0.6328125 -0.79296875 0.234375 0.72265625 8388608 -0.6796875 -0.02734375 0.57421875 0.0234375 0.546875 -0.05078125
+probe_fixed_vs_fpga_mismatches: 1
+probe_fixed_vs_fpga_first_mismatch: 9
+probe_fixed_vs_fpga_max_abs_diff_i32: 2147483478
+probe_debug_status: status=0x00000002 done=0x00000001 error=0x00000000
+probe_debug_pos: row=15 block=17 lane=15 in_count=648 tlast_count=647 tlast_tdata=0x08db7f1b tlast_tkeep=0x0000ffff
+probe_debug_scale012: 6516 3950 5320
+probe_debug_block012: 2673 384 4522
+probe_debug_product012: 17417268 1516800 24057040
+probe_debug_scaled012: 17 1 23
+probe_debug_row_acc012: -239 -26 -223
+probe_debug_out012: -239 -26 -223
+probe_q_proj_scan_header: row_group,lane,row,fixed_i32,fpga_i32,diff_i32
+probe_q_proj_scan_mismatch: 0,9,9,169,2147483647,2147483478
+probe_q_proj_scan_mismatch: 1,6,22,-4,2147483647,2147483651
+probe_q_proj_scan_mismatch: 1,15,31,151,2147483647,2147483496
+probe_q_proj_scan_mismatch: 3,0,48,-3,2147483647,2147483650
+probe_q_proj_scan_mismatch: 3,11,59,-45,2147483647,2147483692
+probe_q_proj_scan_mismatch: 4,1,65,-79,2147483647,2147483726
+probe_q_proj_scan_mismatch: 5,2,82,154,2147483647,2147483493
+probe_q_proj_scan_mismatch: 5,13,93,2,2147483647,2147483645
+probe_q_proj_scan_mismatch: 5,14,94,123,2147483647,2147483524
+probe_q_proj_scan_mismatch: 6,3,99,-15,2147483647,2147483662
+probe_q_proj_scan_mismatch: 6,6,102,-115,2147483647,2147483762
+probe_q_proj_scan_mismatch: 6,7,103,-95,2147483647,2147483742
+probe_q_proj_scan_mismatch: 7,7,119,191,2147483647,2147483456
+probe_q_proj_scan_mismatch: 8,3,131,71,2147483647,2147483576
+probe_q_proj_scan_mismatch: 8,15,143,36,2147483647,2147483611
+probe_q_proj_scan_mismatch: 9,0,144,50,2147483647,2147483597
+probe_q_proj_scan_mismatch: 10,11,171,177,2147483647,2147483470
+probe_q_proj_scan_mismatch: 10,15,175,126,2147483647,2147483521
+probe_q_proj_scan_mismatch: 11,0,176,50,2147483647,2147483597
+probe_q_proj_scan_mismatch: 11,4,180,-70,2147483647,2147483717
+probe_q_proj_scan_mismatch: 11,8,184,183,2147483647,2147483464
+probe_q_proj_scan_mismatch: 11,9,185,42,2147483647,2147483605
+probe_q_proj_scan_mismatch: 12,3,195,-238,2147483647,2147483885
+probe_q_proj_scan_mismatch: 13,6,214,-294,2147483647,2147483941
+probe_q_proj_scan_mismatch: 14,6,230,75,2147483647,2147483572
+probe_q_proj_scan_mismatch: 14,8,232,92,2147483647,2147483555
+probe_q_proj_scan_mismatch: 15,4,244,143,2147483647,2147483504
+probe_q_proj_scan_mismatch: 15,15,255,-153,2147483647,2147483800
+probe_q_proj_scan_mismatch: 17,4,276,243,2147483647,2147483404
+probe_q_proj_scan_mismatch: 18,4,292,-246,2147483647,2147483893
+probe_q_proj_scan_mismatch: 18,9,297,-22,2147483647,2147483669
+probe_q_proj_scan_mismatch: 18,12,300,-87,2147483647,2147483734
+probe_q_proj_scan_mismatch: 21,1,337,163,2147483647,2147483484
+probe_q_proj_scan_mismatch: 21,8,344,-97,2147483647,2147483744
+probe_q_proj_scan_mismatch: 22,4,356,43,2147483647,2147483604
+probe_q_proj_scan_mismatch: 22,11,363,261,2147483647,2147483386
+probe_q_proj_scan_mismatch: 23,13,381,-240,2147483647,2147483887
+probe_q_proj_scan_mismatch: 24,1,385,-66,2147483647,2147483713
+probe_q_proj_scan_mismatch: 25,2,402,94,2147483647,2147483553
+probe_q_proj_scan_mismatch: 25,11,411,-348,2147483647,2147483995
+probe_q_proj_scan_mismatch: 25,13,413,35,2147483647,2147483612
+probe_q_proj_scan_mismatch: 26,11,427,578,2147483647,2147483069
+probe_q_proj_scan_mismatch: 27,15,447,-14,2147483647,2147483661
+probe_q_proj_scan_mismatch: 28,9,457,-279,2147483647,2147483926
+probe_q_proj_scan_mismatch: 30,0,480,347,2147483647,2147483300
+probe_q_proj_scan_mismatch: 30,3,483,212,2147483647,2147483435
+probe_q_proj_scan_mismatch: 31,14,510,-37,2147483647,2147483684
+probe_q_proj_scan_mismatch: 32,3,515,-205,2147483647,2147483852
+probe_q_proj_scan_mismatch: 33,1,529,149,2147483647,2147483498
+probe_q_proj_scan_mismatch: 34,8,552,43,2147483647,2147483604
+probe_q_proj_scan_mismatch: 35,7,567,-149,2147483647,2147483796
+probe_q_proj_scan_total_mismatches: 51
+probe_q_proj_scan_total_saturated_outputs: 51
+probe_q_proj_scan_lane_mismatches: lane0=4 lane1=4 lane2=2 lane3=5 lane4=5 lane5=0 lane6=4 lane7=3 lane8=4 lane9=4 lane10=0 lane11=5 lane12=1 lane13=3 lane14=2 lane15=5
+probe_q_proj_scan_lane_saturated_outputs: lane0=4 lane1=4 lane2=2 lane3=5 lane4=5 lane5=0 lane6=4 lane7=3 lane8=4 lane9=4 lane10=0 lane11=5 lane12=1 lane13=3 lane14=2 lane15=5
+probe_repair_all_lanes_header: row,fixed_i32,good_lanes,outputs
+probe_repair_all_lanes: 9,169,15,2147483647 169 169 169 169 169 169 169 169 169 169 169 169 169 169 169
+probe_repair_all_lanes: 22,-4,16,-4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4 -4
+probe_repair_all_lanes: 31,151,16,151 151 151 151 151 151 151 151 151 151 151 151 151 151 151 151
+probe_repair_all_lanes: 48,-3,16,-3 -3 -3 -3 -3 -3 -3 -3 -3 -3 -3 -3 -3 -3 -3 -3
+probe_repair_all_lanes: 59,-45,15,2147483647 -45 -45 -45 -45 -45 -45 -45 -45 -45 -45 -45 -45 -45 -45 -45
+probe_repair_all_lanes: 65,-79,16,-79 -79 -79 -79 -79 -79 -79 -79 -79 -79 -79 -79 -79 -79 -79 -79
+probe_repair_all_lanes: 82,154,16,154 154 154 154 154 154 154 154 154 154 154 154 154 154 154 154
+probe_repair_all_lanes: 93,2,16,2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2
+probe_sparse_single_header: row,lane,fixed_i32,orig_lane_i32,lane0_i32,orig_lane_ok,lane0_ok
+probe_sparse_single: 9,9,169,2147483647,169,0,1
+probe_sparse_single: 22,6,-4,2147483647,-4,0,1
+probe_sparse_single: 31,15,151,2147483647,151,0,1
+probe_sparse_single: 48,0,-3,2147483647,2147483647,0,0
+probe_sparse_single: 59,11,-45,2147483647,-45,0,1
+probe_sparse_single: 65,1,-79,2147483647,-79,0,1
+probe_sparse_single: 82,2,154,2147483647,154,0,1
+probe_sparse_single: 93,13,2,2147483647,2147483647,0,0
+probe_sparse_group_header: mode,count,good,total,outputs
+probe_sparse_group: original_lanes,2,1,2,0 0 0 0 0 0 -4 0 0 2147483647 0 0 0 0 0 0
+probe_sparse_group: original_lanes,4,1,4,-3 0 0 0 0 0 2147483647 0 0 2147483647 0 0 0 0 0 2147483647
+probe_sparse_group: original_lanes,8,2,8,-3 2147483647 2147483647 0 0 0 -4 0 0 2147483647 0 2147483647 0 2147483647 0 2147483647
+probe_sparse_group: compact_lanes,2,0,2,2147483647 2147483647 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+probe_sparse_group: compact_lanes,4,3,4,169 2147483647 151 -3 0 0 0 0 0 0 0 0 0 0 0 0
+probe_sparse_group: compact_lanes,8,4,8,2147483647 2147483647 151 -3 -45 -79 2147483647 2147483647 0 0 0 0 0 0 0 0
+__S06_5_SPARSE_RUN_RC__=0
+__S06_5_SPARSE_RUN_END__
+root@Zybo-Z7-20:~# __S06_5_SPARSE_CMD_DONE_5__=0
+root@Zybo-Z7-20:~# 

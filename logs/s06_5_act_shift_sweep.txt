@@ -1,0 +1,358 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_SWEEP_START__; ls -l /tmp/smollm2_chat_s06_5; sha256sum /tmp/smollm2_chat_s06_5; echo __S06_5_ACT_SHIFT_SWEEP_PRECHECK_DONE__
+__S06_5_ACT_SHIFT_SWEEP_START__
+-rwxr-xr-x    1 root     root         50404 Jun 25 11:00 /tmp/smollm2_chat_s06_5
+7bc4e6a07eca3d289689a97673694a9e56fad81a5a27142f2342fb009dc0af6d  /tmp/smollm2_chat_s06_5
+__S06_5_ACT_SHIFT_SWEEP_PRECHECK_DONE__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_455396__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_4_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shift 4 --audit-
+__S06_5_ACT_SHIFT_4_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 37 43 51 61 84 101 147 153 163 198
+first_token_top10_scores: 134217728.000000 134217728.000000 134217728.000000 134217728.000000 134217728.000000 134217728.000000 134217728.000000 134217728.000000 134217728.000000 134217728.000000
+first_token_top10_rank_01: id=37 score=134217728.000000 text=5
+first_token_top10_rank_02: id=43 score=134217728.000000 text=;
+first_token_top10_rank_03: id=51 score=134217728.000000 text=C
+first_token_top10_rank_04: id=61 score=134217728.000000 text=M
+first_token_top10_rank_05: id=84 score=134217728.000000 text=d
+first_token_top10_rank_06: id=101 score=134217728.000000 text=u
+first_token_top10_rank_07: id=147 score=134217728.000000 text=�
+first_token_top10_rank_08: id=153 score=134217728.000000 text=�
+first_token_top10_rank_09: id=163 score=134217728.000000 text=�
+first_token_top10_rank_10: id=198 score=134217728.000000 text=\n
+generated_token_ids: 37
+generated_text: 5
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 35
+stop_reason: max_new_tokens
+first_generated_token_text: 5
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 26808
+fpga_time_ms: 6302.501
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.494
+tokenization_time_ms: 0.040
+sampling_time_ms: 0.758
+per_token_latency_ms: 6334.279
+first generated token/text: 37
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_ACT_SHIFT_4_RC__=0
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_ACT_SHIFT_4_END__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_455564__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_5_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shift 5 --audit-
+__S06_5_ACT_SHIFT_5_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 47 163 196 226 263 309 317 337 353 423
+first_token_top10_scores: 67108864.000000 67108864.000000 67108864.000000 67108864.000000 67108864.000000 67108864.000000 67108864.000000 67108864.000000 67108864.000000 67108864.000000
+first_token_top10_rank_01: id=47 score=67108864.000000 text=?
+first_token_top10_rank_02: id=163 score=67108864.000000 text=�
+first_token_top10_rank_03: id=196 score=67108864.000000 text=\x08
+first_token_top10_rank_04: id=226 score=67108864.000000 text=�
+first_token_top10_rank_05: id=263 score=67108864.000000 text= o
+first_token_top10_rank_06: id=309 score=67108864.000000 text=ation
+first_token_top10_rank_07: id=317 score=67108864.000000 text=ra
+first_token_top10_rank_08: id=337 score=67108864.000000 text=ir
+first_token_top10_rank_09: id=353 score=67108864.000000 text=        
+first_token_top10_rank_10: id=423 score=67108864.000000 text=--
+generated_token_ids: 47
+generated_text: ?
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 3f
+stop_reason: max_new_tokens
+first_generated_token_text: ?
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 16904
+fpga_time_ms: 6300.118
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.319
+tokenization_time_ms: 0.040
+sampling_time_ms: 0.760
+per_token_latency_ms: 6330.717
+first generated token/text: 47
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_ACT_SHIFT_5_RC__=0
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_ACT_SHIFT_5_END__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_464436__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_6_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shift 6 --audit-
+__S06_5_ACT_SHIFT_6_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 0 22 121 155 252 307 389 425 499 532
+first_token_top10_scores: 33554432.000000 33554432.000000 33554432.000000 33554432.000000 33554432.000000 33554432.000000 33554432.000000 33554432.000000 33554432.000000 33554432.000000
+first_token_top10_rank_01: id=0 score=33554432.000000 text=<|endoftext|>
+first_token_top10_rank_02: id=22 score=33554432.000000 text=&
+first_token_top10_rank_03: id=121 score=33554432.000000 text=�
+first_token_top10_rank_04: id=155 score=33554432.000000 text=�
+first_token_top10_rank_05: id=252 score=33554432.000000 text= t
+first_token_top10_rank_06: id=307 score=33554432.000000 text=ve
+first_token_top10_rank_07: id=389 score=33554432.000000 text= B
+first_token_top10_rank_08: id=425 score=33554432.000000 text= le
+first_token_top10_rank_09: id=499 score=33554432.000000 text= res
+first_token_top10_rank_10: id=532 score=33554432.000000 text=vel
+generated_token_ids: 0
+generated_text: 
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 1
+generated_byte_hex: 
+stop_reason: eos
+first_generated_token_text: 
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 10538
+fpga_time_ms: 6299.879
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.331
+tokenization_time_ms: 0.039
+sampling_time_ms: 0.757
+per_token_latency_ms: 6332.124
+first generated token/text: 0
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_ACT_SHIFT_6_RC__=0
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_ACT_SHIFT_6_END__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_471321__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_7_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shift 7 --audit-
+__S06_5_ACT_SHIFT_7_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 37 53 269 336 342 406 426 487 551 625
+first_token_top10_scores: 16777216.000000 16777216.000000 16777216.000000 16777216.000000 16777216.000000 16777216.000000 16777216.000000 16777216.000000 16777216.000000 16777216.000000
+first_token_top10_rank_01: id=37 score=16777216.000000 text=5
+first_token_top10_rank_02: id=53 score=16777216.000000 text=E
+first_token_top10_rank_03: id=269 score=16777216.000000 text=it
+first_token_top10_rank_04: id=336 score=16777216.000000 text=ul
+first_token_top10_rank_05: id=342 score=16777216.000000 text=if
+first_token_top10_rank_06: id=406 score=16777216.000000 text=oc
+first_token_top10_rank_07: id=426 score=16777216.000000 text= F
+first_token_top10_rank_08: id=487 score=16777216.000000 text=ans
+first_token_top10_rank_09: id=551 score=16777216.000000 text= un
+first_token_top10_rank_10: id=625 score=16777216.000000 text= St
+generated_token_ids: 37
+generated_text: 5
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 35
+stop_reason: max_new_tokens
+first_generated_token_text: 5
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 5421
+fpga_time_ms: 6300.111
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.372
+tokenization_time_ms: 0.039
+sampling_time_ms: 0.757
+per_token_latency_ms: 6331.159
+first generated token/text: 37
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_ACT_SHIFT_7_RC__=0
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_ACT_SHIFT_7_END__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_478201__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_8_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shift 8 --audit-
+__S06_5_ACT_SHIFT_8_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 371 788 798 1486 1644 1828 2065 2152 2261 2388
+first_token_top10_scores: 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000
+first_token_top10_rank_01: id=371 score=8388608.000000 text=op
+first_token_top10_rank_02: id=788 score=8388608.000000 text=In
+first_token_top10_rank_03: id=798 score=8388608.000000 text= mod
+first_token_top10_rank_04: id=1486 score=8388608.000000 text= among
+first_token_top10_rank_05: id=1644 score=8388608.000000 text= So
+first_token_top10_rank_06: id=1828 score=8388608.000000 text= problems
+first_token_top10_rank_07: id=2065 score=8388608.000000 text= ur
+first_token_top10_rank_08: id=2152 score=8388608.000000 text=sequ
+first_token_top10_rank_09: id=2261 score=8388608.000000 text= phot
+first_token_top10_rank_10: id=2388 score=8388608.000000 text= sun
+generated_token_ids: 371
+generated_text: op
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 6f 70
+stop_reason: max_new_tokens
+first_generated_token_text: op
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 2524
+fpga_time_ms: 6300.560
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.296
+tokenization_time_ms: 0.039
+sampling_time_ms: 0.758
+per_token_latency_ms: 6331.107
+first generated token/text: 371
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_ACT_SHIFT_8_RC__=0
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_ACT_SHIFT_8_END__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_485083__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_ACT_SHIFT_9_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shift 9 --audit-
+__S06_5_ACT_SHIFT_9_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 493 612 817 1147 1247 1672 2103 2117 2497 3682
+first_token_top10_scores: 4194304.000000 4194304.000000 4194304.000000 4194304.000000 4194304.000000 4194304.000000 4194304.000000 4194304.000000 4194304.000000 4194304.000000
+first_token_top10_rank_01: id=493 score=4194304.000000 text= ad
+first_token_top10_rank_02: id=612 score=4194304.000000 text=now
+first_token_top10_rank_03: id=817 score=4194304.000000 text= system
+first_token_top10_rank_04: id=1147 score=4194304.000000 text= too
+first_token_top10_rank_05: id=1247 score=4194304.000000 text=ulation
+first_token_top10_rank_06: id=1672 score=4194304.000000 text= *
+first_token_top10_rank_07: id=2103 score=4194304.000000 text= side
+first_token_top10_rank_08: id=2117 score=4194304.000000 text= especially
+first_token_top10_rank_09: id=2497 score=4194304.000000 text=eration
+first_token_top10_rank_10: id=3682 score=4194304.000000 text=unction
+generated_token_ids: 493
+generated_text:  ad
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 20 61 64
+stop_reason: max_new_tokens
+first_generated_token_text:  ad
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 1337
+fpga_time_ms: 6300.772
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.233
+tokenization_time_ms: 0.040
+sampling_time_ms: 0.759
+per_token_latency_ms: 6332.153
+first generated token/text: 493
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_ACT_SHIFT_9_RC__=0
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_ACT_SHIFT_9_END__
+root@Zybo-Z7-20:~# __S06_5_ACT_CMD_DONE_493958__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S06_5_ACT_CMD_DONE_502835__=$?
+__S06_5_ACT_CMD_DONE_502835__=0
+root@Zybo-Z7-20:~# 

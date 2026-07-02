@@ -1,0 +1,72 @@
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+backend: cpu
+act_shift: 8
+fpga_output_mode: mode0
+fpga_repair_mode: duplicate
+sampling_temperature: 0
+sampling_top_k: 0
+sampling_top_p: 1
+sampling_mode: greedy
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_lm_head_input_hidden_stats: len=576 min=-9.80682373 max=23.0592575 mean=0.0488648654 absmax=23.0592575 mean_abs=0.623726454 checksum=28.1461625 hash=a459e2bc653bdcab
+first_token_logits_stats: len=49152 min=-3.91066289 max=20.0867767 mean=9.16080287 absmax=20.0867767 mean_abs=9.16347126 checksum=450271.783 hash=02ba6dbe1453f2aa
+first_token_top3_ids: 28 198 260
+first_token_top3_scores: 20.086777 19.813208 19.777750
+first_token_top3_rank_01: id=28 score=20.086777 text=,
+first_token_top3_rank_02: id=198 score=19.813208 text=\n
+first_token_top3_rank_03: id=260 score=19.777750 text= the
+generated_token_ids: 28
+tokens_generated: 1
+ctx_used: 2
+ctx_max: 128
+ctx used / ctx max: 2 / 128
+generated_text: ,
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 2c
+stop_reason: max_new_tokens
+first_generated_token_text: ,
+total_gemv_calls: 211
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+fpga_repair_jobs: 0
+fpga_mode1_blockacc_calls: 0
+s2mm_output_bytes: 0
+fpga_saturated_outputs_repaired: 0
+fpga_saturated_outputs_unrepaired: 0
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 75.550
+cpu_non_gemv_time_ms: 0.402
+cpu_scale_accum_ops: 0
+cpu_scale_accum_time_ms: 0.000
+tokenization_time_ms: 0.002
+sampling_time_ms: 0.047
+per_token_latency_ms: 76.367
+gemv_role_breakdown_header: role,calls,fpga_calls,cpu_fallbacks,fpga_rowgroup_jobs,fpga_chunk_jobs,fpga_repair_jobs,fpga_mode1_blockacc_calls,s2mm_output_bytes,input_saturations,fpga_time_ms,cpu_gemv_time_ms,cpu_scale_accum_ops,cpu_scale_accum_time_ms
+gemv_role_breakdown: q_proj,30,0,0,0,0,0,0,0,0,0.000,5.667,0,0.000
+gemv_role_breakdown: k_proj,30,0,0,0,0,0,0,0,0,0.000,1.928,0,0.000
+gemv_role_breakdown: v_proj,30,0,0,0,0,0,0,0,0,0.000,1.841,0,0.000
+gemv_role_breakdown: o_proj,30,0,0,0,0,0,0,0,0,0.000,5.536,0,0.000
+gemv_role_breakdown: gate_proj,30,0,0,0,0,0,0,0,0,0.000,14.804,0,0.000
+gemv_role_breakdown: up_proj,30,0,0,0,0,0,0,0,0,0.000,14.734,0,0.000
+gemv_role_breakdown: down_proj,30,0,0,0,0,0,0,0,0,0.000,14.735,0,0.000
+gemv_role_breakdown: lm_head,1,0,0,0,0,0,0,0,0,0.000,16.304,0,0.000
+first generated token/text: 28
+max-new-tokens achieved: 1
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)

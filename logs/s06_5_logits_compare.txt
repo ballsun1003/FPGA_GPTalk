@@ -1,0 +1,291 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_LOGITS_COMPARE_START__; uname -a; command -v gcc; echo __S06_5_LOGITS_PRECHECK_DONE__
+__S06_5_LOGITS_COMPARE_START__
+Linux Zybo-Z7-20 4.9.0-xilinx-v2017.4 #1 SMP PREEMPT Thu Jun 25 08:31:10 UTC 2026 armv7l GNU/Linux
+/usr/bin/gcc
+__S06_5_LOGITS_PRECHECK_DONE__
+root@Zybo-Z7-20:~# __S06_5_LOGITS_CMD_DONE_392461__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/smollm2_chat_s06_5.c /tmp/smollm2_chat_s06_5
+root@Zybo-Z7-20:~# __S06_5_LOGITS_CMD_DONE_392626__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/smollm2_chat_s06_5.c <<'__S06_5_SMOLLM2_CHAT_C__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <math.h>
+#include <stdint.h>
+#include 
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 78125 /tmp/smollm2_chat_s06_5.c
+f78d7c87890e908db0a6cd9b3adeca3c71845348e2fbc8ab8e443f3044937a36  /tmp/smollm2_chat_s06_5.c
+root@Zybo-Z7-20:~# __S06_5_LOGITS_CMD_DONE_392736__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/smollm2_chat_s06_5 /tmp/smollm2_chat_s06_5.c -lm; rc=$?; echo __S06_5_LOGITS_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/smollm2_chat_s06_5 && sha256sum /tmp/smollm2_chat_s06_5
+__S06_5_LOGITS_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         50404 Jun 25 11:00 /tmp/smollm2_chat_s06_5
+7bc4e6a07eca3d289689a97673694a9e56fad81a5a27142f2342fb009dc0af6d  /tmp/smollm2_chat_s06_5
+root@Zybo-Z7-20:~# __S06_5_LOGITS_CMD_DONE_404802__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_RAW_HI_COMPARE_TOPK_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --compare-backends --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shif
+__S06_5_RAW_HI_COMPARE_TOPK_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+[compare] backend=cpu
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 28 198 260 30 288 284 282 33 253 314
+first_token_top10_scores: 20.086777 19.813208 19.777750 19.398945 19.322023 19.160240 19.117498 19.003510 18.924814 18.688423
+first_token_top10_rank_01: id=28 score=20.086777 text=,
+first_token_top10_rank_02: id=198 score=19.813208 text=\n
+first_token_top10_rank_03: id=260 score=19.777750 text= the
+first_token_top10_rank_04: id=30 score=19.398945 text=.
+first_token_top10_rank_05: id=288 score=19.322023 text= to
+first_token_top10_rank_06: id=284 score=19.160240 text= and
+first_token_top10_rank_07: id=282 score=19.117498 text= of
+first_token_top10_rank_08: id=33 score=19.003510 text=1
+first_token_top10_rank_09: id=253 score=18.924814 text= a
+first_token_top10_rank_10: id=314 score=18.688423 text= is
+generated_token_ids: 28
+generated_text: ,
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 2c
+stop_reason: max_new_tokens
+first_generated_token_text: ,
+total_gemv_calls: 211
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3220.940
+cpu_non_gemv_time_ms: 23.348
+tokenization_time_ms: 0.046
+sampling_time_ms: 0.756
+per_token_latency_ms: 3252.607
+[compare] backend=fpga
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_top10_ids: 643 845 1692 2288 2460 2563 2798 2809 3140 3173
+first_token_top10_scores: 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000
+first_token_top10_rank_01: id=643 score=8388608.000000 text=),
+first_token_top10_rank_02: id=845 score=8388608.000000 text=own
+first_token_top10_rank_03: id=1692 score=8388608.000000 text= discuss
+first_token_top10_rank_04: id=2288 score=8388608.000000 text= job
+first_token_top10_rank_05: id=2460 score=8388608.000000 text=OR
+first_token_top10_rank_06: id=2563 score=8388608.000000 text=init
+first_token_top10_rank_07: id=2798 score=8388608.000000 text= original
+first_token_top10_rank_08: id=2809 score=8388608.000000 text=iation
+first_token_top10_rank_09: id=3140 score=8388608.000000 text= document
+first_token_top10_rank_10: id=3173 score=8388608.000000 text=illi
+generated_token_ids: 643
+generated_text: ),
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 29 2c
+stop_reason: max_new_tokens
+first_generated_token_text: ),
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 2285
+fpga_time_ms: 6272.550
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 23.013
+tokenization_time_ms: 0.021
+sampling_time_ms: 0.800
+per_token_latency_ms: 6302.761
+compare_cpu_first_token: 28
+compare_fpga_first_token: 643
+compare_cpu_per_token_ms: 3252.607
+compare_fpga_per_token_ms: 6302.761
+CPU vs HW comparison available: yes
+__S06_5_RAW_HI_COMPARE_TOPK_RC__=0
+207,29,o_proj,blk.29.attn_output.weight,fpga,576,576,1,36,0,3
+208,29,gate_proj,blk.29.ffn_gate.weight,fpga,576,1536,1,96,0,0
+209,29,up_proj,blk.29.ffn_up.weight,fpga,576,1536,1,96,0,0
+210,29,down_proj,blk.29.ffn_down.weight,fpga,1536,576,3,108,0,43
+211,-1,lm_head_tied_token_embd,token_embd.weight,fpga,576,49152,1,3072,0,0
+__S06_5_RAW_HI_COMPARE_TOPK_END__
+root@Zybo-Z7-20:~# __S06_5_LOGITS_CMD_DONE_418339__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S06_5_LOGITS_CMD_DONE_430489__=$?
+__S06_5_LOGITS_CMD_DONE_430489__=0
+root@Zybo-Z7-20:~# 
+
+### S06_5_LOGITS_COMPARE_STATS_RERUN
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_LOGITS_STATS_START__
+__S06_5_LOGITS_STATS_START__
+root@Zybo-Z7-20:~# __S06_5_STATS_CMD_DONE_564483__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/smollm2_chat_s06_5.c /tmp/smollm2_chat_s06_5
+root@Zybo-Z7-20:~# __S06_5_STATS_CMD_DONE_566630__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/smollm2_chat_s06_5.c <<'__S06_5_SMOLLM2_CHAT_C__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <math.h>
+#include <stdint.h>
+#include 
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 79448 /tmp/smollm2_chat_s06_5.c
+51b2e9629c1f58510d5eeab99acd2967c5f38751ae514d466dbfd261cf129a27  /tmp/smollm2_chat_s06_5.c
+root@Zybo-Z7-20:~# __S06_5_STATS_CMD_DONE_566741__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/smollm2_chat_s06_5 /tmp/smollm2_chat_s06_5.c -lm; rc=$?; echo __S06_5_LOGITS_STATS_COMPILE_RC__=$rc; [ $rc -eq 0 ] && sha256sum /tmp/smollm2_chat_s06_5
+__S06_5_LOGITS_STATS_COMPILE_RC__=0
+52da71ecfb167c92d05a91dccce3435d4237acc2c7a39b044fee11d006a7af52  /tmp/smollm2_chat_s06_5
+root@Zybo-Z7-20:~# __S06_5_STATS_CMD_DONE_578917__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_RAW_HI_COMPARE_STATS_START__; /tmp/smollm2_chat_s06_5 --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --compare-backends --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt-raw Hi --dump-top-k 10 --act-shi
+__S06_5_RAW_HI_COMPARE_STATS_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+[compare] backend=cpu
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_lm_head_input_hidden_stats: len=576 min=-9.80682373 max=23.0592575 mean=0.0488648648 absmax=23.0592575 mean_abs=0.623726455 checksum=28.1461621 hash=58b5b35eb052bc8b
+first_token_logits_stats: len=49152 min=-3.9106617 max=20.0867767 mean=9.16080333 absmax=20.0867767 mean_abs=9.16347172 checksum=450271.805 hash=ff91570bc6c8fc73
+first_token_top10_ids: 28 198 260 30 288 284 282 33 253 314
+first_token_top10_scores: 20.086777 19.813208 19.777750 19.398945 19.322023 19.160240 19.117498 19.003510 18.924814 18.688423
+first_token_top10_rank_01: id=28 score=20.086777 text=,
+first_token_top10_rank_02: id=198 score=19.813208 text=\n
+first_token_top10_rank_03: id=260 score=19.777750 text= the
+first_token_top10_rank_04: id=30 score=19.398945 text=.
+first_token_top10_rank_05: id=288 score=19.322023 text= to
+first_token_top10_rank_06: id=284 score=19.160240 text= and
+first_token_top10_rank_07: id=282 score=19.117498 text= of
+first_token_top10_rank_08: id=33 score=19.003510 text=1
+first_token_top10_rank_09: id=253 score=18.924814 text= a
+first_token_top10_rank_10: id=314 score=18.688423 text= is
+generated_token_ids: 28
+generated_text: ,
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 2c
+stop_reason: max_new_tokens
+first_generated_token_text: ,
+total_gemv_calls: 211
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3221.537
+cpu_non_gemv_time_ms: 23.398
+tokenization_time_ms: 0.048
+sampling_time_ms: 0.754
+per_token_latency_ms: 3259.005
+[compare] backend=fpga
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+ctx-size: 128
+KV cache bytes: 5898240
+first_token_lm_head_input_hidden_stats: len=576 min=-1.96894455 max=8.5625 mean=0.884563439 absmax=8.5625 mean_abs=0.891587914 checksum=509.508541 hash=faf591903104c8ea
+first_token_logits_stats: len=49152 min=-21.4726562 max=8388608 mean=33447.9245 absmax=8388608 mean_abs=33454.6057 checksum=1.64403239e+09 hash=47f052eb67097dda
+first_token_top10_ids: 165 227 467 649 946 1093 1208 1705 2139 2551
+first_token_top10_scores: 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000 8388608.000000
+first_token_top10_rank_01: id=165 score=8388608.000000 text=�
+first_token_top10_rank_02: id=227 score=8388608.000000 text=�
+first_token_top10_rank_03: id=467 score=8388608.000000 text=ust
+first_token_top10_rank_04: id=649 score=8388608.000000 text= em
+first_token_top10_rank_05: id=946 score=8388608.000000 text= call
+first_token_top10_rank_06: id=1093 score=8388608.000000 text=""
+first_token_top10_rank_07: id=1208 score=8388608.000000 text= treat
+first_token_top10_rank_08: id=1705 score=8388608.000000 text=icle
+first_token_top10_rank_09: id=2139 score=8388608.000000 text= sound
+first_token_top10_rank_10: id=2551 score=8388608.000000 text=irm
+generated_token_ids: 165
+generated_text: �
+generated_text_utf8_replacements: 1
+generated_special_tokens_skipped: 0
+generated_byte_hex: da
+stop_reason: max_new_tokens
+first_generated_token_text: �
+total_gemv_calls: 211
+fpga_gemv_calls: 211
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+input_saturations: 2452
+fpga_time_ms: 6273.806
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 22.942
+tokenization_time_ms: 0.021
+sampling_time_ms: 0.754
+per_token_latency_ms: 6310.985
+compare_cpu_first_token: 28
+compare_fpga_first_token: 165
+compare_cpu_per_token_ms: 3259.005
+compare_fpga_per_token_ms: 6310.985
+CPU vs HW comparison available: yes
+__S06_5_RAW_HI_COMPARE_STATS_RC__=0
+__S06_5_RAW_HI_COMPARE_STATS_END__
+root@Zybo-Z7-20:~# __S06_5_STATS_CMD_DONE_592588__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S06_5_STATS_CMD_DONE_604720__=$?
+__S06_5_STATS_CMD_DONE_604720__=0
+root@Zybo-Z7-20:~# 

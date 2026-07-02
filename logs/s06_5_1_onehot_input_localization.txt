@@ -1,0 +1,30 @@
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+onehot_input_localization: layer=0 role=q_proj tensor=blk.0.attn_q.weight
+hardware_execution: yes
+scale_policy: real_tensor_scale_q
+probe_act_shift: 8
+onehot_input_value_i16: 256
+tensor_rows: 576
+tensor_cols: 576
+in_features: 576
+q8_blocks: 18
+row_groups: 36
+test_columns: 0 31 32 575
+onehot_col_summary_header: test_col,block,col_in_block,total_checks,total_mismatches,affected_checks,affected_mismatches,lane_mismatches
+onehot_col_summary: 0,0,0,576,0,54,0,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+onehot_col_summary: 31,0,31,576,0,54,0,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+onehot_col_summary: 32,1,0,576,0,54,0,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+onehot_col_summary: 575,17,31,576,0,54,0,0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+onehot_total_checks: 2304
+onehot_total_mismatches: 0
+onehot_affected_checks: 216
+onehot_affected_mismatches: 0
+onehot_lane_checks: lane0=144 lane1=144 lane2=144 lane3=144 lane4=144 lane5=144 lane6=144 lane7=144 lane8=144 lane9=144 lane10=144 lane11=144 lane12=144 lane13=144 lane14=144 lane15=144
+onehot_lane_mismatches: lane0=0 lane1=0 lane2=0 lane3=0 lane4=0 lane5=0 lane6=0 lane7=0 lane8=0 lane9=0 lane10=0 lane11=0 lane12=0 lane13=0 lane14=0 lane15=0
+onehot_csv: /tmp/s06_5_1_onehot_input_localization.csv
+onehot_result: PASS
+classification: ONEHOT_MODE0_PASS

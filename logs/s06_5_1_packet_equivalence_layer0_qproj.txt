@@ -1,0 +1,87 @@
+model path: quantized_model/original_gguf/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+packet_equivalence_check: layer=0 role=q_proj tensor=blk.0.attn_q.weight
+hardware_execution: no
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_token_count: 1
+prompt_token_ids: 26843
+tensor_rows: 576
+tensor_cols: 576
+in_features: 576
+q8_blocks: 18
+packet_block_bytes: 576
+expected_packet_bytes: 10368
+scale_header_order: beat0 lane0..3; beat1 lane4..7; beat2 lane8..11; beat3 lane12..15
+weight_byte_order: byte0=lane0 byte1=lane1 ... byte15=lane15 per column
+dma_btt_unit: bytes
+tkeep_policy: 0xffff full beat
+row_id_contract: row=row_group_base+lane
+affected_rows: 54
+packet_equivalence_row_header: row_group,lane,row,fixed_i32,scale_checks,weight_checks,mixed_duplicate_mismatches,direct_reference_mismatches,duplicate_uniform_mismatches
+packet_equivalence_row: 0,9,9,169,18,576,0,0,0
+packet_equivalence_row: 1,6,22,-4,18,576,0,0,0
+packet_equivalence_row: 1,13,29,-8,18,576,0,0,0
+packet_equivalence_row: 1,15,31,151,18,576,0,0,0
+packet_equivalence_row: 3,0,48,-3,18,576,0,0,0
+packet_equivalence_row: 3,11,59,-45,18,576,0,0,0
+packet_equivalence_row: 4,1,65,-79,18,576,0,0,0
+packet_equivalence_row: 5,2,82,154,18,576,0,0,0
+packet_equivalence_row: 5,13,93,2,18,576,0,0,0
+packet_equivalence_row: 5,14,94,123,18,576,0,0,0
+packet_equivalence_row: 6,3,99,-15,18,576,0,0,0
+packet_equivalence_row: 6,6,102,-115,18,576,0,0,0
+packet_equivalence_row: 6,7,103,-95,18,576,0,0,0
+packet_equivalence_row: 6,10,106,-255,18,576,0,0,0
+packet_equivalence_row: 7,7,119,191,18,576,0,0,0
+packet_equivalence_row: 7,10,122,-136,18,576,0,0,0
+packet_equivalence_row: 8,3,131,71,18,576,0,0,0
+packet_equivalence_row: 8,15,143,36,18,576,0,0,0
+packet_equivalence_row: 9,0,144,50,18,576,0,0,0
+packet_equivalence_row: 10,11,171,177,18,576,0,0,0
+packet_equivalence_row: 10,15,175,126,18,576,0,0,0
+packet_equivalence_row: 11,0,176,50,18,576,0,0,0
+packet_equivalence_row: 11,4,180,-70,18,576,0,0,0
+packet_equivalence_row: 11,9,185,42,18,576,0,0,0
+packet_equivalence_row: 12,3,195,-238,18,576,0,0,0
+packet_equivalence_row: 13,6,214,-294,18,576,0,0,0
+packet_equivalence_row: 14,6,230,75,18,576,0,0,0
+packet_equivalence_row: 14,8,232,92,18,576,0,0,0
+packet_equivalence_row: 15,15,255,-153,18,576,0,0,0
+packet_equivalence_row: 17,4,276,243,18,576,0,0,0
+packet_equivalence_row: 17,10,282,301,18,576,0,0,0
+packet_equivalence_row: 18,9,297,-22,18,576,0,0,0
+packet_equivalence_row: 18,12,300,-87,18,576,0,0,0
+packet_equivalence_row: 20,12,332,-73,18,576,0,0,0
+packet_equivalence_row: 21,1,337,163,18,576,0,0,0
+packet_equivalence_row: 21,8,344,-97,18,576,0,0,0
+packet_equivalence_row: 22,4,356,43,18,576,0,0,0
+packet_equivalence_row: 22,11,363,261,18,576,0,0,0
+packet_equivalence_row: 23,13,381,-240,18,576,0,0,0
+packet_equivalence_row: 24,1,385,-66,18,576,0,0,0
+packet_equivalence_row: 25,2,402,94,18,576,0,0,0
+packet_equivalence_row: 25,11,411,-348,18,576,0,0,0
+packet_equivalence_row: 25,13,413,35,18,576,0,0,0
+packet_equivalence_row: 26,11,427,578,18,576,0,0,0
+packet_equivalence_row: 27,15,447,-14,18,576,0,0,0
+packet_equivalence_row: 28,9,457,-279,18,576,0,0,0
+packet_equivalence_row: 30,0,480,347,18,576,0,0,0
+packet_equivalence_row: 31,6,502,37,18,576,0,0,0
+packet_equivalence_row: 31,14,510,-37,18,576,0,0,0
+packet_equivalence_row: 32,3,515,-205,18,576,0,0,0
+packet_equivalence_row: 33,1,529,149,18,576,0,0,0
+packet_equivalence_row: 33,12,540,-226,18,576,0,0,0
+packet_equivalence_row: 34,8,552,43,18,576,0,0,0
+packet_equivalence_row: 35,7,567,-149,18,576,0,0,0
+packet_equivalence_scale_checks: 972
+packet_equivalence_weight_checks: 31104
+packet_equivalence_mixed_duplicate_mismatches: 0
+packet_equivalence_direct_reference_mismatches: 0
+packet_equivalence_duplicate_uniform_mismatches: 0
+packet_equivalence_csv: reports/s06_5_1_packet_equivalence_layer0_qproj.csv
+packet_equivalence_result: PASS
+classification: PACKET_LAYOUT_PASS_NEXT_MODE1

@@ -1,0 +1,5 @@
+[WARN] gguf Python library path failed; used built-in parser instead.
+[WARN] gguf library error: RuntimeError: gguf Python library is not installed: No module named 'gguf'
+metadata: /run/media/pjs/6A43-DC8A/smollm2-zybo/pycharm/reports/s06_1_gguf_inspect/metadata.json
+tensors:  /run/media/pjs/6A43-DC8A/smollm2-zybo/pycharm/reports/s06_1_gguf_inspect/tensors.csv
+summary:  /run/media/pjs/6A43-DC8A/smollm2-zybo/pycharm/reports/s06_1_gguf_inspect/summary.txt

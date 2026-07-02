@@ -1,0 +1,63 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_REPAIRED_RAW_HELLO_8TOK_RUN_START__; /tmp/smollm2_chat_s06_5_repaired --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 8 --prompt-raw 'Hello, how are 
+__S06_5_REPAIRED_RAW_HELLO_8TOK_RUN_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+raw_prompt: Hello, how are you?
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hello, how are you?
+prompt_token_count: 6
+prompt_token_ids: 19556 28 638 359 346 47
+ctx-size: 128
+KV cache bytes: 5898240
+generated_token_ids: 339 3826 346 2316 2567 876 30 198
+generated_text:  I hope you're doing well.
+
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 20 49 20 68 6f 70 65 20 79 6f 75 27 72 65 20 64 6f 69 6e 67 20 77 65 6c 6c 2e 0a
+stop_reason: max_new_tokens
+first_generated_token_text:  I
+total_gemv_calls: 2738
+fpga_gemv_calls: 2738
+cpu_gemv_fallbacks: 0
+AXI DMA path used: yes
+input BRAM used: yes
+AXI-Lite bulk path used: no
+fpga_repair_jobs: 111011
+fpga_saturated_outputs_repaired: 111011
+fpga_saturated_outputs_unrepaired: 0
+input_saturations: 6
+fpga_time_ms: 123010.361
+cpu_gemv_time_ms: 0.000
+cpu_non_gemv_time_ms: 360.058
+tokenization_time_ms: 0.102
+sampling_time_ms: 6.150
+per_token_latency_ms: 15423.278
+first generated token/text: 339
+max-new-tokens achieved: 8
+CPU vs HW comparison available: no
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_REPAIRED_RAW_HELLO_8TOK_RUN_RC__=0
+__S06_5_REPAIRED_RAW_HELLO_8TOK_DMESG_CHECK__
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S06_5_REPAIRED_RAW_HELLO_8TOK_RUN_END__
+root@Zybo-Z7-20:~# __S06_5_RAWHELLO_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S06_5_RAWHELLO_CMD_DONE_2__=$?
+__S06_5_RAWHELLO_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 

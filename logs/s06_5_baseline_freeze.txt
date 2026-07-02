@@ -1,0 +1,53 @@
+# S06.5 Baseline Freeze
+
+Date: 2026-07-02
+Goal: S06_5_RUNTIME_SEMANTIC_CORRECTNESS_AND_DEMO_HARDENING
+
+## Source and Binary Hashes
+
+efe0c838919ce2e69340a239847c2c22c64a6f98eb47b1698e3d0e733bec600e  runtime_c/smollm2_chat.c
+97ecfd1174ff402dcfd24015d4ec8c6e53016dd878911681b648dfbe16705c46  board:/tmp/smollm2_chat
+3e4efaf71c3489f78aa21a25eb3a38408f8643a6ffb5909f98057675fd621560  board:/tmp/smollm2_chat.c
+40f7094960b6ede829145d102ca79451b364b27d9d8694d4406e002024cff357  board:/opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+
+## Candidate 10 Hardware Hashes
+
+e512452259e69914e97a134ff6d781c03dd0fbf4a7fe0ca8497f0f3befd03d23  hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.bit
+4dea0c4cbf2d58acaf920afbfadf07d234fb6cdeb487818263780ba539e551ed  hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.xsa
+472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e  artifacts/boot_tests/test_s05_6_2_mode1_isolated_identity_scale_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e  board:/run/media/mmcblk0p1/BOOT.BIN
+7e9e3766d6dbb0e52bb29814ecc1c689edff27033d4ec03dffe3c0db70f2205c  board:/opt/smollm2_zybo/boot/BOOT.BIN
+
+## Frozen Log Hashes
+
+cf174d373d1ca26fa5ee34d8fb41f78699e872e614edbfbbac94fee70c5c2d72  docs/s06_full_runtime_fpga_backend_verify.md
+82df4b8c68f6cc74e6ee31ae6c87340ca32f75451ac75e253be981b197da4706  logs/s06_7_fpga_token_smoke_1tok.txt
+5e600be50bf6994c15ad03b089dcd414a2120b0a99c6e60b98ad80b7a9fbc4f4  logs/s06_7_fpga_token_smoke_8tok.txt
+a6ec032489ddf5d00862e18a09af701dd26c66fb1c3506fe603de738d7e0748f  logs/s06_8_compare_backend_smoke.txt
+4a299153c3f0b12450899fb895589d524981a831a4dd56c3ebb7716fa59f6807  logs/s06_user_hello_fpga_8tok.txt
+239c23c540d33c36c10bb9755baf60334ae036eea23181d09bb9528b39bb0424  logs/s06_5_board_baseline_probe.raw.txt
+
+## Current Command Lines
+
+1-token S06 smoke:
+/tmp/smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt Hi --audit-csv /tmp/s06_4_gemv_call_audit.csv
+
+8-token S06 smoke:
+/tmp/smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 8 --prompt Hi --audit-csv /tmp/s06_7_gemv_call_audit_8tok.csv
+
+CPU-vs-FPGA compare smoke:
+/tmp/smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --compare-backends --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt Hi
+
+User prompt smoke:
+/tmp/smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 8 --prompt "Hello, how are you?"
+
+## Observed Baseline Results
+
+S06 1-token: generated_token_ids=841; generated_text=" exam"; total_gemv_calls=211; fpga_gemv_calls=211; cpu_gemv_fallbacks=0; input_saturations=2513; per_token_latency_ms=8225.550.
+S06 8-token: generated_token_ids="266 125 267 205 70 27 111 61"; runtime generated_text="es"; total_gemv_calls=1688; fpga_gemv_calls=1688; cpu_gemv_fallbacks=0; input_saturations=20331; per_token_latency_ms=5907.718.
+Compare: CPU first token=28; FPGA first token=23; mismatch at first token.
+User prompt: prompt_token_count=6; generated_token_ids="443 521 28 73 43 447 380 131"; runtime generated_text=" sh"; host-side decoded text previously observed as " sh imp,Y;outiv�"; total_gemv_calls=2738; fpga_gemv_calls=2738; cpu_gemv_fallbacks=0; input_saturations=32008.
+
+## S06.5 Reclassification
+
+Functional all-GEMV FPGA dispatch is preserved, but semantic/demo readiness is not established. S07 gate is not ready until tokenizer full decode, chat template, CPU-only baseline, FPGA numerical agreement, ACT_SHIFT/dequant, and lm_head logits are separated and documented.

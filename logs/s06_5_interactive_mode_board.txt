@@ -1,0 +1,151 @@
+root@Zybo-Z7-20:~# root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_INTERACTIVE_PRECHECK_START__;cat /proc/cmdline;command -v gcc;ls -l /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf;echo __S06_5_INTERACTIVE_PRECHECK_END__
+__S06_5_INTERACTIVE_PRECHECK_START__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+/usr/bin/gcc
+-rwxr-xr-x    1 1000     pulse    144811072 Jun 26  2026 /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+__S06_5_INTERACTIVE_PRECHECK_END__
+root@Zybo-Z7-20:~# __S06_5_INTERACTIVE_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/smollm2_chat_s06_5_interactive.c /tmp/smollm2_chat_s06_5_interactive
+root@Zybo-Z7-20:~# __S06_5_INTERACTIVE_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/smollm2_chat_s06_5_interactive.c <<'__S06_5_INTERACTIVE_C_SOURCE_EOF_ROLE_20260702__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <ctype.h>
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <m
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 57835abdc861c61f4896acb8c5d4a19b9294562b7a91febb61c469206df57ba2  /tmp/smollm2_chat_s06_5_interactive.c
+113697 /tmp/smollm2_chat_s06_5_interactive.c
+root@Zybo-Z7-20:~# __S06_5_INTERACTIVE_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/smollm2_chat_s06_5_interactive /tmp/smollm2_chat_s06_5_interactive.c -lm; rc=$?; echo __S06_5_INTERACTIVE_COMPILE_RC__=$rc; [ $rc -eq 0 ] && sha256sum /tmp/smollm2_chat_s06_5_interactive && ls -l /tmp/
+__S06_5_INTERACTIVE_COMPILE_RC__=0
+740b29077eb37b27c71fff86df07970afb2835b51a7aba419c8923eaca53f925  /tmp/smollm2_chat_s06_5_interactive
+-rwxr-xr-x    1 root     root         68244 Jun 25 11:55 /tmp/smollm2_chat_s06_5_interactive
+root@Zybo-Z7-20:~# __S06_5_INTERACTIVE_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S06_5_INTERACTIVE_RUN_START__;printf 'Hi\n/stats\n/quit\n' | /tmp/smollm2_chat_s06_5_interactive --interactive --backend cpu --prompt-raw unused --ctx-size 128 --max-new-tokens 1 --temperature 0 --top-k 0 --top-p 1; rc=$?; echo __S06
+__S06_5_INTERACTIVE_RUN_START__
+model path: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+tokenizer status: gguf gpt2-bpe tokens=49152 merges=48900 bos=1 eos=2 endoftext=0 im_start=1 im_end=2 chat_template=yes
+metadata: n_layer=30 n_embd=576 n_head=9 n_head_kv=3 vocab_size=49152 n_ff=1536 rope_dim=64 rope_base=100000.0
+S05.6.3 chunk policy: in<=576 no chunk; in==1536 split 512+512+512
+hardware build changed: no
+interactive_mode: true
+interactive_backend: cpu
+interactive_prompt_mode: raw
+interactive_commands: /reset /stats /quit
+interactive_ctx_size: 128
+interactive_max_new_tokens: 1
+interactive_act_shift: 8
+> interactive_turn: 1
+raw_prompt: Hi
+chat_template_applied: false
+chat_template_source: none
+prompt_text: Hi
+prompt_token_count: 1
+prompt_token_ids: 26843
+backend: cpu
+act_shift: 8
+sampling_temperature: 0
+sampling_top_k: 0
+sampling_top_p: 1
+sampling_mode: greedy
+ctx-size: 128
+KV cache bytes: 5898240
+generated_token_ids: 28
+tokens_generated: 1
+ctx_used: 2
+ctx_max: 128
+ctx used / ctx max: 2 / 128
+generated_text: ,
+generated_text_utf8_replacements: 0
+generated_special_tokens_skipped: 0
+generated_byte_hex: 2c
+stop_reason: max_new_tokens
+first_generated_token_text: ,
+total_gemv_calls: 211
+fpga_gemv_calls: 0
+cpu_gemv_fallbacks: 0
+AXI DMA path used: no
+input BRAM used: no
+AXI-Lite bulk path used: no
+fpga_repair_jobs: 0
+fpga_saturated_outputs_repaired: 0
+fpga_saturated_outputs_unrepaired: 0
+input_saturations: 0
+fpga_time_ms: 0.000
+cpu_gemv_time_ms: 3225.426
+cpu_non_gemv_time_ms: 23.904
+tokenization_time_ms: 0.040
+sampling_time_ms: 0.777
+per_token_latency_ms: 3251.358
+gemv_role_breakdown_header: role,calls,fpga_calls,cpu_fallbacks,fpga_rowgroup_jobs,fpga_chunk_jobs,fpga_repair_jobs,input_saturations,fpga_time_ms,cpu_gemv_time_ms
+gemv_role_breakdown: q_proj,30,0,0,0,0,0,0,0.000,239.649
+gemv_role_breakdown: k_proj,30,0,0,0,0,0,0,0.000,80.424
+gemv_role_breakdown: v_proj,30,0,0,0,0,0,0,0.000,79.547
+gemv_role_breakdown: o_proj,30,0,0,0,0,0,0,0.000,238.283
+gemv_role_breakdown: gate_proj,30,0,0,0,0,0,0,0.000,636.415
+gemv_role_breakdown: up_proj,30,0,0,0,0,0,0,0.000,635.269
+gemv_role_breakdown: down_proj,30,0,0,0,0,0,0,0.000,636.691
+gemv_role_breakdown: lm_head,1,0,0,0,0,0,0,0.000,679.148
+interactive_first_token: 28
+interactive_tokens_generated: 1
+interactive_per_token_latency_ms: 3251.358
+interactive_turn_complete: ok
+> interactive_turns: 1
+session_total_gemv_calls: 211
+session_fpga_gemv_calls: 0
+session_cpu_gemv_fallbacks: 0
+session_fpga_repair_jobs: 0
+session_input_saturations: 0
+session_fpga_time_ms: 0.000
+session_cpu_gemv_time_ms: 3225.426
+session_cpu_non_gemv_time_ms: 23.904
+session_tokenization_time_ms: 0.040
+session_sampling_time_ms: 0.777
+gemv_role_breakdown_header: role,calls,fpga_calls,cpu_fallbacks,fpga_rowgroup_jobs,fpga_chunk_jobs,fpga_repair_jobs,input_saturations,fpga_time_ms,cpu_gemv_time_ms
+gemv_role_breakdown: q_proj,30,0,0,0,0,0,0,0.000,239.649
+gemv_role_breakdown: k_proj,30,0,0,0,0,0,0,0.000,80.424
+gemv_role_breakdown: v_proj,30,0,0,0,0,0,0,0.000,79.547
+gemv_role_breakdown: o_proj,30,0,0,0,0,0,0,0.000,238.283
+gemv_role_breakdown: gate_proj,30,0,0,0,0,0,0,0.000,636.415
+gemv_role_breakdown: up_proj,30,0,0,0,0,0,0,0.000,635.269
+gemv_role_breakdown: down_proj,30,0,0,0,0,0,0,0.000,636.691
+gemv_role_breakdown: lm_head,1,0,0,0,0,0,0,0.000,679.148
+> interactive_quit: ok
+interactive_turns: 1
+session_total_gemv_calls: 211
+session_fpga_gemv_calls: 0
+session_cpu_gemv_fallbacks: 0
+session_fpga_repair_jobs: 0
+session_input_saturations: 0
+session_fpga_time_ms: 0.000
+session_cpu_gemv_time_ms: 3225.426
+session_cpu_non_gemv_time_ms: 23.904
+session_tokenization_time_ms: 0.040
+session_sampling_time_ms: 0.777
+gemv_role_breakdown_header: role,calls,fpga_calls,cpu_fallbacks,fpga_rowgroup_jobs,fpga_chunk_jobs,fpga_repair_jobs,input_saturations,fpga_time_ms,cpu_gemv_time_ms
+gemv_role_breakdown: q_proj,30,0,0,0,0,0,0,0.000,239.649
+gemv_role_breakdown: k_proj,30,0,0,0,0,0,0,0.000,80.424
+gemv_role_breakdown: v_proj,30,0,0,0,0,0,0,0.000,79.547
+gemv_role_breakdown: o_proj,30,0,0,0,0,0,0,0.000,238.283
+gemv_role_breakdown: gate_proj,30,0,0,0,0,0,0,0.000,636.415
+gemv_role_breakdown: up_proj,30,0,0,0,0,0,0,0.000,635.269
+gemv_role_breakdown: down_proj,30,0,0,0,0,0,0,0.000,636.691
+gemv_role_breakdown: lm_head,1,0,0,0,0,0,0,0.000,679.148
+S07 gate: not ready (S06.5 semantic gate pending)
+__S06_5_INTERACTIVE_RUN_RC__=0
+__S06_5_INTERACTIVE_RUN_END__
+root@Zybo-Z7-20:~# __S06_5_INTERACTIVE_CMD_DONE_5__=0
+root@Zybo-Z7-20:~# 

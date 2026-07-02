@@ -1,0 +1,38 @@
+S06.4 FPGA GEMV backend dispatch
+
+Binary: /tmp/smollm2_chat on Zybo Z7-20
+Model: /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf
+Command:
+  /tmp/smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --require-fpga --ctx-size 128 --max-new-tokens 1 --prompt Hi --audit-csv /tmp/s06_4_gemv_call_audit.csv
+
+Dispatch result:
+  total_gemv_calls: 211
+  fpga_gemv_calls: 211
+  cpu_gemv_fallbacks: 0
+  audit rows: 211 calls + header
+  audit CSV: reports/s06_4_gemv_call_audit.csv
+
+Role counts:
+  q_proj: 30
+  k_proj: 30
+  v_proj: 30
+  o_proj: 30
+  gate_proj: 30
+  up_proj: 30
+  down_proj: 30
+  lm_head_tied_token_embd: 1
+
+Chunk policy observed:
+  in_features <= 576: chunks=1
+  down_proj in_features=1536: chunks=3, chunk_in_features=512
+  lm_head tied token_embd.weight: chunks=1, out_features=49152, hw_jobs=3072
+
+Hardware path:
+  AXI DMA path used: yes
+  input BRAM used: yes
+  AXI-Lite bulk path used: no
+  hot path verbose debug/status scan: no
+
+Board health:
+  run rc: 0
+  no kernel panic/oops/bus error/OOM markers in checked dmesg tail

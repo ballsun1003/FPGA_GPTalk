@@ -1,0 +1,39 @@
+S06.5 long generation matrix summary
+
+Raw prompt, ctx 128, max-new-tokens 8:
+- prompt: Hello, how are you?
+- generated_token_ids: 339 3826 346 2316 2567 876 30 198
+- generated_text: I hope you're doing well.
+- total_gemv_calls: 2738
+- fpga_gemv_calls: 2738
+- cpu_gemv_fallbacks: 0
+- fpga_repair_jobs: 111011
+- per_token_latency_ms: 15423.278
+
+Raw prompt, ctx 128, max-new-tokens 16:
+- prompt: Hello, how are you?
+- generated_token_ids: 339 3826 346 2316 2567 876 30 198 198 57 5248 3012 3703 288 6268 346
+- generated_text: I hope you're doing well.\n\nI'm looking forward to seeing you
+- total_gemv_calls: 4426
+- fpga_gemv_calls: 4426
+- cpu_gemv_fallbacks: 0
+- fpga_repair_jobs: 169970
+- per_token_latency_ms: 12462.203
+
+Chat prompt, ctx 128, max-new-tokens 4:
+- prompt: Hello, how are you?
+- chat_template_applied: true
+- generated_token_ids: 57 5248 22657 327
+- generated_text: I'm sorry for
+- total_gemv_calls: 8194
+- fpga_gemv_calls: 8194
+- cpu_gemv_fallbacks: 0
+- fpga_repair_jobs: 282777
+- per_token_latency_ms: 80697.278
+
+Not run:
+- ctx 256 max-new-tokens 16
+- ctx 256 max-new-tokens 32
+- ctx 512 max-new-tokens 32
+
+No OOM, kernel panic, or oops was observed in the recorded repaired runs.

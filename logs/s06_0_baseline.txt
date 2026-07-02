@@ -1,0 +1,120 @@
+S06.0 baseline snapshot
+2026-07-02T09:53:49+09:00
+
+[git]
+1fa9afa53b03a699d0e26ca9d8aa11e291dc769d
+## main...origin/main
+ M .gitignore
+ D prompts/smollm2_zybo_guide_v6r3_20260701.md
+ D prompts/smollm2_zybo_guide_v6r3_20260701.pdf
+?? logs/s06_0_baseline.txt
+?? logs/s06_1_gguf_metadata.raw.txt
+?? prompts/deprecated/
+?? prompts/smollm2_zybo_guide_v7_20260702.md
+?? prompts/smollm2_zybo_guide_v7_20260702.pdf
+
+[candidate10 hashes from S05.6.3]
+S05.6.3 baseline freeze
+candidate_tag: s05_6_2_mode1_isolated_identity_scale_74MHz
+candidate_bitstream_path: hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.bit
+candidate_bitstream_sha256: e512452259e69914e97a134ff6d781c03dd0fbf4a7fe0ca8497f0f3befd03d23
+candidate_xsa_path: hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.xsa
+candidate_xsa_sha256: 4dea0c4cbf2d58acaf920afbfadf07d234fb6cdeb487818263780ba539e551ed
+candidate_boot_path: artifacts/boot_tests/test_s05_6_2_mode1_isolated_identity_scale_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+candidate_boot_sha256: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+git_head: f2572b59acf81947c5dfe8054acc9219cc3bc232
+git_branch: main
+git_status_short_sha256: 264cbcf0d33a32e7cc55aef5d510738287d6e86fb51ca4a522aa362c9ced8a84
+active_source_manifest_sha256: 5d4ee585a0a69e21ff6519c59ebf318f71f769bff8cca88513759a2968ad54d3
+active_source_file_count: 51
+s05_4_workload_model_path: reports/s05_4_real_workload_throughput_model.csv
+s05_4_workload_model_sha256: 703fbbdae1a5959fa15dd65365da56d069d8f22743df1d92315af53b2d5299da
+dma_xci_path: hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xci
+current_C_SG_LENGTH_WIDTH: 14
+current_c_include_sg: 0
+current_max_btt_bytes: 16383
+
+S05.6.2 board gate summary excerpt:
+tag: s05_6_2_mode1_isolated_identity_scale_74mhz
+expected BOOT sha256: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+S06_GATE: still blocked
+NOTE: the original step 6 rc=8 was a harness false positive. The board output contained OVERALL PASS and no dmesg abort. The bad-marker scan matched the host echo of the grep pattern string containing "external abort". scripts/s05_6_batch_bench.py now excludes "### HOST_SEND:" lines from bad-marker scanning.
+BOARD_GATE_PASS: Candidate 10 completed all S05.6.2 board gates.
+S06_GATE: S05.6.2 correctness gate unblocked; S06 not started. Next step is S05.6.3 DMA length/chunking.
+
+Active source files included in source hash:
+docs/00_ACTIVE_KR.md
+docs/s05_4_real_workload_throughput_model.md
+docs/s05_6_1_multiblock_correctness.md
+docs/s05_6_2_debug_status.md
+docs/s05_6_batching_persistent_job.md
+hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xci
+hw/vivado_project/GPTalk.xpr
+runtime_c/CMakeLists.txt
+runtime_c/gemv_batch_bench.c
+runtime_c/gemv_hw_test.c
+
+[S05.6.3 strategy excerpt]
+# S05.6.3 DMA Length Strategy
+
+## Frozen Baseline
+
+- Candidate tag: `s05_6_2_mode1_isolated_identity_scale_74MHz`
+- Candidate 10 bitstream/XSA/BOOT hashes are recorded in `logs/s05_6_3_baseline_freeze.txt`.
+- Candidate 10 artifacts must not be overwritten.
+- S06 full runtime remains blocked until S05.6.3 passes.
+
+## Problem
+
+- Current AXI DMA simple length width is `14` bits.
+- Current max simple BTT is `16383` bytes.
+- A 576-wide row-group packet is 10,368 bytes and fits.
+- A 1536-wide row-group packet is 27,648 bytes and does not fit.
+- Therefore `F_1536x16` and `down_proj` row-groups are immediate blockers.
+
+## Plan A: Software Input-Dimension Chunking
+
+- Keep Candidate 10 bitstream/BOOT/XSA unchanged.
+- Split 1536-wide GEMV row-groups into 3 input chunks of 512.
+- Each chunk packet is 9,216 bytes, below the 16,383-byte simple DMA limit.
+- The FPGA computes each chunk output for the same 16 output rows.
+- The CPU only sums the FPGA chunk `output_i32` vectors in an `int64` accumulator and clamps the final 16-row output to `int32`.
+- This is not CPU GEMV fallback; the CPU does not multiply input and weights.
+- 576-wide row-groups stay unchunked.
+- Future 360M 2560-wide row-groups would split into 5 chunks of 512.
+
+## Plan B: DMA Length Width Expansion
+
+- Audit only while Plan A is running; do not change Vivado unless Plan A hits the transition criteria.
+- Keep AXI DMA simple mode and `C_INCLUDE_SG=0`.
+- Preferred width is 16 bits, giving max BTT 65,535 bytes.
+- Width 16 covers current 135M 1536-wide row-groups and future 2560-wide row-groups.
+- Any implementation must export bitstream/XSA/BOOT under new names and preserve Candidate 10.
+
+## Decision Rule
+
+- If Plan A passes board and proxy gates, S06 may proceed with documented software chunking.
+- If Plan A times out or creates excessive runtime complexity, switch to Plan B implementation.
+- Do not mix Plan A software chunking and Plan B hardware width changes in the same debug attempt.
+
+## Plan A Validation Result
+
+- Reference validation: PASS. `F_1536x16_P0` and `F_1536x16_P6` full reference match `512+512+512` chunked reference bit-exactly.
+- Board validation on Candidate 10: PASS. `F_1536x16_P0` and `F_1536x16_P6` mode0 chunked row-group tests pass with 9,216-byte chunk packets.
+- Board mode1 chunk check: PASS for `F_1536x16_P6` chunk 1, confirming block-acc debug still works on the chunk path.
+- Proxy integration: PASS. `lane_probe_32x16`, `mlp_576x1536_no_chunk`, `down_1536x576_chunked`, and `lm_head_576x256_no_chunk` pass.
+- Proxy batch comparison: PASS for tensor repeats 1, 16, and 64 on mlp/down/lm_head proxy cases.
+- AXI DMA path used: yes.
+- Input BRAM used: yes.
+- AXI-Lite bulk path used: no.
+- CPU GEMV fallback used: no.
+
+## Selected Path
+
+- Selected path for S06 functional entry: Plan A software input-dimension chunking.
+- Plan B status: audit complete, implementation deferred.
+- S06 gate: unblocked for functional runtime integration using documented chunk policy.
+
+[hardware build policy]
+S06 will not run Vivado builds, will not replace bitstream/XSA/BOOT.BIN, and will not rebuild PetaLinux.

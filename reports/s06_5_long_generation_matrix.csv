@@ -1,0 +1,5 @@
+run,backend,mode,prompt,ctx_size,max_new_tokens_requested,generated_text,generated_token_ids,achieved_tokens,stop_reason,total_time_ms,per_token_latency_ms,total_gemv_calls,fpga_gemv_calls,cpu_gemv_fallbacks,fpga_repair_jobs,fpga_saturated_outputs_repaired,fpga_saturated_outputs_unrepaired,input_saturations,kv_cache_bytes,oom,kernel_oops_panic,status
+raw_hello_8,fpga,raw,"Hello, how are you?",128,8,I hope you're doing well.,339 3826 346 2316 2567 876 30 198,8,max_new_tokens,123010.361,15423.278,2738,2738,0,111011,111011,0,6,5898240,no,no,pass
+raw_hello_16,fpga,raw,"Hello, how are you?",128,16,I hope you're doing well.\n\nI'm looking forward to seeing you,339 3826 346 2316 2567 876 30 198 198 57 5248 3012 3703 288 6268 346,16,max_new_tokens,198732.169,12462.203,4426,4426,0,169970,169970,0,6,5898240,no,no,pass
+chat_hello_4,fpga,chat,"Hello, how are you?",128,4,I'm sorry for,57 5248 22657 327,4,max_new_tokens,321339.732,80697.278,8194,8194,0,282777,282777,0,8,5898240,no,no,pass
+ctx256_chat_16,fpga,chat,"Hello, how are you?",256,16,not run,,0,not_run,,,,,,,,,,,not observed,not observed,not_run

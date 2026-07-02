@@ -1,0 +1,73 @@
+S06.5.1 mixed-row packet contract debug baseline freeze
+timestamp: 2026-07-02T12:06:14+09:00
+
+Scope
+- Goal: isolate why mixed-row FPGA packets produce saturated row outputs while duplicate-row packets recompute the same rows correctly.
+- Hardware policy: Candidate 10 hardware remains unchanged. No Vivado, bitstream, XSA, BOOT.BIN, or PetaLinux rebuild/replacement was performed for this freeze.
+- S07 gate status: not ready.
+
+Hashes
+- runtime_c/smollm2_chat.c: 0d6bc096384db2d5aa2cf8fc185af58bd6219df58a360cb099c0374b5e796774
+- runtime_c/build/smollm2_chat: e84ac27ab365415a1cf79e2a9f844fb7539226443584d9693755bfacf2251aed
+- Candidate 10 bitstream: e512452259e69914e97a134ff6d781c03dd0fbf4a7fe0ca8497f0f3befd03d23
+  path: hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.bit
+- Candidate 10 XSA: 4dea0c4cbf2d58acaf920afbfadf07d234fb6cdeb487818263780ba539e551ed
+  path: hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.xsa
+- Candidate 10 BOOT.BIN: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+  path: artifacts/boot_tests/test_s05_6_2_mode1_isolated_identity_scale_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+
+Failing prompts
+- Raw probe prompt: Hi
+- Raw demo prompt: Hello, how are you?
+
+Known first divergence
+- First divergent projection: layer 0 q_proj
+- Unrepaired mixed-row behavior: selected q_proj row-group lanes return INT32_MAX/INT32_MIN-like saturated outputs.
+- Duplicate-row repair behavior: recomputing the same row in all 16 lanes generally returns the fixed reference value.
+
+Representative saturated mixed-row outputs
+source: logs/s06_5_first_gemv_probe_repair.txt
+- row_group=0 lane=9 row=9 fixed_i32=169 fpga_i32=2147483647 diff=2147483478
+- row_group=1 lane=6 row=22 fixed_i32=-4 fpga_i32=2147483647 diff=2147483651
+- row_group=1 lane=13 row=29 fixed_i32=-8 fpga_i32=2147483647 diff=2147483655
+- row_group=1 lane=15 row=31 fixed_i32=151 fpga_i32=2147483647 diff=2147483496
+- row_group=3 lane=0 row=48 fixed_i32=-3 fpga_i32=2147483647 diff=2147483650
+- row_group=3 lane=11 row=59 fixed_i32=-45 fpga_i32=2147483647 diff=2147483692
+- row_group=4 lane=1 row=65 fixed_i32=-79 fpga_i32=2147483647 diff=2147483726
+- row_group=5 lane=2 row=82 fixed_i32=154 fpga_i32=2147483647 diff=2147483493
+
+Representative duplicate-row repair success
+source: logs/s06_5_first_gemv_probe_repair.txt
+- row=9 fixed_i32=169 good_lanes=16 outputs=169 repeated on all lanes
+- row=22 fixed_i32=-4 good_lanes=16 outputs=-4 repeated on all lanes
+- row=29 fixed_i32=-8 good_lanes=16 outputs=-8 repeated on all lanes
+- row=31 fixed_i32=151 good_lanes=16 outputs=151 repeated on all lanes
+- row=48 fixed_i32=-3 good_lanes=16 outputs=-3 repeated on all lanes
+- row=59 fixed_i32=-45 good_lanes=16 outputs=-45 repeated on all lanes
+- row=65 fixed_i32=-79 good_lanes=16 outputs=-79 repeated on all lanes
+- row=82 fixed_i32=154 good_lanes=16 outputs=154 repeated on all lanes
+
+Readable repaired runtime sample
+source: logs/s06_5_fpga_repaired_raw_hello_16tok.txt
+- generated_text: " I hope you're doing well.\n\nI'm looking forward to seeing you"
+- fpga_repair_jobs: 169970
+- per_token_latency_ms: 12462.203
+- cpu_gemv_fallbacks: 0
+
+Relevant evidence files
+- docs/s06_5_runtime_semantic_correctness.md
+- docs/s06_5_runtime_perf_breakdown.md
+- logs/s06_5_layer_diff_repaired.txt
+- logs/s06_5_logits_compare_repaired.txt
+- logs/s06_5_fpga_repaired_raw_hello_16tok.txt
+- logs/s06_5_first_gemv_probe_repair.txt
+- logs/s06_5_sparse_repair_probe.txt
+
+Current command lines of interest
+- First GEMV probe: ./smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --prompt-raw Hi --max-new-tokens 1 --ctx-size 128 --require-fpga --dump-top-k 5 --probe-first-gemv
+- Repaired raw Hello 16-token run: ./smollm2_chat --model /opt/smollm2_zybo/model/SmolLM2-135M-Instruct-Q8_0.gguf --backend fpga --prompt-raw "Hello, how are you?" --max-new-tokens 16 --ctx-size 128 --require-fpga --dump-top-k 5
+
+Baseline classification before S06.5.1 packet checker
+- Root cause: unknown
+- Suspect classes: packet layout, scale header lane order, weight lane order, input addressing, RTL unpack, or output scatter/gather.
+- Duplicate-row repair is evidence only. It is not accepted as the final solution.
