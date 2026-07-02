@@ -1,9 +1,9 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.2.2 (lin64) Build 6060944 Thu Mar 06 19:10:09 MST 2025
-| Date         : Mon Jun 29 15:53:16 2026
+| Date         : Wed Jul  1 18:26:22 2026
 | Host         : pjs-laptop running 64-bit Ubuntu 26.04 LTS
-| Command      : report_qor_suggestions -file reports/gptalk_dma_50mhz_qor_suggestions.rpt
+| Command      : report_qor_suggestions -file /run/media/pjs/6A43-DC8A/smollm2-zybo/reports/gptalk_dma_50mhz_qor_suggestions.rpt
 | Design       : design_1_wrapper
 | Device       : xc7z020
 | Design State : Physopt postRoute

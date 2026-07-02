@@ -1,0 +1,4 @@
+BOOT.BIN: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 81462f69352a0ca0f10c823ae175010acc86ad209ecf238c96596032108ea305
+MANIFEST: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/MANIFEST.txt
+bootgen log: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot_bootgen.log

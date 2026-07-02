@@ -16,3 +16,9 @@ target_compile_options(gemv_q8_0_test PRIVATE -Wall -Wextra -Wpedantic)
 
 add_executable(gemv_hw_test gemv_hw_test.c)
 target_compile_options(gemv_hw_test PRIVATE -Wall -Wextra -Wpedantic)
+
+add_executable(gemv_batch_bench gemv_batch_bench.c)
+target_compile_options(gemv_batch_bench PRIVATE -Wall -Wextra -Wpedantic)
+
+add_executable(gemv_multiblock_test gemv_multiblock_test.c)
+target_compile_options(gemv_multiblock_test PRIVATE -Wall -Wextra -Wpedantic)

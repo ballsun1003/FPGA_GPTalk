@@ -1,0 +1,27 @@
+
+****** xsim v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Thu Jul  2 05:50:29 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/s05_6_2_dma_top_multiblock_behav/xsim_script.tcl
+# xsim {s05_6_2_dma_top_multiblock_behav} -testplusarg CASE_DIR=/run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s05_6_1_multiblock/B_64x16_P0 -testplusarg BRAM_LATENCY=2 -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[CASE] B_64x16_P0 mode=0 in=64 out=16 blocks=2 packet_bytes=1152 beats=72 expected_outputs=16 bram_latency=2 backpressure=on
+LANE_FOCUS,B_64x16_P0,mode0,block=0,lane=4,got=29,expected=29,tlast=0
+LANE_FOCUS,B_64x16_P0,mode0,block=0,lane=12,got=-11,expected=-11,tlast=0
+STATUS,B_64x16_P0,mode0,status=0x00000002,error=0x00000000,debug_row=15,debug_block=1,debug_lane=15,debug_in_count=72,debug_tlast_count=71,debug_tlast_tkeep=0x0000ffff
+[CASE] B_64x16_P0 mode=1 in=64 out=16 blocks=2 packet_bytes=1152 beats=72 expected_outputs=32 bram_latency=2 backpressure=on
+LANE_FOCUS,B_64x16_P0,mode1,block=0,lane=4,got=10,expected=10,tlast=0
+LANE_FOCUS,B_64x16_P0,mode1,block=0,lane=12,got=0,expected=0,tlast=0
+LANE_FOCUS,B_64x16_P0,mode1,block=1,lane=4,got=19,expected=19,tlast=0
+LANE_FOCUS,B_64x16_P0,mode1,block=1,lane=12,got=-11,expected=-11,tlast=0
+STATUS,B_64x16_P0,mode1,status=0x00000082,error=0x00000000,debug_row=15,debug_block=1,debug_lane=15,debug_in_count=72,debug_tlast_count=71,debug_tlast_tkeep=0x0000ffff
+S05_6_2_DMA_TOP_MULTIBLOCK_PASS B_64x16_P0
+$finish called at time : 14795 ns : File "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_dma_top_multiblock.sv" Line 548
+exit
+INFO: [Common 17-206] Exiting xsim at Thu Jul  2 05:50:31 2026...

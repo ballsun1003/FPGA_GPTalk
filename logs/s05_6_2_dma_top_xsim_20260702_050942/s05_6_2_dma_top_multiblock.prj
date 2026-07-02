@@ -1,0 +1,6 @@
+sv xil_defaultlib "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v"
+sv xil_defaultlib "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_stream_core.v"
+sv xil_defaultlib "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_dma_top.v"
+sv xil_defaultlib "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_dma_top_multiblock.sv"
+verilog xil_defaultlib "/tools/Xilinx/Vivado/2024.2/data/verilog/src/glbl.v"
+nosort

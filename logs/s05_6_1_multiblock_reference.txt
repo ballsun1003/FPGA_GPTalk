@@ -1,0 +1,24 @@
+S05.6.1 multi-block deterministic reference
+A_32x16_P0: packet_bytes=576 beats=36 tlast=35 dma_ok=true out0=15 out15=-37
+B_64x16_P0: packet_bytes=1152 beats=72 tlast=71 dma_ok=true out0=21 out15=-75
+B_64x16_P1: packet_bytes=1152 beats=72 tlast=71 dma_ok=true out0=15 out15=-37
+B_64x16_P2: packet_bytes=1152 beats=72 tlast=71 dma_ok=true out0=6 out15=-38
+B_64x16_P3: packet_bytes=1152 beats=72 tlast=71 dma_ok=true out0=27 out15=-113
+B_64x16_P4: packet_bytes=1152 beats=72 tlast=71 dma_ok=true out0=-2 out15=11
+B_64x16_P5: packet_bytes=1152 beats=72 tlast=71 dma_ok=true out0=30 out15=11
+C_96x16_P0: packet_bytes=1728 beats=108 tlast=107 dma_ok=true out0=19 out15=-97
+C_96x16_P1: packet_bytes=1728 beats=108 tlast=107 dma_ok=true out0=15 out15=-37
+C_96x16_P2: packet_bytes=1728 beats=108 tlast=107 dma_ok=true out0=-2 out15=-22
+C_96x16_P3: packet_bytes=1728 beats=108 tlast=107 dma_ok=true out0=19 out15=-201
+D_512x16_P0: packet_bytes=9216 beats=576 tlast=575 dma_ok=true out0=410 out15=-259
+D_512x16_P6: packet_bytes=9216 beats=576 tlast=575 dma_ok=true out0=179 out15=6
+D2_544x16_P6: packet_bytes=9792 beats=612 tlast=611 dma_ok=true out0=-44 out15=-127
+E_576x16_P0: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=524 out15=-319
+E_576x16_P1: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=15 out15=-37
+E_576x16_P2: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=58 out15=-38
+E_576x16_P3: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=1272 out15=-747
+E_576x16_P6: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=-35 out15=-273
+E_576x16_P7: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=9 out15=-146
+E_576x16_P8: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=-223 out15=-133
+E_576x16_P9: packet_bytes=10368 beats=648 tlast=647 dma_ok=true out0=-214 out15=-279
+F_1536x16_DEFER_DMA_LENGTH: DEFER packet_bytes=27648 limit=16383

@@ -1,0 +1,165 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S05_6_PRECHECK_START__;cat /proc/cmdline;echo __UIO__;for d in /sys/class/uio/uio*; do echo UIO=$(basename "$d") name=$(cat "$d/name" 2>/dev/null); for m in "$d"/maps/map*; do [ -e "$m" ] && echo map=$(basename "$m") addr=$(cat "$m/a
+__S05_6_PRECHECK_START__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+__UIO__
+UIO=uio0 name=axi_dma
+map=map0 addr=0x40400000 size=0x00010000
+UIO=uio1 name=input_bram
+map=map0 addr=0x42000000 size=0x00010000
+UIO=uio2 name=hdmi_vdma
+map=map0 addr=0x43010000 size=0x00010000
+UIO=uio3 name=hdmi_vtc
+map=map0 addr=0x43c10000 size=0x00010000
+UIO=uio4 name=hdmi_dynclk
+map=map0 addr=0x43c20000 size=0x00010000
+UIO=uio5 name=gemv_ctrl
+map=map0 addr=0x43ca0000 size=0x00001000
+__TOOLS__
+/usr/bin/gcc
+__S05_6_PRECHECK_END__
+root@Zybo-Z7-20:~# __S05_6_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/s05_6_gemv_batch_bench.c /tmp/s05_6_gemv_batch_bench
+root@Zybo-Z7-20:~# __S05_6_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/s05_6_gemv_batch_bench.c <<'__S05_6_C_SOURCE__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include 
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 34069 /tmp/s05_6_gemv_batch_bench.c
+root@Zybo-Z7-20:~# __S05_6_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/s05_6_gemv_batch_bench /tmp/s05_6_gemv_batch_bench.c; rc=$?; echo __S05_6_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/s05_6_gemv_batch_bench
+__S05_6_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         39404 Jun 25 09:18 /tmp/s05_6_gemv_batch_bench
+root@Zybo-Z7-20:~# __S05_6_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S05_6_RUN_START__;/tmp/s05_6_gemv_batch_bench --phys-base 0x3c000000 --phys-size 0x04000000; rc=$?; echo __S05_6_RUN_RC__=$rc; echo __S05_6_DMESG_CHECK__;dmesg | tail -180 | grep -Ei 'panic|oops|bug:|bus error|external abort|imprecis
+__S05_6_RUN_START__
+UIO name=axi_dma dev=/dev/uio0 addr=0x40400000 size=0x00010000
+UIO name=input_bram dev=/dev/uio1 addr=0x42000000 size=0x00010000
+UIO name=gemv_ctrl dev=/dev/uio5 addr=0x43ca0000 size=0x00001000
+DMA carveout mmap PASS base=0x3c000000 map_bytes=0x00004000 packet_phys=0x3c000000 result_phys=0x3c003000
+GEMV VERSION=0x000a0001 BUILD_CONFIG=0x00800010 axis_width=128 lanes=16
+[S05.6 GEMV BATCH BENCH]
+AXI-Lite bulk data path used: no
+AXI DMA MM2S/S2MM used: yes
+input BRAM used: yes
+physical buffer: /dev/mem O_SYNC carveout 0x3c000000-0x3fffffff
+DMA simple length width: 14 max_bytes=16383
+CSV_HEADER,variant,mode,batch_size,total_us,avg_per_job_us,min_us,p50_us,p95_us,max_us,fail_count,dma_reset_us,config_us,input_bram_write_us,packet_memcpy_us,s2mm_clear_us,dma_setup_us,wait_poll_us
+PROXY_HEADER,name,mode,in_features,out_features,tensor_repeats,chunk_jobs_per_tensor,total_us,avg_per_tensor_us,avg_per_chunk_us,full_packet_bytes,actual_packet_bytes,actual_result_bytes,full_result_bytes,fail_count,effective_MBps,effective_MMACps,overhead_pct,dma_limit_bytes
+PROXY_NOTE,full S05.4 tensor packets exceed current AXI DMA 14-bit simple transfer length, so proxy tensors are executed as TLAST-safe row/input chunks.
+CSV,A_reset_every_job,0,1,70,70,67,67,67,67,0,9,8,13,10,4,6,4
+CSV,A_reset_every_job,0,4,194,48,47,47,48,48,0,16,22,37,23,5,27,17
+CSV,A_reset_every_job,0,8,386,48,47,47,47,47,0,32,45,74,47,10,54,34
+CSV,A_reset_every_job,0,16,771,48,46,47,47,47,0,65,91,148,93,20,108,69
+CSV,A_reset_every_job,0,64,3067,47,46,46,47,47,0,262,363,593,373,81,434,275
+CSV,A_reset_every_job,0,256,12379,48,46,46,47,81,0,1048,1471,2373,1525,330,1761,1136
+CSV,A_reset_every_job,1,1,50,50,48,48,48,48,0,4,5,9,6,1,6,4
+CSV,A_reset_every_job,1,4,193,48,46,46,47,47,0,16,22,37,23,5,27,17
+CSV,A_reset_every_job,1,8,385,48,46,47,47,47,0,32,45,74,46,10,54,34
+CSV,A_reset_every_job,1,16,768,48,46,46,47,47,0,65,90,148,93,20,108,69
+CSV,A_reset_every_job,1,64,3068,47,46,46,47,47,0,262,363,593,373,81,434,275
+CSV,A_reset_every_job,1,256,12349,48,46,46,47,79,0,1048,1454,2427,1496,328,1736,1129
+CSV,B_reset_once,0,1,50,50,48,48,48,48,0,4,5,9,6,1,6,4
+CSV,B_reset_once,0,4,190,47,45,46,47,47,0,13,22,37,23,5,27,17
+CSV,B_reset_once,0,8,379,47,45,46,47,47,0,25,45,74,46,10,54,34
+CSV,B_reset_once,0,16,754,47,45,45,47,47,0,49,91,148,93,20,108,69
+CSV,B_reset_once,0,64,3043,47,45,45,46,82,0,194,364,593,374,82,435,310
+CSV,B_reset_once,0,256,12096,47,45,45,46,72,0,800,1477,2375,1520,329,1740,1105
+CSV,B_reset_once,1,1,50,50,48,48,48,48,0,4,5,9,6,1,6,4
+CSV,B_reset_once,1,4,191,47,45,46,47,47,0,13,22,37,23,5,27,17
+CSV,B_reset_once,1,8,378,47,45,45,47,47,0,25,45,74,46,10,54,34
+CSV,B_reset_once,1,16,754,47,45,45,47,47,0,49,91,148,93,20,108,69
+CSV,B_reset_once,1,64,3007,46,45,45,46,47,0,194,364,593,374,81,435,276
+CSV,B_reset_once,1,256,12059,47,45,45,46,72,0,796,1454,2373,1522,327,1751,1103
+CSV,C_static_config_cache,0,1,50,50,47,47,47,47,0,4,5,9,6,1,6,4
+CSV,C_static_config_cache,0,4,182,45,43,43,47,47,0,13,14,37,23,5,27,17
+CSV,C_static_config_cache,0,8,359,44,43,43,47,47,0,25,26,74,46,10,54,34
+CSV,C_static_config_cache,0,16,712,44,43,43,47,47,0,49,51,148,93,20,108,68
+CSV,C_static_config_cache,0,64,2834,44,43,43,43,47,0,193,196,593,373,81,434,275
+CSV,C_static_config_cache,0,256,11401,44,43,43,43,70,0,771,804,2421,1495,329,1737,1103
+CSV,C_static_config_cache,1,1,50,50,48,48,48,48,0,4,5,9,6,1,6,4
+CSV,C_static_config_cache,1,4,182,45,43,43,47,47,0,13,14,37,23,5,27,17
+CSV,C_static_config_cache,1,8,359,44,43,43,47,47,0,25,26,74,46,10,54,34
+CSV,C_static_config_cache,1,16,712,44,43,43,47,47,0,49,51,148,93,20,108,69
+CSV,C_static_config_cache,1,64,2851,44,43,43,43,62,0,193,196,612,374,81,434,275
+CSV,C_static_config_cache,1,256,11381,44,43,43,43,69,0,771,777,2373,1512,327,1738,1127
+CSV,D_packet_preloaded,0,1,57,57,47,47,47,47,0,4,5,9,12,1,6,4
+CSV,D_packet_preloaded,0,4,168,42,36,36,47,47,0,13,14,37,11,5,27,17
+CSV,D_packet_preloaded,0,8,318,39,36,36,47,47,0,25,26,74,11,10,54,34
+CSV,D_packet_preloaded,0,16,617,38,36,36,47,47,0,49,51,148,11,20,108,69
+CSV,D_packet_preloaded,0,64,2412,37,36,36,36,47,0,193,196,593,11,81,434,275
+CSV,D_packet_preloaded,0,256,9639,37,36,36,36,61,0,771,777,2391,11,325,1738,1103
+CSV,D_packet_preloaded,1,1,57,57,47,47,47,47,0,4,5,9,12,1,6,4
+CSV,D_packet_preloaded,1,4,169,42,36,36,47,47,0,13,14,37,11,5,27,17
+CSV,D_packet_preloaded,1,8,319,39,36,36,47,47,0,25,27,74,11,10,54,34
+CSV,D_packet_preloaded,1,16,619,38,36,36,47,47,0,49,51,148,11,20,108,69
+CSV,D_packet_preloaded,1,64,2440,38,36,36,36,55,0,194,197,593,11,82,453,276
+CSV,D_packet_preloaded,1,256,9638,37,36,36,36,62,0,772,777,2373,12,325,1738,1129
+CSV,E_input_reuse,0,1,67,67,47,47,47,47,0,4,5,18,12,1,6,4
+CSV,E_input_reuse,0,4,148,37,26,26,47,47,0,13,14,18,11,5,27,17
+CSV,E_input_reuse,0,8,257,32,26,26,47,47,0,25,26,18,11,10,54,34
+CSV,E_input_reuse,0,16,474,29,26,26,47,47,0,49,51,18,11,20,108,69
+CSV,E_input_reuse,0,64,1779,27,26,26,26,47,0,193,196,18,11,81,434,275
+CSV,E_input_reuse,0,256,7047,27,26,26,26,53,0,772,796,18,11,330,1764,1103
+CSV,E_input_reuse,1,1,67,67,47,47,47,47,0,4,5,18,12,1,6,4
+CSV,E_input_reuse,1,4,149,37,26,26,47,47,0,13,14,18,11,5,27,17
+CSV,E_input_reuse,1,8,258,32,26,26,47,47,0,25,27,18,11,10,54,34
+CSV,E_input_reuse,1,16,477,29,26,26,47,47,0,49,51,18,11,20,108,69
+CSV,E_input_reuse,1,64,1787,27,26,26,26,47,0,194,196,18,11,82,434,276
+CSV,E_input_reuse,1,256,7067,27,26,26,26,52,0,773,804,18,11,331,1758,1105
+CSV,F_combined_hot_path,0,1,67,67,47,47,47,47,0,4,5,18,12,1,6,4
+CSV,F_combined_hot_path,0,4,148,37,26,26,47,47,0,13,14,18,11,5,27,17
+CSV,F_combined_hot_path,0,8,256,32,26,26,47,47,0,25,26,18,11,10,54,34
+CSV,F_combined_hot_path,0,16,474,29,26,26,47,47,0,49,51,18,11,20,108,68
+CSV,F_combined_hot_path,0,64,1780,27,26,26,26,47,0,193,196,18,11,82,434,275
+CSV,F_combined_hot_path,0,256,7045,27,26,26,26,52,0,771,777,18,11,330,1762,1121
+CSV,F_combined_hot_path,1,1,67,67,47,47,47,47,0,4,5,18,12,1,6,4
+CSV,F_combined_hot_path,1,4,148,37,26,26,47,47,0,13,14,18,11,5,27,17
+CSV,F_combined_hot_path,1,8,264,33,26,26,48,48,0,25,27,18,14,10,54,34
+CSV,F_combined_hot_path,1,16,479,29,26,26,47,47,0,49,51,18,11,20,108,69
+CSV,F_combined_hot_path,1,64,1796,28,26,26,26,47,0,194,197,18,11,82,435,277
+CSV,F_combined_hot_path,1,256,7116,27,26,26,26,53,0,801,781,18,12,330,1741,1107
+PROXYCSV,lane_probe_32x16,0,32,16,1,1,71,71,71,576,576,64,64,0,8.552,7.174,44.190,16383
+mlp_576x1536_chunked_chunk_576x16 mode=0 result[12] got=-2147483648 expected=220
+PROXYCSV,mlp_576x1536_chunked,0,576,1536,1,96,1205,1205,12,995328,995328,6144,6144,1,792.441,734.078,21.912,16383
+down_1536x576_chunked_chunk_512x16 mode=0 result[13] got=39 expected=37
+PROXYCSV,down_1536x576_chunked,0,1536,576,1,108,780,780,7,995328,995328,6912,2304,1,1225.360,1134.242,30.262,16383
+lm_head_576x256_chunked_chunk_576x16 mode=0 result[8] got=2147483647 expected=152
+PROXYCSV,lm_head_576x256_chunked,0,576,256,1,16,903,903,56,165888,165888,1024,1024,1,176.210,163.232,29.668,16383
+OVERALL FAIL
+__S05_6_RUN_RC__=1
+__S05_6_DMESG_CHECK__
+Kernel command line: console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S05_6_RUN_END__
+root@Zybo-Z7-20:~# __S05_6_CMD_DONE_5__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S05_6_CMD_DONE_6__=$?
+__S05_6_CMD_DONE_6__=0
+root@Zybo-Z7-20:~# 

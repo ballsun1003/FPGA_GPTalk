@@ -1,6 +1,6 @@
 GPTalk direct bitstream program result
 Date: 2026-06-30 KST
-Bitstream: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma.bit
+Bitstream: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit
 Targets: 
 Result: FAIL
 Reason: no hardware targets found

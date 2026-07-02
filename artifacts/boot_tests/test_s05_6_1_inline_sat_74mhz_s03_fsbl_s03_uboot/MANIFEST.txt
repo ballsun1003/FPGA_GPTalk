@@ -1,0 +1,34 @@
+test name: test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.6.1 candidate BOOT with inline row_out saturation logic for deterministic B_64x16_P5 board failure.
+
+created: 2026-07-01 17:58:31
+
+FSBL path: artifacts/boot_tests/test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_6_1_inline_sat_74MHz.bit
+bitstream sha256: 9568f08e12e23588ac5db5bb3c3032949a13ba7d7df876bae5fad6252623debf
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_6_1_inline_sat_74MHz.xsa
+XSA sha256: 853e2117330a466b4f78f70e6805ca870b254c6fc00dee97d39b2f24c272796c
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_2_synth_1/design_1_gemv_q8_0_dma_top_0_2.dcp
+GEMV OOC DCP sha256: 2c66258748c042ab08c0d7bd7ff9b388be5b6b4d9db58be274e90fb68e0b59e7
+
+U-Boot path: artifacts/boot_tests/test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: dc6f7912919089bb2df5d4cbd6d5ba4aa09429ced31f35dbc55c8be58d9db226
+
+Bootgen:
+- log: logs/test_s05_6_1_inline_sat_74mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS

@@ -1,0 +1,33 @@
+#-----------------------------------------------------------
+# xsim v2024.2.2 (64-bit)
+# SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+# IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+# SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+# Start of session at: Wed Jul  1 22:44:46 2026
+# Process ID         : 123897
+# Current directory  : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425
+# Command line       : xsim -log /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/B_64x16_P5.log -mode tcl -source {xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl}
+# Log file           : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/B_64x16_P5.log
+# Journal file       : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/xsim.jou
+# Running On         : pjs-laptop
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 26.04 LTS
+# Processor Detail   : 13th Gen Intel(R) Core(TM) i9-13900H
+# CPU Frequency      : 400.058 MHz
+# CPU Physical cores : 10
+# CPU Logical cores  : 16
+# Host memory        : 65958 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 74548 MB
+# Available Virtual  : 72090 MB
+#-----------------------------------------------------------
+source xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl
+# xsim {s05_6_1_multiblock_behav} -testplusarg CASE_CFG=/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/B_64x16_P5.cfg -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[CASE] B_64x16_P5 dir=/run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s05_6_1_multiblock/B_64x16_P5 in=64 out=16 blocks=2 packet_bytes=1152 tlast_beat=71
+[PASS] B_64x16_P5 mode=0 blocks=2 outputs=16 input_events=384 max_input_addr=63
+S05_6_1_MULTIBLOCK_CASE_PASS B_64x16_P5
+$finish called at time : 6825 ns : File "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core_multiblock.sv" Line 401
+exit
+INFO: [Common 17-206] Exiting xsim at Wed Jul  1 22:44:48 2026...

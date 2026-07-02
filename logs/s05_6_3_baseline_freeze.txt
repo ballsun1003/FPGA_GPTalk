@@ -1,0 +1,80 @@
+S05.6.3 baseline freeze
+candidate_tag: s05_6_2_mode1_isolated_identity_scale_74MHz
+candidate_bitstream_path: hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.bit
+candidate_bitstream_sha256: e512452259e69914e97a134ff6d781c03dd0fbf4a7fe0ca8497f0f3befd03d23
+candidate_xsa_path: hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.xsa
+candidate_xsa_sha256: 4dea0c4cbf2d58acaf920afbfadf07d234fb6cdeb487818263780ba539e551ed
+candidate_boot_path: artifacts/boot_tests/test_s05_6_2_mode1_isolated_identity_scale_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+candidate_boot_sha256: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+git_head: f2572b59acf81947c5dfe8054acc9219cc3bc232
+git_branch: main
+git_status_short_sha256: 264cbcf0d33a32e7cc55aef5d510738287d6e86fb51ca4a522aa362c9ced8a84
+active_source_manifest_sha256: 5d4ee585a0a69e21ff6519c59ebf318f71f769bff8cca88513759a2968ad54d3
+active_source_file_count: 51
+s05_4_workload_model_path: reports/s05_4_real_workload_throughput_model.csv
+s05_4_workload_model_sha256: 703fbbdae1a5959fa15dd65365da56d069d8f22743df1d92315af53b2d5299da
+dma_xci_path: hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xci
+current_C_SG_LENGTH_WIDTH: 14
+current_c_include_sg: 0
+current_max_btt_bytes: 16383
+
+S05.6.2 board gate summary excerpt:
+tag: s05_6_2_mode1_isolated_identity_scale_74mhz
+expected BOOT sha256: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+S06_GATE: still blocked
+NOTE: the original step 6 rc=8 was a harness false positive. The board output contained OVERALL PASS and no dmesg abort. The bad-marker scan matched the host echo of the grep pattern string containing "external abort". scripts/s05_6_batch_bench.py now excludes "### HOST_SEND:" lines from bad-marker scanning.
+BOARD_GATE_PASS: Candidate 10 completed all S05.6.2 board gates.
+S06_GATE: S05.6.2 correctness gate unblocked; S06 not started. Next step is S05.6.3 DMA length/chunking.
+
+Active source files included in source hash:
+docs/00_ACTIVE_KR.md
+docs/s05_4_real_workload_throughput_model.md
+docs/s05_6_1_multiblock_correctness.md
+docs/s05_6_2_debug_status.md
+docs/s05_6_batching_persistent_job.md
+hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/design_1.bd
+hw/vivado_project/GPTalk.srcs/sources_1/bd/design_1/ip/design_1_axi_dma_0_0/design_1_axi_dma_0_0.xci
+hw/vivado_project/GPTalk.xpr
+runtime_c/CMakeLists.txt
+runtime_c/gemv_batch_bench.c
+runtime_c/gemv_hw_test.c
+runtime_c/gemv_multiblock_test.c
+runtime_c/gemv_q8_0_ref.c
+runtime_c/gemv_q8_0_test.c
+scripts/build_gptalk_dma_bitstream.tcl
+scripts/build_zybo_gemv_dma_bitstream.tcl
+scripts/check_required_ipdefs.tcl
+scripts/create_or_update_gptalk_dma_bd.tcl
+scripts/create_or_update_gptalk_dma_hdmi_bd.tcl
+scripts/create_zybo_gemv_dma_hw.tcl
+scripts/hw_direct_program_gptalk.tcl
+scripts/hw_preflight_gptalk.tcl
+scripts/package_gptalk_boot.py
+scripts/report_failed_impl.tcl
+scripts/run_gemv_sim.tcl
+scripts/run_s05_5_rtl_sim.sh
+scripts/run_s05_6_1_multiblock_rtl_sim.sh
+scripts/run_s05_6_2_dma_top_multiblock_sim.sh
+scripts/s04_5a_temp_mem_boot.py
+scripts/s04_5b_boot_verify.py
+scripts/s04_5c_carveout_smoke.py
+scripts/s05_4_real_workload_model.py
+scripts/s05_5_apply_axis128_bd.tcl
+scripts/s05_5_bd_width_audit.tcl
+scripts/s05_5_packet_contract.py
+scripts/s05_5_probe_gemv_params.tcl
+scripts/s05_6_1_multiblock_board.py
+scripts/s05_6_1_multiblock_reference.py
+scripts/s05_6_2_board_gate.py
+scripts/s05_6_3_dma_length_tools.py
+scripts/s05_6_batch_bench.py
+scripts/s05_gemv_hw_test.py
+scripts/s05_packet_dump.py
+vivado_ip/rtl/gemv_q8_0_ctrl_axi_lite.v
+vivado_ip/rtl/gemv_q8_0_dma_top.v
+vivado_ip/rtl/gemv_q8_0_dma_top_axis128.v
+vivado_ip/rtl/gemv_q8_0_stream_core.v
+vivado_ip/tb/tb_gemv_q8_0_dma_top_multiblock.sv
+vivado_ip/tb/tb_gemv_q8_0_stream_core.sv
+vivado_ip/tb/tb_gemv_q8_0_stream_core_axis_width.sv
+vivado_ip/tb/tb_gemv_q8_0_stream_core_multiblock.sv

@@ -1,0 +1,22 @@
+#
+# An unexpected error has occurred (11)
+#
+Stack:
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x45cb0) [0x77b206c45cb0]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_simtcltasks.so(+0x1f6902) [0x77b204df6902]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_common.so(+0x911d5a) [0x77b211b11d5a]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libtcl8.6.so(TclNRRunCallbacks+0x47) [0x77b20d684497]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libtcl8.6.so(+0x45309) [0x77b20d686309]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libtcl8.6.so(Tcl_FSEvalFileEx+0x1f8) [0x77b20d73bae8]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_commontasks.so(+0x495bb5) [0x77b212e95bb5]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_common.so(+0x911d5a) [0x77b211b11d5a]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libtcl8.6.so(TclNRRunCallbacks+0x47) [0x77b20d684497]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_commontasks.so(+0x46be6d) [0x77b212e6be6d]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_commontasks.so(+0x46d48f) [0x77b212e6d48f]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_common.so(+0x911d5a) [0x77b211b11d5a]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libtcl8.6.so(TclNRRunCallbacks+0x47) [0x77b20d684497]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_commonmain.so(+0xeae2) [0x77b213181ae2]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libtcl8.6.so(Tcl_MainEx+0x1a8) [0x77b20d743038]
+/tools/Xilinx/Vivado/2024.2/lib/lnx64.o/libxv_common.so(+0xb7869e) [0x77b211d7869e]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0xa40da) [0x77b206ca40da]
+/usr/lib/x86_64-linux-gnu/libc.so.6(+0x1377ac) [0x77b206d377ac]

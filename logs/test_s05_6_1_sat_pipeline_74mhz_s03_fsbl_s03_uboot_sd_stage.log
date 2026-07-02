@@ -1,0 +1,11 @@
+test name: test_s05_6_1_sat_pipeline_74mhz_s03_fsbl_s03_uboot
+time: 2026-07-01 18:06:33 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: 54fdf73fc938825c62ea641b3f841690d4314220e8391d36adc87d9623e95dc8
+SD BOOT.BIN sha256: 54fdf73fc938825c62ea641b3f841690d4314220e8391d36adc87d9623e95dc8
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_1_SAT_PIPELINE_74MHZ_S03_FSBL_S03_UBOOT_20260701_180631.BIN
+backup sha256: dc6f7912919089bb2df5d4cbd6d5ba4aa09429ced31f35dbc55c8be58d9db226
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

@@ -6,10 +6,10 @@ Full GEMV DMA datapath: expected in GPTalk BD, not smoke-only
 GEMV control base: 0x43CA0000
 AXI DMA base:      0x40400000
 Input BRAM base:   0x42000000
-setup WNS(ns): 0.389
+setup WNS(ns): 0.591
 setup TNS approx(ns): 0.000
 setup failing paths sampled: 0
-hold WHS(ns): 0.018
+hold WHS(ns): 0.008
 hold THS approx(ns): 0.000
 hold failing paths sampled: 0
 timing pass: 1
@@ -20,7 +20,7 @@ congestion report: /run/media/pjs/6A43-DC8A/smollm2-zybo/reports/gptalk_dma_74mh
 qor suggestions: /run/media/pjs/6A43-DC8A/smollm2-zybo/reports/gptalk_dma_74mhz_qor_suggestions.rpt
 write_bitstream: PASS
 bitstream: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/GPTalk.runs/impl_1/design_1_wrapper.bit
-export bitstream: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit
+export bitstream: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.bit
 latest bitstream: SKIPPED_BY_GPTALK_UPDATE_LATEST=0
-XSA: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.xsa
+XSA: /run/media/pjs/6A43-DC8A/smollm2-zybo/hw/vivado_project/export/GPTalk_dma_s05_6_2_mode1_isolated_identity_scale_74MHz.xsa
 latest XSA: SKIPPED_BY_GPTALK_UPDATE_LATEST=0

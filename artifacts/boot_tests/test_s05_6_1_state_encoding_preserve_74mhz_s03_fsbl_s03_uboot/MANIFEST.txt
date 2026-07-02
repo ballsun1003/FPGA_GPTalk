@@ -1,0 +1,44 @@
+test name: test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.6.1 candidate: scale operand pipeline with original input/MAC state encoding preserved at 74 MHz.
+
+created: 2026-07-01 22:29:57
+
+FSBL path: artifacts/boot_tests/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_6_1_state_encoding_preserve_74MHz.bit
+bitstream sha256: 861c500d33dfc56c90d02057c7b6f9289cbd7d9de62afca9bb2d094e95f3d458
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_6_1_state_encoding_preserve_74MHz.xsa
+XSA sha256: 021f2106548f8002150556ea4308fbde016f92587df302aceb5038d1c26e649a
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/impl_1/design_1_wrapper_postroute_physopt.dcp
+GEMV OOC DCP sha256: 9e56bb9d85725773febac4104e317fbe8813e5a09a414a655cef3f9e88a824f0
+
+U-Boot path: artifacts/boot_tests/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: b91122815852ab4f2c231c2ff78b3e730bf677e36e25845fa83193f699c3e2b1
+
+Bootgen:
+- log: logs/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sdb1:/BOOT.BIN
+- SD BOOT.BIN sha256: b91122815852ab4f2c231c2ff78b3e730bf677e36e25845fa83193f699c3e2b1
+- previous BOOT backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_1_STATE_ENCODING_PRESERVE_74MHZ_S03_FSBL_S03_UBOOT_20260701_222955.BIN
+- previous BOOT backup sha256: b10f884b2794d24a1c18eb00da9519f6c483f6ea0ae92025961bf402f95dce49
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_6_1_state_encoding_preserve_74mhz_s03_fsbl_s03_uboot_sd_stage.log
+- unmount: done

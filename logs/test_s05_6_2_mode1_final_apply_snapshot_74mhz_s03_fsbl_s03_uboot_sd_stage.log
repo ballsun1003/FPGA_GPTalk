@@ -1,0 +1,11 @@
+test name: test_s05_6_2_mode1_final_apply_snapshot_74mhz_s03_fsbl_s03_uboot
+time: 2026-07-02 06:50:16 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: 763415d432fe7f20cae0d010245f40e54f74d4c05a5c46f8d877100a25b6502c
+SD BOOT.BIN sha256: 763415d432fe7f20cae0d010245f40e54f74d4c05a5c46f8d877100a25b6502c
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_2_MODE1_FINAL_APPLY_SNAPSHOT_74MHZ_S03_FSBL_S03_UBOOT_20260702_065014.BIN
+backup sha256: 30131d75e893dd144fef7081125fcbd2f7944ee07733e6f9ee32230ea888ac95
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

@@ -1,0 +1,5 @@
+name,mode,in_features,out_features,tensor_repeats,chunk_jobs_per_tensor,total_us,avg_per_tensor_us,avg_per_chunk_us,full_packet_bytes,actual_packet_bytes,actual_result_bytes,full_result_bytes,fail_count,effective_MBps,effective_MMACps,overhead_pct,dma_limit_bytes
+lane_probe_32x16,0,32,16,1,1,71,71,71,576,576,64,64,0,8.552,7.174,44.190,16383
+mlp_576x1536_chunked,0,576,1536,1,96,1205,1205,12,995328,995328,6144,6144,1,792.441,734.078,21.912,16383
+down_1536x576_chunked,0,1536,576,1,108,780,780,7,995328,995328,6912,2304,1,1225.360,1134.242,30.262,16383
+lm_head_576x256_chunked,0,576,256,1,16,903,903,56,165888,165888,1024,1024,1,176.210,163.232,29.668,16383

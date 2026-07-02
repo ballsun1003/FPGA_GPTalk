@@ -68,7 +68,23 @@ def write_text(path: Path, text: str):
 
 
 def mount_partition(device: str) -> Path:
-    out = subprocess.check_output(["udisksctl", "mount", "-b", device], text=True)
+    proc = subprocess.run(
+        ["udisksctl", "mount", "-b", device],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+    if proc.returncode != 0:
+        mounted = subprocess.run(
+            ["findmnt", "-nr", "-o", "TARGET", "--source", device],
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )
+        if mounted.returncode == 0 and mounted.stdout.strip():
+            return Path(mounted.stdout.strip().splitlines()[0])
+        raise SystemExit(proc.stdout.strip() or f"could not mount {device}")
+    out = proc.stdout
     marker = " at "
     if marker not in out:
         raise SystemExit(f"could not parse udisksctl mount output: {out.strip()}")

@@ -267,7 +267,7 @@ Snapshot / git 안전 정책:
 * Vivado synthesis/implementation/route/bitstream, PetaLinux build, SD image build는 장시간 작업이다.
 * 장시간 명령은 반드시 `logs/*.log`로 redirect한다.
 * 1~2분마다 진행상황을 확인하지 않는다.
-* 최소 10분 단위 또는 프로세스 종료 시점에만 확인한다.
+* 최소 5분 단위 또는 프로세스 종료 시점에만 확인한다.
 * tail은 최대 80줄만 출력한다.
 * 전체 vivado.log/petalinux log를 채팅에 붙여넣지 않는다.
 * ERROR, CRITICAL WARNING, FAIL, Timing constraints, write_bitstream, export_xsa 같은 핵심 키워드만 grep으로 요약한다.

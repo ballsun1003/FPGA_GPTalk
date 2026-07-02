@@ -3,7 +3,11 @@
 
 set script_dir [file normalize [file dirname [info script]]]
 set repo_root [file normalize [file join $script_dir ..]]
-set bit_file [file join $repo_root hw vivado_project export GPTalk_dma.bit]
+if {[info exists ::env(GPTALK_DIRECT_BIT)] && $::env(GPTALK_DIRECT_BIT) ne ""} {
+    set bit_file [file normalize $::env(GPTALK_DIRECT_BIT)]
+} else {
+    set bit_file [file join $repo_root hw vivado_project export GPTalk_dma.bit]
+}
 set log_dir [file join $repo_root logs]
 set result_file [file join $log_dir hw_direct_program_result.txt]
 file mkdir $log_dir

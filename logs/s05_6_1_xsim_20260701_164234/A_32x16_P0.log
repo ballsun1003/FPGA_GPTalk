@@ -1,0 +1,64 @@
+#-----------------------------------------------------------
+# xsim v2024.2.2 (64-bit)
+# SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+# IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+# SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+# Start of session at: Wed Jul  1 16:42:36 2026
+# Process ID         : 407503
+# Current directory  : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_164234
+# Command line       : xsim -log /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_164234/A_32x16_P0.log -mode tcl -source {xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl}
+# Log file           : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_164234/A_32x16_P0.log
+# Journal file       : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_164234/xsim.jou
+# Running On         : pjs-laptop
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 26.04 LTS
+# Processor Detail   : 13th Gen Intel(R) Core(TM) i9-13900H
+# CPU Frequency      : 1636.814 MHz
+# CPU Physical cores : 10
+# CPU Logical cores  : 16
+# Host memory        : 65958 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 74548 MB
+# Available Virtual  : 69896 MB
+#-----------------------------------------------------------
+source xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl
+# xsim {s05_6_1_multiblock_behav} -testplusarg CASE_NAME=A_32x16_P0 -testplusarg CASE_DIR=/run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s05_6_1_multiblock/A_32x16_P0
+Time resolution is 1 ps
+# -testplusarg IN_FEATURES=32 -testplusarg OUT_FEATURES=16 -testplusarg PACKET_BYTES=576 -autoloadwcfg -runall
+invalid command name "-testplusarg"
+    while executing
+"-testplusarg IN_FEATURES=32 -testplusarg OUT_FEATURES=16 -testplusarg PACKET_BYTES=576 -autoloadwcfg -runall"
+    (file "xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl" line 2)
+B_64x16_P0,64x16,P0,64,16,2,1,1152,72,71,16383,true,21,-75,golden/s05_6_1_multiblock/B_64x16_P0
+invalid command name "B_64x16_P0,64x16,P0,64,16,2,1,1152,72,71,16383,true,21,-75,golden/s05_6_1_multiblock/B_64x16_P0"
+B_64x16_P1,64x16,P1,64,16,2,1,1152,72,71,16383,true,15,-37,golden/s05_6_1_multiblock/B_64x16_P1
+invalid command name "B_64x16_P1,64x16,P1,64,16,2,1,1152,72,71,16383,true,15,-37,golden/s05_6_1_multiblock/B_64x16_P1"
+B_64x16_P2,64x16,P2,64,16,2,1,1152,72,71,16383,true,6,-38,golden/s05_6_1_multiblock/B_64x16_P2
+invalid command name "B_64x16_P2,64x16,P2,64,16,2,1,1152,72,71,16383,true,6,-38,golden/s05_6_1_multiblock/B_64x16_P2"
+B_64x16_P3,64x16,P3,64,16,2,1,1152,72,71,16383,true,27,-113,golden/s05_6_1_multiblock/B_64x16_P3
+invalid command name "B_64x16_P3,64x16,P3,64,16,2,1,1152,72,71,16383,true,27,-113,golden/s05_6_1_multiblock/B_64x16_P3"
+B_64x16_P4,64x16,P4,64,16,2,1,1152,72,71,16383,true,-2,11,golden/s05_6_1_multiblock/B_64x16_P4
+invalid command name "B_64x16_P4,64x16,P4,64,16,2,1,1152,72,71,16383,true,-2,11,golden/s05_6_1_multiblock/B_64x16_P4"
+B_64x16_P5,64x16,P5,64,16,2,1,1152,72,71,16383,true,30,11,golden/s05_6_1_multiblock/B_64x16_P5
+invalid command name "B_64x16_P5,64x16,P5,64,16,2,1,1152,72,71,16383,true,30,11,golden/s05_6_1_multiblock/B_64x16_P5"
+C_96x16_P0,96x16,P0,96,16,3,1,1728,108,107,16383,true,19,-97,golden/s05_6_1_multiblock/C_96x16_P0
+invalid command name "C_96x16_P0,96x16,P0,96,16,3,1,1728,108,107,16383,true,19,-97,golden/s05_6_1_multiblock/C_96x16_P0"
+C_96x16_P1,96x16,P1,96,16,3,1,1728,108,107,16383,true,15,-37,golden/s05_6_1_multiblock/C_96x16_P1
+invalid command name "C_96x16_P1,96x16,P1,96,16,3,1,1728,108,107,16383,true,15,-37,golden/s05_6_1_multiblock/C_96x16_P1"
+C_96x16_P2,96x16,P2,96,16,3,1,1728,108,107,16383,true,-2,-22,golden/s05_6_1_multiblock/C_96x16_P2
+invalid command name "C_96x16_P2,96x16,P2,96,16,3,1,1728,108,107,16383,true,-2,-22,golden/s05_6_1_multiblock/C_96x16_P2"
+C_96x16_P3,96x16,P3,96,16,3,1,1728,108,107,16383,true,19,-201,golden/s05_6_1_multiblock/C_96x16_P3
+invalid command name "C_96x16_P3,96x16,P3,96,16,3,1,1728,108,107,16383,true,19,-201,golden/s05_6_1_multiblock/C_96x16_P3"
+D_512x16_P0,512x16,P0,512,16,16,1,9216,576,575,16383,true,410,-259,golden/s05_6_1_multiblock/D_512x16_P0
+invalid command name "D_512x16_P0,512x16,P0,512,16,16,1,9216,576,575,16383,true,410,-259,golden/s05_6_1_multiblock/D_512x16_P0"
+E_576x16_P0,576x16,P0,576,16,18,1,10368,648,647,16383,true,524,-319,golden/s05_6_1_multiblock/E_576x16_P0
+invalid command name "E_576x16_P0,576x16,P0,576,16,18,1,10368,648,647,16383,true,524,-319,golden/s05_6_1_multiblock/E_576x16_P0"
+E_576x16_P1,576x16,P1,576,16,18,1,10368,648,647,16383,true,15,-37,golden/s05_6_1_multiblock/E_576x16_P1
+invalid command name "E_576x16_P1,576x16,P1,576,16,18,1,10368,648,647,16383,true,15,-37,golden/s05_6_1_multiblock/E_576x16_P1"
+E_576x16_P2,576x16,P2,576,16,18,1,10368,648,647,16383,true,58,-38,golden/s05_6_1_multiblock/E_576x16_P2
+invalid command name "E_576x16_P2,576x16,P2,576,16,18,1,10368,648,647,16383,true,58,-38,golden/s05_6_1_multiblock/E_576x16_P2"
+E_576x16_P3,576x16,P3,576,16,18,1,10368,648,647,16383,true,1272,-747,golden/s05_6_1_multiblock/E_576x16_P3
+invalid command name "E_576x16_P3,576x16,P3,576,16,18,1,10368,648,647,16383,true,1272,-747,golden/s05_6_1_multiblock/E_576x16_P3"
+F_1536x16_DEFER_DMA_LENGTH,1536x16,DEFER_DMA_LENGTH,1536,16,48,1,27648,1728,1727,16383,false,DEFER,DEFER,DEFER_S05_6_2_DMA_LENGTH_WIDTH
+invalid command name "F_1536x16_DEFER_DMA_LENGTH,1536x16,DEFER_DMA_LENGTH,1536,16,48,1,27648,1728,1727,16383,false,DEFER,DEFER,DEFER_S05_6_2_DMA_LENGTH_WIDTH"
+INFO: [Common 17-206] Exiting xsim at Wed Jul  1 16:42:38 2026...

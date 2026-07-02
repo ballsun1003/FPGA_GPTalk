@@ -1,0 +1,11 @@
+name: D2_544x16_P6
+shape: 544x16
+pattern: P6
+blocks_per_row: 17
+row_groups: 1
+packet_bytes: 9792
+axis_width_bits: 128
+dma_simple_limit_bytes: 16383
+dma_full_transfer_possible: true
+output0: -44
+output15: -127

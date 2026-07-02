@@ -101,21 +101,27 @@ module gemv_q8_0_stream_core #(
     localparam [15:0] SCALES_PER_WORD_U16 = SCALES_PER_WORD;
     localparam [15:0] LANES_U16 = LANES;
 
-    localparam [3:0] ST_IDLE        = 4'd0;
-    localparam [3:0] ST_SCALE       = 4'd1;
-    localparam [3:0] ST_WEIGHT_RECV = 4'd2;
-    localparam [3:0] ST_WEIGHT_APPLY= 4'd3;
-    localparam [3:0] ST_INPUT_WAIT  = 4'd8;
-    localparam [3:0] ST_BLOCK_DONE  = 4'd4;
-    localparam [3:0] ST_AFTER_SCALE = 4'd5;
-    localparam [3:0] ST_EMIT_ROW    = 4'd6;
-    localparam [3:0] ST_EMIT_BLOCK  = 4'd7;
-    localparam [3:0] ST_SCALE_MUL   = 4'd9;
-    localparam [3:0] ST_SCALE_SHIFT = 4'd10;
-    localparam [3:0] ST_SCALE_ACCUM = 4'd11;
-    localparam [3:0] ST_INPUT_WAIT2 = 4'd12;
-    localparam [3:0] ST_INPUT_WAIT3 = 4'd13;
-    localparam [3:0] ST_INPUT_CAPTURE = 4'd14;
+    localparam [4:0] ST_IDLE        = 5'd0;
+    localparam [4:0] ST_SCALE       = 5'd1;
+    localparam [4:0] ST_WEIGHT_RECV = 5'd2;
+    localparam [4:0] ST_WEIGHT_APPLY= 5'd3;
+    localparam [4:0] ST_INPUT_WAIT  = 5'd8;
+    localparam [4:0] ST_BLOCK_DONE  = 5'd4;
+    localparam [4:0] ST_AFTER_SCALE = 5'd5;
+    localparam [4:0] ST_EMIT_ROW    = 5'd6;
+    localparam [4:0] ST_EMIT_BLOCK  = 5'd7;
+    localparam [4:0] ST_SCALE_MUL   = 5'd9;
+    localparam [4:0] ST_SCALE_SHIFT = 5'd10;
+    localparam [4:0] ST_SCALE_ACCUM = 5'd11;
+    localparam [4:0] ST_INPUT_WAIT2 = 5'd12;
+    localparam [4:0] ST_INPUT_WAIT3 = 5'd13;
+    localparam [4:0] ST_INPUT_CAPTURE = 5'd14;
+    localparam [4:0] ST_SCALE_SAT   = 5'd15;
+    localparam [4:0] ST_SCALE_LOAD  = 5'd16;
+    localparam [4:0] ST_MODE1_SCALE_LOAD  = 5'd17;
+    localparam [4:0] ST_MODE1_SCALE_MUL   = 5'd18;
+    localparam [4:0] ST_MODE1_SCALE_SHIFT = 5'd19;
+    localparam [4:0] ST_MODE1_SCALE_SAT   = 5'd20;
 
     localparam [7:0] ERR_NONE       = 8'd0;
     localparam [7:0] ERR_CONFIG     = 8'd1;
@@ -123,7 +129,7 @@ module gemv_q8_0_stream_core #(
     localparam [7:0] ERR_BUSY_START = 8'd3;
     localparam [7:0] ERR_TKEEP      = 8'd4;
 
-    reg [3:0] state;
+    reg [4:0] state;
     reg mode_reg;
     reg [SCALE_SHIFT_WIDTH-1:0] scale_shift_reg;
     reg [FEATURE_WIDTH-1:0] in_features_reg;
@@ -145,8 +151,11 @@ module gemv_q8_0_stream_core #(
     reg signed [31:0] block_acc [0:LANES-1];
     reg signed [ROW_ACC_WIDTH-1:0] row_acc [0:LANES-1];
     reg signed [31:0] row_out [0:LANES-1];
+    reg signed [31:0] scale_block_acc_reg;
+    reg signed [31:0] scale_q_reg;
     reg signed [63:0] scaled_product_scalar;
     reg signed [63:0] scaled_shifted_scalar;
+    reg signed [ROW_ACC_WIDTH-1:0] row_acc_after_reg;
 
     integer i;
     integer b;
@@ -177,15 +186,22 @@ module gemv_q8_0_stream_core #(
     wire [127:0] weight_word_ext =
         (TDATA_WIDTH == 128) ? weight_word_reg : {96'd0, weight_word_reg[31:0]};
     wire signed [63:0] scale_product_now =
-        mul_i32_i32_to_i64(block_acc[emit_lane], scale_q[emit_lane]);
+        mul_i32_i32_to_i64(scale_block_acc_reg, scale_q_reg);
+    wire signed [31:0] mode1_identity_scale_q = 32'sd1 <<< scale_shift_reg;
     wire signed [63:0] scale_shifted_now =
         round_shift_i64(scaled_product_scalar, scale_shift_reg);
     wire signed [ROW_ACC_WIDTH-1:0] row_acc_after_scalar =
         row_acc[emit_lane] + scaled_shifted_scalar;
+    wire row_acc_after_fits_i32 =
+        row_acc_after_scalar[ROW_ACC_WIDTH-1:31] == {(ROW_ACC_WIDTH-31){row_acc_after_scalar[31]}};
     wire signed [31:0] row_out_after_scalar =
-        (row_acc_after_scalar > 64'sd2147483647) ? 32'sh7fffffff :
-        (row_acc_after_scalar < -64'sd2147483648) ? 32'sh80000000 :
-        row_acc_after_scalar[31:0];
+        row_acc_after_fits_i32 ? row_acc_after_scalar[31:0] :
+        (row_acc_after_scalar[ROW_ACC_WIDTH-1] ? 32'sh80000000 : 32'sh7fffffff);
+    wire row_acc_after_reg_fits_i32 =
+        row_acc_after_reg[ROW_ACC_WIDTH-1:31] == {(ROW_ACC_WIDTH-31){row_acc_after_reg[31]}};
+    wire signed [31:0] row_out_after_reg =
+        row_acc_after_reg_fits_i32 ? row_acc_after_reg[31:0] :
+        (row_acc_after_reg[ROW_ACC_WIDTH-1] ? 32'sh80000000 : 32'sh7fffffff);
 
     function signed [7:0] get_weight_byte;
         input [127:0] word;
@@ -275,18 +291,17 @@ module gemv_q8_0_stream_core #(
 
     function signed [31:0] saturate_to_i32;
         input signed [ROW_ACC_WIDTH-1:0] value;
-        reg signed [63:0] value64;
         begin
-            value64 = value;
-            if (value64 > 64'sd2147483647) begin
-                saturate_to_i32 = 32'sh7fffffff;
-            end else if (value64 < -64'sd2147483648) begin
+            if (value[ROW_ACC_WIDTH-1:31] == {(ROW_ACC_WIDTH-31){value[31]}}) begin
+                saturate_to_i32 = value[31:0];
+            end else if (value[ROW_ACC_WIDTH-1]) begin
                 saturate_to_i32 = 32'sh80000000;
             end else begin
-                saturate_to_i32 = value64[31:0];
+                saturate_to_i32 = 32'sh7fffffff;
             end
         end
     endfunction
+
 
     always @(posedge clk) begin
         if (reset_p) begin
@@ -353,8 +368,11 @@ module gemv_q8_0_stream_core #(
                 row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
                 row_out[i] <= 32'sd0;
             end
+            scale_block_acc_reg <= 32'sd0;
+            scale_q_reg <= 32'sd0;
             scaled_product_scalar <= 64'sd0;
             scaled_shifted_scalar <= 64'sd0;
+            row_acc_after_reg <= {ROW_ACC_WIDTH{1'b0}};
         end else begin
             done <= 1'b0;
             input_rd_en <= 1'b0;
@@ -562,11 +580,19 @@ module gemv_q8_0_stream_core #(
                     debug_row <= row_group_base;
                     debug_block <= block_index;
                     debug_lane <= apply_lane_base;
-                    for (b = 0; b < WEIGHTS_PER_WORD; b = b + 1) begin
-                        if (apply_lane_base + b < LANES) begin
-                                block_acc[apply_lane_base + b] <=
-                                block_acc[apply_lane_base + b] +
+                    if (TDATA_WIDTH == 128) begin
+                        for (b = 0; b < LANES; b = b + 1) begin
+                            block_acc[b] <=
+                                block_acc[b] +
                                 mul_i16_i8_to_i32(input_sample_reg, get_weight_byte(weight_word_ext, b));
+                        end
+                    end else begin
+                        for (b = 0; b < WEIGHTS_PER_WORD; b = b + 1) begin
+                            if (apply_lane_base + b < LANES) begin
+                                    block_acc[apply_lane_base + b] <=
+                                    block_acc[apply_lane_base + b] +
+                                    mul_i16_i8_to_i32(input_sample_reg, get_weight_byte(weight_word_ext, b));
+                            end
                         end
                     end
 
@@ -591,11 +617,30 @@ module gemv_q8_0_stream_core #(
                     if (mode_reg) begin
                         emit_lane <= 16'd0;
                         m_axis_tvalid <= 1'b0;
-                        state <= ST_EMIT_BLOCK;
+                        state <= ST_MODE1_SCALE_LOAD;
                     end else begin
                         emit_lane <= 16'd0;
-                        state <= ST_SCALE_MUL;
+                        state <= ST_SCALE_LOAD;
                     end
+                end
+
+                ST_SCALE_LOAD: begin
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= emit_lane;
+                    scale_block_acc_reg <= block_acc[emit_lane];
+                    scale_q_reg <= scale_q[emit_lane];
+                    if (emit_lane == 16'd0) begin
+                        debug_scale0 <= scale_q[emit_lane];
+                        debug_block0 <= block_acc[emit_lane];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_scale1 <= scale_q[emit_lane];
+                        debug_block1 <= block_acc[emit_lane];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_scale2 <= scale_q[emit_lane];
+                        debug_block2 <= block_acc[emit_lane];
+                    end
+                    state <= ST_SCALE_MUL;
                 end
 
                 ST_SCALE_MUL: begin
@@ -604,18 +649,12 @@ module gemv_q8_0_stream_core #(
                     debug_lane <= emit_lane;
                     scaled_product_scalar <= scale_product_now;
                     if (emit_lane == 16'd0) begin
-                        debug_scale0 <= scale_q[emit_lane];
-                        debug_block0 <= block_acc[emit_lane];
                         debug_product0_lo <= scale_product_now[31:0];
                         debug_product0_hi <= scale_product_now[63:32];
                     end else if (emit_lane == 16'd1) begin
-                        debug_scale1 <= scale_q[emit_lane];
-                        debug_block1 <= block_acc[emit_lane];
                         debug_product1_lo <= scale_product_now[31:0];
                         debug_product1_hi <= scale_product_now[63:32];
                     end else if (emit_lane == 16'd2) begin
-                        debug_scale2 <= scale_q[emit_lane];
-                        debug_block2 <= block_acc[emit_lane];
                         debug_product2_lo <= scale_product_now[31:0];
                         debug_product2_hi <= scale_product_now[63:32];
                     end
@@ -642,20 +681,28 @@ module gemv_q8_0_stream_core #(
                     debug_block <= block_index;
                     debug_lane <= emit_lane;
                     row_acc[emit_lane] <= row_acc_after_scalar;
-                    row_out[emit_lane] <= row_out_after_scalar;
+                    row_acc_after_reg <= row_acc_after_scalar;
+                    state <= ST_SCALE_SAT;
+                end
+
+                ST_SCALE_SAT: begin
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= emit_lane;
+                    row_out[emit_lane] <= row_out_after_reg;
                     if (emit_lane == 16'd0) begin
-                        debug_row_acc0 <= row_acc_after_scalar[31:0];
+                        debug_row_acc0 <= row_acc_after_reg[31:0];
                     end else if (emit_lane == 16'd1) begin
-                        debug_row_acc1 <= row_acc_after_scalar[31:0];
+                        debug_row_acc1 <= row_acc_after_reg[31:0];
                     end else if (emit_lane == 16'd2) begin
-                        debug_row_acc2 <= row_acc_after_scalar[31:0];
+                        debug_row_acc2 <= row_acc_after_reg[31:0];
                     end
                     if (emit_lane == LANES - 1) begin
                         emit_lane <= 16'd0;
                         state <= ST_AFTER_SCALE;
                     end else begin
                         emit_lane <= emit_lane + 16'd1;
-                        state <= ST_SCALE_MUL;
+                        state <= ST_SCALE_LOAD;
                     end
                 end
 
@@ -727,6 +774,80 @@ module gemv_q8_0_stream_core #(
                     end
                 end
 
+                ST_MODE1_SCALE_LOAD: begin
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= emit_lane;
+                    scale_block_acc_reg <= block_acc[emit_lane];
+                    scale_q_reg <= mode1_identity_scale_q;
+                    if (emit_lane == 16'd0) begin
+                        debug_scale0 <= mode1_identity_scale_q;
+                        debug_block0 <= block_acc[emit_lane];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_scale1 <= mode1_identity_scale_q;
+                        debug_block1 <= block_acc[emit_lane];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_scale2 <= mode1_identity_scale_q;
+                        debug_block2 <= block_acc[emit_lane];
+                    end
+                    state <= ST_MODE1_SCALE_MUL;
+                end
+
+                ST_MODE1_SCALE_MUL: begin
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= emit_lane;
+                    scaled_product_scalar <= scale_product_now;
+                    if (emit_lane == 16'd0) begin
+                        debug_product0_lo <= scale_product_now[31:0];
+                        debug_product0_hi <= scale_product_now[63:32];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_product1_lo <= scale_product_now[31:0];
+                        debug_product1_hi <= scale_product_now[63:32];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_product2_lo <= scale_product_now[31:0];
+                        debug_product2_hi <= scale_product_now[63:32];
+                    end
+                    state <= ST_MODE1_SCALE_SHIFT;
+                end
+
+                ST_MODE1_SCALE_SHIFT: begin
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= emit_lane;
+                    scaled_shifted_scalar <= scale_shifted_now;
+                    if (emit_lane == 16'd0) begin
+                        debug_scaled0 <= scale_shifted_now[31:0];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_scaled1 <= scale_shifted_now[31:0];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_scaled2 <= scale_shifted_now[31:0];
+                    end
+                    state <= ST_MODE1_SCALE_SAT;
+                end
+
+                ST_MODE1_SCALE_SAT: begin
+                    debug_row <= row_group_base;
+                    debug_block <= block_index;
+                    debug_lane <= emit_lane;
+                    row_out[emit_lane] <= saturate_to_i32(scaled_shifted_scalar);
+                    if (emit_lane == 16'd0) begin
+                        debug_row_acc0 <= scaled_shifted_scalar[31:0];
+                    end else if (emit_lane == 16'd1) begin
+                        debug_row_acc1 <= scaled_shifted_scalar[31:0];
+                    end else if (emit_lane == 16'd2) begin
+                        debug_row_acc2 <= scaled_shifted_scalar[31:0];
+                    end
+                    if (emit_lane == LANES - 1) begin
+                        emit_lane <= 16'd0;
+                        m_axis_tvalid <= 1'b0;
+                        state <= ST_EMIT_BLOCK;
+                    end else begin
+                        emit_lane <= emit_lane + 16'd1;
+                        state <= ST_MODE1_SCALE_LOAD;
+                    end
+                end
+
                 ST_EMIT_BLOCK: begin
                     if (m_axis_tvalid) begin
                         if (m_axis_tready) begin
@@ -762,6 +883,8 @@ module gemv_q8_0_stream_core #(
                                     for (i = 0; i < LANES; i = i + 1) begin
                                         scale_q[i] <= 32'sd0;
                                         block_acc[i] <= 32'sd0;
+                                        row_acc[i] <= {ROW_ACC_WIDTH{1'b0}};
+                                        row_out[i] <= 32'sd0;
                                     end
                                     state <= ST_SCALE;
                                 end
@@ -770,18 +893,18 @@ module gemv_q8_0_stream_core #(
                             end
                         end
                     end else begin
-                        m_axis_tdata <= block_acc[emit_lane];
+                        m_axis_tdata <= row_out[emit_lane];
                         m_axis_tvalid <= 1'b1;
                         m_axis_tlast <= last_group && last_block && emit_last_lane_in_group;
                         m_axis_row <= row_group_base + emit_lane_feature;
                         m_axis_block <= block_index;
                         m_axis_lane <= emit_lane;
                         if (row_group_base + emit_lane_feature == 0) begin
-                            debug_out0 <= block_acc[emit_lane];
+                            debug_out0 <= row_out[emit_lane];
                         end else if (row_group_base + emit_lane_feature == 1) begin
-                            debug_out1 <= block_acc[emit_lane];
+                            debug_out1 <= row_out[emit_lane];
                         end else if (row_group_base + emit_lane_feature == 2) begin
-                            debug_out2 <= block_acc[emit_lane];
+                            debug_out2 <= row_out[emit_lane];
                         end
                         debug_row <= row_group_base + emit_lane_feature;
                         debug_block <= block_index;

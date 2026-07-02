@@ -1,0 +1,2 @@
+case,shape,pattern,blocks_per_row,packet_bytes,result,classification,first_mismatch,got,expected,elapsed_us,mm2s_sr,s2mm_sr,status,debug_row,debug_block,debug_lane,debug_in_count,debug_tlast_count
+D_512x16_P6,512x16,P6,16,9216,PASS,PASS,0,0,0,284,0x00001002,0x00001002,0x00000002,15,15,15,576,575

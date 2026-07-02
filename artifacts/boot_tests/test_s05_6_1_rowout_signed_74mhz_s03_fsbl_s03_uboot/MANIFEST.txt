@@ -1,0 +1,34 @@
+test name: test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.6.1 candidate BOOT with row_out emit restored and signed row_out calculation fix for multi-block mode=0 forensic board regression.
+
+created: 2026-07-01 17:23:45
+
+FSBL path: artifacts/boot_tests/test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_6_1_rowout_signed_74MHz.bit
+bitstream sha256: 079af0715b26b381b7cc61c1e101a3641db1a40f59466f59b28b9ebe4c8626d1
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_6_1_rowout_signed_74MHz.xsa
+XSA sha256: 72eb3c95252ed99cceda62561d300e0fda14ec4bb794861c39a91693615167c0
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_2_synth_1/design_1_gemv_q8_0_dma_top_0_2.dcp
+GEMV OOC DCP sha256: 0b7606b505de875c2a7d184cf45f362c4add40a85cdadb0b0fc2dece2d704bc2
+
+U-Boot path: artifacts/boot_tests/test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+
+Bootgen:
+- log: logs/test_s05_6_1_rowout_signed_74mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS

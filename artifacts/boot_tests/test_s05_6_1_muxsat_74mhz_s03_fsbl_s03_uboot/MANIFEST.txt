@@ -1,0 +1,44 @@
+test name: test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.6.1 candidate BOOT with explicit lane mux and bit-based i32 saturation for multi-block mode=0 forensic board regression.
+
+created: 2026-07-01 17:32:54
+
+FSBL path: artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_6_1_muxsat_74MHz.bit
+bitstream sha256: fa3d83d14896270c6516ac9cc8877db77fc664d593e4460c1647072b5fe40cf2
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_6_1_muxsat_74MHz.xsa
+XSA sha256: 41d482079b72d760b47900d082c20021cbe9e21eb6354a03abb9839fdf3f81ba
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/design_1_gemv_q8_0_dma_top_0_2_synth_1/design_1_gemv_q8_0_dma_top_0_2.dcp
+GEMV OOC DCP sha256: b050fa1e7e3d286f453ac0b3a5d1aef0ba3d1bf3580bdd04c5322e4a36c543c7
+
+U-Boot path: artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 7c3d1789b3828a003d99594b3df1f30fc64d0aa6efb99de75b24d2f7deadd6cd
+
+Bootgen:
+- log: logs/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sdb1:/BOOT.BIN
+- SD BOOT.BIN sha256: 7c3d1789b3828a003d99594b3df1f30fc64d0aa6efb99de75b24d2f7deadd6cd
+- previous BOOT backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_1_MUXSAT_74MHZ_S03_FSBL_S03_UBOOT_20260701_173253.BIN
+- previous BOOT backup sha256: c70acfe5c66c6b8f43157723f6a9af667a19d39cd5849e89ad2c2327337c4a2a
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot_sd_stage.log
+- unmount: done

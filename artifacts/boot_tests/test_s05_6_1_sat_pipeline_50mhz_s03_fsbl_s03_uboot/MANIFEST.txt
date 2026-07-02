@@ -1,0 +1,44 @@
+test name: test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot
+
+Purpose:
+- S05.6.1 timing isolation candidate: same sat_pipeline RTL at 50 MHz, known-good S03 FSBL and S03 U-Boot.
+
+created: 2026-07-01 18:32:47
+
+FSBL path: artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/fsbl_known_good_s03.elf
+FSBL source: artifacts/s03_bootgen/zynq_fsbl.elf
+FSBL sha256: 610d49efca34d84d073d01566188bebde1c4a0a827d248e5b9cfbe17786d3eca
+
+bitstream path: artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/GPTalk_dma_active.bit
+bitstream source: hw/vivado_project/export/GPTalk_dma_s05_6_1_sat_pipeline_50MHz.bit
+bitstream sha256: 4aa46386c69477f08cca716845e4ca7ef4244c425f9533ad7bb90e61db55b00a
+
+XSA source: hw/vivado_project/export/GPTalk_dma_s05_6_1_sat_pipeline_50MHz.xsa
+XSA sha256: a2fbbbb6226d81a371cade5f3e89bfde0f06a7defccd47395da3a52ef2760f09
+
+GEMV OOC DCP path: hw/vivado_project/GPTalk.runs/impl_1/design_1_wrapper_postroute_physopt.dcp
+GEMV OOC DCP sha256: fb956fc49a7b040d9e4d55814d2f3244287fdf95e1bf7f837a04054a0f9e4122
+
+U-Boot path: artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/u-boot.elf
+U-Boot source: artifacts/s03_bootgen/u-boot.elf
+U-Boot sha256: 79a91b6f2a10e13af2c1b27b3a9bd54e513663599180e397df435bd059cd196d
+
+BIF path: artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/boot.bif
+BIF sha256: de8adb056fe195b2a32afeaea4a4834ee0be61324c25531716c486e5e213335e
+
+BOOT.BIN path: artifacts/boot_tests/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 81462f69352a0ca0f10c823ae175010acc86ad209ecf238c96596032108ea305
+
+Bootgen:
+- log: logs/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot_bootgen.log
+- result: PASS
+
+SD staging:
+- target: /dev/sdc1:/BOOT.BIN
+- SD BOOT.BIN sha256: 81462f69352a0ca0f10c823ae175010acc86ad209ecf238c96596032108ea305
+- previous BOOT backup: /dev/sdc1:/BOOT_BEFORE_TEST_S05_6_1_SAT_PIPELINE_50MHZ_S03_FSBL_S03_UBOOT_20260701_183243.BIN
+- previous BOOT backup sha256: 54fdf73fc938825c62ea641b3f841690d4314220e8391d36adc87d9623e95dc8
+- image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+- uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+- log: logs/test_s05_6_1_sat_pipeline_50mhz_s03_fsbl_s03_uboot_sd_stage.log
+- unmount: done

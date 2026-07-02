@@ -1,0 +1,103 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S05_6_1_PRECHECK_START__;cat /proc/cmdline;for d in /sys/class/uio/uio*; do echo UIO=$(basename "$d") name=$(cat "$d/name" 2>/dev/null); done;command -v gcc;echo __S05_6_1_PRECHECK_END__
+__S05_6_1_PRECHECK_START__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+UIO=uio0 name=axi_dma
+UIO=uio1 name=input_bram
+UIO=uio2 name=hdmi_vdma
+UIO=uio3 name=hdmi_vtc
+UIO=uio4 name=hdmi_dynclk
+UIO=uio5 name=gemv_ctrl
+/usr/bin/gcc
+__S05_6_1_PRECHECK_END__
+root@Zybo-Z7-20:~# __S05_6_1_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/s05_6_1_gemv_multiblock_test.c /tmp/s05_6_1_gemv_multiblock_test
+root@Zybo-Z7-20:~# __S05_6_1_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/s05_6_1_gemv_multiblock_test.c <<'__S05_6_1_C_SOURCE__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 34171 /tmp/s05_6_1_gemv_multiblock_test.c
+root@Zybo-Z7-20:~# __S05_6_1_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/s05_6_1_gemv_multiblock_test /tmp/s05_6_1_gemv_multiblock_test.c; rc=$?; echo __S05_6_1_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/s05_6_1_gemv_multiblock_test
+__S05_6_1_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         36656 Jun 25 09:02 /tmp/s05_6_1_gemv_multiblock_test
+root@Zybo-Z7-20:~# __S05_6_1_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S05_6_1_RUN_START__;/tmp/s05_6_1_gemv_multiblock_test --phys-base 0x3c000000 --phys-size 0x04000000 --only B_64x16_P0 --mode1-blocks --repeat 5; rc=$?; echo __S05_6_1_RUN_RC__=$rc; echo __S05_6_1_DMESG_CHECK__;dmesg | tail -120 | gre
+__S05_6_1_RUN_START__
+GEMV VERSION=0x000a0001 BUILD_CONFIG=0x00800010 axis_width=128 lanes=16
+[S05.6.1 MULTIBLOCK BOARD]
+BOARDCSV_HEADER,case,shape,pattern,blocks_per_row,packet_bytes,result,classification,first_mismatch,got,expected,elapsed_us,mm2s_sr,s2mm_sr,status,debug_row,debug_block,debug_lane,debug_in_count,debug_tlast_count
+MODE1CSV_HEADER,case,shape,pattern,blocks_per_row,packet_bytes,result_bytes,result,classification,first_block,first_lane,got,expected,elapsed_us
+MODE1CSV,B_64x16_P0,64x16,P0,2,1152,128,FAIL,BLOCK_ACC_FAIL,0,8,-1061,-37,70
+MODE1_OUT_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-1061,44,-8,10,0,-24,15,-37
+MODE1_EXP_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-37,44,-8,10,0,-24,15,-37
+MODE1_OUT_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_EXP_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_LANE4,B_64x16_P0,b0_got=10,b0_exp=10,b1_got=19,b1_exp=19
+MODE1_LANE12,B_64x16_P0,b0_got=0,b0_exp=0,b1_got=-11,b1_exp=-11
+MODE1CSV,B_64x16_P0,64x16,P0,2,1152,128,FAIL,BLOCK_ACC_FAIL,0,8,-1061,-37,54
+MODE1_OUT_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-1061,44,-8,10,0,-24,15,-37
+MODE1_EXP_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-37,44,-8,10,0,-24,15,-37
+MODE1_OUT_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_EXP_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_LANE4,B_64x16_P0,b0_got=10,b0_exp=10,b1_got=19,b1_exp=19
+MODE1_LANE12,B_64x16_P0,b0_got=0,b0_exp=0,b1_got=-11,b1_exp=-11
+MODE1CSV,B_64x16_P0,64x16,P0,2,1152,128,FAIL,BLOCK_ACC_FAIL,0,8,-1061,-37,52
+MODE1_OUT_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-1061,44,-8,10,0,-24,15,-37
+MODE1_EXP_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-37,44,-8,10,0,-24,15,-37
+MODE1_OUT_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_EXP_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_LANE4,B_64x16_P0,b0_got=10,b0_exp=10,b1_got=19,b1_exp=19
+MODE1_LANE12,B_64x16_P0,b0_got=0,b0_exp=0,b1_got=-11,b1_exp=-11
+MODE1CSV,B_64x16_P0,64x16,P0,2,1152,128,FAIL,BLOCK_ACC_FAIL,0,8,-1061,-37,52
+MODE1_OUT_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-1061,44,-8,10,0,-24,15,-37
+MODE1_EXP_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-37,44,-8,10,0,-24,15,-37
+MODE1_OUT_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_EXP_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_LANE4,B_64x16_P0,b0_got=10,b0_exp=10,b1_got=19,b1_exp=19
+MODE1_LANE12,B_64x16_P0,b0_got=0,b0_exp=0,b1_got=-11,b1_exp=-11
+MODE1CSV,B_64x16_P0,64x16,P0,2,1152,128,FAIL,BLOCK_ACC_FAIL,0,8,-1061,-37,52
+MODE1_OUT_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-1061,44,-8,10,0,-24,15,-37
+MODE1_EXP_BLOCK,B_64x16_P0,b0,15,-37,44,-8,10,0,-24,15,-37,44,-8,10,0,-24,15,-37
+MODE1_OUT_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_EXP_BLOCK,B_64x16_P0,b1,6,-38,58,-14,19,-11,-20,6,-38,58,-14,19,-11,-20,6,-38
+MODE1_LANE4,B_64x16_P0,b0_got=10,b0_exp=10,b1_got=19,b1_exp=19
+MODE1_LANE12,B_64x16_P0,b0_got=0,b0_exp=0,b1_got=-11,b1_exp=-11
+F_1536x16_DEFER,DMA_LENGTH_LIMIT_FAIL,packet_bytes=27648,limit=16383
+S05_6_1_BOARD_FAIL fail_count=5
+__S05_6_1_RUN_RC__=1
+__S05_6_1_DMESG_CHECK__
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S05_6_1_RUN_END__
+root@Zybo-Z7-20:~# __S05_6_1_CMD_DONE_5__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: stty echo
+root@Zybo-Z7-20:~# echo __S05_6_1_CMD_DONE_6__=$?
+__S05_6_1_CMD_DONE_6__=0
+root@Zybo-Z7-20:~# 

@@ -1,0 +1,28 @@
+S05.6.2 board gate summary
+created: 2026-07-02 05:19:37
+tag: s05_6_2_fixed_128_mac_74mhz
+serial: /dev/ttyUSB1
+baud: 115200
+expected BOOT: artifacts/boot_tests/test_s05_6_2_fixed_128_mac_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+expected BOOT sha256: 8c50935434e0ce9a57c5ee891ce45f9da839c4a8ad7e28e517aec6ed3fd06a70
+
+## 1_boot_root_and_s05_fake_one_run
+time: 2026-07-02 05:19:37
+env: S05_6_1_SERIAL=/dev/ttyUSB1 S05_6_SERIAL=/dev/ttyUSB1 S05_BAUD=115200 S05_EXTRA_ARGS=--expect-axis-width 128 --full-debug-status S05_LOG_PATH=logs/s05_6_2_fixed_128_mac_74mhz_s05_fake_one_run.txt S05_RUN_TIMEOUT=180 S05_SERIAL=/dev/ttyUSB1
+cmd: python3 scripts/s05_gemv_hw_test.py
+rc: 0
+
+## 2_B_64x16_P0_mode0_repeat5
+time: 2026-07-02 05:19:59
+env: S05_6_1_BOARD_CSV=reports/s05_6_2_fixed_128_mac_74mhz_mode0_B64P0_repeat5_board.csv S05_6_1_BOARD_LOG=logs/s05_6_2_fixed_128_mac_74mhz_mode0_B64P0_repeat5_board.txt S05_6_1_EXTRA_ARGS=--only B_64x16_P0 --repeat 5 S05_6_1_RUN_TIMEOUT=240 S05_6_1_SERIAL=/dev/ttyUSB1 S05_6_SERIAL=/dev/ttyUSB1 S05_BAUD=115200 S05_SERIAL=/dev/ttyUSB1
+cmd: python3 scripts/s05_6_1_multiblock_board.py
+rc: 0
+
+## 3_B_64x16_P0_mode1_dump
+time: 2026-07-02 05:20:15
+env: S05_6_1_BOARD_CSV=reports/s05_6_2_fixed_128_mac_74mhz_mode1_B64P0_dump_board.csv S05_6_1_BOARD_LOG=logs/s05_6_2_fixed_128_mac_74mhz_mode1_B64P0_dump_board.txt S05_6_1_EXTRA_ARGS=--only B_64x16_P0 --mode1-blocks S05_6_1_RUN_TIMEOUT=240 S05_6_1_SERIAL=/dev/ttyUSB1 S05_6_SERIAL=/dev/ttyUSB1 S05_BAUD=115200 S05_SERIAL=/dev/ttyUSB1
+cmd: python3 scripts/s05_6_1_multiblock_board.py
+rc: 7
+
+BOARD_GATE_STOP: 3_B_64x16_P0_mode1_dump failed
+S06_GATE: still blocked

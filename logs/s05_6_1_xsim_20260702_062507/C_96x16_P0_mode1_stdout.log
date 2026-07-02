@@ -1,0 +1,19 @@
+
+****** xsim v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Thu Jul  2 06:26:22 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl
+# xsim {s05_6_1_multiblock_behav} -testplusarg CASE_CFG=/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260702_062507/C_96x16_P0.cfg -testplusarg MODE1_BLOCKS -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[CASE] C_96x16_P0 dir=/run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s05_6_1_multiblock/C_96x16_P0 mode=1 in=96 out=16 blocks=3 packet_bytes=1728 tlast_beat=107 expected_outputs=48
+[PASS] C_96x16_P0 mode=1 blocks=3 outputs=48 input_events=576 max_input_addr=95
+S05_6_1_MULTIBLOCK_CASE_PASS C_96x16_P0
+$finish called at time : 9135 ns : File "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core_multiblock.sv" Line 437
+exit
+INFO: [Common 17-206] Exiting xsim at Thu Jul  2 06:26:25 2026...

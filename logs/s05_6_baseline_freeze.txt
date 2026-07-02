@@ -1,0 +1,51 @@
+S05.6 baseline freeze
+======================
+
+Date: 2026-07-01 KST
+Scope: S05.6 batching / persistent-job overhead reduction only.
+Do not proceed to S06 from this file.
+
+Active 128-bit BOOT
+-------------------
+Path: artifacts/boot_tests/test_s05_5_axis128_bram_scalar_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+sha256: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+
+Active 128-bit bitstream
+------------------------
+Path: hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.bit
+sha256: 1f873bc39b48d56275f9f07e7fd5db1b979adc118beff768c0b24a9204a7d4ac
+Clock: 74 MHz
+Timing: PASS, WNS 0.389 ns, WHS 0.018 ns
+BUILD_CONFIG: 0x00800010
+AXIS width: 128
+lanes: 16
+
+Active 128-bit XSA
+------------------
+Path: hw/vivado_project/export/GPTalk_dma_s05_5_axis128_bram_scalar_74MHz.xsa
+sha256: 005b3f9b04cc521fca0c4979d77a8c19cdab9c0335a477cb973e48a7ec627f08
+
+S05.5 board regression
+----------------------
+Reference doc: docs/s05_5_128bit_axis_bringup.md
+Full debug log: logs/s05_5_axis128_bram_scalar_board_full_debug.txt
+Quiet 100-run log: logs/s05_5_axis128_bram_scalar_board_quiet_100.txt
+mode=0 scaled: PASS, [-48, 19, -6]
+mode=1 block_acc: PASS, [-193, 38, -50]
+quiet 100-run: PASS, fail_count 0
+mode=0 avg: 251 us
+mode=1 avg: 251 us
+
+Preserved 32-bit known-good backup
+----------------------------------
+Path: artifacts/s05_3_validated_known_good_reexport_20260701_010926
+
+Guardrails
+----------
+- Do not overwrite active 128-bit BOOT/bitstream/XSA during S05.6.
+- Do not overwrite 32-bit known-good aliases or backup.
+- Do not use rejected S05.2 counter bitstream/BOOT.
+- Do not return to AXI-Lite bulk data path.
+- Do not remove TLAST/TKEEP checks.
+- Do not undo valid_lanes_reg output emit fix.
+- Do not connect S06 runtime until explicitly requested.

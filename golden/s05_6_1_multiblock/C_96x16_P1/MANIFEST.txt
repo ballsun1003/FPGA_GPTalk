@@ -1,0 +1,11 @@
+name: C_96x16_P1
+shape: 96x16
+pattern: P1
+blocks_per_row: 3
+row_groups: 1
+packet_bytes: 1728
+axis_width_bits: 128
+dma_simple_limit_bytes: 16383
+dma_full_transfer_possible: true
+output0: 15
+output15: -37

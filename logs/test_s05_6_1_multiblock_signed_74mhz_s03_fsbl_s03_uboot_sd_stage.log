@@ -1,0 +1,11 @@
+test name: test_s05_6_1_multiblock_signed_74mhz_s03_fsbl_s03_uboot
+time: 2026-07-01 17:12:49 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: c70acfe5c66c6b8f43157723f6a9af667a19d39cd5849e89ad2c2327337c4a2a
+SD BOOT.BIN sha256: c70acfe5c66c6b8f43157723f6a9af667a19d39cd5849e89ad2c2327337c4a2a
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_1_MULTIBLOCK_SIGNED_74MHZ_S03_FSBL_S03_UBOOT_20260701_171247.BIN
+backup sha256: 4d7f875198fed7806b6265db126909067587ee42ec3e5db32308fd62dbd59a8c
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

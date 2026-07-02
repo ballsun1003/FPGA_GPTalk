@@ -1,0 +1,16 @@
+S05.6.2 board gate summary
+created: 2026-07-02 06:21:16
+tag: s05_6_2_selected_debug_74mhz
+serial: /dev/ttyUSB1
+baud: 115200
+expected BOOT: artifacts/boot_tests/test_s05_6_2_selected_debug_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+expected BOOT sha256: 166bd01560d288bef690b680b6c0079b479c5aff532d322908b01d7dd53f60f0
+
+## 1_boot_root_and_s05_fake_one_run
+time: 2026-07-02 06:21:16
+env: S05_6_1_SERIAL=/dev/ttyUSB1 S05_6_SERIAL=/dev/ttyUSB1 S05_BAUD=115200 S05_EXTRA_ARGS=--expect-axis-width 128 --full-debug-status S05_LOG_PATH=logs/s05_6_2_selected_debug_74mhz_s05_fake_one_run.txt S05_RUN_TIMEOUT=180 S05_SERIAL=/dev/ttyUSB1
+cmd: python3 scripts/s05_gemv_hw_test.py
+rc: 7
+
+BOARD_GATE_STOP: 1_boot_root_and_s05_fake_one_run failed
+S06_GATE: still blocked

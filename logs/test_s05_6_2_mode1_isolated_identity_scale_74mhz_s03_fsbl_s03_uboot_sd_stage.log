@@ -1,0 +1,11 @@
+test name: test_s05_6_2_mode1_isolated_identity_scale_74mhz_s03_fsbl_s03_uboot
+time: 2026-07-02 08:07:30 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+SD BOOT.BIN sha256: 472ae39924e2f25f5ae62dd8141d0f3d1669352e97e279b76372c17b28debb5e
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_2_MODE1_ISOLATED_IDENTITY_SCALE_74MHZ_S03_FSBL_S03_UBOOT_20260702_080729.BIN
+backup sha256: 16862d78d2b7a4b7a4799994d7f2d89508bf4e6828ef0e4956a26affde465818
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

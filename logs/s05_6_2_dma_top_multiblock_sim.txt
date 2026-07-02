@@ -1,0 +1,17 @@
+S05.6.2 dma_top wrapper multi-block simulation
+run_dir: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_2_dma_top_xsim_20260702_075706
+case_dir: /run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s05_6_1_multiblock/B_64x16_P0
+source_hash_stream_core: c2bb16ff5b035fcef2831108147009073ee26beaa353e64f25f4ad49a05d3e58
+source_hash_dma_top: f50e9caca4959386cf1a330238630077d6a97c74d37d10cd442a5fd6851f859a
+
+PASS,B_64x16_P0,mode0_mode1,bram_latency=2,backpressure=on
+LANE_FOCUS,B_64x16_P0,mode0,block=0,lane=4,got=29,expected=29,tlast=0
+LANE_FOCUS,B_64x16_P0,mode0,block=0,lane=12,got=-11,expected=-11,tlast=0
+STATUS,B_64x16_P0,mode0,status=0x00000002,error=0x00000000,debug_row=15,debug_block=1,debug_lane=15,debug_in_count=72,debug_tlast_count=71,debug_tlast_tkeep=0x0000ffff
+LANE_FOCUS,B_64x16_P0,mode1,block=0,lane=4,got=10,expected=10,tlast=0
+LANE_FOCUS,B_64x16_P0,mode1,block=0,lane=12,got=0,expected=0,tlast=0
+LANE_FOCUS,B_64x16_P0,mode1,block=1,lane=4,got=19,expected=19,tlast=0
+LANE_FOCUS,B_64x16_P0,mode1,block=1,lane=12,got=-11,expected=-11,tlast=0
+STATUS,B_64x16_P0,mode1,status=0x00000082,error=0x00000000,debug_row=15,debug_block=1,debug_lane=15,debug_in_count=72,debug_tlast_count=71,debug_tlast_tkeep=0x0000ffff
+S05_6_2_DMA_TOP_MULTIBLOCK_PASS B_64x16_P0
+S05_6_2_DMA_TOP_WRAPPER_SIM_PASS

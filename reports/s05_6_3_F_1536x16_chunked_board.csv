@@ -1,0 +1,4 @@
+name,pattern,mode,in_features,out_features,row_group,chunk_count,chunk_in_features,chunk_packet_bytes,result,classification,first_mismatch,got,expected,elapsed_us,mm2s_sr,s2mm_sr,status,max_btt_ok,cpu_accumulation_required
+F_1536x16_P0,P0,0,1536,16,0,3,512,9216,PASS,PASS,0,0,0,5254,0x00001002,0x00001002,0x00000002,true,true
+F_1536x16_P6,P6,0,1536,16,0,3,512,9216,PASS,PASS,0,0,0,4252,0x00001002,0x00001002,0x00000002,true,true
+F_1536x16_P6,P6,1,1536,16,0,1,512,9216,PASS,PASS,0,0,0,311,0x00001002,0x00001002,0x00000082,true,false

@@ -1,0 +1,33 @@
+#-----------------------------------------------------------
+# xsim v2024.2.2 (64-bit)
+# SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+# IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+# SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+# Start of session at: Thu Jul  2 07:41:42 2026
+# Process ID         : 645415
+# Current directory  : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260702_073938
+# Command line       : xsim -log /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260702_073938/E_576x16_P7_mode1.log -mode tcl -source {xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl}
+# Log file           : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260702_073938/E_576x16_P7_mode1.log
+# Journal file       : /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260702_073938/xsim.jou
+# Running On         : pjs-laptop
+# Platform           : Ubuntu
+# Operating System   : Ubuntu 26.04 LTS
+# Processor Detail   : 13th Gen Intel(R) Core(TM) i9-13900H
+# CPU Frequency      : 400.444 MHz
+# CPU Physical cores : 10
+# CPU Logical cores  : 16
+# Host memory        : 65958 MB
+# Swap memory        : 8589 MB
+# Total Virtual      : 74548 MB
+# Available Virtual  : 70916 MB
+#-----------------------------------------------------------
+source xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl
+# xsim {s05_6_1_multiblock_behav} -testplusarg CASE_CFG=/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260702_073938/E_576x16_P7.cfg -testplusarg MODE1_BLOCKS -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[CASE] E_576x16_P7 dir=/run/media/pjs/6A43-DC8A/smollm2-zybo/golden/s05_6_1_multiblock/E_576x16_P7 mode=1 in=576 out=16 blocks=18 packet_bytes=10368 tlast_beat=647 expected_outputs=288
+[PASS] E_576x16_P7 mode=1 blocks=18 outputs=288 input_events=3456 max_input_addr=575
+S05_6_1_MULTIBLOCK_CASE_PASS E_576x16_P7
+$finish called at time : 62505 ns : File "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core_multiblock.sv" Line 437
+exit
+INFO: [Common 17-206] Exiting xsim at Thu Jul  2 07:41:44 2026...

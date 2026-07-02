@@ -1,0 +1,5 @@
+width_bits,max_btt_bytes,fits_576_rowgroup_10368,fits_1536_rowgroup_27648,fits_2560_rowgroup_46080,simple_mode_change_required,notes
+14,16383,true,false,false,false,current
+15,32767,true,true,false,false,minimum_for_135M
+16,65535,true,true,true,false,preferred
+18,262143,true,true,true,false,preferred

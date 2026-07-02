@@ -1,0 +1,7 @@
+Unmounted /dev/sdb1.
+BOOT.BIN: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+BOOT.BIN sha256: 7c3d1789b3828a003d99594b3df1f30fc64d0aa6efb99de75b24d2f7deadd6cd
+MANIFEST: /run/media/pjs/6A43-DC8A/smollm2-zybo/artifacts/boot_tests/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot/MANIFEST.txt
+bootgen log: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot_bootgen.log
+SD /dev/sdb1:/BOOT.BIN sha256: 7c3d1789b3828a003d99594b3df1f30fc64d0aa6efb99de75b24d2f7deadd6cd
+SD staging log: /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/test_s05_6_1_muxsat_74mhz_s03_fsbl_s03_uboot_sd_stage.log

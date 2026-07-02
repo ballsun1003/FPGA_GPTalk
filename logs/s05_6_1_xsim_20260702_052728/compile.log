@@ -1,0 +1,6 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/rtl/gemv_q8_0_stream_core.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module gemv_q8_0_stream_core
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "/run/media/pjs/6A43-DC8A/smollm2-zybo/vivado_ip/tb/tb_gemv_q8_0_stream_core_multiblock.sv" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_gemv_q8_0_stream_core_multiblock
+INFO: [VRFC 10-2263] Analyzing Verilog file "/tools/Xilinx/Vivado/2024.2/data/verilog/src/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

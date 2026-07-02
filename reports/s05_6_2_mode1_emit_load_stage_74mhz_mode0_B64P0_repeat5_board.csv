@@ -1,0 +1,6 @@
+case,shape,pattern,blocks_per_row,packet_bytes,result,classification,first_mismatch,got,expected,elapsed_us,mm2s_sr,s2mm_sr,status,debug_row,debug_block,debug_lane,debug_in_count,debug_tlast_count
+B_64x16_P0,64x16,P0,2,1152,PASS,PASS,0,0,0,72,0x00001002,0x00001002,0x00000002,15,1,15,72,71
+B_64x16_P0,64x16,P0,2,1152,PASS,PASS,0,0,0,52,0x00001002,0x00001002,0x00000002,15,1,15,72,71
+B_64x16_P0,64x16,P0,2,1152,PASS,PASS,0,0,0,52,0x00001002,0x00001002,0x00000002,15,1,15,72,71
+B_64x16_P0,64x16,P0,2,1152,PASS,PASS,0,0,0,52,0x00001002,0x00001002,0x00000002,15,1,15,72,71
+B_64x16_P0,64x16,P0,2,1152,PASS,PASS,0,0,0,52,0x00001002,0x00001002,0x00000002,15,1,15,72,71

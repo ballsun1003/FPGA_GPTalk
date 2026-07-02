@@ -1,0 +1,116 @@
+
+root@Zybo-Z7-20:~# stty -echo
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S05_PRECHECK_START__;cat /proc/cmdline;echo __IOMEM__;cat /proc/iomem;echo __UIO__;for d in /sys/class/uio/uio*; do echo UIO=$(basename "$d") name=$(cat "$d/name" 2>/dev/null); for m in "$d"/maps/map*; do [ -e "$m" ] && echo map=$(ba
+__S05_PRECHECK_START__
+console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+__IOMEM__
+00000000-3bffffff : System RAM
+  00008000-008fffff : Kernel code
+  00a00000-00a7d883 : Kernel data
+e0001000-e0001fff : xuartps
+e0002000-e0002fff : /amba/usb@e0002000
+  e0002000-e0002fff : /amba/usb@e0002000
+e0004000-e0004fff : /amba/i2c@e0004000
+e0005000-e0005fff : /amba/i2c@e0005000
+e000a000-e000afff : /amba/gpio@e000a000
+e000b000-e000bfff : /amba/ethernet@e000b000
+e000d000-e000dfff : /amba/spi@e000d000
+e0100000-e0100fff : /amba/sdhci@e0100000
+f8003000-f8003fff : /amba/dmac@f8003000
+  f8003000-f8003fff : /amba/dmac@f8003000
+f8005000-f8005fff : /amba/watchdog@f8005000
+f8007000-f80070ff : /amba/devcfg@f8007000
+f8007100-f800711f : /amba/adc@f8007100
+f800c000-f800cfff : /amba/ocmc@f800c000
+fffc0000-ffffffff : f800c000.ocmc
+__UIO__
+UIO=uio0 name=axi_dma
+map=map0 addr=0x40400000 size=0x00010000
+UIO=uio1 name=input_bram
+map=map0 addr=0x42000000 size=0x00010000
+UIO=uio2 name=hdmi_vdma
+map=map0 addr=0x43010000 size=0x00010000
+UIO=uio3 name=hdmi_vtc
+map=map0 addr=0x43c10000 size=0x00010000
+UIO=uio4 name=hdmi_dynclk
+map=map0 addr=0x43c20000 size=0x00010000
+UIO=uio5 name=gemv_ctrl
+map=map0 addr=0x43ca0000 size=0x00001000
+__TOOLS__
+/usr/bin/gcc
+__GOLDEN__
+__S05_PRECHECK_END__
+root@Zybo-Z7-20:~# __S05_CMD_DONE_1__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: rm -f /tmp/s05_gemv_hw_test.c /tmp/s05_gemv_hw_test
+root@Zybo-Z7-20:~# __S05_CMD_DONE_2__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: cat > /tmp/s05_gemv_hw_test.c <<'__S05_C_SOURCE__'
+#define _POSIX_C_SOURCE 200809L
+
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <inttypes.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.
+> > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > > root@Zybo-Z7-20:~# 57290 /tmp/s05_gemv_hw_test.c
+root@Zybo-Z7-20:~# __S05_CMD_DONE_3__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: gcc -O2 -Wall -Wextra -std=c99 -o /tmp/s05_gemv_hw_test /tmp/s05_gemv_hw_test.c; rc=$?; echo __S05_COMPILE_RC__=$rc; [ $rc -eq 0 ] && ls -l /tmp/s05_gemv_hw_test
+__S05_COMPILE_RC__=0
+-rwxr-xr-x    1 root     root         45652 Jun 25 09:01 /tmp/s05_gemv_hw_test
+root@Zybo-Z7-20:~# __S05_CMD_DONE_4__=0
+root@Zybo-Z7-20:~# 
+
+### HOST_SEND: echo __S05_RUN_START__;/tmp/s05_gemv_hw_test --golden-dir builtin --phys-base 0x3c000000 --phys-size 0x04000000 --expect-axis-width 128 --quiet-pass --repeat 1 --poll-sleep-us 0; rc=$?; echo __S05_RUN_RC__=$rc; echo __S05_DMESG_CHECK__; dme
+__S05_RUN_START__
+[FPGA GEMV HW TEST]
+case: fake_gemv
+golden_dir=builtin
+carveout phys_base=0x3c000000 phys_size=0x04000000
+poll_strategy=busy poll_sleep_us=0 repeat=1 reset_strategy=reset_every_run quiet_pass=1 full_debug_status=0
+LOAD builtin fake_gemv bytes input=64 scale=64 weight=512 scaled_ref=12 block_ref=12
+S05 packet contract PASS: total_words=144 scale_words=16 weight_words=128 first_weight_word=16 expected_tlast_word=143 expected_tlast_weight_col=31 expected_tlast_lane_base=12 first_weight_tdata=0x00000201 last_tdata=0x00000000
+PACKET bytes=576 scale_bytes=64 weight_bytes=512 result_bytes=12 dma_packet_bytes=576
+GEOMETRY lanes=16 in_features=32 out_features=3 padded_out_features=16 row_padding=13 blocks_per_row=1 expected_tlast_lane_base=12
+UIO name=axi_dma dev=/dev/uio0 addr=0x40400000 size=0x00010000
+UIO name=input_bram dev=/dev/uio1 addr=0x42000000 size=0x00010000
+UIO name=gemv_ctrl dev=/dev/uio5 addr=0x43ca0000 size=0x00001000
+GEMV VERSION=0x000a0001
+GEMV BUILD_CONFIG=0x00800010 axis_width=128 lanes=16
+DMA carveout mmap PASS virt=0xb6fd3000 map_bytes=0x00002000
+DMA buffers mm2s_phys=0x3c000000 s2mm_phys=0x3c001000
+mode=0 scaled result[1] got=-2147483648 got_hex=0x80000000 expected=19 expected_hex=0x00000013
+mode=0 scaled result[2] got=-16793094 got_hex=0xfeffc1fa expected=-6 expected_hex=0xfffffffa
+mode=0 scaled: FAIL
+
+[FPGA GEMV HW TEST]
+case: fake_gemv
+mode=0 scaled: FAIL
+mode=1 block_acc: PASS
+AXI-Lite bulk data path used: no
+AXI DMA MM2S/S2MM used: yes
+input BRAM used: yes
+physical buffer: /dev/mem O_SYNC carveout 0x3c000000-0x3fffffff
+OVERALL FAIL
+__S05_RUN_RC__=1
+__S05_DMESG_CHECK__
+Kernel command line: console=ttyPS0,115200 earlyprintk clk_ignore_unused uio_pdrv_genirq.of_id=generic-uio root=/dev/mmcblk0p2 rw rootwait mem=960M
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at f0994000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+mmc0: SDHCI controller on e0100000.sdhci [e0100000.sdhci] using ADMA
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+__S05_RUN_END__
+root@Zybo-Z7-20:~# __S05_CMD_DONE_5__=0
+root@Zybo-Z7-20:~# 

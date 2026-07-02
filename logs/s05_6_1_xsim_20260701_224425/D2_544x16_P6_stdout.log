@@ -1,0 +1,18 @@
+
+****** xsim v2024.2.2 (64-bit)
+  **** SW Build 6060944 on Thu Mar 06 19:10:09 MST 2025
+  **** IP Build 6050500 on Thu Mar  6 23:33:39 MST 2025
+  **** SharedData Build 6060542 on Thu Mar 06 10:31:07 MST 2025
+  **** Start of session at: Wed Jul  1 22:45:07 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/s05_6_1_multiblock_behav/xsim_script.tcl
+# xsim {s05_6_1_multiblock_behav} -testplusarg CASE_CFG=/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/D2_544x16_P6.cfg -autoloadwcfg -runall
+INFO: [Common 17-41] Interrupt caught. Command should exit soon.
+ERROR: [Simtcl 6-50] Simulation engine failed to start: Simulation exited with status code 1.
+Please see the Tcl Console or the Messages for details.
+exit
+Abnormal program termination (11)
+Please check '/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/hs_err_pid124589.log' for details
+segfault in /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xsim -exec xsim s05_6_1_multiblock_behav --runall --testplusarg CASE_CFG=/run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/D2_544x16_P6.cfg --log /run/media/pjs/6A43-DC8A/smollm2-zybo/logs/s05_6_1_xsim_20260701_224425/D2_544x16_P6.log, exiting...

@@ -1,0 +1,11 @@
+test name: test_s05_6_2_fixed_128_mac_74mhz_s03_fsbl_s03_uboot
+time: 2026-07-02 05:16:55 
+device: /dev/sdb1
+mount: /run/media/pjs/bootfs
+BOOT.BIN sha256: 8c50935434e0ce9a57c5ee891ce45f9da839c4a8ad7e28e517aec6ed3fd06a70
+SD BOOT.BIN sha256: 8c50935434e0ce9a57c5ee891ce45f9da839c4a8ad7e28e517aec6ed3fd06a70
+backup: /dev/sdb1:/BOOT_BEFORE_TEST_S05_6_2_FIXED_128_MAC_74MHZ_S03_FSBL_S03_UBOOT_20260702_051653.BIN
+backup sha256: b91122815852ab4f2c231c2ff78b3e730bf677e36e25845fa83193f699c3e2b1
+image.ub sha256: e25d925cf286c7517c4da3d7804637de37f4dc1c7c5b95d087c5c24fd7934715
+uEnv.txt sha256: 369ff646c0c07a3ac5343d5dd7f26f5b18ced4ca56a3e7db3d532bdf846f7c76
+unmount: done

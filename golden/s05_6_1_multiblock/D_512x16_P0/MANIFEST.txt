@@ -1,0 +1,11 @@
+name: D_512x16_P0
+shape: 512x16
+pattern: P0
+blocks_per_row: 16
+row_groups: 1
+packet_bytes: 9216
+axis_width_bits: 128
+dma_simple_limit_bytes: 16383
+dma_full_transfer_possible: true
+output0: 410
+output15: -259

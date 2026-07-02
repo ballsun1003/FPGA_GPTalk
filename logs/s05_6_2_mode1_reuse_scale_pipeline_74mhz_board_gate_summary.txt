@@ -1,0 +1,22 @@
+S05.6.2 board gate summary
+created: 2026-07-02 07:53:07
+tag: s05_6_2_mode1_reuse_scale_pipeline_74mhz
+serial: /dev/ttyUSB1
+baud: 115200
+expected BOOT: artifacts/boot_tests/test_s05_6_2_mode1_reuse_scale_pipeline_74mhz_s03_fsbl_s03_uboot/BOOT.BIN
+expected BOOT sha256: 16862d78d2b7a4b7a4799994d7f2d89508bf4e6828ef0e4956a26affde465818
+
+## 1_boot_root_and_s05_fake_one_run
+time: 2026-07-02 07:53:07
+env: S05_6_1_SERIAL=/dev/ttyUSB1 S05_6_SERIAL=/dev/ttyUSB1 S05_BAUD=115200 S05_EXTRA_ARGS=--expect-axis-width 128 --full-debug-status S05_LOG_PATH=logs/s05_6_2_mode1_reuse_scale_pipeline_74mhz_s05_fake_one_run.txt S05_RUN_TIMEOUT=180 S05_SERIAL=/dev/ttyUSB1
+cmd: python3 scripts/s05_gemv_hw_test.py
+rc: 0
+
+## 2_B_64x16_P0_mode0_repeat5
+time: 2026-07-02 07:53:29
+env: S05_6_1_BOARD_CSV=reports/s05_6_2_mode1_reuse_scale_pipeline_74mhz_mode0_B64P0_repeat5_board.csv S05_6_1_BOARD_LOG=logs/s05_6_2_mode1_reuse_scale_pipeline_74mhz_mode0_B64P0_repeat5_board.txt S05_6_1_EXTRA_ARGS=--only B_64x16_P0 --repeat 5 S05_6_1_RUN_TIMEOUT=240 S05_6_1_SERIAL=/dev/ttyUSB1 S05_6_SERIAL=/dev/ttyUSB1 S05_BAUD=115200 S05_SERIAL=/dev/ttyUSB1
+cmd: python3 scripts/s05_6_1_multiblock_board.py
+rc: 7
+
+BOARD_GATE_STOP: 2_B_64x16_P0_mode0_repeat5 failed
+S06_GATE: still blocked
